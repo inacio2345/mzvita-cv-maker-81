@@ -7,6 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import Preview from "./pages/Preview";
+import ComoFunciona from "./pages/ComoFunciona";
+import Precos from "./pages/Precos";
+import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +24,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/criar-cv" element={<CreateCV />} />
           <Route path="/preview" element={<Preview />} />
+          <Route path="/como-funciona" element={<ComoFunciona />} />
+          <Route path="/precos" element={<Precos />} />
+          <Route path="/contato" element={<Contato />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

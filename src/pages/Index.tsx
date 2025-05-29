@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -48,10 +47,10 @@ const Index = () => {
               </h1>
             </div>
             <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-600 hover:text-google-blue transition-colors">Início</a>
-              <a href="#" className="text-gray-600 hover:text-google-blue transition-colors">Como Funciona</a>
-              <a href="#" className="text-gray-600 hover:text-google-blue transition-colors">Preços</a>
-              <a href="#" className="text-gray-600 hover:text-google-blue transition-colors">Contato</a>
+              <a href="/" className="text-google-blue font-semibold">Início</a>
+              <a href="/como-funciona" className="text-gray-600 hover:text-google-blue transition-colors">Como Funciona</a>
+              <a href="/precos" className="text-gray-600 hover:text-google-blue transition-colors">Preços</a>
+              <a href="/contato" className="text-gray-600 hover:text-google-blue transition-colors">Contato</a>
             </nav>
             <Button variant="outline" className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white">
               Entrar
@@ -215,17 +214,17 @@ const Index = () => {
             <div>
               <h4 className="font-semibold mb-4">Produto</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Como funciona</a></li>
+                <li><a href="/como-funciona" className="hover:text-white transition-colors">Como funciona</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Modelos</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Preços</a></li>
+                <li><a href="/precos" className="hover:text-white transition-colors">Preços</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Suporte</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Central de Ajuda</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contato</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">WhatsApp</a></li>
+                <li><a href="/contato" className="hover:text-white transition-colors">Central de Ajuda</a></li>
+                <li><a href="/contato" className="hover:text-white transition-colors">Contato</a></li>
+                <li><a href="https://api.whatsapp.com/send?phone=258841524822&text=Ol%C3%A1%2C%20tenho%20interesse%20nos%20seus%20servi%C3%A7os.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es%3F" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">WhatsApp</a></li>
               </ul>
             </div>
             <div>
