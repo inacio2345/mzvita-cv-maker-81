@@ -10,9 +10,6 @@ import Preview from "./pages/Preview";
 import ComoFunciona from "./pages/ComoFunciona";
 import Precos from "./pages/Precos";
 import Contato from "./pages/Contato";
-import Auth from "./pages/Auth";
-import Perfil from "./pages/Perfil";
-import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,14 +22,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/perfil" element={<Perfil />} />
           <Route path="/criar-cv" element={<CreateCV />} />
           <Route path="/preview" element={<Preview />} />
           <Route path="/como-funciona" element={<ComoFunciona />} />
           <Route path="/precos" element={<Precos />} />
           <Route path="/contato" element={<Contato />} />
-          <Route path="/blog" element={<Blog />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

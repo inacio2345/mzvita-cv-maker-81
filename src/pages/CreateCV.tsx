@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
@@ -23,14 +23,6 @@ const CreateCV = () => {
     colorPalette: null
   });
 
-  // Verificar se o usuário está logado
-  useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (!user) {
-      navigate('/auth');
-    }
-  }, [navigate]);
-
   const steps = [
     { id: 1, title: 'Dados Pessoais', icon: <User className="w-5 h-5" />, component: PersonalDataForm },
     { id: 2, title: 'Sobre Mim', icon: <FileText className="w-5 h-5" />, component: AboutForm },
@@ -44,20 +36,6 @@ const CreateCV = () => {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Salvar CV do usuário
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const userCvs = JSON.parse(localStorage.getItem('userCvs') || '[]');
-      
-      const newCv = {
-        id: Date.now().toString(),
-        ...cvData,
-        createdAt: new Date().toISOString(),
-        userId: user.id
-      };
-      
-      userCvs.push(newCv);
-      localStorage.setItem('userCvs', JSON.stringify(userCvs));
-      
       navigate('/preview', { state: { cvData } });
     }
   };
@@ -82,11 +60,11 @@ const CreateCV = () => {
           <div className="flex items-center justify-between">
             <Button
               variant="ghost"
-              onClick={() => navigate('/perfil')}
+              onClick={() => navigate('/')}
               className="flex items-center text-gray-600 hover:text-google-blue"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar ao Perfil
+              Voltar ao Início
             </Button>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
