@@ -1,14 +1,14 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette } from 'lucide-react';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
 import EducationForm from '@/components/forms/EducationForm';
 import ExperienceForm from '@/components/forms/ExperienceForm';
 import SkillsForm from '@/components/forms/SkillsForm';
 import AboutForm from '@/components/forms/AboutForm';
+import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
 
 const CreateCV = () => {
   const navigate = useNavigate();
@@ -19,7 +19,8 @@ const CreateCV = () => {
     education: [],
     experience: [],
     skills: [],
-    references: []
+    references: [],
+    colorPalette: null
   });
 
   const steps = [
@@ -27,7 +28,8 @@ const CreateCV = () => {
     { id: 2, title: 'Sobre Mim', icon: <FileText className="w-5 h-5" />, component: AboutForm },
     { id: 3, title: 'Formação', icon: <GraduationCap className="w-5 h-5" />, component: EducationForm },
     { id: 4, title: 'Experiência', icon: <Briefcase className="w-5 h-5" />, component: ExperienceForm },
-    { id: 5, title: 'Habilidades', icon: <Award className="w-5 h-5" />, component: SkillsForm }
+    { id: 5, title: 'Habilidades', icon: <Award className="w-5 h-5" />, component: SkillsForm },
+    { id: 6, title: 'Cores do CV', icon: <Palette className="w-5 h-5" />, component: ColorPaletteForm }
   ];
 
   const handleNext = () => {
@@ -86,9 +88,9 @@ const CreateCV = () => {
         <div className="max-w-4xl mx-auto">
           {/* Progress Steps */}
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-4 overflow-x-auto">
               {steps.map((step, index) => (
-                <div key={step.id} className="flex items-center">
+                <div key={step.id} className="flex items-center flex-shrink-0">
                   <div
                     className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
                       currentStep >= step.id
@@ -100,7 +102,7 @@ const CreateCV = () => {
                   </div>
                   {index < steps.length - 1 && (
                     <div
-                      className={`h-0.5 w-16 mx-2 transition-all ${
+                      className={`h-0.5 w-12 mx-2 transition-all ${
                         currentStep > step.id ? 'bg-google-blue' : 'bg-gray-300'
                       }`}
                     />

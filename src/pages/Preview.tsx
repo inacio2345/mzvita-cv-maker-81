@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Download, Edit, FileText, Mail, Phone, MapPin, Globe } from 'lucide-react';
+import { ArrowLeft, Download, Edit, FileText, Mail, Phone, MapPin, Globe, Calendar } from 'lucide-react';
 
 const Preview = () => {
   const navigate = useNavigate();
@@ -18,6 +18,15 @@ const Preview = () => {
   const hasItems = (arr: unknown): arr is Array<any> => {
     return Array.isArray(arr) && arr.length > 0;
   };
+
+  // Default color palette if none selected
+  const defaultPalette = {
+    primary: '#2563eb',
+    secondary: '#1e40af',
+    accent: '#3b82f6'
+  };
+
+  const colors = cvData.colorPalette || defaultPalette;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -63,132 +72,23 @@ const Preview = () => {
       <div className="container mx-auto px-4 py-8 print:p-0">
         {/* CV Preview */}
         <div className="max-w-4xl mx-auto">
-          <Card className="bg-white shadow-lg print:shadow-none print:border-none">
-            <div className="flex min-h-[842px]" style={{ fontFamily: 'Times New Roman, serif' }}>
-              {/* Left Column - Main Content */}
-              <div className="flex-1 p-8 bg-gray-50">
-                {/* Header with Name and Title */}
-                <div className="mb-8">
-                  <h1 className="text-4xl font-bold text-gray-900 mb-2 uppercase tracking-wide">
-                    {cvData.personalData?.fullName || 'SEU NOME'}
-                  </h1>
-                  <div className="text-lg text-gray-700 mb-4">
-                    {cvData.personalData?.profession || 'Sua Profissão & Especialidade'}
-                  </div>
-                </div>
-
-                {/* About Section */}
-                {cvData.about && (
-                  <div className="mb-8">
-                    <div className="bg-gray-800 text-white px-4 py-2 rounded-full inline-block mb-4">
-                      <h2 className="text-sm font-bold uppercase">Sobre mim</h2>
-                    </div>
-                    <div className="bg-white p-6 rounded-2xl shadow-sm">
-                      <p className="text-gray-700 leading-relaxed text-justify">
-                        {cvData.about}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Skills Section */}
-                {cvData.skills && hasItems(cvData.skills.technical) && (
-                  <div className="mb-8">
-                    <div className="bg-gray-800 text-white px-4 py-2 rounded-full inline-block mb-4">
-                      <h2 className="text-sm font-bold uppercase">Atuação</h2>
-                    </div>
-                    <div className="bg-white p-6 rounded-2xl shadow-sm">
-                      <div className="space-y-3">
-                        {cvData.skills.technical.slice(0, 5).map((skill: string, index: number) => (
-                          <div key={index} className="flex justify-between items-center">
-                            <span className="text-gray-800 font-medium">{skill}</span>
-                            <span className="text-gray-600 font-bold">
-                              {85 + Math.floor(Math.random() * 15)}%
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Education Section */}
-                {hasItems(cvData.education) && (
-                  <div className="mb-8">
-                    <div className="bg-gray-800 text-white px-4 py-2 rounded-full inline-block mb-4">
-                      <h2 className="text-sm font-bold uppercase">Educação</h2>
-                    </div>
-                    <div className="space-y-4">
-                      {cvData.education.map((edu: any, index: number) => (
-                        <div key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-gray-600 rounded-full mt-2 mr-4 flex-shrink-0"></div>
-                          <div>
-                            <p className="text-gray-800 font-medium">
-                              {edu.degree} em {edu.institution} em {edu.endYear || 'Presente'}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Additional Skills */}
-                {cvData.skills && hasItems(cvData.skills.soft) && (
-                  <div className="mb-8">
-                    <div className="bg-gray-800 text-white px-4 py-2 rounded-full inline-block mb-4">
-                      <h2 className="text-sm font-bold uppercase">Formação</h2>
-                    </div>
-                    <div className="space-y-2">
-                      {cvData.skills.soft.map((skill: string, index: number) => (
-                        <div key={index} className="flex items-start">
-                          <div className="w-2 h-2 bg-gray-600 rounded-full mt-2 mr-4 flex-shrink-0"></div>
-                          <span className="text-gray-800">{skill}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Contact Section */}
-                <div>
-                  <div className="bg-gray-800 text-white px-4 py-2 rounded-full inline-block mb-4">
-                    <h2 className="text-sm font-bold uppercase">Contato</h2>
-                  </div>
-                  <div className="space-y-3">
-                    {cvData.personalData?.phone && (
-                      <div className="flex items-center">
-                        <Phone className="w-4 h-4 mr-3 text-gray-600" />
-                        <span className="text-gray-800">{cvData.personalData.phone}</span>
-                      </div>
-                    )}
-                    {cvData.personalData?.website && (
-                      <div className="flex items-center">
-                        <Globe className="w-4 h-4 mr-3 text-gray-600" />
-                        <span className="text-gray-800">{cvData.personalData.website}</span>
-                      </div>
-                    )}
-                    {cvData.personalData?.address && (
-                      <div className="flex items-center">
-                        <MapPin className="w-4 h-4 mr-3 text-gray-600" />
-                        <span className="text-gray-800">{cvData.personalData.address}</span>
-                      </div>
-                    )}
-                    {cvData.personalData?.email && (
-                      <div className="flex items-center">
-                        <Mail className="w-4 h-4 mr-3 text-gray-600" />
-                        <span className="text-gray-800">{cvData.personalData.email}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column - Experience */}
-              <div className="w-2/5 p-8 bg-green-100">
+          <Card className="bg-white shadow-lg print:shadow-none print:border-none overflow-hidden">
+            <div 
+              className="flex min-h-[297mm]" 
+              style={{ 
+                fontFamily: 'Times New Roman, serif',
+                fontSize: '12pt',
+                lineHeight: '1.4'
+              }}
+            >
+              {/* Left Column - Personal Info & Photo */}
+              <div 
+                className="w-1/3 p-8 text-white"
+                style={{ backgroundColor: colors.primary }}
+              >
                 {/* Profile Image */}
-                {cvData.personalData?.profileImage && (
-                  <div className="flex justify-center mb-8">
+                <div className="flex justify-center mb-6">
+                  {cvData.personalData?.profileImage ? (
                     <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
                       <img
                         src={cvData.personalData.profileImage}
@@ -196,35 +96,208 @@ const Preview = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
+                  ) : (
+                    <div className="w-32 h-32 rounded-full bg-white bg-opacity-20 border-4 border-white flex items-center justify-center">
+                      <span className="text-4xl text-white">👤</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Personal Info */}
+                <div className="mb-8">
+                  <h1 className="text-2xl font-bold mb-2 text-center">
+                    {cvData.personalData?.fullName || 'SEU NOME'}
+                  </h1>
+                  <p className="text-lg text-center mb-4 opacity-90">
+                    {cvData.personalData?.profession || 'Sua Profissão'}
+                  </p>
+                </div>
+
+                {/* Contact Info */}
+                <div className="mb-8">
+                  <div 
+                    className="text-lg font-bold mb-4 pb-2 border-b-2"
+                    style={{ borderColor: colors.accent }}
+                  >
+                    CONTATO
+                  </div>
+                  <div className="space-y-3 text-sm">
+                    {cvData.personalData?.phone && (
+                      <div className="flex items-center">
+                        <Phone className="w-4 h-4 mr-3 flex-shrink-0" />
+                        <span className="break-all">{cvData.personalData.phone}</span>
+                      </div>
+                    )}
+                    {cvData.personalData?.email && (
+                      <div className="flex items-center">
+                        <Mail className="w-4 h-4 mr-3 flex-shrink-0" />
+                        <span className="break-all">{cvData.personalData.email}</span>
+                      </div>
+                    )}
+                    {cvData.personalData?.website && (
+                      <div className="flex items-center">
+                        <Globe className="w-4 h-4 mr-3 flex-shrink-0" />
+                        <span className="break-all">{cvData.personalData.website}</span>
+                      </div>
+                    )}
+                    {cvData.personalData?.address && (
+                      <div className="flex items-center">
+                        <MapPin className="w-4 h-4 mr-3 flex-shrink-0" />
+                        <span className="break-all">{cvData.personalData.address}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Skills */}
+                {cvData.skills && hasItems(cvData.skills.technical) && (
+                  <div className="mb-8">
+                    <div 
+                      className="text-lg font-bold mb-4 pb-2 border-b-2"
+                      style={{ borderColor: colors.accent }}
+                    >
+                      COMPETÊNCIAS
+                    </div>
+                    <div className="space-y-3">
+                      {cvData.skills.technical.map((skill: string, index: number) => (
+                        <div key={index} className="text-sm">
+                          <div className="flex justify-between items-center mb-1">
+                            <span>{skill}</span>
+                            <span className="text-xs">{85 + Math.floor(Math.random() * 15)}%</span>
+                          </div>
+                          <div className="w-full bg-white bg-opacity-20 rounded-full h-2">
+                            <div 
+                              className="h-2 rounded-full"
+                              style={{ 
+                                backgroundColor: colors.accent,
+                                width: `${85 + Math.floor(Math.random() * 15)}%`
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Soft Skills */}
+                {cvData.skills && hasItems(cvData.skills.soft) && (
+                  <div>
+                    <div 
+                      className="text-lg font-bold mb-4 pb-2 border-b-2"
+                      style={{ borderColor: colors.accent }}
+                    >
+                      QUALIDADES
+                    </div>
+                    <div className="space-y-2">
+                      {cvData.skills.soft.map((skill: string, index: number) => (
+                        <div key={index} className="flex items-start text-sm">
+                          <span className="w-2 h-2 rounded-full bg-white mt-2 mr-3 flex-shrink-0"></span>
+                          <span>{skill}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Right Column - Education & Experience */}
+              <div className="flex-1 p-8 bg-white">
+                {/* About Section */}
+                {cvData.about && (
+                  <div className="mb-8">
+                    <div 
+                      className="text-xl font-bold mb-4 pb-2 border-b-2 text-gray-800"
+                      style={{ borderColor: colors.primary }}
+                    >
+                      PERFIL PROFISSIONAL
+                    </div>
+                    <p className="text-gray-700 text-justify leading-relaxed">
+                      {cvData.about}
+                    </p>
                   </div>
                 )}
 
                 {/* Experience Section */}
                 {hasItems(cvData.experience) && (
                   <div className="mb-8">
-                    <div className="bg-gray-800 text-white px-4 py-2 rounded-full inline-block mb-6">
-                      <h2 className="text-sm font-bold uppercase">Experiência Profissional</h2>
+                    <div 
+                      className="text-xl font-bold mb-4 pb-2 border-b-2 text-gray-800"
+                      style={{ borderColor: colors.primary }}
+                    >
+                      EXPERIÊNCIA PROFISSIONAL
                     </div>
                     <div className="space-y-6">
                       {cvData.experience.map((exp: any, index: number) => (
-                        <div key={index}>
-                          <div className="bg-white p-4 rounded-xl shadow-sm">
+                        <div key={index} className="relative pl-4">
+                          <div 
+                            className="absolute left-0 top-0 w-3 h-3 rounded-full"
+                            style={{ backgroundColor: colors.primary }}
+                          />
+                          <div 
+                            className="absolute left-1.5 top-3 w-0.5 h-full"
+                            style={{ backgroundColor: colors.accent, opacity: 0.3 }}
+                          />
+                          <div className="ml-6">
                             <h3 className="text-lg font-bold text-gray-900 mb-1">
-                              {exp.company} ({exp.startDate} - {exp.current ? 'Presente' : exp.endDate})
+                              {exp.position}
                             </h3>
-                            <h4 className="text-base font-semibold text-gray-700 mb-3">
-                              Cargo: {exp.position}
-                            </h4>
+                            <div className="flex items-center mb-2 text-gray-600">
+                              <span className="font-medium">{exp.company}</span>
+                              <span className="mx-2">•</span>
+                              <div className="flex items-center">
+                                <Calendar className="w-4 h-4 mr-1" />
+                                <span>{exp.startDate} - {exp.current ? 'Presente' : exp.endDate}</span>
+                              </div>
+                            </div>
                             {exp.description && (
-                              <ul className="space-y-2 text-sm text-gray-700">
-                                {exp.description.split('.').filter(Boolean).slice(0, 3).map((item: string, i: number) => (
-                                  <li key={i} className="flex items-start">
-                                    <span className="w-1.5 h-1.5 bg-gray-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                                    <span>{item.trim()}.</span>
-                                  </li>
-                                ))}
-                              </ul>
+                              <div className="text-gray-700 text-sm">
+                                <ul className="space-y-1">
+                                  {exp.description.split('.').filter(Boolean).slice(0, 3).map((item: string, i: number) => (
+                                    <li key={i} className="flex items-start">
+                                      <span className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0"></span>
+                                      <span>{item.trim()}.</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
                             )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Education Section */}
+                {hasItems(cvData.education) && (
+                  <div>
+                    <div 
+                      className="text-xl font-bold mb-4 pb-2 border-b-2 text-gray-800"
+                      style={{ borderColor: colors.primary }}
+                    >
+                      FORMAÇÃO ACADÉMICA
+                    </div>
+                    <div className="space-y-4">
+                      {cvData.education.map((edu: any, index: number) => (
+                        <div key={index} className="relative pl-4">
+                          <div 
+                            className="absolute left-0 top-0 w-3 h-3 rounded-full"
+                            style={{ backgroundColor: colors.primary }}
+                          />
+                          <div 
+                            className="absolute left-1.5 top-3 w-0.5 h-full"
+                            style={{ backgroundColor: colors.accent, opacity: 0.3 }}
+                          />
+                          <div className="ml-6">
+                            <h3 className="font-bold text-gray-900">
+                              {edu.degree}
+                            </h3>
+                            <p className="text-gray-600 mb-1">{edu.institution}</p>
+                            <div className="flex items-center text-gray-500 text-sm">
+                              <Calendar className="w-4 h-4 mr-1" />
+                              <span>{edu.startYear} - {edu.endYear || 'Presente'}</span>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -250,11 +323,17 @@ const Preview = () => {
             .print\\:shadow-none { box-shadow: none !important; }
             .print\\:border-none { border: none !important; }
             @page { 
-              margin: 0.5cm; 
+              margin: 15mm; 
               size: A4; 
             }
             * {
               font-family: 'Times New Roman', serif !important;
+              font-size: 12pt !important;
+              line-height: 1.4 !important;
+            }
+            .container {
+              max-width: none !important;
+              padding: 0 !important;
             }
           }
         `
