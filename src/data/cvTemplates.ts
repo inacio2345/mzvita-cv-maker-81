@@ -10,6 +10,20 @@ export interface CVTemplate {
     primary: string;
     secondary: string;
     accent: string;
+    background?: string;
+    text?: string;
+  };
+  fonts: {
+    primary: string;
+    headings: string;
+  };
+  layoutConfig: {
+    type: string;
+    sections: string[];
+    columns?: {
+      left?: string[];
+      right?: string[];
+    };
   };
   dados: {
     personalData: any;
@@ -24,15 +38,28 @@ export interface CVTemplate {
 export const cvTemplates: CVTemplate[] = [
   {
     id: "cv01",
-    nome: "CV Clássico com Foto à Esquerda",
-    layout: "duas_colunas",
-    foto_posicao: "esquerda",
-    paleta: "cinza_claro",
-    secoes: ["perfil", "experiencia", "educacao", "skills", "referencias"],
+    nome: "CV Profissional com Sidebar Escura",
+    layout: "sidebar_esquerda",
+    foto_posicao: "esquerda_circular",
+    paleta: "azul_profissional",
+    secoes: ["foto", "contato", "skills", "idiomas", "perfil", "experiencia", "educacao"],
     colorPalette: {
-      primary: "#6b7280",
-      secondary: "#4b5563",
-      accent: "#9ca3af"
+      primary: "#003366",
+      secondary: "#0066CC",
+      accent: "#FFD700",
+      background: "#FFFFFF",
+      text: "#333333"
+    },
+    fonts: {
+      primary: "Open Sans",
+      headings: "Roboto Slab"
+    },
+    layoutConfig: {
+      type: "duas_colunas",
+      columns: {
+        left: ["foto", "contato", "skills", "idiomas"],
+        right: ["perfil", "experiencia", "educacao"]
+      }
     },
     dados: {
       personalData: {
@@ -43,7 +70,7 @@ export const cvTemplates: CVTemplate[] = [
         address: "Maputo, Moçambique",
         website: "linkedin.com/in/anamacamo"
       },
-      about: "Profissional experiente em gestão de recursos humanos com mais de 7 anos de experiência. Especializada em recrutamento, seleção e desenvolvimento de talentos. Forte capacidade de liderança e comunicação.",
+      about: "Profissional experiente em gestão de recursos humanos com mais de 7 anos de experiência. Especializada em recrutamento, seleção e desenvolvimento de talentos.",
       education: [
         {
           degree: "Licenciatura em Psicologia",
@@ -59,7 +86,7 @@ export const cvTemplates: CVTemplate[] = [
           startDate: "Jan 2019",
           endDate: "Presente",
           current: true,
-          description: "Gestão completa do departamento de recursos humanos. Recrutamento e seleção de candidatos. Desenvolvimento de políticas internas."
+          description: "Gestão completa do departamento de recursos humanos. Recrutamento e seleção de candidatos."
         }
       ],
       skills: {
@@ -70,26 +97,36 @@ export const cvTemplates: CVTemplate[] = [
   },
   {
     id: "cv02",
-    nome: "CV Profissional com Barra Lateral Escura",
-    layout: "sidebar_esquerda",
-    foto_posicao: "canto_superior_esquerdo",
-    paleta: "azul_escuro",
-    secoes: ["contato", "skills", "idiomas", "educacao", "experiencia"],
+    nome: "CV Minimalista Timeline",
+    layout: "uma_coluna_timeline",
+    foto_posicao: "topo_central",
+    paleta: "minimalista_verde",
+    secoes: ["foto", "perfil", "timeline_experiencia", "educacao", "skills_grafico"],
     colorPalette: {
-      primary: "#1e3a8a",
-      secondary: "#1e40af",
-      accent: "#3b82f6"
+      primary: "#2C7A7B",
+      secondary: "#319795",
+      accent: "#4FD1C7",
+      background: "#F7FAFC",
+      text: "#2D3748"
+    },
+    fonts: {
+      primary: "Lato",
+      headings: "Montserrat"
+    },
+    layoutConfig: {
+      type: "uma_coluna",
+      sections: ["foto", "perfil", "linha_cronologica_experiencia", "educacao", "skills_grafico"]
     },
     dados: {
       personalData: {
         fullName: "Carlos Manuel Sitoe",
-        profession: "Engenheiro de Software",
-        email: "carlos.sitoe@email.com",
+        profession: "Desenvolvedor Full Stack",
+        email: "carlos.sitoe@gmail.com",
         phone: "+258 87 987 6543",
         address: "Beira, Moçambique",
         website: "github.com/carlossitoe"
       },
-      about: "Engenheiro de software com expertise em desenvolvimento full-stack e arquitetura de sistemas. Apaixonado por tecnologias emergentes e soluções inovadoras.",
+      about: "Desenvolvedor apaixonado por tecnologia, especializado em React e Node.js. Focado em criar soluções inovadoras e escaláveis.",
       education: [
         {
           degree: "Engenharia Informática",
@@ -100,146 +137,58 @@ export const cvTemplates: CVTemplate[] = [
       ],
       experience: [
         {
-          position: "Senior Software Engineer",
+          position: "Senior Developer",
           company: "TechMoz Solutions",
           startDate: "Mar 2022",
           endDate: "Presente",
           current: true,
-          description: "Desenvolvimento de aplicações web e mobile. Liderança técnica de projetos. Implementação de arquiteturas escaláveis."
+          description: "Desenvolvimento de aplicações web usando React, Node.js e MongoDB."
         }
       ],
       skills: {
-        technical: ["JavaScript", "React", "Node.js", "Python", "AWS", "Docker"],
-        soft: ["Resolução de Problemas", "Trabalho em Equipa", "Mentoria", "Inovação"]
+        technical: ["React", "Node.js", "MongoDB", "TypeScript", "AWS"],
+        soft: ["Resolução de Problemas", "Trabalho em Equipa", "Criatividade"]
       }
     }
   },
   {
     id: "cv03",
-    nome: "CV Limpo com Linha Cronológica",
-    layout: "uma_coluna",
-    foto_posicao: "topo_central",
-    paleta: "branco_e_preto",
-    secoes: ["perfil", "linha_cronologica_experiencia", "educacao", "skills"],
-    colorPalette: {
-      primary: "#000000",
-      secondary: "#374151",
-      accent: "#6b7280"
-    },
-    dados: {
-      personalData: {
-        fullName: "Mariana Cumbe",
-        profession: "Arquitecta",
-        email: "mariana.cumbe@email.com",
-        phone: "+258 82 555 7890",
-        address: "Maputo, Moçambique",
-        website: "behance.net/marianacumbe"
-      },
-      about: "Arquitecta criativa com paixão por design sustentável e inovação. Especializada em projectos residenciais e comerciais com foco na sustentabilidade ambiental.",
-      education: [
-        {
-          degree: "Licenciatura em Arquitectura",
-          institution: "Universidade Eduardo Mondlane",
-          startYear: "2016",
-          endYear: "2021"
-        }
-      ],
-      experience: [
-        {
-          position: "Arquitecta Sénior",
-          company: "Estúdio de Arquitectura Moz",
-          startDate: "Fev 2022",
-          endDate: "Presente",
-          current: true,
-          description: "Desenvolvimento de projectos arquitectónicos. Coordenação de equipas multidisciplinares. Gestão de clientes e apresentações."
-        }
-      ],
-      skills: {
-        technical: ["AutoCAD", "SketchUp", "Revit", "Photoshop", "3D Max"],
-        soft: ["Criatividade", "Atenção aos Detalhes", "Gestão de Projectos", "Comunicação Visual"]
-      }
-    }
-  },
-  {
-    id: "cv04",
-    nome: "CV Criativo com Destaque em Habilidades",
-    layout: "duas_colunas_simples",
-    foto_posicao: "topo_esquerda",
-    paleta: "verde_claro",
-    secoes: ["sobre", "skills_com_grafico", "projetos", "experiencia"],
-    colorPalette: {
-      primary: "#059669",
-      secondary: "#047857",
-      accent: "#10b981"
-    },
-    dados: {
-      personalData: {
-        fullName: "Tomás Nguenha",
-        profession: "Designer Gráfico",
-        email: "tomas.nguenha@email.com",
-        phone: "+258 86 111 2233",
-        address: "Nampula, Moçambique",
-        website: "dribbble.com/tomasnguenha"
-      },
-      about: "Designer gráfico especializado em branding e identidade visual. Combino criatividade com estratégia para criar soluções visuais impactantes e memoráveis.",
-      education: [
-        {
-          degree: "Design Gráfico e Multimédia",
-          institution: "Instituto Superior de Artes e Cultura",
-          startYear: "2018",
-          endYear: "2022"
-        }
-      ],
-      experience: [
-        {
-          position: "Designer Gráfico",
-          company: "Agência Criativa Moz",
-          startDate: "Mai 2022",
-          endDate: "Presente",
-          current: true,
-          description: "Criação de identidades visuais para marcas moçambicanas. Desenvolvimento de campanhas publicitárias. Design de materiais promocionais."
-        }
-      ],
-      skills: {
-        technical: ["Adobe Creative Suite", "Figma", "Branding", "Web Design", "Motion Graphics"],
-        soft: ["Criatividade", "Pensamento Visual", "Gestão de Tempo", "Colaboração"]
-      }
-    }
-  },
-  {
-    id: "cv05",
-    nome: "CV Executivo com Foco em Resultados",
-    layout: "duas_colunas",
+    nome: "CV Executivo Clean",
+    layout: "executivo_clean",
     foto_posicao: "sem_foto",
-    paleta: "cinza_e_azul",
-    secoes: ["resumo_executivo", "conquistas", "experiencia", "educacao"],
+    paleta: "executivo_cinza",
+    secoes: ["cabecalho", "resumo_executivo", "conquistas", "experiencia", "educacao"],
     colorPalette: {
-      primary: "#1e40af",
-      secondary: "#374151",
-      accent: "#3b82f6"
+      primary: "#1A202C",
+      secondary: "#2D3748",
+      accent: "#4A5568",
+      background: "#FFFFFF",
+      text: "#2D3748"
+    },
+    fonts: {
+      primary: "Georgia",
+      headings: "Arial"
+    },
+    layoutConfig: {
+      type: "executivo",
+      sections: ["cabecalho", "resumo_executivo", "conquistas", "experiencia", "educacao"]
     },
     dados: {
       personalData: {
         fullName: "Dr. Fernando Chissano",
         profession: "Director Executivo",
-        email: "fernando.chissano@email.com",
+        email: "fernando.chissano@empresa.com",
         phone: "+258 84 777 8888",
         address: "Maputo, Moçambique",
         website: "linkedin.com/in/fernandochissano"
       },
-      about: "Executivo sénior com mais de 15 anos de experiência em liderança empresarial. Especialista em transformação digital, crescimento de negócios e gestão estratégica.",
+      about: "Executivo sénior com mais de 15 anos de experiência em liderança empresarial e transformação digital.",
       education: [
         {
           degree: "MBA em Gestão Empresarial",
-          institution: "ISCTEM - Instituto Superior de Ciências e Tecnologia de Moçambique",
+          institution: "ISCTEM",
           startYear: "2015",
           endYear: "2017"
-        },
-        {
-          degree: "Licenciatura em Economia",
-          institution: "Universidade Eduardo Mondlane",
-          startYear: "2005",
-          endYear: "2009"
         }
       ],
       experience: [
@@ -249,12 +198,124 @@ export const cvTemplates: CVTemplate[] = [
           startDate: "Jan 2018",
           endDate: "Presente",
           current: true,
-          description: "Liderança estratégica da organização. Crescimento de receita em 300% nos últimos 5 anos. Implementação de processos digitais."
+          description: "Liderança estratégica da organização. Crescimento de receita em 300% nos últimos 5 anos."
         }
       ],
       skills: {
-        technical: ["Gestão Estratégica", "Transformação Digital", "Análise Financeira", "Liderança Organizacional"],
-        soft: ["Visão Estratégica", "Tomada de Decisões", "Negociação", "Inspiração de Equipas"]
+        technical: ["Gestão Estratégica", "Transformação Digital", "Análise Financeira"],
+        soft: ["Liderança", "Visão Estratégica", "Negociação"]
+      }
+    }
+  },
+  {
+    id: "cv04",
+    nome: "CV Criativo Designer",
+    layout: "criativo_horizontal",
+    foto_posicao: "grande_lateral",
+    paleta: "criativo_colorido",
+    secoes: ["foto_grande", "sobre_criativo", "portfolio", "skills_visuais", "experiencia"],
+    colorPalette: {
+      primary: "#E53E3E",
+      secondary: "#DD6B20",
+      accent: "#D69E2E",
+      background: "#FFFAF0",
+      text: "#1A202C"
+    },
+    fonts: {
+      primary: "Nunito",
+      headings: "Playfair Display"
+    },
+    layoutConfig: {
+      type: "criativo_horizontal",
+      sections: ["foto_grande", "sobre_criativo", "portfolio", "skills_visuais", "experiencia"]
+    },
+    dados: {
+      personalData: {
+        fullName: "Mariana Cumbe",
+        profession: "Designer Gráfica & UI/UX",
+        email: "mariana.cumbe@design.com",
+        phone: "+258 82 555 7890",
+        address: "Maputo, Moçambique",
+        website: "behance.net/marianacumbe"
+      },
+      about: "Designer criativa especializada em branding e experiência do usuário. Apaixonada por criar designs que conectam marcas às pessoas.",
+      education: [
+        {
+          degree: "Design Gráfico",
+          institution: "Instituto Superior de Artes",
+          startYear: "2018",
+          endYear: "2022"
+        }
+      ],
+      experience: [
+        {
+          position: "UI/UX Designer",
+          company: "Agência Criativa Moz",
+          startDate: "Mai 2022",
+          endDate: "Presente",
+          current: true,
+          description: "Criação de interfaces digitais e identidades visuais para startups moçambicanas."
+        }
+      ],
+      skills: {
+        technical: ["Figma", "Adobe Creative Suite", "Sketch", "Prototyping"],
+        soft: ["Criatividade", "Pensamento Visual", "Comunicação"]
+      }
+    }
+  },
+  {
+    id: "cv05",
+    nome: "CV Moderno Grid",
+    layout: "moderno_grid",
+    foto_posicao: "grid_destaque",
+    paleta: "moderno_azul",
+    secoes: ["header_moderno", "skills_cards", "experiencia_cards", "educacao_grid"],
+    colorPalette: {
+      primary: "#3182CE",
+      secondary: "#2B6CB0",
+      accent: "#63B3ED",
+      background: "#F7FAFC",
+      text: "#2D3748"
+    },
+    fonts: {
+      primary: "Inter",
+      headings: "Poppins"
+    },
+    layoutConfig: {
+      type: "grid_moderno",
+      sections: ["header_moderno", "skills_cards", "experiencia_cards", "educacao_grid"]
+    },
+    dados: {
+      personalData: {
+        fullName: "Tomás Nguenha",
+        profession: "Product Manager",
+        email: "tomas.nguenha@tech.com",
+        phone: "+258 86 111 2233",
+        address: "Nampula, Moçambique",
+        website: "linkedin.com/in/tomasnguenha"
+      },
+      about: "Product Manager experiente em produtos digitais, com foco em growth e experiência do usuário.",
+      education: [
+        {
+          degree: "Gestão de Empresas",
+          institution: "Universidade Eduardo Mondlane",
+          startYear: "2016",
+          endYear: "2020"
+        }
+      ],
+      experience: [
+        {
+          position: "Senior Product Manager",
+          company: "Startup Moçambicana",
+          startDate: "Jan 2021",
+          endDate: "Presente",
+          current: true,
+          description: "Gestão de roadmap de produto e coordenação de equipas multidisciplinares."
+        }
+      ],
+      skills: {
+        technical: ["Product Strategy", "Analytics", "Figma", "SQL"],
+        soft: ["Liderança", "Comunicação", "Pensamento Analítico"]
       }
     }
   }
