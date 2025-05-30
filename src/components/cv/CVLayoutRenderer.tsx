@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Globe, Calendar, Award, Briefcase } from 'lucide-react';
@@ -232,99 +231,96 @@ const CVLayoutRenderer = ({ data, template, className = "" }: CVLayoutRendererPr
     </div>
   );
 
-  // Template 3: Executivo Clean
+  // Template 3: Executivo Clean - FORMATO ÚNICO CLEAN
   const renderExecutiveLayout = () => (
-    <div className={`max-w-4xl mx-auto ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: colors.background }}>
-      {/* Header Executivo */}
-      <div className="border-b-4 pb-8 mb-8" style={{ borderColor: colors.primary }}>
-        <h1 className="text-5xl font-bold mb-3" style={{ color: colors.primary, fontFamily: fonts.headings }}>
-          {data.personalData?.fullName || 'SEU NOME'}
-        </h1>
-        <h2 className="text-2xl mb-6" style={{ color: colors.secondary }}>
-          {data.personalData?.profession || 'Sua Profissão'}
-        </h2>
+    <div className={`max-w-4xl mx-auto p-8 ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: colors.background }}>
+      {/* Header Executivo Elegante */}
+      <div className="border-b-2 pb-6 mb-8" style={{ borderColor: colors.primary }}>
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-2 tracking-wide" style={{ color: colors.primary, fontFamily: fonts.headings }}>
+            {data.personalData?.fullName || 'SEU NOME'}
+          </h1>
+          <div className="w-20 h-1 mx-auto mb-4" style={{ backgroundColor: colors.accent }}></div>
+          <h2 className="text-xl text-gray-600 mb-6">
+            {data.personalData?.profession || 'Sua Profissão'}
+          </h2>
+        </div>
         
-        <div className="flex justify-between items-center">
-          <div className="flex space-x-8">
-            {data.personalData?.email && (
-              <div className="flex items-center">
-                <Mail className="w-5 h-5 mr-2" style={{ color: colors.primary }} />
-                <span>{data.personalData.email}</span>
-              </div>
-            )}
-            {data.personalData?.phone && (
-              <div className="flex items-center">
-                <Phone className="w-5 h-5 mr-2" style={{ color: colors.primary }} />
-                <span>{data.personalData.phone}</span>
-              </div>
-            )}
-          </div>
+        {/* Contact em linha horizontal clean */}
+        <div className="grid grid-cols-3 gap-4 text-center text-sm">
+          {data.personalData?.email && (
+            <div className="flex flex-col items-center">
+              <Mail className="w-5 h-5 mb-1" style={{ color: colors.primary }} />
+              <span className="text-gray-700">{data.personalData.email}</span>
+            </div>
+          )}
+          {data.personalData?.phone && (
+            <div className="flex flex-col items-center">
+              <Phone className="w-5 h-5 mb-1" style={{ color: colors.primary }} />
+              <span className="text-gray-700">{data.personalData.phone}</span>
+            </div>
+          )}
           {data.personalData?.address && (
-            <div className="flex items-center">
-              <MapPin className="w-5 h-5 mr-2" style={{ color: colors.primary }} />
-              <span>{data.personalData.address}</span>
+            <div className="flex flex-col items-center">
+              <MapPin className="w-5 h-5 mb-1" style={{ color: colors.primary }} />
+              <span className="text-gray-700">{data.personalData.address}</span>
             </div>
           )}
         </div>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-10">
         {/* Resumo Executivo */}
         {data.about && (
           <div>
-            <h3 className="text-2xl font-bold mb-4 uppercase tracking-wide" style={{ color: colors.primary, fontFamily: fonts.headings }}>
+            <h3 className="text-xl font-bold mb-4 uppercase tracking-wider text-center" style={{ color: colors.primary, fontFamily: fonts.headings }}>
               Resumo Executivo
             </h3>
-            <p className="text-lg leading-relaxed" style={{ color: colors.text }}>{data.about}</p>
+            <div className="w-16 h-0.5 mx-auto mb-6" style={{ backgroundColor: colors.accent }}></div>
+            <p className="text-lg leading-relaxed text-center max-w-3xl mx-auto text-gray-700">{data.about}</p>
           </div>
         )}
 
-        {/* Experiência */}
+        {/* Experiência com formatação clean */}
         {data.experience?.length > 0 && (
           <div>
-            <h3 className="text-2xl font-bold mb-6 uppercase tracking-wide" style={{ color: colors.primary, fontFamily: fonts.headings }}>
+            <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-center" style={{ color: colors.primary, fontFamily: fonts.headings }}>
               Experiência Profissional
             </h3>
+            <div className="w-16 h-0.5 mx-auto mb-8" style={{ backgroundColor: colors.accent }}></div>
             <div className="space-y-8">
               {data.experience.map((exp: any, index: number) => (
-                <div key={index}>
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h4 className="text-xl font-bold" style={{ color: colors.text }}>{exp.position}</h4>
-                      <p className="text-lg font-medium" style={{ color: colors.secondary }}>{exp.company}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-medium" style={{ color: colors.primary }}>
-                        {exp.startDate} - {exp.current ? 'Presente' : exp.endDate}
-                      </p>
-                    </div>
-                  </div>
+                <div key={index} className="text-center">
+                  <h4 className="text-lg font-bold mb-1" style={{ color: colors.text }}>{exp.position}</h4>
+                  <p className="text-md font-medium mb-2" style={{ color: colors.secondary }}>{exp.company}</p>
+                  <p className="text-sm mb-4 text-gray-500">
+                    {exp.startDate} - {exp.current ? 'Presente' : exp.endDate}
+                  </p>
                   {exp.description && (
-                    <p className="leading-relaxed" style={{ color: colors.text }}>{exp.description}</p>
+                    <p className="leading-relaxed text-gray-700 max-w-2xl mx-auto">{exp.description}</p>
                   )}
-                  <hr className="mt-6" style={{ borderColor: colors.accent }} />
+                  {index < data.experience.length - 1 && (
+                    <div className="w-8 h-0.5 mx-auto mt-6" style={{ backgroundColor: colors.accent }}></div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Formação */}
+        {/* Formação Clean */}
         {data.education?.length > 0 && (
           <div>
-            <h3 className="text-2xl font-bold mb-6 uppercase tracking-wide" style={{ color: colors.primary, fontFamily: fonts.headings }}>
+            <h3 className="text-xl font-bold mb-6 uppercase tracking-wider text-center" style={{ color: colors.primary, fontFamily: fonts.headings }}>
               Formação Académica
             </h3>
-            <div className="space-y-4">
+            <div className="w-16 h-0.5 mx-auto mb-8" style={{ backgroundColor: colors.accent }}></div>
+            <div className="grid grid-cols-1 gap-6">
               {data.education.map((edu: any, index: number) => (
-                <div key={index} className="flex justify-between items-center">
-                  <div>
-                    <h4 className="text-lg font-bold" style={{ color: colors.text }}>{edu.degree}</h4>
-                    <p style={{ color: colors.secondary }}>{edu.institution}</p>
-                  </div>
-                  <p className="font-medium" style={{ color: colors.primary }}>
-                    {edu.startYear} - {edu.endYear}
-                  </p>
+                <div key={index} className="text-center">
+                  <h4 className="text-lg font-bold" style={{ color: colors.text }}>{edu.degree}</h4>
+                  <p className="text-gray-600">{edu.institution}</p>
+                  <p className="text-sm text-gray-500">{edu.startYear} - {edu.endYear}</p>
                 </div>
               ))}
             </div>
@@ -334,90 +330,126 @@ const CVLayoutRenderer = ({ data, template, className = "" }: CVLayoutRendererPr
     </div>
   );
 
-  // Template 4: Criativo Horizontal
+  // Template 4: Criativo Designer - FORMATO CRIATIVO E COLORIDO
   const renderCreativeLayout = () => (
-    <div className={`flex min-h-[297mm] ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: colors.background }}>
-      {/* Left Side - Large Photo and Contact */}
-      <div className="w-2/5 p-8 flex flex-col" style={{ backgroundColor: colors.primary }}>
-        <div className="text-center mb-8">
-          <div className="w-48 h-48 rounded-lg bg-white bg-opacity-20 border-8 border-white mx-auto mb-6 flex items-center justify-center">
-            <span className="text-6xl text-white">👤</span>
+    <div className={`min-h-[297mm] ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: colors.background }}>
+      {/* Header Criativo com formas geométricas */}
+      <div 
+        className="relative p-8 text-white overflow-hidden"
+        style={{ backgroundColor: colors.primary }}
+      >
+        {/* Elementos decorativos */}
+        <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-20" style={{ backgroundColor: colors.accent }}></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 transform rotate-45 opacity-30" style={{ backgroundColor: colors.secondary }}></div>
+        
+        <div className="relative z-10 flex items-center">
+          <div className="flex-1">
+            <h1 className="text-5xl font-bold mb-3" style={{ fontFamily: fonts.headings }}>
+              {data.personalData?.fullName || 'SEU NOME'}
+            </h1>
+            <p className="text-2xl opacity-90 mb-6">
+              {data.personalData?.profession || 'Sua Profissão'}
+            </p>
+            
+            {/* Contact em estilo criativo */}
+            <div className="flex flex-wrap gap-6">
+              {data.personalData?.email && (
+                <div className="flex items-center bg-white bg-opacity-20 px-4 py-2 rounded-full">
+                  <Mail className="w-4 h-4 mr-2" />
+                  <span className="text-sm">{data.personalData.email}</span>
+                </div>
+              )}
+              {data.personalData?.phone && (
+                <div className="flex items-center bg-white bg-opacity-20 px-4 py-2 rounded-full">
+                  <Phone className="w-4 h-4 mr-2" />
+                  <span className="text-sm">{data.personalData.phone}</span>
+                </div>
+              )}
+              {data.personalData?.website && (
+                <div className="flex items-center bg-white bg-opacity-20 px-4 py-2 rounded-full">
+                  <Globe className="w-4 h-4 mr-2" />
+                  <span className="text-sm">{data.personalData.website}</span>
+                </div>
+              )}
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: fonts.headings }}>
-            {data.personalData?.fullName || 'SEU NOME'}
-          </h1>
-          <p className="text-xl text-white opacity-90">
-            {data.personalData?.profession || 'Sua Profissão'}
-          </p>
-        </div>
-
-        <div className="text-white space-y-4 mt-auto">
-          {data.personalData?.phone && (
-            <div className="flex items-center">
-              <Phone className="w-5 h-5 mr-3" />
-              <span>{data.personalData.phone}</span>
-            </div>
-          )}
-          {data.personalData?.email && (
-            <div className="flex items-center">
-              <Mail className="w-5 h-5 mr-3" />
-              <span className="break-all">{data.personalData.email}</span>
-            </div>
-          )}
-          {data.personalData?.website && (
-            <div className="flex items-center">
-              <Globe className="w-5 h-5 mr-3" />
-              <span>{data.personalData.website}</span>
-            </div>
-          )}
+          
+          <div className="w-48 h-48 rounded-3xl bg-white bg-opacity-10 border-4 border-white flex items-center justify-center ml-8">
+            <span className="text-6xl text-white">🎨</span>
+          </div>
         </div>
       </div>
 
-      {/* Right Side - Content */}
-      <div className="flex-1 p-8">
-        {/* About Section */}
+      <div className="p-8">
+        {/* About Section Criativa */}
         {data.about && (
-          <div className="mb-10">
+          <div className="mb-10 text-center">
             <h3 className="text-3xl font-bold mb-6" style={{ color: colors.secondary, fontFamily: fonts.headings }}>
               Sobre Mim
             </h3>
-            <p className="text-lg leading-relaxed" style={{ color: colors.text }}>{data.about}</p>
+            <div className="relative">
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent, top: '-10px' }}></div>
+              <p className="text-lg leading-relaxed max-w-3xl mx-auto p-6 rounded-2xl shadow-lg bg-white" style={{ color: colors.text }}>
+                {data.about}
+              </p>
+            </div>
           </div>
         )}
 
-        {/* Skills Section with Creative Layout */}
+        {/* Skills Section Criativa com Cards coloridos */}
         {data.skills?.technical?.length > 0 && (
           <div className="mb-10">
-            <h3 className="text-3xl font-bold mb-6" style={{ color: colors.secondary, fontFamily: fonts.headings }}>
-              Competências
+            <h3 className="text-3xl font-bold mb-8 text-center" style={{ color: colors.secondary, fontFamily: fonts.headings }}>
+              Minhas Habilidades
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {data.skills.technical.map((skill: string, index: number) => (
-                <div key={index} className="p-4 rounded-lg text-center" style={{ backgroundColor: colors.accent, color: 'white' }}>
-                  <span className="font-medium">{skill}</span>
+                <div 
+                  key={index} 
+                  className="p-4 rounded-2xl text-center text-white font-bold transform hover:scale-105 transition-transform shadow-lg"
+                  style={{ 
+                    backgroundColor: index % 2 === 0 ? colors.accent : colors.secondary,
+                  }}
+                >
+                  <span>{skill}</span>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Experience */}
+        {/* Experience com cards visuais */}
         {data.experience?.length > 0 && (
           <div>
-            <h3 className="text-3xl font-bold mb-6" style={{ color: colors.secondary, fontFamily: fonts.headings }}>
-              Experiência
+            <h3 className="text-3xl font-bold mb-8 text-center" style={{ color: colors.secondary, fontFamily: fonts.headings }}>
+              Jornada Profissional
             </h3>
             <div className="space-y-6">
               {data.experience.map((exp: any, index: number) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                  <h4 className="text-xl font-bold mb-2" style={{ color: colors.primary }}>{exp.position}</h4>
-                  <p className="font-medium mb-2" style={{ color: colors.secondary }}>{exp.company}</p>
-                  <p className="text-sm mb-3" style={{ color: colors.text }}>
-                    {exp.startDate} - {exp.current ? 'Presente' : exp.endDate}
-                  </p>
-                  {exp.description && (
-                    <p className="text-sm" style={{ color: colors.text }}>{exp.description}</p>
-                  )}
+                <div key={index} className="relative">
+                  <div 
+                    className="bg-white p-8 rounded-3xl shadow-xl border-l-8"
+                    style={{ borderColor: colors.primary }}
+                  >
+                    <div className="flex items-start">
+                      <div 
+                        className="w-16 h-16 rounded-full flex items-center justify-center mr-6 flex-shrink-0"
+                        style={{ backgroundColor: colors.accent }}
+                      >
+                        <Briefcase className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-2xl font-bold mb-2" style={{ color: colors.primary }}>{exp.position}</h4>
+                        <p className="text-lg font-medium mb-2" style={{ color: colors.secondary }}>{exp.company}</p>
+                        <p className="text-sm mb-4 text-gray-500">
+                          {exp.startDate} - {exp.current ? 'Presente' : exp.endDate}
+                        </p>
+                        {exp.description && (
+                          <p className="leading-relaxed" style={{ color: colors.text }}>{exp.description}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
