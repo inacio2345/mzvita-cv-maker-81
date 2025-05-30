@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -14,6 +15,7 @@ const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const templateData = location.state?.templateData;
+  const selectedTemplate = location.state?.selectedTemplate;
   
   const [currentStep, setCurrentStep] = useState(1);
   const [cvData, setCvData] = useState({
@@ -46,7 +48,23 @@ const CreateCV = () => {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
-      navigate('/preview', { state: { cvData } });
+      navigate('/preview', { 
+        state: { 
+          cvData, 
+          selectedTemplate: selectedTemplate || {
+            id: "custom",
+            nome: "CV Personalizado",
+            layout: "duas_colunas",
+            foto_posicao: "esquerda",
+            paleta: "personalizada",
+            colorPalette: cvData.colorPalette || {
+              primary: '#2563eb',
+              secondary: '#1e40af', 
+              accent: '#3b82f6'
+            }
+          }
+        }
+      });
     }
   };
 
@@ -81,10 +99,29 @@ const CreateCV = () => {
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <h1 className="text-xl font-bold text-gray-900">Criar CV</h1>
+              {selectedTemplate && (
+                <span className="text-sm text-gray-500">({selectedTemplate.nome})</span>
+              )}
             </div>
             <Button
               variant="outline"
-              onClick={() => navigate('/preview', { state: { cvData } })}
+              onClick={() => navigate('/preview', { 
+                state: { 
+                  cvData, 
+                  selectedTemplate: selectedTemplate || {
+                    id: "preview",
+                    nome: "Visualização",
+                    layout: "duas_colunas",
+                    foto_posicao: "esquerda",
+                    paleta: "azul",
+                    colorPalette: cvData.colorPalette || {
+                      primary: '#2563eb',
+                      secondary: '#1e40af',
+                      accent: '#3b82f6'
+                    }
+                  }
+                }
+              })}
               className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
             >
               <Eye className="w-4 h-4 mr-2" />
@@ -128,6 +165,11 @@ const CreateCV = () => {
               <p className="text-gray-600">
                 Passo {currentStep} de {steps.length}
               </p>
+              {selectedTemplate && (
+                <p className="text-sm text-gray-500 mt-1">
+                  Editando modelo: {selectedTemplate.nome}
+                </p>
+              )}
             </div>
           </div>
 
