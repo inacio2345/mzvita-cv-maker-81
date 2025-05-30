@@ -56,6 +56,7 @@ export const cvTemplates: CVTemplate[] = [
     },
     layoutConfig: {
       type: "duas_colunas",
+      sections: ["foto", "contato", "skills", "idiomas", "perfil", "experiencia", "educacao"],
       columns: {
         left: ["foto", "contato", "skills", "idiomas"],
         right: ["perfil", "experiencia", "educacao"]
