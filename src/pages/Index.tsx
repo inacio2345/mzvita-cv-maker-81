@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -79,7 +80,12 @@ const Index = () => {
                 Criar Meu CV Agora
                 <FileText className="ml-2 w-5 h-5" />
               </Button>
-              <Button variant="outline" size="lg" className="px-8 py-4 text-lg border-2">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="px-8 py-4 text-lg border-2"
+                onClick={() => navigate('/exemplos')}
+              >
                 Ver Exemplos
               </Button>
             </div>

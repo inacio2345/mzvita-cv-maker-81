@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette } from 'lucide-react';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
 import EducationForm from '@/components/forms/EducationForm';
@@ -12,6 +12,9 @@ import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
 
 const CreateCV = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const templateData = location.state?.templateData;
+  
   const [currentStep, setCurrentStep] = useState(1);
   const [cvData, setCvData] = useState({
     personalData: {},
@@ -22,6 +25,13 @@ const CreateCV = () => {
     references: [],
     colorPalette: null
   });
+
+  // Load template data if available
+  useEffect(() => {
+    if (templateData) {
+      setCvData(templateData);
+    }
+  }, [templateData]);
 
   const steps = [
     { id: 1, title: 'Dados Pessoais', icon: <User className="w-5 h-5" />, component: PersonalDataForm },
