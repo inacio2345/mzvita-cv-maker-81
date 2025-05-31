@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
+import AuthModal from '@/components/auth/AuthModal';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
 import EducationForm from '@/components/forms/EducationForm';
 import ExperienceForm from '@/components/forms/ExperienceForm';
@@ -14,6 +16,8 @@ import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
 const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const templateData = location.state?.templateData;
   const selectedTemplate = location.state?.selectedTemplate;
   
@@ -35,6 +39,13 @@ const CreateCV = () => {
     }
   }, [templateData]);
 
+  // Check if user needs to login before creating CV
+  useEffect(() => {
+    if (!user && currentStep > 1) {
+      setShowAuthModal(true);
+    }
+  }, [user, currentStep]);
+
   const steps = [
     { id: 1, title: 'Dados Pessoais', icon: <User className="w-5 h-5" />, component: PersonalDataForm },
     { id: 2, title: 'Sobre Mim', icon: <FileText className="w-5 h-5" />, component: AboutForm },
@@ -45,6 +56,12 @@ const CreateCV = () => {
   ];
 
   const handleNext = () => {
+    // Require login after first step
+    if (!user && currentStep >= 1) {
+      setShowAuthModal(true);
+      return;
+    }
+
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -103,30 +120,49 @@ const CreateCV = () => {
                 <span className="text-sm text-gray-500">({selectedTemplate.nome})</span>
               )}
             </div>
-            <Button
-              variant="outline"
-              onClick={() => navigate('/preview', { 
-                state: { 
-                  cvData, 
-                  selectedTemplate: selectedTemplate || {
-                    id: "preview",
-                    nome: "Visualização",
-                    layout: "duas_colunas",
-                    foto_posicao: "esquerda",
-                    paleta: "azul",
-                    colorPalette: cvData.colorPalette || {
-                      primary: '#2563eb',
-                      secondary: '#1e40af',
-                      accent: '#3b82f6'
+            <div className="flex items-center space-x-2">
+              {user ? (
+                <Button
+                  variant="outline"
+                  onClick={() => navigate('/perfil')}
+                  className="border-google-green text-google-green hover:bg-google-green hover:text-white"
+                >
+                  Meu Perfil
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAuthModal(true)}
+                  className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
+                >
+                  Entrar
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                onClick={() => navigate('/preview', { 
+                  state: { 
+                    cvData, 
+                    selectedTemplate: selectedTemplate || {
+                      id: "preview",
+                      nome: "Visualização",
+                      layout: "duas_colunas",
+                      foto_posicao: "esquerda",
+                      paleta: "azul",
+                      colorPalette: cvData.colorPalette || {
+                        primary: '#2563eb',
+                        secondary: '#1e40af',
+                        accent: '#3b82f6'
+                      }
                     }
                   }
-                }
-              })}
-              className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
-            >
-              <Eye className="w-4 h-4 mr-2" />
-              Visualizar
-            </Button>
+                })}
+                className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Visualizar
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -170,6 +206,11 @@ const CreateCV = () => {
                   Editando modelo: {selectedTemplate.nome}
                 </p>
               )}
+              {!user && currentStep > 1 && (
+                <p className="text-sm text-orange-600 mt-2">
+                  Faça login para continuar criando seu CV
+                </p>
+              )}
             </div>
           </div>
 
@@ -209,6 +250,11 @@ const CreateCV = () => {
           </div>
         </div>
       </div>
+
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
     </div>
   );
 };
