@@ -3,34 +3,34 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Download, Edit, FileText } from 'lucide-react';
+import { ArrowLeft, Download, Edit, FileText, Share2 } from 'lucide-react';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
+import { getDefaultTemplate } from '@/data/cvTemplates';
 
 const Preview = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const cvData = location.state?.cvData || {};
-  const selectedTemplate = location.state?.selectedTemplate;
+  const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
+  const userPhoto = location.state?.userPhoto;
 
   const handleDownloadPDF = () => {
     window.print();
   };
 
-  // Default template if none selected
-  const defaultTemplate = {
-    id: "default",
-    nome: "CV Padrão",
-    layout: "duas_colunas",
-    foto_posicao: "esquerda",
-    paleta: "azul_profissional",
-    colorPalette: {
-      primary: '#2563eb',
-      secondary: '#1e40af',
-      accent: '#3b82f6'
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Meu CV - MzVita',
+        text: 'Veja meu currículo criado com MzVita',
+        url: window.location.href,
+      });
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copiado para a área de transferência!');
     }
   };
-
-  const template = selectedTemplate || defaultTemplate;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -42,47 +42,72 @@ const Preview = () => {
               variant="ghost"
               onClick={() => navigate('/criar-cv')}
               className="flex items-center text-gray-600 hover:text-google-blue"
+              size="sm"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Voltar ao Editor
+              <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Voltar ao Editor</span>
+              <span className="sm:hidden">Voltar</span>
             </Button>
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
                 <FileText className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-gray-900">Visualização do CV</h1>
-              {template.nome && (
-                <span className="text-sm text-gray-500">({template.nome})</span>
-              )}
+              <div className="text-center sm:text-left">
+                <h1 className="text-lg sm:text-xl font-bold text-gray-900">Visualização do CV</h1>
+                {selectedTemplate.nome && (
+                  <span className="text-xs sm:text-sm text-gray-500 block sm:inline">
+                    ({selectedTemplate.nome})
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-1 sm:gap-2">
               <Button
                 variant="outline"
-                onClick={() => navigate('/criar-cv', { state: { templateData: cvData, selectedTemplate: template } })}
+                onClick={() => navigate('/criar-cv', { 
+                  state: { 
+                    templateData: cvData, 
+                    selectedTemplate: selectedTemplate 
+                  }
+                })}
                 className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
+                size="sm"
               >
-                <Edit className="w-4 h-4 mr-2" />
-                Editar
+                <Edit className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Editar</span>
+                <span className="sm:hidden">Edit</span>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={handleShare}
+                className="flex items-center border-gray-300 text-gray-600 hover:bg-gray-100 sm:flex hidden"
+                size="sm"
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Compartilhar
               </Button>
               <Button
                 onClick={handleDownloadPDF}
                 className="bg-google-green hover:bg-green-600 text-white flex items-center"
+                size="sm"
               >
-                <Download className="w-4 h-4 mr-2" />
-                Baixar PDF
+                <Download className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Baixar PDF</span>
+                <span className="sm:hidden">PDF</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8 print:p-0">
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 print:p-0">
         {/* CV Preview */}
         <div className="max-w-4xl mx-auto">
           <Card className="bg-white shadow-lg print:shadow-none print:border-none overflow-hidden">
             <CVLayoutRenderer 
               data={cvData} 
-              template={template}
+              template={selectedTemplate}
+              userPhoto={userPhoto}
               className="print:min-h-[297mm]"
             />
           </Card>
@@ -107,13 +132,30 @@ const Preview = () => {
               size: A4; 
             }
             * {
-              font-family: 'Times New Roman', serif !important;
-              font-size: 12pt !important;
+              font-family: 'Inter', 'Arial', sans-serif !important;
               line-height: 1.4 !important;
             }
             .container {
               max-width: none !important;
               padding: 0 !important;
+            }
+            /* Responsive adjustments for print */
+            .flex {
+              display: flex !important;
+            }
+            .w-1\\/3 {
+              width: 33.333333% !important;
+            }
+            .flex-1 {
+              flex: 1 1 0% !important;
+            }
+          }
+          
+          /* Mobile responsiveness */
+          @media (max-width: 768px) {
+            .container {
+              padding-left: 0.5rem !important;
+              padding-right: 0.5rem !important;
             }
           }
         `
