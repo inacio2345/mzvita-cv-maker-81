@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/lib/supabase';
-import { FileText, Edit, Trash2, Plus, User, LogOut, Download } from 'lucide-react';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { FileText, Edit, Trash2, Plus, User, LogOut, Download, AlertCircle } from 'lucide-react';
 import Footer from '@/components/ui/footer';
 import { useToast } from '@/hooks/use-toast';
 
@@ -20,7 +19,7 @@ interface SavedCV {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user, signOut, isConfigured } = useAuth();
   const { toast } = useToast();
   const [savedCVs, setSavedCVs] = useState<SavedCV[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,12 +29,19 @@ const Profile = () => {
       navigate('/');
       return;
     }
-    loadSavedCVs();
-  }, [user, navigate]);
+    
+    if (isConfigured) {
+      loadSavedCVs();
+    } else {
+      setLoading(false);
+    }
+  }, [user, navigate, isConfigured]);
 
   const loadSavedCVs = async () => {
+    if (!isConfigured) return;
+    
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabase!
         .from('saved_cvs')
         .select('*')
         .eq('user_id', user?.id)
@@ -60,10 +66,11 @@ const Profile = () => {
   };
 
   const handleDeleteCV = async (cvId: string) => {
+    if (!isConfigured) return;
     if (!confirm('Tem certeza que deseja excluir este CV?')) return;
 
     try {
-      const { error } = await supabase
+      const { error } = await supabase!
         .from('saved_cvs')
         .delete()
         .eq('id', cvId)
@@ -117,6 +124,65 @@ const Profile = () => {
 
   if (!user) {
     return null;
+  }
+
+  if (!isConfigured) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+        {/* Header */}
+        <header className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
+                <div className="w-8 md:w-10 h-8 md:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 md:w-6 h-5 md:h-6 text-white" />
+                </div>
+                <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
+                  MzVita CV
+                </h1>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2">
+                  <User className="w-5 h-5 text-gray-600" />
+                  <span className="text-gray-700 font-medium">{user.email}</span>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={handleSignOut}
+                  className="flex items-center"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sair
+                </Button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <AlertCircle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Configuração Necessária
+            </h1>
+            <p className="text-gray-600 mb-6">
+              Para salvar e gerenciar seus CVs, é necessário configurar o Supabase.
+              Entre em contato com o administrador para configurar a autenticação.
+            </p>
+            <Button
+              onClick={() => navigate('/')}
+              className="bg-google-blue hover:bg-blue-600 text-white"
+            >
+              Voltar ao Início
+            </Button>
+          </div>
+        </div>
+
+        <Footer />
+      </div>
+    );
   }
 
   return (

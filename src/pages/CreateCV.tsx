@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/auth/AuthModal';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
@@ -16,7 +15,7 @@ import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
 const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, isConfigured } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const templateData = location.state?.templateData;
   const selectedTemplate = location.state?.selectedTemplate;
@@ -41,10 +40,10 @@ const CreateCV = () => {
 
   // Check if user needs to login before creating CV
   useEffect(() => {
-    if (!user && currentStep > 1) {
+    if (isConfigured && !user && currentStep > 1) {
       setShowAuthModal(true);
     }
-  }, [user, currentStep]);
+  }, [user, currentStep, isConfigured]);
 
   const steps = [
     { id: 1, title: 'Dados Pessoais', icon: <User className="w-5 h-5" />, component: PersonalDataForm },
@@ -56,8 +55,8 @@ const CreateCV = () => {
   ];
 
   const handleNext = () => {
-    // Require login after first step
-    if (!user && currentStep >= 1) {
+    // Require login after first step only if Supabase is configured
+    if (isConfigured && !user && currentStep >= 1) {
       setShowAuthModal(true);
       return;
     }
@@ -129,7 +128,7 @@ const CreateCV = () => {
                 >
                   Meu Perfil
                 </Button>
-              ) : (
+              ) : isConfigured ? (
                 <Button
                   variant="outline"
                   onClick={() => setShowAuthModal(true)}
@@ -137,7 +136,7 @@ const CreateCV = () => {
                 >
                   Entrar
                 </Button>
-              )}
+              ) : null}
               <Button
                 variant="outline"
                 onClick={() => navigate('/preview', { 
@@ -169,6 +168,19 @@ const CreateCV = () => {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          {/* Show warning if Supabase is not configured */}
+          {!isConfigured && (
+            <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg flex items-start space-x-3">
+              <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5" />
+              <div>
+                <p className="text-orange-800 font-medium">Modo de Demonstração</p>
+                <p className="text-orange-700 text-sm">
+                  A autenticação não está configurada. Você pode criar CVs, mas não será possível salvá-los.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Progress Steps */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4 overflow-x-auto">
@@ -251,10 +263,18 @@ const CreateCV = () => {
         </div>
       </div>
 
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-      />
+      {!isConfigured && currentStep > 1 && (
+        <p className="text-sm text-orange-600 mt-2 text-center">
+          Configure a autenticação para salvar seus CVs
+        </p>
+      )}
+
+      {isConfigured && (
+        <AuthModal 
+          isOpen={showAuthModal} 
+          onClose={() => setShowAuthModal(false)} 
+        />
+      )}
     </div>
   );
 };
