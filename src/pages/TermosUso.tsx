@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Scale, Users, AlertTriangle, CreditCard, Shield } from 'lucide-react';
+import { FileText, Scale, Users, AlertTriangle, CreditCard, Shield, Menu } from 'lucide-react';
 import Footer from '@/components/ui/footer';
 
 const TermosUso = () => {
@@ -48,34 +48,39 @@ const TermosUso = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-              <div className="w-10 h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-6 h-6 text-white" />
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
+              <div className="w-8 md:w-10 h-8 md:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
+                <FileText className="w-5 md:w-6 h-5 md:h-6 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
+              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
                 MzVita CV
               </h1>
             </div>
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden lg:flex space-x-6 xl:space-x-8">
               <a href="/" className="text-gray-600 hover:text-google-blue transition-colors">Início</a>
               <a href="/como-funciona" className="text-gray-600 hover:text-google-blue transition-colors">Como Funciona</a>
               <a href="/precos" className="text-gray-600 hover:text-google-blue transition-colors">Preços</a>
               <a href="/contato" className="text-gray-600 hover:text-google-blue transition-colors">Contato</a>
             </nav>
-            <Button variant="outline" className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white">
-              Entrar
-            </Button>
+            <div className="flex items-center space-x-2">
+              <Button variant="outline" className="hidden md:flex border-google-blue text-google-blue hover:bg-google-blue hover:text-white">
+                Entrar
+              </Button>
+              <Button variant="ghost" size="sm" className="lg:hidden">
+                <Menu className="w-5 h-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
+      <section className="py-12 md:py-16 lg:py-20 px-4">
         <div className="container mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent">
             Termos de Uso
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-3xl mx-auto leading-relaxed px-4">
             Conheça os termos e condições que regem o uso da nossa plataforma de criação de CVs.
           </p>
           <p className="text-sm text-gray-500">
@@ -85,18 +90,18 @@ const TermosUso = () => {
       </section>
 
       {/* Content Sections */}
-      <section className="py-20 px-4">
+      <section className="py-12 md:py-16 lg:py-20 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="space-y-8">
+          <div className="space-y-6 md:space-y-8">
             {sections.map((section, index) => (
-              <Card key={index} className="p-8 border-0 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="flex items-start space-x-4">
+              <Card key={index} className="p-6 md:p-8 border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4">
                   <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center flex-shrink-0">
                     {section.icon}
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">{section.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{section.content}</p>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 md:mb-4">{section.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-sm md:text-base">{section.content}</p>
                   </div>
                 </div>
               </Card>
@@ -104,12 +109,12 @@ const TermosUso = () => {
           </div>
 
           {/* Detailed Terms */}
-          <Card className="mt-12 p-8 border-0 shadow-lg">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Condições Específicas</h2>
-            <div className="space-y-6 text-gray-600">
+          <Card className="mt-8 md:mt-12 p-6 md:p-8 border-0 shadow-lg">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Condições Específicas</h2>
+            <div className="space-y-4 md:space-y-6 text-gray-600">
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Uso Permitido</h3>
-                <ul className="list-disc list-inside space-y-2">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">Uso Permitido</h3>
+                <ul className="list-disc list-inside space-y-1 md:space-y-2 text-sm md:text-base">
                   <li>Criar CVs para uso pessoal e profissional</li>
                   <li>Baixar e imprimir seus CVs criados</li>
                   <li>Compartilhar CVs com potenciais empregadores</li>
@@ -117,8 +122,8 @@ const TermosUso = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Uso Proibido</h3>
-                <ul className="list-disc list-inside space-y-2">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">Uso Proibido</h3>
+                <ul className="list-disc list-inside space-y-1 md:space-y-2 text-sm md:text-base">
                   <li>Criar conteúdo falso, enganoso ou difamatório</li>
                   <li>Violar direitos autorais ou propriedade intelectual</li>
                   <li>Usar o serviço para fins ilegais ou não autorizados</li>
@@ -126,30 +131,30 @@ const TermosUso = () => {
                 </ul>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Cancelamento e Reembolso</h3>
-                <p>Você pode cancelar sua assinatura a qualquer momento. Reembolsos são processados conforme nossa política de reembolso, geralmente dentro de 30 dias da compra.</p>
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">Cancelamento e Reembolso</h3>
+                <p className="text-sm md:text-base leading-relaxed">Você pode cancelar sua assinatura a qualquer momento. Reembolsos são processados conforme nossa política de reembolso, geralmente dentro de 30 dias da compra.</p>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Modificações dos Termos</h3>
-                <p>Reservamos o direito de modificar estes termos a qualquer momento. Mudanças significativas serão comunicadas com antecedência.</p>
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">Modificações dos Termos</h3>
+                <p className="text-sm md:text-base leading-relaxed">Reservamos o direito de modificar estes termos a qualquer momento. Mudanças significativas serão comunicadas com antecedência.</p>
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Lei Aplicável</h3>
-                <p>Estes termos são regidos pelas leis de Moçambique. Qualquer disputa será resolvida nos tribunais competentes de Maputo.</p>
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2 md:mb-3">Lei Aplicável</h3>
+                <p className="text-sm md:text-base leading-relaxed">Estes termos são regidos pelas leis de Moçambique. Qualquer disputa será resolvida nos tribunais competentes de Maputo.</p>
               </div>
             </div>
           </Card>
 
           {/* Contact Section */}
-          <Card className="mt-8 p-8 border-0 shadow-lg bg-gradient-to-r from-google-blue to-google-green text-white">
+          <Card className="mt-6 md:mt-8 p-6 md:p-8 border-0 shadow-lg bg-gradient-to-r from-google-blue to-google-green text-white">
             <div className="text-center">
-              <h2 className="text-3xl font-bold mb-4">Dúvidas sobre os Termos?</h2>
-              <p className="text-xl mb-6 opacity-90">
+              <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Dúvidas sobre os Termos?</h2>
+              <p className="text-lg md:text-xl mb-4 md:mb-6 opacity-90">
                 Nossa equipe jurídica está disponível para esclarecer qualquer questão.
               </p>
               <Button 
                 size="lg" 
-                className="bg-white text-google-blue hover:bg-gray-100"
+                className="bg-white text-google-blue hover:bg-gray-100 text-sm md:text-base"
                 onClick={() => navigate('/contato')}
               >
                 Entrar em Contato
