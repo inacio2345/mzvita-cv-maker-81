@@ -358,7 +358,7 @@ const EditableCVLayoutRenderer = ({
                       const [start, end] = value.split(' - ');
                       updateExperience(index, 'startDate', start);
                       updateExperience(index, 'endDate', end === 'Presente' ? '' : end);
-                      updateExperience(index, 'current', end === 'Presente');
+                      updateExperience(index, 'current', end === 'Presente' ? 'true' : 'false');
                     }}
                     placeholder="2020 - 2024"
                     className="text-gray-500"
