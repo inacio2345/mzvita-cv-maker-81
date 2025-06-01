@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Download, Edit, FileText, Share2 } from 'lucide-react';
+import { ArrowLeft, Download, Edit, FileText, Share2, ToggleLeft, ToggleRight } from 'lucide-react';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
+import EditableCVLayoutRenderer from '@/components/cv/EditableCVLayoutRenderer';
 import { getDefaultTemplate } from '@/data/cvTemplates';
 import MobileNav from '@/components/ui/mobile-nav';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -13,12 +14,23 @@ const Preview = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
-  const cvData = location.state?.cvData || {};
+  const [cvData, setCvData] = useState(location.state?.cvData || {});
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   const userPhoto = location.state?.userPhoto;
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const handleDownloadPDF = () => {
-    window.print();
+    // Temporarily disable edit mode for printing
+    const wasEditMode = isEditMode;
+    if (isEditMode) {
+      setIsEditMode(false);
+      setTimeout(() => {
+        window.print();
+        if (wasEditMode) setIsEditMode(true);
+      }, 100);
+    } else {
+      window.print();
+    }
   };
 
   const handleShare = () => {
@@ -33,6 +45,10 @@ const Preview = () => {
       navigator.clipboard.writeText(window.location.href);
       alert('Link copiado para a área de transferência!');
     }
+  };
+
+  const handleDataChange = (newData: any) => {
+    setCvData(newData);
   };
 
   return (
@@ -58,7 +74,9 @@ const Preview = () => {
                   <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
                 </div>
                 <div className="hidden sm:block">
-                  <h1 className="text-lg font-bold text-gray-900">Visualização do CV</h1>
+                  <h1 className="text-lg font-bold text-gray-900">
+                    {isEditMode ? 'Edição do CV' : 'Visualização do CV'}
+                  </h1>
                   {selectedTemplate.nome && (
                     <span className="text-xs text-gray-500">({selectedTemplate.nome})</span>
                   )}
@@ -71,6 +89,15 @@ const Preview = () => {
               <div className="flex gap-2">
                 <Button
                   variant="outline"
+                  onClick={() => setIsEditMode(!isEditMode)}
+                  className={`flex items-center ${isEditMode ? 'border-green-500 text-green-600 hover:bg-green-50' : 'border-blue-500 text-blue-600 hover:bg-blue-50'}`}
+                  size="sm"
+                >
+                  {isEditMode ? <ToggleRight className="w-4 h-4 mr-2" /> : <ToggleLeft className="w-4 h-4 mr-2" />}
+                  {isEditMode ? 'Modo Edição' : 'Ativar Edição'}
+                </Button>
+                <Button
+                  variant="outline"
                   onClick={() => navigate('/criar-cv', { 
                     state: { 
                       templateData: cvData, 
@@ -81,7 +108,7 @@ const Preview = () => {
                   size="sm"
                 >
                   <Edit className="w-4 h-4 mr-2" />
-                  Editar
+                  Editor
                 </Button>
                 <Button
                   variant="outline"
@@ -114,6 +141,15 @@ const Preview = () => {
             <div className="flex gap-2 mt-3 pt-3 border-t border-gray-200">
               <Button
                 variant="outline"
+                onClick={() => setIsEditMode(!isEditMode)}
+                className={`flex-1 flex items-center justify-center ${isEditMode ? 'border-green-500 text-green-600' : 'border-blue-500 text-blue-600'}`}
+                size="sm"
+              >
+                {isEditMode ? <ToggleRight className="w-4 h-4 mr-1" /> : <ToggleLeft className="w-4 h-4 mr-1" />}
+                {isEditMode ? 'Editando' : 'Editar'}
+              </Button>
+              <Button
+                variant="outline"
                 onClick={() => navigate('/criar-cv', { 
                   state: { 
                     templateData: cvData, 
@@ -124,7 +160,7 @@ const Preview = () => {
                 size="sm"
               >
                 <Edit className="w-4 h-4 mr-1" />
-                Editar
+                Editor
               </Button>
               <Button
                 onClick={handleDownloadPDF}
@@ -142,6 +178,16 @@ const Preview = () => {
       {/* CV Preview Container */}
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 print:p-0">
         <div className="max-w-4xl mx-auto">
+          {/* Mode Info */}
+          {isEditMode && (
+            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg print:hidden">
+              <p className="text-sm text-blue-700 text-center flex items-center justify-center">
+                <Edit className="w-4 h-4 mr-2" />
+                🖉 Modo de edição ativo - Clique nos campos para editar diretamente
+              </p>
+            </div>
+          )}
+
           {/* A4 Preview Card */}
           <Card className="bg-white shadow-lg print:shadow-none print:border-none overflow-hidden">
             {/* A4 Size Container */}
@@ -153,12 +199,22 @@ const Preview = () => {
                 maxWidth: '100%'
               }}
             >
-              <CVLayoutRenderer 
-                data={cvData} 
-                template={selectedTemplate}
-                userPhoto={userPhoto}
-                className="w-full h-full"
-              />
+              {isEditMode ? (
+                <EditableCVLayoutRenderer 
+                  data={cvData} 
+                  template={selectedTemplate}
+                  userPhoto={userPhoto}
+                  className="w-full h-full"
+                  onDataChange={handleDataChange}
+                />
+              ) : (
+                <CVLayoutRenderer 
+                  data={cvData} 
+                  template={selectedTemplate}
+                  userPhoto={userPhoto}
+                  className="w-full h-full"
+                />
+              )}
             </div>
           </Card>
 
@@ -188,6 +244,7 @@ const Preview = () => {
             .print\\:shadow-none { box-shadow: none !important; }
             .print\\:border-none { border: none !important; }
             .print\\:min-h-\\[297mm\\] { min-height: 297mm !important; }
+            .print\\:bg-transparent { background: transparent !important; }
             
             @page { 
               margin: 15mm; 
@@ -220,6 +277,12 @@ const Preview = () => {
             .cv-section {
               page-break-inside: avoid;
               break-inside: avoid;
+            }
+            
+            /* Hide edit controls in print */
+            .group:hover .absolute,
+            .print\\:hidden {
+              display: none !important;
             }
           }
           
