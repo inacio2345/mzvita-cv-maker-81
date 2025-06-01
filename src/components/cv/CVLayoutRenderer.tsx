@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/card';
-import { Mail, Phone, MapPin, Globe, Calendar, Award, Briefcase, GraduationCap, User, Star } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Calendar, Award, Briefcase, GraduationCap, User, Star, Languages, Wrench } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface CVLayoutRendererProps {
@@ -119,11 +119,11 @@ const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayou
           </div>
         </div>
 
-        {/* Competências */}
+        {/* Competências Técnicas */}
         {data.skills?.technical?.length > 0 && (
-          <div className="cv-section">
+          <div className="mb-6 cv-section">
             <h3 className={`${isMobile ? 'text-base cv-mobile-title' : 'text-lg'} font-bold mb-3 border-b-2 pb-2`} style={{ borderColor: colors.accent, fontFamily: fonts.headings }}>
-              COMPETÊNCIAS
+              COMPETÊNCIAS TÉCNICAS
             </h3>
             <div className="space-y-3">
               {data.skills.technical.slice(0, 6).map((skill: string, index: number) => (
@@ -138,6 +138,57 @@ const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayou
                       style={{ backgroundColor: colors.accent, width: "90%" }}
                     />
                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Habilidades Interpessoais */}
+        {data.skills?.interpersonal?.length > 0 && (
+          <div className="mb-6 cv-section">
+            <h3 className={`${isMobile ? 'text-base cv-mobile-title' : 'text-lg'} font-bold mb-3 border-b-2 pb-2`} style={{ borderColor: colors.accent, fontFamily: fonts.headings }}>
+              HABILIDADES INTERPESSOAIS
+            </h3>
+            <div className="space-y-2">
+              {data.skills.interpersonal.map((skill: string, index: number) => (
+                <div key={index} className="flex items-center">
+                  <Star className="w-3 h-3 mr-2 flex-shrink-0" />
+                  <span className={`${isMobile ? 'text-sm cv-mobile-text' : 'text-sm'}`}>{skill}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Idiomas */}
+        {data.skills?.languages?.length > 0 && (
+          <div className="mb-6 cv-section">
+            <h3 className={`${isMobile ? 'text-base cv-mobile-title' : 'text-lg'} font-bold mb-3 border-b-2 pb-2`} style={{ borderColor: colors.accent, fontFamily: fonts.headings }}>
+              IDIOMAS
+            </h3>
+            <div className="space-y-2">
+              {data.skills.languages.map((language: string, index: number) => (
+                <div key={index} className="flex items-center">
+                  <Languages className="w-3 h-3 mr-2 flex-shrink-0" />
+                  <span className={`${isMobile ? 'text-sm cv-mobile-text' : 'text-sm'}`}>{language}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Ferramentas e Software */}
+        {data.skills?.tools?.length > 0 && (
+          <div className="cv-section">
+            <h3 className={`${isMobile ? 'text-base cv-mobile-title' : 'text-lg'} font-bold mb-3 border-b-2 pb-2`} style={{ borderColor: colors.accent, fontFamily: fonts.headings }}>
+              FERRAMENTAS
+            </h3>
+            <div className="space-y-2">
+              {data.skills.tools.map((tool: string, index: number) => (
+                <div key={index} className="flex items-center">
+                  <Wrench className="w-3 h-3 mr-2 flex-shrink-0" />
+                  <span className={`${isMobile ? 'text-sm cv-mobile-text' : 'text-sm'}`}>{tool}</span>
                 </div>
               ))}
             </div>
@@ -207,7 +258,7 @@ const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayou
     </div>
   );
 
-  // Template 2: Criativo Moderno - Responsivo
+  // Template 2: Criativo Moderno - Responsivo com todas as seções
   const renderCreativeModern = () => (
     <div className={`max-w-4xl mx-auto ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: colors.background }}>
       {/* Header criativo com foto */}

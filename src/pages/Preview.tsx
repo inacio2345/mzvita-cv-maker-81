@@ -177,35 +177,51 @@ const Preview = () => {
       <style dangerouslySetInnerHTML={{
         __html: `
           @media print {
+            /* Remove header, footer e outros elementos do navegador */
+            @page { 
+              margin: 20mm 15mm 15mm 15mm; 
+              size: A4 portrait;
+            }
+            
+            /* Esconder elementos desnecessários */
             body { 
               print-color-adjust: exact !important;
               -webkit-print-color-adjust: exact !important;
               margin: 0 !important;
               padding: 0 !important;
             }
-            .print\\:hidden { display: none !important; }
-            .print\\:p-0 { padding: 0 !important; }
-            .print\\:shadow-none { box-shadow: none !important; }
-            .print\\:border-none { border: none !important; }
-            .print\\:min-h-\\[297mm\\] { min-height: 297mm !important; }
             
-            @page { 
-              margin: 15mm; 
-              size: A4; 
+            /* Remove elementos de interface */
+            .print\\:hidden { 
+              display: none !important; 
+            }
+            .print\\:p-0 { 
+              padding: 0 !important; 
+            }
+            .print\\:shadow-none { 
+              box-shadow: none !important; 
+            }
+            .print\\:border-none { 
+              border: none !important; 
+            }
+            .print\\:min-h-\\[297mm\\] { 
+              min-height: 297mm !important; 
             }
             
+            /* Estilos de fonte e texto para impressão */
             * {
               font-family: 'Inter', 'Arial', sans-serif !important;
               line-height: 1.4 !important;
             }
             
+            /* Remove margens e padding do container principal */
             .container {
               max-width: none !important;
               padding: 0 !important;
               margin: 0 !important;
             }
             
-            /* Print layout fixes */
+            /* Layout fixes para impressão */
             .flex {
               display: flex !important;
             }
@@ -216,10 +232,64 @@ const Preview = () => {
               flex: 1 1 0% !important;
             }
             
-            /* Prevent page breaks inside elements */
+            /* Quebras de página apropriadas */
             .cv-section {
               page-break-inside: avoid;
               break-inside: avoid;
+              orphans: 3;
+              widows: 3;
+            }
+            
+            /* Evita quebras de página indesejadas */
+            h1, h2, h3, h4, h5, h6 {
+              page-break-after: avoid;
+              break-after: avoid;
+            }
+            
+            /* Espaçamento adequado entre seções */
+            .cv-section + .cv-section {
+              margin-top: 1rem;
+            }
+            
+            /* Força quebra de página quando necessário */
+            .page-break {
+              page-break-before: always;
+              break-before: page;
+            }
+            
+            /* Remove elementos específicos do browser */
+            header, footer, nav, .header, .footer, .nav {
+              display: none !important;
+            }
+            
+            /* Otimizações de cor para impressão */
+            * {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            
+            /* Remove background patterns desnecessários */
+            body::before, body::after {
+              display: none !important;
+            }
+            
+            /* Garante que o conteúdo ocupe toda a página */
+            html, body {
+              width: 100% !important;
+              height: auto !important;
+              overflow: visible !important;
+            }
+            
+            /* Remove scrollbars */
+            ::-webkit-scrollbar {
+              display: none !important;
+            }
+            
+            /* Limpa elementos flutuantes */
+            .clearfix::after {
+              content: "";
+              display: table;
+              clear: both;
             }
           }
           
