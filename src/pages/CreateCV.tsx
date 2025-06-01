@@ -15,6 +15,19 @@ import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
 import PhotoUploadForm from '@/components/forms/PhotoUploadForm';
 import { getDefaultTemplate } from '@/data/cvTemplates';
 
+interface CVData {
+  personalData: {
+    photo?: string | null;
+    [key: string]: any;
+  };
+  about: string;
+  education: any[];
+  experience: any[];
+  skills: any[];
+  references: any[];
+  colorPalette: any;
+}
+
 const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,8 +37,10 @@ const CreateCV = () => {
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   
   const [currentStep, setCurrentStep] = useState(1);
-  const [cvData, setCvData] = useState({
-    personalData: {},
+  const [cvData, setCvData] = useState<CVData>({
+    personalData: {
+      photo: null
+    },
     about: '',
     education: [],
     experience: [],
@@ -84,7 +99,7 @@ const CreateCV = () => {
     }
   };
 
-  const handleDataUpdate = (stepData) => {
+  const handleDataUpdate = (stepData: Partial<CVData>) => {
     setCvData(prev => ({ ...prev, ...stepData }));
   };
 
