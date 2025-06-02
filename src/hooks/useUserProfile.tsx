@@ -1,0 +1,122 @@
+
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
+
+export interface UserProfile {
+  id: string;
+  nome_completo: string;
+  email: string;
+  foto_perfil_url?: string;
+  profissao?: string;
+  idioma: string;
+  tema: 'claro' | 'escuro';
+  notificacoes_ativadas: boolean;
+  data_criacao: string;
+  ultimo_login: string;
+  email_verificado: boolean;
+  autenticacao_2fa: boolean;
+  google_conectado: boolean;
+  linkedin_conectado: boolean;
+  total_cvs: number;
+  cv_mais_recente?: string;
+  downloads_realizados: number;
+}
+
+export const useUserProfile = () => {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  const loadProfile = async () => {
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+      setProfile(data);
+    } catch (error) {
+      console.error('Erro ao carregar perfil:', error);
+      toast({
+        title: "Erro ao carregar perfil",
+        description: "Não foi possível carregar seus dados.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProfile = async (updates: Partial<UserProfile>) => {
+    if (!user) return false;
+
+    try {
+      const { data, error } = await supabase
+        .from('user_profiles')
+        .update(updates)
+        .eq('id', user.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      setProfile(data);
+      toast({
+        title: "Perfil atualizado!",
+        description: "Suas alterações foram salvas com sucesso.",
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Erro ao atualizar perfil:', error);
+      toast({
+        title: "Erro ao atualizar",
+        description: "Não foi possível salvar as alterações.",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
+  const incrementDownloads = async () => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase.rpc('increment_downloads', {
+        user_uuid: user.id
+      });
+
+      if (error) throw error;
+      
+      // Atualizar localmente
+      setProfile(prev => prev ? {
+        ...prev,
+        downloads_realizados: prev.downloads_realizados + 1
+      } : null);
+    } catch (error) {
+      console.error('Erro ao incrementar downloads:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadProfile();
+  }, [user]);
+
+  return {
+    profile,
+    loading,
+    updateProfile,
+    incrementDownloads,
+    loadProfile,
+  };
+};

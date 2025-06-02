@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSavedCVs } from '@/hooks/useSavedCVs';
-import { FileText, Edit, Trash2, Plus, Download, AlertCircle } from 'lucide-react';
+import { FileText, Edit, Trash2, Plus, Download, AlertCircle, User } from 'lucide-react';
 import Footer from '@/components/ui/footer';
 import Header from '@/components/ui/header';
 
@@ -84,6 +84,33 @@ const Profile = () => {
               Gerencie seus CVs e informações pessoais
             </p>
           </div>
+
+          {/* Upgrade Notice */}
+          <Card className="mb-8 border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-gradient-to-r from-google-blue to-google-green rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Novo Perfil Profissional Disponível!
+                    </h3>
+                    <p className="text-gray-600">
+                      Acesse nosso novo perfil profissional inspirado no LinkedIn com recursos avançados
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => navigate('/perfil-profissional')}
+                  className="bg-google-blue hover:bg-blue-600 text-white"
+                >
+                  Acessar Novo Perfil
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* User Info */}
           <Card className="mb-8">
