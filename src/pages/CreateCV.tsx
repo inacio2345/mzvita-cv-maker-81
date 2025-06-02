@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette, AlertCircle, Camera } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Eye, Palette, AlertCircle, Camera, Lock } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/auth/AuthModal';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
@@ -32,7 +32,7 @@ interface CVData {
 const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isConfigured } = useAuth();
+  const { user, loading } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const templateData = location.state?.templateData;
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
@@ -57,12 +57,12 @@ const CreateCV = () => {
     }
   }, [templateData]);
 
-  // Check if user needs to login before creating CV
+  // Check authentication status
   useEffect(() => {
-    if (isConfigured && !user && currentStep > 1) {
+    if (!loading && !user) {
       setShowAuthModal(true);
     }
-  }, [user, currentStep, isConfigured]);
+  }, [user, loading]);
 
   const steps = [
     { id: 1, title: 'Dados Pessoais', icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />, component: PersonalDataForm },
@@ -75,8 +75,7 @@ const CreateCV = () => {
   ];
 
   const handleNext = () => {
-    // Require login after first step only if Supabase is configured
-    if (isConfigured && !user && currentStep >= 2) {
+    if (!user) {
       setShowAuthModal(true);
       return;
     }
@@ -104,7 +103,36 @@ const CreateCV = () => {
     setCvData(prev => ({ ...prev, ...stepData }));
   };
 
+  const handlePreview = () => {
+    if (!user) {
+      setShowAuthModal(true);
+      return;
+    }
+    
+    navigate('/preview', { 
+      state: { 
+        cvData, 
+        selectedTemplate: selectedTemplate,
+        userPhoto: cvData.personalData?.photo
+      }
+    });
+  };
+
   const CurrentStepComponent = steps[currentStep - 1]?.component;
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center mx-auto mb-4">
+            <FileText className="w-5 h-5 text-white" />
+          </div>
+          <p className="text-gray-600">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -147,7 +175,7 @@ const CreateCV = () => {
                 >
                   Meu Perfil
                 </Button>
-              ) : isConfigured ? (
+              ) : (
                 <Button
                   variant="outline"
                   onClick={() => setShowAuthModal(true)}
@@ -156,17 +184,11 @@ const CreateCV = () => {
                 >
                   Entrar
                 </Button>
-              ) : null}
+              )}
               
               <Button
                 variant="outline"
-                onClick={() => navigate('/preview', { 
-                  state: { 
-                    cvData, 
-                    selectedTemplate: selectedTemplate,
-                    userPhoto: cvData.personalData?.photo
-                  }
-                })}
+                onClick={handlePreview}
                 className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-xs sm:text-sm px-2 sm:px-3"
                 size="sm"
               >
@@ -176,7 +198,7 @@ const CreateCV = () => {
               </Button>
 
               <MobileNav 
-                showAuthButton={isConfigured && !user}
+                showAuthButton={!user}
                 onAuthClick={() => setShowAuthModal(true)}
               />
             </div>
@@ -186,16 +208,23 @@ const CreateCV = () => {
 
       <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
         <div className="max-w-4xl mx-auto">
-          {/* Show warning if Supabase is not configured */}
-          {!isConfigured && (
-            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-orange-50 border border-orange-200 rounded-lg">
-              <div className="flex items-start space-x-2 sm:space-x-3">
-                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 mt-0.5 flex-shrink-0" />
+          {/* Authentication Warning */}
+          {!user && (
+            <div className="mb-4 sm:mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
+              <div className="flex items-start space-x-3">
+                <Lock className="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-orange-800 font-medium text-sm sm:text-base">Modo de Demonstração</p>
+                  <p className="text-orange-800 font-medium text-sm sm:text-base">Autenticação Necessária</p>
                   <p className="text-orange-700 text-xs sm:text-sm">
-                    A autenticação não está configurada. Você pode criar CVs, mas não será possível salvá-los.
+                    Você precisa fazer login para criar e salvar seus CVs.
                   </p>
+                  <Button 
+                    onClick={() => setShowAuthModal(true)}
+                    className="mt-2 bg-orange-600 hover:bg-orange-700 text-white text-sm"
+                    size="sm"
+                  >
+                    Fazer Login
+                  </Button>
                 </div>
               </div>
             </div>
@@ -253,7 +282,7 @@ const CreateCV = () => {
                   Modelo: {selectedTemplate.nome}
                 </p>
               )}
-              {!user && currentStep > 1 && isConfigured && (
+              {!user && (
                 <p className="text-xs sm:text-sm text-orange-600 mt-2">
                   Faça login para continuar criando seu CV
                 </p>
@@ -262,12 +291,27 @@ const CreateCV = () => {
           </div>
 
           {/* Form Content */}
-          <Card className="p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-lg border-0">
+          <Card className={`p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-lg border-0 ${!user ? 'opacity-50' : ''}`}>
             {CurrentStepComponent && (
               <CurrentStepComponent
                 data={cvData}
                 onUpdate={handleDataUpdate}
               />
+            )}
+            
+            {!user && (
+              <div className="absolute inset-0 bg-white bg-opacity-75 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <Lock className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <p className="text-gray-600 mb-4">Faça login para continuar</p>
+                  <Button 
+                    onClick={() => setShowAuthModal(true)}
+                    className="bg-google-blue hover:bg-blue-600 text-white"
+                  >
+                    Fazer Login
+                  </Button>
+                </div>
+              </div>
             )}
           </Card>
 
@@ -276,7 +320,7 @@ const CreateCV = () => {
             <Button
               variant="outline"
               onClick={handlePrevious}
-              disabled={currentStep === 1}
+              disabled={currentStep === 1 || !user}
               className="flex items-center text-sm sm:text-base px-3 sm:px-4 py-2"
               size="sm"
             >
@@ -291,7 +335,8 @@ const CreateCV = () => {
 
             <Button
               onClick={handleNext}
-              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2"
+              disabled={!user}
+              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
               size="sm"
             >
               <span className="hidden sm:inline">
@@ -306,18 +351,15 @@ const CreateCV = () => {
         </div>
       </div>
 
-      {!isConfigured && currentStep > 1 && (
-        <p className="text-xs sm:text-sm text-orange-600 mt-2 text-center px-4">
-          Configure a autenticação para salvar seus CVs
-        </p>
-      )}
-
-      {isConfigured && (
-        <AuthModal 
-          isOpen={showAuthModal} 
-          onClose={() => setShowAuthModal(false)} 
-        />
-      )}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => {
+          setShowAuthModal(false);
+          if (!user) {
+            navigate('/');
+          }
+        }} 
+      />
     </div>
   );
 };

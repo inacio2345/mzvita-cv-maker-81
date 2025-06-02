@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import { FileText, Mail, Lock, LogIn } from 'lucide-react';
+import { FileText, Mail, Lock, LogIn, UserPlus } from 'lucide-react';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -68,6 +68,10 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
     setLoading(true);
     try {
       await signInWithGoogle();
+      toast({
+        title: "Login com Google realizado!",
+        description: "Bem-vindo ao MzVita CV.",
+      });
       onClose();
     } catch (error: any) {
       toast({
@@ -88,9 +92,15 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
             <div className="w-8 h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
               <FileText className="w-5 h-5 text-white" />
             </div>
-            <span>MzVita CV</span>
+            <span>Acesso ao MzVita CV</span>
           </DialogTitle>
         </DialogHeader>
+
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-blue-800 text-sm text-center">
+            É necessário fazer login para criar e salvar seus CVs profissionais
+          </p>
+        </div>
 
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -182,6 +192,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                   className="w-full bg-google-green hover:bg-green-600"
                   disabled={loading}
                 >
+                  <UserPlus className="w-4 h-4 mr-2" />
                   {loading ? 'Criando conta...' : 'Criar Conta'}
                 </Button>
               </form>
@@ -224,6 +235,10 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
           </svg>
           Continuar com Google
         </Button>
+
+        <p className="text-xs text-center text-gray-500 mt-4">
+          Ao se registrar, você concorda com nossos termos de uso e política de privacidade.
+        </p>
       </DialogContent>
     </Dialog>
   );
