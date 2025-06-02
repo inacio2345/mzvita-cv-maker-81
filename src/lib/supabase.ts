@@ -1,15 +1,17 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = 'https://mzwtggvhsjfvlfbanoym.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16d3RnZ3Zoc2pmdmxmYmFub3ltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg2OTU5NDEsImV4cCI6MjA2NDI3MTk0MX0.ZZbdMhN7Eer521FoG_I_P9CFUa0acphy9NFjjISD3cI';
 
-// Create a null client if environment variables are not set
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+    persistSession: true,
+    autoRefreshToken: true,
+  }
+});
 
-// Helper function to check if Supabase is configured
 export const isSupabaseConfigured = () => {
-  return supabase !== null;
+  return true;
 };

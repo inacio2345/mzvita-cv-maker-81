@@ -1,10 +1,11 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { User } from '@supabase/supabase-js';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 interface AuthContextType {
   user: User | null;
+  session: Session | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
@@ -17,38 +18,31 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const isConfigured = isSupabaseConfigured();
 
   useEffect(() => {
-    if (!isConfigured) {
-      setLoading(false);
-      return;
-    }
-
-    // Get initial session
-    supabase!.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase!.auth.onAuthStateChange(
-      async (event, session) => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
       }
     );
 
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
     return () => subscription.unsubscribe();
-  }, [isConfigured]);
+  }, []);
 
   const signIn = async (email: string, password: string) => {
-    if (!isConfigured) {
-      throw new Error('Supabase não está configurado');
-    }
-    
-    const { error } = await supabase!.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -56,46 +50,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
-    if (!isConfigured) {
-      throw new Error('Supabase não está configurado');
-    }
+    const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase!.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: redirectUrl
+      }
     });
     if (error) throw error;
   };
 
   const signInWithGoogle = async () => {
-    if (!isConfigured) {
-      throw new Error('Supabase não está configurado');
-    }
+    const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase!.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
+      options: {
+        redirectTo: redirectUrl
+      }
     });
     if (error) throw error;
   };
 
   const signOut = async () => {
-    if (!isConfigured) {
-      throw new Error('Supabase não está configurado');
-    }
-    
-    const { error } = await supabase!.auth.signOut();
+    const { error } = await supabase.auth.signOut();
     if (error) throw error;
   };
 
   return (
     <AuthContext.Provider value={{
       user,
+      session,
       loading,
       signIn,
       signUp,
       signInWithGoogle,
       signOut,
-      isConfigured,
+      isConfigured: true,
     }}>
       {children}
     </AuthContext.Provider>

@@ -1,208 +1,233 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { FileText, Zap, Shield, Download, Star, Users, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Download, Zap, Star, Users, Award } from 'lucide-react';
 import Footer from '@/components/ui/footer';
+import Header from '@/components/ui/header';
 
 const Index = () => {
   const navigate = useNavigate();
 
-  const features = [
-    {
-      icon: <FileText className="w-8 h-8 text-google-blue" />,
-      title: "CV Profissional",
-      description: "Crie currículos impressionantes com design moderno e formatação perfeita"
-    },
-    {
-      icon: <Download className="w-8 h-8 text-google-green" />,
-      title: "Download Instantâneo",
-      description: "Baixe seu CV em PDF de alta qualidade, pronto para impressão"
-    },
-    {
-      icon: <Zap className="w-8 h-8 text-google-yellow" />,
-      title: "Processo Rápido",
-      description: "Crie seu CV completo em menos de 10 minutos com nosso assistente inteligente"
-    }
-  ];
-
-  const stats = [
-    { number: "10,000+", label: "CVs Criados", icon: <FileText className="w-6 h-6" /> },
-    { number: "95%", label: "Taxa de Sucesso", icon: <Star className="w-6 h-6" /> },
-    { number: "5,000+", label: "Usuários Ativos", icon: <Users className="w-6 h-6" /> },
-    { number: "24h", label: "Suporte Disponível", icon: <Award className="w-6 h-6" /> }
-  ];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MzVita CV
-              </h1>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-google-blue font-semibold">Início</a>
-              <a href="/como-funciona" className="text-gray-600 hover:text-google-blue transition-colors">Como Funciona</a>
-              <a href="/precos" className="text-gray-600 hover:text-google-blue transition-colors">Preços</a>
-              <a href="/contato" className="text-gray-600 hover:text-google-blue transition-colors">Contato</a>
-            </nav>
-            <Button variant="outline" className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white">
-              Entrar
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Hero Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto text-center">
-          <div className="animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent">
-              Crie seu CV perfeito
+      <section className="py-12 md:py-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+              Crie seu <span className="bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
+                CV Profissional
+              </span> em minutos
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              A plataforma mais moderna de Moçambique para criar currículos profissionais. 
-              Design elegante, processo simples e resultados impressionantes.
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              A ferramenta mais completa para criar currículos profissionais em Moçambique. 
+              Templates modernos, fácil de usar e resultados impressionantes.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-gradient-to-r from-google-blue to-google-green hover:from-google-green hover:to-google-blue text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
                 onClick={() => navigate('/criar-cv')}
               >
-                Criar Meu CV Agora
-                <FileText className="ml-2 w-5 h-5" />
+                <FileText className="mr-2 h-5 w-5" />
+                Criar CV Grátis
               </Button>
               <Button 
-                variant="outline" 
                 size="lg" 
-                className="px-8 py-4 text-lg border-2"
+                variant="outline" 
+                className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white px-8 py-6 text-lg"
                 onClick={() => navigate('/exemplos')}
               >
                 Ver Exemplos
               </Button>
             </div>
-            <p className="text-sm text-gray-500 mt-4">
-              ✨ Primeiro CV totalmente GRÁTIS • Sem cartão de crédito
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="flex justify-center mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-r from-google-blue to-google-green rounded-full flex items-center justify-center text-white">
-                    {stat.icon}
-                  </div>
-                </div>
-                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-900">
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
               Por que escolher o MzVita CV?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Desenvolvido especialmente para o mercado moçambicano, com as melhores práticas internacionais
+            <p className="text-gray-600 max-w-3xl mx-auto">
+              Descubra os benefícios de usar nossa plataforma para criar um currículo profissional e 
+              aumentar suas chances de sucesso.
             </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="p-8 text-center hover:shadow-lg transition-shadow animate-fade-in border-0 shadow-md" style={{ animationDelay: `${index * 0.2}s` }}>
-                <div className="flex justify-center mb-6">
-                  <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center">
-                    {feature.icon}
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-900">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Feature 1 */}
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl font-semibold">
+                  <Zap className="mr-2 h-5 w-5 text-yellow-500" />
+                  Fácil e Rápido
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-500">
+                  Crie seu currículo em minutos com nossa interface intuitiva e templates pré-definidos.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            {/* Feature 2 */}
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl font-semibold">
+                  <Shield className="mr-2 h-5 w-5 text-green-500" />
+                  Profissional e Seguro
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-500">
+                  Templates criados por especialistas em RH e total segurança dos seus dados.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            {/* Feature 3 */}
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl font-semibold">
+                  <Download className="mr-2 h-5 w-5 text-blue-500" />
+                  Download em PDF
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-500">
+                  Exporte seu currículo em formato PDF, pronto para ser enviado para qualquer empresa.
+                </CardDescription>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
 
-      {/* How it Works */}
-      <section className="py-20 bg-gradient-to-r from-gray-50 to-blue-50">
+      {/* Testimonials Section */}
+      <section className="py-12">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-900">Como funciona</h2>
-            <p className="text-xl text-gray-600">Três passos simples para ter seu CV perfeito</p>
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              O que dizem sobre nós
+            </h2>
+            <p className="text-gray-600 max-w-3xl mx-auto">
+              Veja o que nossos usuários estão falando sobre a experiência de criar seus currículos 
+              com o MzVita CV.
+            </p>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: "01",
-                title: "Preencha seus dados",
-                description: "Complete o formulário inteligente com suas informações pessoais e profissionais",
-                color: "google-blue"
-              },
-              {
-                step: "02", 
-                title: "Visualize o resultado",
-                description: "Veja seu CV sendo montado em tempo real com design profissional",
-                color: "google-red"
-              },
-              {
-                step: "03",
-                title: "Baixe em PDF",
-                description: "Download instantâneo do seu CV em alta qualidade, pronto para usar",
-                color: "google-green"
-              }
-            ].map((item, index) => (
-              <div key={index} className="text-center animate-fade-in" style={{ animationDelay: `${index * 0.3}s` }}>
-                <div className={`w-16 h-16 bg-${item.color} text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6`}>
-                  {item.step}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Testimonial 1 */}
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="relative">
+                <Star className="absolute top-2 right-2 h-4 w-4 text-yellow-400" />
+                <p className="text-gray-700 mb-4">
+                  "Consegui criar um currículo incrível em poucos minutos. A plataforma é muito fácil de usar e os templates são ótimos!"
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 mr-4">
+                    <Users className="w-6 h-6 text-gray-500 mx-auto mt-2" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      Maria Silva
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      Estudante
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-900">{item.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{item.description}</p>
-              </div>
-            ))}
+              </CardContent>
+            </Card>
+
+            {/* Testimonial 2 */}
+            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+              <CardContent className="relative">
+                <Star className="absolute top-2 right-2 h-4 w-4 text-yellow-400" />
+                <p className="text-gray-700 mb-4">
+                  "O MzVita CV me ajudou a conseguir o emprego dos meus sonhos. O currículo ficou muito profissional e destacou minhas habilidades."
+                </p>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-gray-200 mr-4">
+                    <Users className="w-6 h-6 text-gray-500 mx-auto mt-2" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      João Pereira
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      Profissional de Marketing
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-12 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            {/* Stat 1 */}
+            <div>
+              <p className="text-4xl font-bold text-google-blue mb-2">
+                1000+
+              </p>
+              <p className="text-gray-600">
+                Currículos Criados
+              </p>
+            </div>
+
+            {/* Stat 2 */}
+            <div>
+              <p className="text-4xl font-bold text-google-green mb-2">
+                95%
+              </p>
+              <p className="text-gray-600">
+                Satisfação dos Usuários
+              </p>
+            </div>
+
+            {/* Stat 3 */}
+            <div>
+              <p className="text-4xl font-bold text-yellow-500 mb-2">
+                20+
+              </p>
+              <p className="text-gray-600">
+                Templates Disponíveis
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-google-blue to-google-green">
-        <div className="container mx-auto px-4 text-center text-white">
-          <h2 className="text-4xl font-bold mb-6">Pronto para impressionar?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Junte-se a milhares de moçambicanos que já conseguiram o emprego dos sonhos com nossos CVs
+      <section className="py-16 bg-gradient-to-r from-blue-100 to-green-100">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            Comece agora a criar o seu currículo de sucesso!
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+            Não perca mais tempo, crie um currículo profissional e destaque-se no mercado de trabalho.
           </p>
           <Button 
             size="lg" 
-            className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+            className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
             onClick={() => navigate('/criar-cv')}
           >
-            Começar Agora - É Grátis!
-            <FileText className="ml-2 w-5 h-5" />
+            <CheckCircle className="mr-2 h-5 w-5" />
+            Criar Meu CV Agora
           </Button>
         </div>
       </section>
-
-      {/* Footer */}
+      
       <Footer />
     </div>
   );

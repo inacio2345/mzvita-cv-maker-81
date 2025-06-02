@@ -1,98 +1,31 @@
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase';
-import { FileText, Edit, Trash2, Plus, User, LogOut, Download, AlertCircle } from 'lucide-react';
+import { useSavedCVs } from '@/hooks/useSavedCVs';
+import { FileText, Edit, Trash2, Plus, Download, AlertCircle } from 'lucide-react';
 import Footer from '@/components/ui/footer';
-import { useToast } from '@/hooks/use-toast';
-
-interface SavedCV {
-  id: string;
-  title: string;
-  template_name: string;
-  created_at: string;
-  updated_at: string;
-  cv_data: any;
-}
+import Header from '@/components/ui/header';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, signOut, isConfigured } = useAuth();
-  const { toast } = useToast();
-  const [savedCVs, setSavedCVs] = useState<SavedCV[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useAuth();
+  const { savedCVs, loading: cvsLoading, deleteCV } = useSavedCVs();
 
-  useEffect(() => {
-    if (!user) {
+  React.useEffect(() => {
+    if (!authLoading && !user) {
       navigate('/');
-      return;
     }
-    
-    if (isConfigured) {
-      loadSavedCVs();
-    } else {
-      setLoading(false);
-    }
-  }, [user, navigate, isConfigured]);
+  }, [user, authLoading, navigate]);
 
-  const loadSavedCVs = async () => {
-    if (!isConfigured) return;
-    
-    try {
-      const { data, error } = await supabase!
-        .from('saved_cvs')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('updated_at', { ascending: false });
-
-      if (error) throw error;
-      setSavedCVs(data || []);
-    } catch (error) {
-      console.error('Erro ao carregar CVs:', error);
-    } finally {
-      setLoading(false);
-    }
+  const handleDeleteCV = async (cvId: string, cvTitle: string) => {
+    if (!confirm(`Tem certeza que deseja excluir o CV "${cvTitle}"?`)) return;
+    await deleteCV(cvId);
   };
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.error('Erro ao sair:', error);
-    }
-  };
-
-  const handleDeleteCV = async (cvId: string) => {
-    if (!isConfigured) return;
-    if (!confirm('Tem certeza que deseja excluir este CV?')) return;
-
-    try {
-      const { error } = await supabase!
-        .from('saved_cvs')
-        .delete()
-        .eq('id', cvId)
-        .eq('user_id', user?.id);
-
-      if (error) throw error;
-
-      setSavedCVs(prev => prev.filter(cv => cv.id !== cvId));
-      toast({
-        title: "CV excluído",
-        description: "CV foi excluído com sucesso.",
-      });
-    } catch (error) {
-      toast({
-        title: "Erro ao excluir",
-        description: "Não foi possível excluir o CV.",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleEditCV = (cv: SavedCV) => {
+  const handleEditCV = (cv: any) => {
     navigate('/criar-cv', {
       state: {
         templateData: cv.cv_data,
@@ -102,12 +35,13 @@ const Profile = () => {
           layout: "duas_colunas",
           foto_posicao: "esquerda",
           paleta: "azul"
-        }
+        },
+        editingCV: cv
       }
     });
   };
 
-  const handlePreviewCV = (cv: SavedCV) => {
+  const handlePreviewCV = (cv: any) => {
     navigate('/preview', {
       state: {
         cvData: cv.cv_data,
@@ -122,101 +56,21 @@ const Profile = () => {
     });
   };
 
-  if (!user) {
-    return null;
-  }
-
-  if (!isConfigured) {
+  if (authLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-        {/* Header */}
-        <header className="bg-white shadow-sm border-b">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-                <div className="w-8 md:w-10 h-8 md:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 md:w-6 h-5 md:h-6 text-white" />
-                </div>
-                <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                  MzVita CV
-                </h1>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center space-x-2">
-                  <User className="w-5 h-5 text-gray-600" />
-                  <span className="text-gray-700 font-medium">{user.email}</span>
-                </div>
-                <Button
-                  variant="outline"
-                  onClick={handleSignOut}
-                  className="flex items-center"
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Sair
-                </Button>
-              </div>
-            </div>
-          </div>
-        </header>
-
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <AlertCircle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Configuração Necessária
-            </h1>
-            <p className="text-gray-600 mb-6">
-              Para salvar e gerenciar seus CVs, é necessário configurar o Supabase.
-              Entre em contato com o administrador para configurar a autenticação.
-            </p>
-            <Button
-              onClick={() => navigate('/')}
-              className="bg-google-blue hover:bg-blue-600 text-white"
-            >
-              Voltar ao Início
-            </Button>
-          </div>
-        </div>
-
-        <Footer />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center">
+        <p className="text-gray-500">Carregando...</p>
       </div>
     );
   }
 
+  if (!user) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-              <div className="w-8 md:w-10 h-8 md:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-5 md:w-6 h-5 md:h-6 text-white" />
-              </div>
-              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MzVita CV
-              </h1>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <User className="w-5 h-5 text-gray-600" />
-                <span className="text-gray-700 font-medium">{user.email}</span>
-              </div>
-              <Button
-                variant="outline"
-                onClick={handleSignOut}
-                className="flex items-center"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sair
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
@@ -231,6 +85,28 @@ const Profile = () => {
             </p>
           </div>
 
+          {/* User Info */}
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle>Informações da Conta</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-gradient-to-r from-google-blue to-google-green rounded-full flex items-center justify-center">
+                  <span className="text-white font-semibold text-lg">
+                    {user.email?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900">{user.email}</p>
+                  <p className="text-sm text-gray-500">
+                    Membro desde {new Date(user.created_at).toLocaleDateString('pt-BR')}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* CVs Section */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-6">
@@ -244,7 +120,7 @@ const Profile = () => {
               </Button>
             </div>
 
-            {loading ? (
+            {cvsLoading ? (
               <div className="text-center py-8">
                 <p className="text-gray-500">Carregando seus CVs...</p>
               </div>
@@ -289,7 +165,7 @@ const Profile = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleDeleteCV(cv.id)}
+                          onClick={() => handleDeleteCV(cv.id, cv.title)}
                           className="text-red-600 hover:text-red-700 hover:bg-red-50"
                         >
                           <Trash2 className="w-4 h-4" />
