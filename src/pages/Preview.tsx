@@ -1,39 +1,23 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Download, Edit, FileText, Share2 } from 'lucide-react';
+import { ArrowLeft, Download, Edit, FileText } from 'lucide-react';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
 import { getDefaultTemplate } from '@/data/cvTemplates';
 import MobileNav from '@/components/ui/mobile-nav';
+import DownloadOptions from '@/components/download/DownloadOptions';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 const Preview = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
+  const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const cvData = location.state?.cvData || {};
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   const userPhoto = location.state?.userPhoto;
-
-  const handleDownloadPDF = () => {
-    window.print();
-  };
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Meu CV - MzVita',
-        text: 'Veja meu currículo criado com MzVita',
-        url: window.location.href,
-      });
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copiado para a área de transferência!');
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -84,21 +68,12 @@ const Preview = () => {
                   Editar
                 </Button>
                 <Button
-                  variant="outline"
-                  onClick={handleShare}
-                  className="flex items-center border-gray-300 text-gray-600 hover:bg-gray-100"
-                  size="sm"
-                >
-                  <Share2 className="w-4 h-4 mr-2" />
-                  Compartilhar
-                </Button>
-                <Button
-                  onClick={handleDownloadPDF}
+                  onClick={() => setShowDownloadOptions(true)}
                   className="bg-google-green hover:bg-green-600 text-white flex items-center"
                   size="sm"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Baixar PDF
+                  Baixar
                 </Button>
               </div>
             )}
@@ -127,12 +102,12 @@ const Preview = () => {
                 Editar
               </Button>
               <Button
-                onClick={handleDownloadPDF}
+                onClick={() => setShowDownloadOptions(true)}
                 className="flex-1 bg-google-green hover:bg-green-600 text-white flex items-center justify-center"
                 size="sm"
               >
                 <Download className="w-4 h-4 mr-1" />
-                PDF
+                Baixar
               </Button>
             </div>
           )}
@@ -146,7 +121,7 @@ const Preview = () => {
           <Card className="bg-white shadow-lg print:shadow-none print:border-none overflow-hidden">
             {/* A4 Size Container */}
             <div 
-              className="mx-auto bg-white print:min-h-[297mm] relative"
+              className="cv-content mx-auto bg-white print:min-h-[297mm] relative"
               style={{
                 width: isMobile ? '100%' : '210mm',
                 minHeight: isMobile ? 'auto' : '297mm',
@@ -164,26 +139,31 @@ const Preview = () => {
 
           {/* Mobile Info */}
           {isMobile && (
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200 print:hidden">
               <p className="text-sm text-blue-700 text-center">
-                📱 Visualização otimizada para mobile. O PDF final será no formato A4 padrão.
+                📱 Visualização otimizada para mobile. O download final será no formato A4 padrão.
               </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Print Styles */}
+      {/* Download Options Modal */}
+      <DownloadOptions
+        isOpen={showDownloadOptions}
+        onClose={() => setShowDownloadOptions(false)}
+        cvTitle={cvData.personalData?.fullName || 'Meu CV'}
+      />
+
+      {/* Clean Print Styles - Only CV content */}
       <style dangerouslySetInnerHTML={{
         __html: `
           @media print {
-            /* Remove header, footer e outros elementos do navegador */
             @page { 
-              margin: 20mm 15mm 15mm 15mm; 
+              margin: 0; 
               size: A4 portrait;
             }
             
-            /* Esconder elementos desnecessários */
             body { 
               print-color-adjust: exact !important;
               -webkit-print-color-adjust: exact !important;
@@ -191,129 +171,43 @@ const Preview = () => {
               padding: 0 !important;
             }
             
-            /* Remove elementos de interface */
             .print\\:hidden { 
               display: none !important; 
             }
-            .print\\:p-0 { 
-              padding: 0 !important; 
-            }
-            .print\\:shadow-none { 
-              box-shadow: none !important; 
-            }
-            .print\\:border-none { 
-              border: none !important; 
-            }
-            .print\\:min-h-\\[297mm\\] { 
-              min-height: 297mm !important; 
-            }
             
-            /* Estilos de fonte e texto para impressão */
             * {
               font-family: 'Inter', 'Arial', sans-serif !important;
-              line-height: 1.4 !important;
             }
             
-            /* Remove margens e padding do container principal */
+            .cv-content {
+              width: 100% !important;
+              max-width: none !important;
+              margin: 0 !important;
+              padding: 15mm !important;
+              box-shadow: none !important;
+              border: none !important;
+            }
+            
+            /* Hide all non-CV content */
+            header, footer, nav, .header, .footer, .nav {
+              display: none !important;
+            }
+            
+            /* Hide container styling */
             .container {
               max-width: none !important;
               padding: 0 !important;
               margin: 0 !important;
             }
             
-            /* Layout fixes para impressão */
-            .flex {
-              display: flex !important;
-            }
-            .w-1\\/3 {
-              width: 33.333333% !important;
-            }
-            .flex-1 {
-              flex: 1 1 0% !important;
-            }
-            
-            /* Quebras de página apropriadas */
             .cv-section {
               page-break-inside: avoid;
               break-inside: avoid;
-              orphans: 3;
-              widows: 3;
             }
             
-            /* Evita quebras de página indesejadas */
             h1, h2, h3, h4, h5, h6 {
               page-break-after: avoid;
               break-after: avoid;
-            }
-            
-            /* Espaçamento adequado entre seções */
-            .cv-section + .cv-section {
-              margin-top: 1rem;
-            }
-            
-            /* Força quebra de página quando necessário */
-            .page-break {
-              page-break-before: always;
-              break-before: page;
-            }
-            
-            /* Remove elementos específicos do browser */
-            header, footer, nav, .header, .footer, .nav {
-              display: none !important;
-            }
-            
-            /* Otimizações de cor para impressão */
-            * {
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
-            }
-            
-            /* Remove background patterns desnecessários */
-            body::before, body::after {
-              display: none !important;
-            }
-            
-            /* Garante que o conteúdo ocupe toda a página */
-            html, body {
-              width: 100% !important;
-              height: auto !important;
-              overflow: visible !important;
-            }
-            
-            /* Remove scrollbars */
-            ::-webkit-scrollbar {
-              display: none !important;
-            }
-            
-            /* Limpa elementos flutuantes */
-            .clearfix::after {
-              content: "";
-              display: table;
-              clear: both;
-            }
-          }
-          
-          /* Mobile responsive adjustments */
-          @media (max-width: 768px) {
-            .container {
-              padding-left: 0.5rem !important;
-              padding-right: 0.5rem !important;
-            }
-            
-            /* Mobile CV adjustments */
-            .cv-mobile-text {
-              font-size: 0.875rem !important;
-              line-height: 1.25rem !important;
-            }
-            
-            .cv-mobile-title {
-              font-size: 1.125rem !important;
-              line-height: 1.375rem !important;
-            }
-            
-            .cv-mobile-name {
-              font-size: 1.5rem !important;
-              line-height: 1.75rem !important;
             }
           }
         `

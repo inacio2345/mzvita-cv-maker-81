@@ -27,25 +27,25 @@ const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayou
       case 'circular':
         return (
           <div className={`${baseClasses} rounded-full overflow-hidden`}>
-            <img src={photoUrl} alt="Foto de perfil" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
           </div>
         );
       case 'square':
         return (
           <div className={`${baseClasses} rounded-lg overflow-hidden`}>
-            <img src={photoUrl} alt="Foto de perfil" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
           </div>
         );
       case 'hexagonal':
         return (
           <div className={`${baseClasses} rounded-lg transform rotate-6 overflow-hidden`}>
-            <img src={photoUrl} alt="Foto de perfil" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
           </div>
         );
       default:
         return (
           <div className={`${baseClasses} rounded-full overflow-hidden`}>
-            <img src={photoUrl} alt="Foto de perfil" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
           </div>
         );
     }
@@ -223,7 +223,6 @@ const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayou
                   <h4 className={`${isMobile ? 'text-base cv-mobile-title' : 'text-xl'} font-bold`} style={{ color: colors.text || '#1f2937' }}>{exp.position}</h4>
                   <p className={`font-medium text-gray-600 mb-2 ${isMobile ? 'text-sm cv-mobile-text' : ''}`}>{exp.company}</p>
                   <div className={`flex items-center text-gray-500 mb-3 ${isMobile ? 'text-xs' : 'text-sm'}`}>
-                    <Calendar className="w-4 h-4 mr-1" />
                     <span>{exp.startDate} - {exp.current ? 'Presente' : exp.endDate}</span>
                   </div>
                   {exp.description && (
