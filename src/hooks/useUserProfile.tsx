@@ -41,10 +41,38 @@ export const useUserProfile = () => {
         .from('user_profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      setProfile(data);
+      
+      if (!data) {
+        // Se não existe perfil, criar um novo
+        const newProfile = {
+          id: user.id,
+          email: user.email || '',
+          nome_completo: user.user_metadata?.full_name || user.email || '',
+          idioma: 'pt',
+          tema: 'claro' as const,
+          notificacoes_ativadas: true,
+          email_verificado: false,
+          autenticacao_2fa: false,
+          google_conectado: false,
+          linkedin_conectado: false,
+          total_cvs: 0,
+          downloads_realizados: 0
+        };
+
+        const { data: createdProfile, error: createError } = await supabase
+          .from('user_profiles')
+          .insert([newProfile])
+          .select()
+          .single();
+
+        if (createError) throw createError;
+        setProfile(createdProfile);
+      } else {
+        setProfile(data);
+      }
     } catch (error) {
       console.error('Erro ao carregar perfil:', error);
       toast({

@@ -24,10 +24,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
+        console.log('Auth event:', event, session);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+
+        // Carregar perfil do usuário quando fizer login
+        if (event === 'SIGNED_IN' && session?.user) {
+          setTimeout(async () => {
+            try {
+              const { data: profile } = await supabase
+                .from('user_profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+              
+              if (!profile) {
+                console.log('Perfil não encontrado, será criado automaticamente');
+              }
+            } catch (error) {
+              console.error('Erro ao verificar perfil:', error);
+            }
+          }, 0);
+        }
       }
     );
 
@@ -65,13 +85,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signInWithGoogle = async () => {
     const redirectUrl = `${window.location.origin}/`;
     
+    console.log('Iniciando login com Google, redirect URL:', redirectUrl);
+    
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: redirectUrl
+        redirectTo: redirectUrl,
+        queryParams: {
+          access_type: 'offline',
+          prompt: 'consent',
+        }
       }
     });
-    if (error) throw error;
+    
+    if (error) {
+      console.error('Erro no login do Google:', error);
+      throw error;
+    }
   };
 
   const signOut = async () => {
