@@ -18,7 +18,6 @@ const CVsSection = () => {
   };
 
   const handleDuplicateCV = async (cv: SavedCV) => {
-    // Implementar duplicação do CV
     toast({
       title: "Funcionalidade em desenvolvimento",
       description: "A duplicação de CVs será implementada em breve.",
@@ -60,7 +59,7 @@ const CVsSection = () => {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Meus CVs</CardTitle>
+          <CardTitle className="text-lg md:text-xl">Meus CVs</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-gray-500 text-center py-8">Carregando CVs...</p>
@@ -72,11 +71,12 @@ const CVsSection = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Meus CVs</span>
+        <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+          <span className="text-lg md:text-xl">Meus CVs</span>
           <Button
             onClick={() => navigate('/criar-cv')}
-            className="bg-google-blue hover:bg-blue-600"
+            className="bg-google-blue hover:bg-blue-600 w-full sm:w-auto"
+            size="sm"
           >
             <Plus className="w-4 h-4 mr-2" />
             Novo CV
@@ -88,61 +88,72 @@ const CVsSection = () => {
           <div className="space-y-4">
             {savedCVs.map((cv) => (
               <div key={cv.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <FileText className="w-5 h-5 text-google-blue" />
-                    <div>
-                      <h3 className="font-semibold text-gray-900">
+                <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+                  <div className="flex items-start space-x-3 flex-1">
+                    <FileText className="w-5 h-5 text-google-blue mt-1 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-gray-900 truncate">
                         {cv.title || 'CV Sem Título'}
                       </h3>
+                      <p className="text-sm text-gray-500 mt-1">
+                        Criado em {new Date(cv.created_at).toLocaleDateString('pt-BR')}
+                      </p>
                       <p className="text-sm text-gray-500">
-                        Criado em {new Date(cv.created_at).toLocaleDateString('pt-BR')} • 
                         Modelo: {cv.template_name}
                       </p>
                     </div>
                   </div>
                   
-                  <div className="flex space-x-2">
+                  <div className="flex flex-wrap gap-2 lg:flex-nowrap lg:space-x-2 lg:gap-0">
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => handlePreviewCV(cv)}
                       title="Visualizar"
+                      className="flex-1 sm:flex-none"
                     >
-                      <Eye className="w-4 h-4" />
+                      <Eye className="w-4 h-4 sm:mr-0 mr-2" />
+                      <span className="sm:hidden">Visualizar</span>
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => handleEditCV(cv)}
                       title="Editar"
+                      className="flex-1 sm:flex-none"
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-4 h-4 sm:mr-0 mr-2" />
+                      <span className="sm:hidden">Editar</span>
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => handleDuplicateCV(cv)}
                       title="Duplicar"
+                      className="flex-1 sm:flex-none"
                     >
-                      <Copy className="w-4 h-4" />
+                      <Copy className="w-4 h-4 sm:mr-0 mr-2" />
+                      <span className="sm:hidden">Duplicar</span>
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => handlePreviewCV(cv)}
                       title="Baixar PDF"
+                      className="flex-1 sm:flex-none"
                     >
-                      <Download className="w-4 h-4" />
+                      <Download className="w-4 h-4 sm:mr-0 mr-2" />
+                      <span className="sm:hidden">Download</span>
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => handleDeleteCV(cv.id, cv.title)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 flex-1 sm:flex-none"
                       title="Excluir"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4 sm:mr-0 mr-2" />
+                      <span className="sm:hidden">Excluir</span>
                     </Button>
                   </div>
                 </div>
@@ -151,16 +162,16 @@ const CVsSection = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <FileText className="w-12 h-12 md:w-16 md:h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
               Nenhum CV criado ainda
             </h3>
-            <p className="text-gray-500 mb-6">
+            <p className="text-gray-500 mb-6 text-sm md:text-base">
               Comece criando seu primeiro CV profissional
             </p>
             <Button
               onClick={() => navigate('/criar-cv')}
-              className="bg-google-blue hover:bg-blue-600"
+              className="bg-google-blue hover:bg-blue-600 w-full sm:w-auto"
             >
               <Plus className="w-4 h-4 mr-2" />
               Criar Meu Primeiro CV

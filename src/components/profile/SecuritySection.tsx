@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Shield, Mail, Key, Check, X } from 'lucide-react';
 import { UserProfile, useUserProfile } from '@/hooks/useUserProfile';
@@ -48,34 +47,36 @@ const SecuritySection = ({ profile }: SecuritySectionProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
+        <CardTitle className="flex items-center space-x-2 text-lg md:text-xl">
           <Shield className="w-5 h-5" />
           <span>Segurança</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 md:space-y-6">
         {/* Status do E-mail */}
-        <div className="flex items-center justify-between p-4 border rounded-lg">
-          <div className="flex items-center space-x-3">
-            <Mail className="w-5 h-5 text-gray-500" />
-            <div>
-              <p className="font-medium">Verificação de E-mail</p>
-              <p className="text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg space-y-4 sm:space-y-0">
+          <div className="flex items-start space-x-3 flex-1">
+            <Mail className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm md:text-base">Verificação de E-mail</p>
+              <p className="text-xs md:text-sm text-gray-500 mt-1">
                 Status da verificação do seu e-mail
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
             {profile.email_verificado ? (
-              <>
-                <Check className="w-5 h-5 text-green-600" />
-                <span className="text-green-600 font-medium">Verificado</span>
-              </>
+              <div className="flex items-center space-x-2 text-green-600">
+                <Check className="w-4 h-4" />
+                <span className="text-sm font-medium">Verificado</span>
+              </div>
             ) : (
               <>
-                <X className="w-5 h-5 text-red-600" />
-                <span className="text-red-600 font-medium">Não verificado</span>
-                <Button size="sm" variant="outline" onClick={handleVerifyEmail}>
+                <div className="flex items-center space-x-2 text-red-600">
+                  <X className="w-4 h-4" />
+                  <span className="text-sm">Não verificado</span>
+                </div>
+                <Button size="sm" variant="outline" onClick={handleVerifyEmail} className="w-full sm:w-auto">
                   Verificar
                 </Button>
               </>
@@ -84,28 +85,28 @@ const SecuritySection = ({ profile }: SecuritySectionProps) => {
         </div>
 
         {/* Alterar Senha */}
-        <div className="flex items-center justify-between p-4 border rounded-lg">
-          <div className="flex items-center space-x-3">
-            <Key className="w-5 h-5 text-gray-500" />
-            <div>
-              <p className="font-medium">Senha</p>
-              <p className="text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg space-y-4 sm:space-y-0">
+          <div className="flex items-start space-x-3 flex-1">
+            <Key className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm md:text-base">Senha</p>
+              <p className="text-xs md:text-sm text-gray-500 mt-1">
                 Altere sua senha regularmente para maior segurança
               </p>
             </div>
           </div>
-          <Button variant="outline" onClick={handleChangePassword}>
+          <Button variant="outline" onClick={handleChangePassword} className="w-full sm:w-auto">
             Alterar Senha
           </Button>
         </div>
 
         {/* Autenticação 2FA */}
-        <div className="flex items-center justify-between p-4 border rounded-lg">
-          <div className="flex items-center space-x-3">
-            <Shield className="w-5 h-5 text-gray-500" />
-            <div>
-              <p className="font-medium">Autenticação em Dois Fatores (2FA)</p>
-              <p className="text-sm text-gray-500">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg space-y-4 sm:space-y-0">
+          <div className="flex items-start space-x-3 flex-1">
+            <Shield className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm md:text-base">Autenticação em Dois Fatores (2FA)</p>
+              <p className="text-xs md:text-sm text-gray-500 mt-1">
                 Adicione uma camada extra de segurança à sua conta
               </p>
             </div>

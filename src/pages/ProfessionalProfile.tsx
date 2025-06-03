@@ -44,21 +44,22 @@ const ProfessionalProfile = () => {
       <Header />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 md:py-8">
         <div className="max-w-7xl mx-auto">
           {/* Page Header with Edit Button */}
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 md:mb-8 space-y-4 sm:space-y-0">
+            <div className="flex-1">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
                 Perfil Profissional
               </h1>
-              <p className="text-gray-600">
+              <p className="text-sm md:text-base text-gray-600">
                 Gerencie suas informações, CVs e configurações
               </p>
             </div>
             <Button
               onClick={() => setShowEditModal(true)}
-              className="bg-google-blue hover:bg-blue-600"
+              className="bg-google-blue hover:bg-blue-600 w-full sm:w-auto"
+              size="sm"
             >
               <Edit2 className="w-4 h-4 mr-2" />
               Editar Perfil
@@ -71,16 +72,16 @@ const ProfessionalProfile = () => {
             onEditPhoto={() => setShowEditModal(true)} 
           />
 
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Main Content */}
-            <div className="lg:col-span-2 space-y-8">
+          {/* Content Grid - Mobile First Responsive */}
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-8">
+            {/* Main Content - Full width on mobile, 2 columns on desktop */}
+            <div className="xl:col-span-2 space-y-6 md:space-y-8">
               <CVsSection />
               <StatsSection profile={profile} />
             </div>
 
-            {/* Right Column - Sidebar */}
-            <div className="space-y-8">
+            {/* Sidebar - Full width on mobile, 1 column on desktop */}
+            <div className="space-y-6 md:space-y-8">
               <PreferencesSection profile={profile} />
               <SecuritySection profile={profile} />
               <IntegrationsSection profile={profile} />

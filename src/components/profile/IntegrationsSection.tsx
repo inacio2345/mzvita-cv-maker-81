@@ -17,7 +17,6 @@ const IntegrationsSection = ({ profile }: IntegrationsSectionProps) => {
 
   const handleGoogleConnect = async () => {
     setLoading('google');
-    // Simular conexão com Google
     setTimeout(async () => {
       const success = await updateProfile({ google_conectado: !profile.google_conectado });
       if (success) {
@@ -34,7 +33,6 @@ const IntegrationsSection = ({ profile }: IntegrationsSectionProps) => {
 
   const handleLinkedInConnect = async () => {
     setLoading('linkedin');
-    // Simular conexão com LinkedIn
     setTimeout(async () => {
       const success = await updateProfile({ linkedin_conectado: !profile.linkedin_conectado });
       if (success) {
@@ -57,7 +55,7 @@ const IntegrationsSection = ({ profile }: IntegrationsSectionProps) => {
       onToggle: handleGoogleConnect,
       isLoading: loading === 'google',
       icon: (
-        <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+        <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
           <span className="text-white font-bold text-sm">G</span>
         </div>
       ),
@@ -69,7 +67,7 @@ const IntegrationsSection = ({ profile }: IntegrationsSectionProps) => {
       onToggle: handleLinkedInConnect,
       isLoading: loading === 'linkedin',
       icon: (
-        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
           <span className="text-white font-bold text-sm">in</span>
         </div>
       ),
@@ -79,23 +77,23 @@ const IntegrationsSection = ({ profile }: IntegrationsSectionProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
+        <CardTitle className="flex items-center space-x-2 text-lg md:text-xl">
           <Link className="w-5 h-5" />
           <span>Integrações</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {integrations.map((integration) => (
-          <div key={integration.name} className="flex items-center justify-between p-4 border rounded-lg">
-            <div className="flex items-center space-x-3">
+          <div key={integration.name} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg space-y-4 sm:space-y-0">
+            <div className="flex items-start space-x-3 flex-1">
               {integration.icon}
-              <div>
-                <p className="font-medium">{integration.name}</p>
-                <p className="text-sm text-gray-500">{integration.description}</p>
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm md:text-base">{integration.name}</p>
+                <p className="text-xs md:text-sm text-gray-500 mt-1">{integration.description}</p>
               </div>
             </div>
             
-            <div className="flex items-center space-x-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
               {integration.connected ? (
                 <div className="flex items-center space-x-2 text-green-600">
                   <Check className="w-4 h-4" />
@@ -113,7 +111,7 @@ const IntegrationsSection = ({ profile }: IntegrationsSectionProps) => {
                 variant={integration.connected ? "outline" : "default"}
                 onClick={integration.onToggle}
                 disabled={integration.isLoading}
-                className={integration.connected ? "text-red-600 hover:bg-red-50" : ""}
+                className={`w-full sm:w-auto ${integration.connected ? "text-red-600 hover:bg-red-50" : ""}`}
               >
                 {integration.isLoading 
                   ? "Processando..." 
