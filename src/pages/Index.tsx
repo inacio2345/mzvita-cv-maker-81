@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/ui/footer';
-import Header from '@/components/ui/header';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -23,8 +23,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <Header />
-
       {/* Hero Section */}
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4 text-center">
@@ -70,7 +68,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Por que escolher o MzVita CV?
+              Por que escolher o MozVita?
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Descubra os benefícios de usar nossa plataforma para criar um currículo profissional e 
@@ -135,7 +133,7 @@ const Index = () => {
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Veja o que nossos usuários estão falando sobre a experiência de criar seus currículos 
-              com o MzVita CV.
+              com o MozVita.
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -167,7 +165,7 @@ const Index = () => {
               <CardContent className="relative">
                 <Star className="absolute top-2 right-2 h-4 w-4 text-yellow-400" />
                 <p className="text-gray-700 mb-4">
-                  "O MzVita CV me ajudou a conseguir o emprego dos meus sonhos. O currículo ficou muito profissional e destacou minhas habilidades."
+                  "O MozVita me ajudou a conseguir o emprego dos meus sonhos. O currículo ficou muito profissional e destacou minhas habilidades."
                 </p>
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-gray-200 mr-4">

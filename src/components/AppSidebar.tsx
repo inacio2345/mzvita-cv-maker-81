@@ -1,3 +1,4 @@
+
 import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, User, PenTool } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
@@ -74,7 +75,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="px-4 py-2">
-          <h2 className="text-lg font-semibold text-sidebar-foreground">CVMaker</h2>
+          <h2 className="text-lg font-semibold text-sidebar-foreground">MozVita</h2>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -115,7 +116,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <div className="px-4 py-2 text-xs text-sidebar-foreground/70">
-          © 2024 CVMaker
+          © 2024 MozVita
         </div>
       </SidebarFooter>
     </Sidebar>

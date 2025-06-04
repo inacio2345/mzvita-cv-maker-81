@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserProfile } from '@/hooks/useUserProfile';
-import { Edit2 } from 'lucide-react';
+import { Edit2, LogOut } from 'lucide-react';
 import Header from '@/components/ui/header';
 import Footer from '@/components/ui/footer';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -17,7 +17,7 @@ import EditProfileModal from '@/components/profile/EditProfileModal';
 
 const ProfessionalProfile = () => {
   const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const { profile, loading: profileLoading } = useUserProfile();
   const [showEditModal, setShowEditModal] = useState(false);
 
@@ -26,6 +26,15 @@ const ProfessionalProfile = () => {
       navigate('/');
     }
   }, [user, authLoading, navigate]);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Erro ao sair:', error);
+    }
+  };
 
   if (authLoading || profileLoading) {
     return (
@@ -56,14 +65,25 @@ const ProfessionalProfile = () => {
                 Gerencie suas informações, CVs e configurações
               </p>
             </div>
-            <Button
-              onClick={() => setShowEditModal(true)}
-              className="bg-google-blue hover:bg-blue-600 w-full sm:w-auto"
-              size="sm"
-            >
-              <Edit2 className="w-4 h-4 mr-2" />
-              Editar Perfil
-            </Button>
+            <div className="flex space-x-2">
+              <Button
+                onClick={() => setShowEditModal(true)}
+                className="bg-google-blue hover:bg-blue-600"
+                size="sm"
+              >
+                <Edit2 className="w-4 h-4 mr-2" />
+                Editar Perfil
+              </Button>
+              <Button
+                onClick={handleSignOut}
+                variant="outline"
+                className="border-red-300 text-red-600 hover:bg-red-50"
+                size="sm"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sair
+              </Button>
+            </div>
           </div>
 
           {/* Profile Header */}

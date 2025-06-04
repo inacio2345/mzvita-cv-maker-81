@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { FileText, User, LogOut } from 'lucide-react';
+import { FileText, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/auth/AuthModal';
@@ -10,18 +10,9 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 const Header = () => {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
   const isMobile = useIsMobile();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.error('Erro ao sair:', error);
-    }
-  };
 
   return (
     <>
@@ -37,7 +28,7 @@ const Header = () => {
                 <FileText className="w-5 md:w-6 h-5 md:h-6 text-white" />
               </div>
               <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MzVita CV
+                MozVita
               </h1>
             </div>
 
@@ -79,27 +70,15 @@ const Header = () => {
             <div className="flex items-center space-x-4">
               {user ? (
                 <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2">
+                  <div 
+                    className="flex items-center space-x-2 cursor-pointer"
+                    onClick={() => navigate('/perfil')}
+                  >
                     <User className="w-5 h-5 text-gray-600" />
                     <span className="text-gray-700 font-medium hidden sm:inline">
-                      {user.email}
+                      Perfil
                     </span>
                   </div>
-                  <Button
-                    variant="outline"
-                    onClick={() => navigate('/perfil')}
-                    className="hidden sm:flex items-center"
-                  >
-                    Meu Perfil
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleSignOut}
-                    className="flex items-center"
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    <span className="hidden sm:inline">Sair</span>
-                  </Button>
                 </div>
               ) : (
                 <Button

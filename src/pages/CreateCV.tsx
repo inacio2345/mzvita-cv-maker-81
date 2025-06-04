@@ -136,76 +136,6 @@ const CreateCV = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
-              onClick={() => navigate('/')}
-              className="flex items-center text-gray-600 hover:text-google-blue text-sm sm:text-base p-2 sm:p-3"
-              size="sm"
-            >
-              <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Voltar ao Início</span>
-              <span className="sm:hidden">Voltar</span>
-            </Button>
-
-            <div className="flex items-center space-x-2 flex-1 justify-center sm:justify-start sm:flex-initial sm:ml-4">
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
-              </div>
-              <div className="text-center sm:text-left">
-                <h1 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">Criar CV</h1>
-                {selectedTemplate && (
-                  <span className="text-xs sm:text-sm text-gray-500 block">
-                    ({selectedTemplate.nome})
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-1 sm:space-x-2">
-              {user ? (
-                <Button
-                  variant="outline"
-                  onClick={() => navigate('/perfil')}
-                  className="border-google-green text-google-green hover:bg-google-green hover:text-white hidden md:flex text-sm"
-                  size="sm"
-                >
-                  Meu Perfil
-                </Button>
-              ) : (
-                <Button
-                  variant="outline"
-                  onClick={() => setShowAuthModal(true)}
-                  className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white hidden md:flex text-sm"
-                  size="sm"
-                >
-                  Entrar
-                </Button>
-              )}
-              
-              <Button
-                variant="outline"
-                onClick={handlePreview}
-                className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-xs sm:text-sm px-2 sm:px-3"
-                size="sm"
-              >
-                <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
-                <span className="hidden sm:inline">Visualizar</span>
-                <span className="sm:hidden">Ver</span>
-              </Button>
-
-              <MobileNav 
-                showAuthButton={!user}
-                onAuthClick={() => setShowAuthModal(true)}
-              />
-            </div>
-          </div>
-        </div>
-      </header>
-
       <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
         <div className="max-w-4xl mx-auto">
           {/* Authentication Warning */}
@@ -277,11 +207,6 @@ const CreateCV = () => {
               <p className="text-gray-600 text-sm sm:text-base hidden sm:block">
                 Passo {currentStep} de {steps.length}
               </p>
-              {selectedTemplate && (
-                <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                  Modelo: {selectedTemplate.nome}
-                </p>
-              )}
               {!user && (
                 <p className="text-xs sm:text-sm text-orange-600 mt-2">
                   Faça login para continuar criando seu CV
