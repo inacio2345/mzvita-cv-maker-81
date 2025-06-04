@@ -3,9 +3,8 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Scale, Users, AlertTriangle, CreditCard, Shield } from 'lucide-react';
+import { Users, AlertTriangle, CreditCard, Shield, Scale, FileText } from 'lucide-react';
 import Footer from '@/components/ui/footer';
-import MobileNav from '@/components/ui/mobile-nav';
 
 const TermosUso = () => {
   const navigate = useNavigate();
@@ -14,12 +13,12 @@ const TermosUso = () => {
     {
       icon: <Users className="w-5 h-5 sm:w-6 sm:h-6 text-google-blue" />,
       title: "Aceitação dos Termos",
-      content: "Ao usar nossos serviços, você concorda com estes termos. Se não concordar, não deve usar nossos serviços. Estes termos se aplicam a todos os usuários do MzVita CV."
+      content: "Ao usar nossos serviços, você concorda com estes termos. Se não concordar, não deve usar nossos serviços. Estes termos se aplicam a todos os usuários do MozVita."
     },
     {
       icon: <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-google-green" />,
       title: "Descrição do Serviço",
-      content: "O MzVita CV é uma plataforma online para criação de currículos profissionais. Oferecemos templates, ferramentas de edição e download em PDF para ajudar na criação de CVs."
+      content: "O MozVita é uma plataforma online para criação de currículos profissionais. Oferecemos templates, ferramentas de edição e download em PDF para ajudar na criação de CVs."
     },
     {
       icon: <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-google-red" />,
@@ -29,7 +28,7 @@ const TermosUso = () => {
     {
       icon: <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-google-yellow" />,
       title: "Propriedade Intelectual",
-      content: "O conteúdo do site, incluindo design, código e templates, é propriedade do MzVita CV. Os usuários mantêm propriedade sobre o conteúdo dos seus CVs."
+      content: "O conteúdo do site, incluindo design, código e templates, é propriedade do MozVita. Os usuários mantêm propriedade sobre o conteúdo dos seus CVs."
     },
     {
       icon: <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-google-blue" />,
@@ -45,44 +44,6 @@ const TermosUso = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <div 
-              className="flex items-center space-x-2 cursor-pointer" 
-              onClick={() => navigate('/')}
-            >
-              <div className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-              </div>
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MzVita CV
-              </h1>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex space-x-4 xl:space-x-6 2xl:space-x-8">
-              <a href="/" className="text-sm xl:text-base text-gray-600 hover:text-google-blue transition-colors">Início</a>
-              <a href="/como-funciona" className="text-sm xl:text-base text-gray-600 hover:text-google-blue transition-colors">Como Funciona</a>
-              <a href="/precos" className="text-sm xl:text-base text-gray-600 hover:text-google-blue transition-colors">Preços</a>
-              <a href="/contato" className="text-sm xl:text-base text-gray-600 hover:text-google-blue transition-colors">Contato</a>
-            </nav>
-
-            <div className="flex items-center space-x-2">
-              <Button 
-                variant="outline" 
-                className="hidden md:flex border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-sm xl:text-base"
-                size="sm"
-              >
-                Entrar
-              </Button>
-              <MobileNav />
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="py-8 sm:py-12 md:py-16 lg:py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">

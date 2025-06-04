@@ -10,6 +10,7 @@ export interface UserProfile {
   email: string;
   foto_perfil_url?: string;
   profissao?: string;
+  descricao?: string;
   idioma: string;
   tema: 'claro' | 'escuro';
   notificacoes_ativadas: boolean;
@@ -51,6 +52,7 @@ export const useUserProfile = () => {
           id: user.id,
           email: user.email || '',
           nome_completo: user.user_metadata?.full_name || user.email || '',
+          descricao: '',
           idioma: 'pt',
           tema: 'claro' as const,
           notificacoes_ativadas: true,

@@ -46,6 +46,12 @@ const ProfileHeader = ({ profile, onEditPhoto }: ProfileHeaderProps) => {
               {profile.profissao || 'Profissão não informada'}
             </p>
             
+            {profile.descricao && (
+              <p className="text-sm md:text-base text-gray-700 mb-4 max-w-2xl">
+                {profile.descricao}
+              </p>
+            )}
+            
             <div className="flex flex-col space-y-3 md:space-y-2 text-sm md:text-base text-gray-500">
               <div className="flex items-center justify-center md:justify-start space-x-2">
                 <Mail className="w-4 h-4 flex-shrink-0" />
