@@ -15,6 +15,7 @@ interface CartaData {
   textoPersonalizado: string;
   email?: string;
   telefone?: string;
+  linkedin?: string;
 }
 
 export const CartaPersonalizada = () => {
@@ -25,6 +26,7 @@ export const CartaPersonalizada = () => {
     textoPersonalizado: '',
     email: '',
     telefone: '',
+    linkedin: '',
   });
   const [showPreview, setShowPreview] = useState(false);
   const { toast } = useToast();
@@ -51,26 +53,39 @@ export const CartaPersonalizada = () => {
 
     import('html2canvas').then((html2canvas) => {
       html2canvas.default(cartaContent, {
-        scale: 2,
+        scale: 3,
         useCORS: true,
         allowTaint: true,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        width: 794, // A4 width in pixels at 96 DPI
+        height: 1123, // A4 height in pixels at 96 DPI
       }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL('image/png', 0.8);
         
         import('jspdf').then((jsPDF) => {
           const pdf = new jsPDF.jsPDF({
             orientation: 'portrait',
             unit: 'mm',
-            format: 'a4'
+            format: 'a4',
+            compress: true
           });
 
-          const imgWidth = 210;
-          const pageHeight = 297;
+          // Add metadata
+          pdf.setProperties({
+            title: `Carta de Apresentação - ${formData.nomeCompleto}`,
+            subject: 'Carta de Apresentação',
+            author: formData.nomeCompleto,
+            creator: 'MozVita'
+          });
+
+          const imgWidth = 210; // A4 width in mm
+          const pageHeight = 297; // A4 height in mm
           const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
           pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-          pdf.save(`carta_apresentacao_${formData.nomeCompleto.replace(/\s+/g, '_')}.pdf`);
+          
+          const fileName = `carta_apresentacao_${formData.nomeCompleto.replace(/\s+/g, '_')}.pdf`;
+          pdf.save(fileName);
           
           toast({
             title: "Download concluído!",
@@ -97,40 +112,139 @@ export const CartaPersonalizada = () => {
           </Button>
         </div>
         
-        <Card className="carta-preview bg-white p-8 shadow-lg">
-          <CardContent className="space-y-6">
-            <div className="text-right text-sm text-gray-600">
-              {new Date().toLocaleDateString('pt-BR')}
+        <div className="carta-preview bg-white mx-auto shadow-lg" style={{
+          width: '794px',
+          minHeight: '1123px',
+          fontFamily: 'Times New Roman, serif',
+          fontSize: '12pt',
+          lineHeight: '1.5',
+          color: '#000000',
+          padding: '76px', // 2cm margins = 76px
+          position: 'relative'
+        }}>
+          {/* Header */}
+          <div className="mb-6">
+            <h1 style={{
+              fontSize: '16pt',
+              fontWeight: 'bold',
+              color: '#1a365d',
+              marginBottom: '8px',
+              textAlign: 'left'
+            }}>
+              {formData.nomeCompleto}
+            </h1>
+            
+            <div style={{
+              fontSize: '14pt',
+              fontWeight: 'bold',
+              color: '#2d5a2d',
+              marginBottom: '12px'
+            }}>
+              {formData.cargoDesejado}
             </div>
             
-            <div>
-              <p className="font-medium">{formData.nomeCompleto}</p>
-              {formData.email && <p className="text-sm text-gray-600">{formData.email}</p>}
-              {formData.telefone && <p className="text-sm text-gray-600">{formData.telefone}</p>}
+            <div style={{
+              fontSize: '11pt',
+              color: '#666666',
+              textAlign: 'right',
+              marginBottom: '16px'
+            }}>
+              {formData.email && <div>{formData.email}</div>}
+              {formData.telefone && <div>{formData.telefone}</div>}
+              {formData.linkedin && <div>{formData.linkedin}</div>}
             </div>
+            
+            <hr style={{
+              border: 'none',
+              borderTop: '1px solid #cccccc',
+              margin: '16px 0'
+            }} />
+          </div>
 
-            <div>
-              <p className="font-medium">{formData.nomeEmpresa}</p>
-            </div>
+          {/* Date */}
+          <div style={{
+            textAlign: 'right',
+            fontSize: '11pt',
+            color: '#666666',
+            marginBottom: '24px'
+          }}>
+            {new Date().toLocaleDateString('pt-BR', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric'
+            })}
+          </div>
 
-            <div>
-              <p className="font-medium mb-4">
-                Prezados Senhores,
-              </p>
-              <p className="mb-4">
-                Venho por meio desta candidatar-me à vaga de <strong>{formData.cargoDesejado}</strong> em sua empresa.
-              </p>
-              <div className="whitespace-pre-wrap leading-relaxed">
-                {formData.textoPersonalizado}
-              </div>
+          {/* Company Address */}
+          <div style={{ marginBottom: '24px' }}>
+            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+              {formData.nomeEmpresa}
             </div>
+          </div>
 
-            <div className="mt-8">
-              <p>Atenciosamente,</p>
-              <p className="mt-4 font-medium">{formData.nomeCompleto}</p>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Salutation */}
+          <div style={{ marginBottom: '24px' }}>
+            Prezados Senhores,
+          </div>
+
+          {/* Introduction */}
+          <div style={{ 
+            marginBottom: '24px',
+            textAlign: 'justify'
+          }}>
+            Venho por meio desta candidatar-me à vaga de <strong>{formData.cargoDesejado}</strong> em sua empresa.
+          </div>
+
+          {/* Main content */}
+          <div style={{
+            marginBottom: '24px',
+            textAlign: 'justify',
+            whiteSpace: 'pre-wrap'
+          }}>
+            {formData.textoPersonalizado}
+          </div>
+
+          {/* Closing */}
+          <div style={{ marginBottom: '24px', textAlign: 'justify' }}>
+            Agradeço pela atenção e coloco-me à disposição para uma entrevista.
+          </div>
+
+          <div style={{ marginBottom: '8px' }}>
+            Atenciosamente,
+          </div>
+
+          <div style={{ 
+            fontWeight: 'bold',
+            marginBottom: '32px'
+          }}>
+            {formData.nomeCompleto}
+          </div>
+
+          {/* Footer with contact info */}
+          <div style={{
+            position: 'absolute',
+            bottom: '40px',
+            left: '76px',
+            fontSize: '10pt',
+            color: '#666666'
+          }}>
+            {formData.email && <span>{formData.email}</span>}
+            {formData.telefone && formData.email && <span> | </span>}
+            {formData.telefone && <span>{formData.telefone}</span>}
+          </div>
+
+          {/* MozVita logo */}
+          <div style={{
+            position: 'absolute',
+            bottom: '40px',
+            right: '76px',
+            fontSize: '8pt',
+            color: '#1a365d',
+            fontWeight: 'bold'
+          }}>
+            MozVita
+          </div>
+        </div>
       </div>
     );
   }
@@ -187,6 +301,16 @@ export const CartaPersonalizada = () => {
               value={formData.telefone}
               onChange={(e) => handleInputChange('telefone', e.target.value)}
               placeholder="(11) 99999-9999"
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="linkedin">LinkedIn (Opcional)</Label>
+            <Input
+              id="linkedin"
+              value={formData.linkedin}
+              onChange={(e) => handleInputChange('linkedin', e.target.value)}
+              placeholder="linkedin.com/in/seu-perfil"
             />
           </div>
         </div>
