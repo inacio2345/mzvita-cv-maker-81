@@ -1,5 +1,4 @@
-
-import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, FileDocument, User, PenTool } from "lucide-react";
+import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, User, PenTool } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Sidebar,
@@ -66,7 +65,7 @@ const legalItems = [
   {
     title: "Termos de Uso",
     url: "/termos-de-uso",
-    icon: FileDocument,
+    icon: FileText,
   },
 ];
 
