@@ -1,74 +1,30 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, ArrowRight } from 'lucide-react';
-
 const ComoFunciona = () => {
   const navigate = useNavigate();
-
-  const steps = [
-    {
-      number: "01",
-      title: "Preencha seus dados",
-      description: "Complete o formulário inteligente com suas informações pessoais, formação acadêmica, experiência profissional e habilidades.",
-      details: [
-        "Dados pessoais (nome, telefone, e-mail, endereço)",
-        "Informações sobre sua formação",
-        "Experiência profissional detalhada",
-        "Habilidades técnicas e comportamentais"
-      ]
-    },
-    {
-      number: "02",
-      title: "Visualize o resultado",
-      description: "Veja seu CV sendo montado em tempo real com design profissional formatado em Times New Roman.",
-      details: [
-        "Preview em tempo real",
-        "Design profissional moderno",
-        "Formatação Times New Roman",
-        "Layout otimizado para impressão"
-      ]
-    },
-    {
-      number: "03",
-      title: "Baixe em PDF",
-      description: "Download instantâneo do seu CV em alta qualidade, pronto para enviar ou imprimir.",
-      details: [
-        "Download em PDF de alta qualidade",
-        "Pronto para impressão",
-        "Formatação preservada",
-        "Compatível com todos os dispositivos"
-      ]
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+  const steps = [{
+    number: "01",
+    title: "Preencha seus dados",
+    description: "Complete o formulário inteligente com suas informações pessoais, formação acadêmica, experiência profissional e habilidades.",
+    details: ["Dados pessoais (nome, telefone, e-mail, endereço)", "Informações sobre sua formação", "Experiência profissional detalhada", "Habilidades técnicas e comportamentais"]
+  }, {
+    number: "02",
+    title: "Visualize o resultado",
+    description: "Veja seu CV sendo montado em tempo real com design profissional formatado em Times New Roman.",
+    details: ["Preview em tempo real", "Design profissional moderno", "Formatação Times New Roman", "Layout otimizado para impressão"]
+  }, {
+    number: "03",
+    title: "Baixe em PDF",
+    description: "Download instantâneo do seu CV em alta qualidade, pronto para enviar ou imprimir.",
+    details: ["Download em PDF de alta qualidade", "Pronto para impressão", "Formatação preservada", "Compatível com todos os dispositivos"]
+  }];
+  return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-              <div className="w-10 h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MzVita CV
-              </h1>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <a href="/" className="text-gray-600 hover:text-google-blue transition-colors">Início</a>
-              <a href="/como-funciona" className="text-google-blue font-semibold">Como Funciona</a>
-              <a href="/precos" className="text-gray-600 hover:text-google-blue transition-colors">Preços</a>
-              <a href="/contato" className="text-gray-600 hover:text-google-blue transition-colors">Contato</a>
-            </nav>
-            <Button variant="outline" className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white">
-              Entrar
-            </Button>
-          </div>
-        </div>
+        
       </header>
 
       {/* Hero Section */}
@@ -87,27 +43,19 @@ const ComoFunciona = () => {
       <section className="py-20 px-4">
         <div className="container mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            {steps.map((step, index) => (
-              <Card key={index} className="p-8 text-center hover:shadow-lg transition-shadow border-0 shadow-md">
-                <div className={`w-16 h-16 bg-gradient-to-r ${
-                  index === 0 ? 'from-google-blue to-blue-600' :
-                  index === 1 ? 'from-google-red to-red-600' :
-                  'from-google-green to-green-600'
-                } text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6`}>
+            {steps.map((step, index) => <Card key={index} className="p-8 text-center hover:shadow-lg transition-shadow border-0 shadow-md">
+                <div className={`w-16 h-16 bg-gradient-to-r ${index === 0 ? 'from-google-blue to-blue-600' : index === 1 ? 'from-google-red to-red-600' : 'from-google-green to-green-600'} text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6`}>
                   {step.number}
                 </div>
                 <h3 className="text-2xl font-bold mb-4 text-gray-900">{step.title}</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">{step.description}</p>
                 <ul className="text-left space-y-2">
-                  {step.details.map((detail, i) => (
-                    <li key={i} className="flex items-center text-gray-700">
+                  {step.details.map((detail, i) => <li key={i} className="flex items-center text-gray-700">
                       <ArrowRight className="w-4 h-4 text-google-green mr-2 flex-shrink-0" />
                       <span className="text-sm">{detail}</span>
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Benefits */}
@@ -146,18 +94,12 @@ const ComoFunciona = () => {
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Junte-se a milhares de moçambicanos que já conseguiram o emprego dos sonhos
           </p>
-          <Button 
-            size="lg" 
-            className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-            onClick={() => navigate('/criar-cv')}
-          >
+          <Button size="lg" className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105" onClick={() => navigate('/criar-cv')}>
             Criar Meu CV Agora
             <FileText className="ml-2 w-5 h-5" />
           </Button>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default ComoFunciona;
