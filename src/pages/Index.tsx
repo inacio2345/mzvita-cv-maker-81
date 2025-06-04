@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,12 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/ui/footer';
+
 const Index = () => {
   const navigate = useNavigate();
-  const {
-    user
-  } = useAuth();
+  const { user } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
+
   const handleCreateCV = () => {
     if (user) {
       navigate('/criar-cv');
@@ -19,7 +20,9 @@ const Index = () => {
       setShowAuthModal(true);
     }
   };
-  return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Hero Section */}
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4 text-center">
@@ -29,28 +32,33 @@ const Index = () => {
                 CV Profissional
               </span> em minutos
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto text-justify">Crie seu currículo profissional online em Moçambique. Modelos prontos, fácil de usar e 100% em português. Destaque-se no mercado de trabalho com a MozVita
-
-
-A MozVita é a ferramenta mais completa e fácil de usar para quem deseja criar currículos profissionais de alto impacto em Moçambique. 
-
-
-Com modelos modernos, organizados e compatíveis com recrutadores moçambicanos e internacionais.
-
-
-MozVita ajuda-te a destacar-te no mercado de trabalho com poucos cliques.</p>
+            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              A ferramenta mais completa para criar currículos profissionais em Moçambique. 
+              Templates modernos, fácil de usar e resultados impressionantes.
+            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg" onClick={handleCreateCV}>
+              <Button 
+                size="lg" 
+                className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
+                onClick={handleCreateCV}
+              >
                 <FileText className="mr-2 h-5 w-5" />
                 {user ? 'Criar CV Grátis' : 'Registre-se e Crie CV'}
               </Button>
-              <Button size="lg" variant="outline" className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white px-8 py-6 text-lg" onClick={() => navigate('/exemplos')}>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white px-8 py-6 text-lg"
+                onClick={() => navigate('/exemplos')}
+              >
                 Ver Exemplos
               </Button>
             </div>
-            {!user && <p className="text-sm text-gray-500 mt-4">
+            {!user && (
+              <p className="text-sm text-gray-500 mt-4">
                 É necessário fazer registro para criar e salvar seus CVs
-              </p>}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -224,7 +232,11 @@ MozVita ajuda-te a destacar-te no mercado de trabalho com poucos cliques.</p>
           <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
             Não perca mais tempo, crie um currículo profissional e destaque-se no mercado de trabalho.
           </p>
-          <Button size="lg" className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg" onClick={handleCreateCV}>
+          <Button 
+            size="lg" 
+            className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
+            onClick={handleCreateCV}
+          >
             <CheckCircle className="mr-2 h-5 w-5" />
             {user ? 'Criar Meu CV Agora' : 'Registrar e Criar CV'}
           </Button>
@@ -233,7 +245,12 @@ MozVita ajuda-te a destacar-te no mercado de trabalho com poucos cliques.</p>
       
       <Footer />
       
-      <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
-    </div>;
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
+    </div>
+  );
 };
+
 export default Index;
