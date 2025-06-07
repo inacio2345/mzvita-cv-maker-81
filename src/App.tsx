@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -27,6 +28,9 @@ import NotFound from "./pages/NotFound";
 import CVProfissionalMocambique from "./pages/blog/CVProfissionalMocambique";
 import ErrosComuns from "./pages/blog/ErrosComuns";
 import CVSemExperiencia from "./pages/blog/CVSemExperiencia";
+import TendenciasMercado2024 from "./pages/blog/TendenciasMercado2024";
+import AdaptarCVPorArea from "./pages/blog/AdaptarCVPorArea";
+import FotoNoCurriculo from "./pages/blog/FotoNoCurriculo";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +59,9 @@ const App = () => (
                   <Route path="/blog/cv-profissional-mocambique" element={<CVProfissionalMocambique />} />
                   <Route path="/blog/erros-comuns" element={<ErrosComuns />} />
                   <Route path="/blog/cv-sem-experiencia" element={<CVSemExperiencia />} />
+                  <Route path="/blog/tendencias-mercado-2024" element={<TendenciasMercado2024 />} />
+                  <Route path="/blog/adaptar-cv-por-area" element={<AdaptarCVPorArea />} />
+                  <Route path="/blog/foto-no-curriculo" element={<FotoNoCurriculo />} />
                   <Route path="/carta-apresentacao" element={<CartaApresentacao />} />
                   <Route path="/carta-pedido-estagio" element={<CartaPedidoEstagio />} />
                   <Route path="/carta-requisicao" element={<CartaRequisicao />} />

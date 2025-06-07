@@ -2,14 +2,16 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, User, BookOpen, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, User, BookOpen, ArrowRight, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
 import Footer from '@/components/ui/footer';
+import { Badge } from '@/components/ui/badge';
 
 const Blog = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const blogPosts = [
     {
@@ -20,7 +22,8 @@ const Blog = () => {
       author: "Equipe MozVita",
       readTime: "8 min",
       category: "Dicas de CV",
-      route: "/blog/cv-profissional-mocambique"
+      route: "/blog/cv-profissional-mocambique",
+      featured: true
     },
     {
       id: 2,
@@ -30,7 +33,8 @@ const Blog = () => {
       author: "Equipe MozVita",
       readTime: "6 min",
       category: "Dicas de CV",
-      route: "/blog/erros-comuns"
+      route: "/blog/erros-comuns",
+      featured: false
     },
     {
       id: 3,
@@ -40,7 +44,8 @@ const Blog = () => {
       author: "Equipe MozVita",
       readTime: "7 min",
       category: "Primeiro Emprego",
-      route: "/blog/cv-sem-experiencia"
+      route: "/blog/cv-sem-experiencia",
+      featured: false
     },
     {
       id: 4,
@@ -50,7 +55,8 @@ const Blog = () => {
       author: "Equipe MozVita",
       readTime: "9 min",
       category: "Mercado de Trabalho",
-      route: "/blog/tendencias-mercado-2024"
+      route: "/blog/tendencias-mercado-2024",
+      featured: true
     },
     {
       id: 5,
@@ -60,7 +66,8 @@ const Blog = () => {
       author: "Equipe MozVita",
       readTime: "6 min",
       category: "Dicas de CV",
-      route: "/blog/adaptar-cv-por-area"
+      route: "/blog/adaptar-cv-por-area",
+      featured: false
     },
     {
       id: 6,
@@ -70,7 +77,8 @@ const Blog = () => {
       author: "Equipe MozVita",
       readTime: "4 min",
       category: "Dicas de CV",
-      route: "/blog/foto-no-curriculo"
+      route: "/blog/foto-no-curriculo",
+      featured: false
     }
   ];
 
@@ -81,9 +89,15 @@ const Blog = () => {
     "Mercado de Trabalho"
   ];
 
-  const filteredPosts = selectedCategory === 'Todos' 
-    ? blogPosts 
-    : blogPosts.filter(post => post.category === selectedCategory);
+  const filteredPosts = blogPosts.filter(post => {
+    const matchesCategory = selectedCategory === 'Todos' || post.category === selectedCategory;
+    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const featuredPosts = blogPosts.filter(post => post.featured);
+  const regularPosts = filteredPosts.filter(post => !post.featured);
 
   const handlePostClick = (route: string) => {
     navigate(route);
@@ -103,10 +117,24 @@ const Blog = () => {
                 Blog MozVita
               </h1>
             </div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
               Dicas, guias e insights para ajudar você a criar o CV perfeito e 
               conseguir o emprego dos seus sonhos em Moçambique.
             </p>
+
+            {/* Campo de busca */}
+            <div className="max-w-md mx-auto mb-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Pesquisar artigos..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-google-blue focus:border-transparent"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Filtros por categoria */}
@@ -126,46 +154,109 @@ const Blog = () => {
             ))}
           </div>
 
+          {/* Posts em destaque */}
+          {featuredPosts.length > 0 && searchTerm === '' && selectedCategory === 'Todos' && (
+            <div className="mb-12">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Artigos em Destaque</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {featuredPosts.map((post) => (
+                  <Card 
+                    key={post.id} 
+                    className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer border-l-4 border-l-google-blue"
+                    onClick={() => handlePostClick(post.route)}
+                  >
+                    <CardHeader>
+                      <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                        <Badge variant="default" className="bg-google-blue text-white">
+                          {post.category}
+                        </Badge>
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {post.readTime}
+                        </div>
+                      </div>
+                      <CardTitle className="text-xl font-semibold line-clamp-2 hover:text-google-blue transition-colors">
+                        {post.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-gray-600 mb-4 line-clamp-3">
+                        {post.excerpt}
+                      </CardDescription>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center text-sm text-gray-500">
+                          <User className="w-4 h-4 mr-1" />
+                          <span className="mr-3">{post.author}</span>
+                          <Calendar className="w-4 h-4 mr-1" />
+                          <span>{new Date(post.date).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                        <Button variant="ghost" size="sm" className="text-google-blue hover:text-blue-600">
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Lista de artigos */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {filteredPosts.map((post) => (
-              <Card 
-                key={post.id} 
-                className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
-                onClick={() => handlePostClick(post.route)}
-              >
-                <CardHeader>
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
-                      {post.category}
-                    </span>
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {post.readTime}
-                    </div>
-                  </div>
-                  <CardTitle className="text-lg font-semibold line-clamp-2 hover:text-google-blue transition-colors">
-                    {post.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </CardDescription>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center text-sm text-gray-500">
-                      <User className="w-4 h-4 mr-1" />
-                      <span className="mr-3">{post.author}</span>
-                      <Calendar className="w-4 h-4 mr-1" />
-                      <span>{new Date(post.date).toLocaleDateString('pt-BR')}</span>
-                    </div>
-                    <Button variant="ghost" size="sm" className="text-google-blue hover:text-blue-600">
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="mb-12">
+            {(searchTerm !== '' || selectedCategory !== 'Todos') && (
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                {searchTerm ? `Resultados para "${searchTerm}"` : `Categoria: ${selectedCategory}`}
+              </h2>
+            )}
+            
+            {filteredPosts.length === 0 ? (
+              <div className="text-center py-12">
+                <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <h3 className="text-xl text-gray-600 mb-2">Nenhum artigo encontrado</h3>
+                <p className="text-gray-500">Tente ajustar os filtros ou termo de busca.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(searchTerm !== '' || selectedCategory !== 'Todos' ? filteredPosts : regularPosts).map((post) => (
+                  <Card 
+                    key={post.id} 
+                    className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                    onClick={() => handlePostClick(post.route)}
+                  >
+                    <CardHeader>
+                      <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
+                        <Badge variant="outline" className="border-blue-200 text-blue-800">
+                          {post.category}
+                        </Badge>
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {post.readTime}
+                        </div>
+                      </div>
+                      <CardTitle className="text-lg font-semibold line-clamp-2 hover:text-google-blue transition-colors">
+                        {post.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="text-gray-600 mb-4 line-clamp-3">
+                        {post.excerpt}
+                      </CardDescription>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center text-sm text-gray-500">
+                          <User className="w-4 h-4 mr-1" />
+                          <span className="mr-3">{post.author}</span>
+                          <Calendar className="w-4 h-4 mr-1" />
+                          <span>{new Date(post.date).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                        <Button variant="ghost" size="sm" className="text-google-blue hover:text-blue-600">
+                          <ArrowRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Newsletter signup */}
