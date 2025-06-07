@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -83,13 +82,6 @@ const Contato = () => {
               </Button>
               <span className="text-google-blue font-semibold text-sm lg:text-base">Contato</span>
             </nav>
-            <Button 
-              variant="outline" 
-              className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-sm"
-              size="sm"
-            >
-              Entrar
-            </Button>
           </div>
         </div>
       </header>
