@@ -23,6 +23,7 @@ import CartaRecomendacao from "./pages/CartaRecomendacao";
 import CartaPedidoBolsa from "./pages/CartaPedidoBolsa";
 import CartaAgradecimento from "./pages/CartaAgradecimento";
 import AreaProfissional from "./pages/AreaProfissional";
+import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/criar-cv" element={<CreateCV />} />
                   <Route path="/area-profissional" element={<AreaProfissional />} />
+                  <Route path="/blog" element={<Blog />} />
                   <Route path="/carta-apresentacao" element={<CartaApresentacao />} />
                   <Route path="/carta-pedido-estagio" element={<CartaPedidoEstagio />} />
                   <Route path="/carta-requisicao" element={<CartaRequisicao />} />
