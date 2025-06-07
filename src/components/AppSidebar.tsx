@@ -1,5 +1,5 @@
 
-import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown } from "lucide-react";
+import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -25,6 +25,11 @@ const menuItems = [
     title: "Criar CV",
     url: "/criar-cv",
     icon: FileText,
+  },
+  {
+    title: "Área Profissional",
+    url: "/area-profissional",
+    icon: Briefcase,
   },
   {
     title: "Como Funciona",
