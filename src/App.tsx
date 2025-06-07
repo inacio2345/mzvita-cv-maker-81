@@ -16,6 +16,12 @@ import Exemplos from "./pages/Exemplos";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
 import TermosUso from "./pages/TermosUso";
 import CartaApresentacao from "./pages/CartaApresentacao";
+import CartaPedidoEstagio from "./pages/CartaPedidoEstagio";
+import CartaRequisicao from "./pages/CartaRequisicao";
+import CartaDemissao from "./pages/CartaDemissao";
+import CartaRecomendacao from "./pages/CartaRecomendacao";
+import CartaPedidoBolsa from "./pages/CartaPedidoBolsa";
+import CartaAgradecimento from "./pages/CartaAgradecimento";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +47,12 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/criar-cv" element={<CreateCV />} />
                   <Route path="/carta-apresentacao" element={<CartaApresentacao />} />
+                  <Route path="/carta-pedido-estagio" element={<CartaPedidoEstagio />} />
+                  <Route path="/carta-requisicao" element={<CartaRequisicao />} />
+                  <Route path="/carta-demissao" element={<CartaDemissao />} />
+                  <Route path="/carta-recomendacao" element={<CartaRecomendacao />} />
+                  <Route path="/carta-pedido-bolsa" element={<CartaPedidoBolsa />} />
+                  <Route path="/carta-agradecimento" element={<CartaAgradecimento />} />
                   <Route path="/preview" element={<Preview />} />
                   <Route path="/como-funciona" element={<ComoFunciona />} />
                   <Route path="/precos" element={<Precos />} />

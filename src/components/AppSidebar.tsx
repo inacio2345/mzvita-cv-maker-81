@@ -1,6 +1,7 @@
 
-import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool } from "lucide-react";
+import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -26,11 +27,6 @@ const menuItems = [
     icon: FileText,
   },
   {
-    title: "Carta de Apresentação",
-    url: "/carta-apresentacao",
-    icon: PenTool,
-  },
-  {
     title: "Como Funciona",
     url: "/como-funciona",
     icon: HelpCircle,
@@ -52,6 +48,37 @@ const menuItems = [
   },
 ];
 
+const cartasOficiaisItems = [
+  {
+    title: "Carta de Apresentação",
+    url: "/carta-apresentacao",
+  },
+  {
+    title: "Carta de Pedido de Estágio",
+    url: "/carta-pedido-estagio",
+  },
+  {
+    title: "Carta de Requisição",
+    url: "/carta-requisicao",
+  },
+  {
+    title: "Carta de Demissão",
+    url: "/carta-demissao",
+  },
+  {
+    title: "Carta de Recomendação",
+    url: "/carta-recomendacao",
+  },
+  {
+    title: "Carta de Pedido de Bolsa",
+    url: "/carta-pedido-bolsa",
+  },
+  {
+    title: "Carta de Agradecimento",
+    url: "/carta-agradecimento",
+  },
+];
+
 const legalItems = [
   {
     title: "Política de Privacidade",
@@ -66,6 +93,8 @@ const legalItems = [
 ];
 
 export function AppSidebar() {
+  const [cartasExpanded, setCartasExpanded] = useState(false);
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -91,6 +120,37 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        
+        <SidebarGroup>
+          <SidebarGroupLabel>
+            <button
+              className="flex items-center justify-between w-full text-left"
+              onClick={() => setCartasExpanded(!cartasExpanded)}
+            >
+              <span>Cartas Oficiais</span>
+              <ChevronDown 
+                className={`w-4 h-4 transition-transform ${cartasExpanded ? 'rotate-180' : ''}`} 
+              />
+            </button>
+          </SidebarGroupLabel>
+          {cartasExpanded && (
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {cartasOficiaisItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link to={item.url} className="pl-6">
+                        <PenTool className="w-4 h-4" />
+                        <span className="text-sm">{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          )}
+        </SidebarGroup>
+
         <SidebarGroup>
           <SidebarGroupLabel>Documentos Legais</SidebarGroupLabel>
           <SidebarGroupContent>
