@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,6 +24,9 @@ import CartaAgradecimento from "./pages/CartaAgradecimento";
 import AreaProfissional from "./pages/AreaProfissional";
 import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
+import CVProfissionalMocambique from "./pages/blog/CVProfissionalMocambique";
+import ErrosComuns from "./pages/blog/ErrosComuns";
+import CVSemExperiencia from "./pages/blog/CVSemExperiencia";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,9 @@ const App = () => (
                   <Route path="/criar-cv" element={<CreateCV />} />
                   <Route path="/area-profissional" element={<AreaProfissional />} />
                   <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/cv-profissional-mocambique" element={<CVProfissionalMocambique />} />
+                  <Route path="/blog/erros-comuns" element={<ErrosComuns />} />
+                  <Route path="/blog/cv-sem-experiencia" element={<CVSemExperiencia />} />
                   <Route path="/carta-apresentacao" element={<CartaApresentacao />} />
                   <Route path="/carta-pedido-estagio" element={<CartaPedidoEstagio />} />
                   <Route path="/carta-requisicao" element={<CartaRequisicao />} />

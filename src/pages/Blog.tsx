@@ -1,66 +1,76 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, BookOpen, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
 import Footer from '@/components/ui/footer';
 
 const Blog = () => {
+  const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState('Todos');
+
   const blogPosts = [
     {
       id: 1,
       title: "Como criar um CV profissional em Moçambique",
-      excerpt: "Descubra as melhores práticas para criar um currículo que se destaque no mercado de trabalho moçambicano.",
-      date: "2024-06-01",
+      excerpt: "Guia completo para criar um currículo profissional adaptado ao mercado de trabalho moçambicano. Dicas, estrutura e exemplos práticos.",
+      date: "2024-06-07",
       author: "Equipe MozVita",
-      readTime: "5 min",
-      category: "Dicas de CV"
+      readTime: "8 min",
+      category: "Dicas de CV",
+      route: "/blog/cv-profissional-mocambique"
     },
     {
       id: 2,
       title: "5 erros comuns que você deve evitar no seu CV",
-      excerpt: "Evite estes erros básicos que podem prejudicar suas chances de conseguir uma entrevista de emprego.",
-      date: "2024-05-28",
+      excerpt: "Descubra os principais erros que podem prejudicar seu currículo e como evitá-los para aumentar suas chances no mercado de trabalho.",
+      date: "2024-06-06",
       author: "Equipe MozVita",
-      readTime: "3 min",
-      category: "Dicas de CV"
+      readTime: "6 min",
+      category: "Dicas de CV",
+      route: "/blog/erros-comuns"
     },
     {
       id: 3,
       title: "Primeiro emprego: como montar um CV sem experiência",
-      excerpt: "Aprenda a destacar suas qualidades e potencial mesmo sem experiência profissional anterior.",
-      date: "2024-05-25",
+      excerpt: "Guia completo para criar um currículo atrativo mesmo sem experiência profissional. Dicas específicas para conseguir o primeiro emprego.",
+      date: "2024-06-05",
       author: "Equipe MozVita",
-      readTime: "4 min",
-      category: "Primeiro Emprego"
+      readTime: "7 min",
+      category: "Primeiro Emprego",
+      route: "/blog/cv-sem-experiencia"
     },
     {
       id: 4,
       title: "Tendências do mercado de trabalho em Moçambique 2024",
-      excerpt: "Conheça as profissões em alta e as competências mais valorizadas pelos empregadores.",
-      date: "2024-05-20",
+      excerpt: "Análise completa das profissões em alta, competências mais valorizadas e oportunidades emergentes no mercado moçambicano.",
+      date: "2024-06-04",
       author: "Equipe MozVita",
-      readTime: "7 min",
-      category: "Mercado de Trabalho"
+      readTime: "9 min",
+      category: "Mercado de Trabalho",
+      route: "/blog/tendencias-mercado-2024"
     },
     {
       id: 5,
       title: "Como adaptar seu CV para diferentes áreas profissionais",
-      excerpt: "Saiba como personalizar seu currículo para destacar as competências específicas de cada profissão.",
-      date: "2024-05-15",
+      excerpt: "Aprenda a personalizar seu currículo para destacar as competências específicas de cada profissão e aumentar suas chances.",
+      date: "2024-06-03",
       author: "Equipe MozVita",
       readTime: "6 min",
-      category: "Dicas de CV"
+      category: "Dicas de CV",
+      route: "/blog/adaptar-cv-por-area"
     },
     {
       id: 6,
       title: "A importância da foto no currículo moçambicano",
-      excerpt: "Entenda quando e como incluir uma foto profissional no seu CV para causar boa impressão.",
-      date: "2024-05-10",
+      excerpt: "Entenda quando e como incluir uma foto profissional no seu CV para causar boa impressão e se destacar no mercado.",
+      date: "2024-06-02",
       author: "Equipe MozVita",
-      readTime: "3 min",
-      category: "Dicas de CV"
+      readTime: "4 min",
+      category: "Dicas de CV",
+      route: "/blog/foto-no-curriculo"
     }
   ];
 
@@ -70,6 +80,14 @@ const Blog = () => {
     "Primeiro Emprego", 
     "Mercado de Trabalho"
   ];
+
+  const filteredPosts = selectedCategory === 'Todos' 
+    ? blogPosts 
+    : blogPosts.filter(post => post.category === selectedCategory);
+
+  const handlePostClick = (route: string) => {
+    navigate(route);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -96,8 +114,12 @@ const Blog = () => {
             {categories.map((category, index) => (
               <Button
                 key={index}
-                variant={index === 0 ? "default" : "outline"}
-                className={index === 0 ? "bg-google-blue hover:bg-blue-600" : "hover:bg-google-blue hover:text-white"}
+                variant={selectedCategory === category ? "default" : "outline"}
+                className={selectedCategory === category 
+                  ? "bg-google-blue hover:bg-blue-600" 
+                  : "hover:bg-google-blue hover:text-white"
+                }
+                onClick={() => setSelectedCategory(category)}
               >
                 {category}
               </Button>
@@ -106,8 +128,12 @@ const Blog = () => {
 
           {/* Lista de artigos */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {blogPosts.map((post) => (
-              <Card key={post.id} className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+            {filteredPosts.map((post) => (
+              <Card 
+                key={post.id} 
+                className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+                onClick={() => handlePostClick(post.route)}
+              >
                 <CardHeader>
                   <div className="flex items-center justify-between text-sm text-gray-500 mb-2">
                     <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
@@ -173,6 +199,7 @@ const Blog = () => {
             <Button 
               size="lg" 
               className="bg-google-blue hover:bg-blue-600 text-white px-8 py-3"
+              onClick={() => navigate('/criar-cv')}
             >
               Criar Meu CV Agora
             </Button>
