@@ -1,25 +1,12 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Zap, Shield, Download, Star, Users, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import AuthModal from '@/components/auth/AuthModal';
 import Footer from '@/components/ui/footer';
 
 const Index = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
-
-  const handleCreateCV = () => {
-    if (user) {
-      navigate('/criar-cv');
-    } else {
-      setShowAuthModal(true);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -40,10 +27,10 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
-                onClick={handleCreateCV}
+                onClick={() => navigate('/criar-cv')}
               >
                 <FileText className="mr-2 h-5 w-5" />
-                {user ? 'Criar CV Grátis' : 'Registre-se e Crie CV'}
+                Criar CV Grátis
               </Button>
               <Button 
                 size="lg" 
@@ -54,11 +41,6 @@ const Index = () => {
                 Ver Exemplos
               </Button>
             </div>
-            {!user && (
-              <p className="text-sm text-gray-500 mt-4">
-                É necessário fazer registro para criar e salvar seus CVs
-              </p>
-            )}
           </div>
         </div>
       </section>
@@ -235,20 +217,15 @@ const Index = () => {
           <Button 
             size="lg" 
             className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
-            onClick={handleCreateCV}
+            onClick={() => navigate('/criar-cv')}
           >
             <CheckCircle className="mr-2 h-5 w-5" />
-            {user ? 'Criar Meu CV Agora' : 'Registrar e Criar CV'}
+            Criar Meu CV Agora
           </Button>
         </div>
       </section>
       
       <Footer />
-      
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-      />
     </div>
   );
 };
