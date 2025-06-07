@@ -31,7 +31,8 @@ export const generateProfessionalCV = async (
   };
 
   // Cabeçalho com nome e profissão
-  pdf.setFillColor(hexToRgb(colors.primary));
+  const primaryColor = hexToRgb(colors.primary);
+  pdf.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   pdf.rect(0, 0, 210, 40, 'F');
   
   pdf.setTextColor(255, 255, 255);
@@ -125,7 +126,7 @@ export const generateProfessionalCV = async (
 };
 
 // Função auxiliar para converter hex para RGB
-const hexToRgb = (hex: string) => {
+const hexToRgb = (hex: string): number[] => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? [
     parseInt(result[1], 16),

@@ -127,11 +127,18 @@ const ProfessionalFormWizard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CurrentComponent
-                data={formData}
-                onUpdate={updateFormData}
-                profession={selectedProfession}
-              />
+              {currentStep === 1 ? (
+                <BasicInfoForm
+                  data={formData}
+                  onUpdate={updateFormData}
+                />
+              ) : (
+                <SpecificInfoForm
+                  data={formData}
+                  onUpdate={updateFormData}
+                  profession={selectedProfession}
+                />
+              )}
             </CardContent>
           </Card>
 
