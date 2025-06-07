@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { SecureDbService } from '@/services/secureDbService';
 
 export interface UserProfile {
   id: string;
@@ -38,10 +39,10 @@ export const useUserProfile = () => {
     }
 
     try {
+      // RLS policies will automatically filter to user's profile
       const { data, error } = await supabase
         .from('user_profiles')
         .select('*')
-        .eq('id', user.id)
         .maybeSingle();
 
       if (error) throw error;
@@ -91,14 +92,7 @@ export const useUserProfile = () => {
     if (!user) return false;
 
     try {
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .update(updates)
-        .eq('id', user.id)
-        .select()
-        .single();
-
-      if (error) throw error;
+      const data = await SecureDbService.updateProfileSecurely(updates);
 
       setProfile(data);
       toast({
@@ -107,11 +101,11 @@ export const useUserProfile = () => {
       });
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao atualizar perfil:', error);
       toast({
         title: "Erro ao atualizar",
-        description: "Não foi possível salvar as alterações.",
+        description: error.message || "Não foi possível salvar as alterações.",
         variant: "destructive",
       });
       return false;
@@ -122,19 +116,16 @@ export const useUserProfile = () => {
     if (!user) return;
 
     try {
-      const { error } = await supabase.rpc('increment_downloads', {
-        user_uuid: user.id
-      });
-
-      if (error) throw error;
+      await SecureDbService.incrementDownloadsSecurely();
       
       // Atualizar localmente
       setProfile(prev => prev ? {
         ...prev,
         downloads_realizados: prev.downloads_realizados + 1
       } : null);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao incrementar downloads:', error);
+      // Don't show error to user for this background operation
     }
   };
 

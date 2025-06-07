@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
+import { SecureDbService } from '@/services/secureDbService';
 
 export interface SavedCV {
   id: string;
@@ -26,10 +27,10 @@ export const useSavedCVs = () => {
     }
 
     try {
+      // RLS policies will automatically filter to user's CVs
       const { data, error } = await supabase
         .from('saved_cvs')
         .select('*')
-        .eq('user_id', user.id)
         .order('updated_at', { ascending: false });
 
       if (error) throw error;
@@ -57,21 +58,8 @@ export const useSavedCVs = () => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from('saved_cvs')
-        .insert([
-          {
-            user_id: user.id,
-            title,
-            template_name: templateName,
-            cv_data: cvData,
-          },
-        ])
-        .select()
-        .single();
-
-      if (error) throw error;
-
+      const data = await SecureDbService.saveCVSecurely(title, templateName, cvData);
+      
       setSavedCVs(prev => [data, ...prev]);
       toast({
         title: "CV salvo com sucesso!",
@@ -79,11 +67,11 @@ export const useSavedCVs = () => {
       });
 
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao salvar CV:', error);
       toast({
         title: "Erro ao salvar CV",
-        description: "Não foi possível salvar seu CV. Tente novamente.",
+        description: error.message || "Não foi possível salvar seu CV. Tente novamente.",
         variant: "destructive",
       });
       return null;
@@ -94,18 +82,7 @@ export const useSavedCVs = () => {
     if (!user) return null;
 
     try {
-      const { data, error } = await supabase
-        .from('saved_cvs')
-        .update({
-          title,
-          cv_data: cvData,
-        })
-        .eq('id', id)
-        .eq('user_id', user.id)
-        .select()
-        .single();
-
-      if (error) throw error;
+      const data = await SecureDbService.updateCVSecurely(id, title, cvData);
 
       setSavedCVs(prev => 
         prev.map(cv => cv.id === id ? data : cv)
@@ -117,11 +94,11 @@ export const useSavedCVs = () => {
       });
 
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao atualizar CV:', error);
       toast({
         title: "Erro ao atualizar CV",
-        description: "Não foi possível atualizar seu CV.",
+        description: error.message || "Não foi possível atualizar seu CV.",
         variant: "destructive",
       });
       return null;
@@ -132,13 +109,7 @@ export const useSavedCVs = () => {
     if (!user) return false;
 
     try {
-      const { error } = await supabase
-        .from('saved_cvs')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
-
-      if (error) throw error;
+      await SecureDbService.deleteCVSecurely(id);
 
       setSavedCVs(prev => prev.filter(cv => cv.id !== id));
       toast({
@@ -147,11 +118,11 @@ export const useSavedCVs = () => {
       });
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao excluir CV:', error);
       toast({
         title: "Erro ao excluir",
-        description: "Não foi possível excluir o CV.",
+        description: error.message || "Não foi possível excluir o CV.",
         variant: "destructive",
       });
       return false;
