@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Camera, Palette } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Camera, Palette, CheckCircle } from 'lucide-react';
 import { useCVData } from '@/hooks/useCVData';
 import CVCreationWizard from '@/components/cv/CVCreationWizard';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
@@ -24,26 +24,36 @@ const CreateCV = () => {
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   
   const [currentStep, setCurrentStep] = useState(1);
-  const { cvData, updateCVData, validateRequiredFields, validationErrors } = useCVData(templateData);
+  const { cvData, updateCVData, validateStep, validateRequiredFields, validationErrors, clearValidationErrors } = useCVData(templateData);
 
   const steps = [
-    { id: 1, title: 'Dados Pessoais', icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />, component: PersonalDataForm },
-    { id: 2, title: 'Foto (Opcional)', icon: <Camera className="w-4 h-4 sm:w-5 sm:h-5" />, component: PhotoUploadForm },
-    { id: 3, title: 'Sobre Mim', icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" />, component: AboutForm },
-    { id: 4, title: 'Formação', icon: <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />, component: EducationForm },
-    { id: 5, title: 'Experiência', icon: <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />, component: ExperienceForm },
-    { id: 6, title: 'Habilidades', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5" />, component: SkillsForm },
-    { id: 7, title: 'Cores do CV', icon: <Palette className="w-4 h-4 sm:w-5 sm:h-5" />, component: ColorPaletteForm }
+    { id: 1, title: 'Dados Pessoais', icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />, component: PersonalDataForm, required: true },
+    { id: 2, title: 'Foto (Opcional)', icon: <Camera className="w-4 h-4 sm:w-5 sm:h-5" />, component: PhotoUploadForm, required: false },
+    { id: 3, title: 'Sobre Mim', icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" />, component: AboutForm, required: true },
+    { id: 4, title: 'Formação', icon: <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />, component: EducationForm, required: true },
+    { id: 5, title: 'Experiência', icon: <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />, component: ExperienceForm, required: true },
+    { id: 6, title: 'Habilidades', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5" />, component: SkillsForm, required: true },
+    { id: 7, title: 'Cores do CV', icon: <Palette className="w-4 h-4 sm:w-5 sm:h-5" />, component: ColorPaletteForm, required: false }
   ];
 
+  const currentStepData = steps[currentStep - 1];
+  const isStepValid = (stepId: number) => {
+    const step = steps.find(s => s.id === stepId);
+    if (!step?.required) return true;
+    return validateStep(stepId);
+  };
+
   const handleNext = () => {
-    // Validar campos obrigatórios antes de avançar
-    if (currentStep === 1 || currentStep === 3 || currentStep === 4 || currentStep === 5) {
-      const isValid = validateRequiredFields();
+    // Limpar erros anteriores
+    clearValidationErrors();
+    
+    // Validar apenas se a etapa atual for obrigatória
+    if (currentStepData.required) {
+      const isValid = validateStep(currentStep);
       if (!isValid) {
         toast({
-          title: "Campos obrigatórios não preenchidos",
-          description: "Por favor, preencha todos os campos obrigatórios antes de continuar.",
+          title: "Verifique os campos obrigatórios",
+          description: `Complete todos os campos obrigatórios na etapa "${currentStepData.title}" para continuar.`,
           variant: "destructive",
         });
         return;
@@ -61,6 +71,14 @@ const CreateCV = () => {
           description: "Alguns campos obrigatórios não foram preenchidos. Verifique e tente novamente.",
           variant: "destructive",
         });
+        
+        // Voltar para a primeira etapa com erro
+        const firstStepWithError = steps.find(step => 
+          step.required && !validateStep(step.id)
+        );
+        if (firstStepWithError) {
+          setCurrentStep(firstStepWithError.id);
+        }
         return;
       }
 
@@ -77,10 +95,22 @@ const CreateCV = () => {
   const handlePrevious = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      clearValidationErrors();
     }
   };
 
-  const CurrentStepComponent = steps[currentStep - 1]?.component;
+  const handleStepChange = (stepId: number) => {
+    // Permitir navegação apenas se as etapas anteriores obrigatórias estiverem válidas
+    const previousRequiredSteps = steps.filter(step => step.id < stepId && step.required);
+    const allPreviousValid = previousRequiredSteps.every(step => validateStep(step.id));
+    
+    if (allPreviousValid || stepId < currentStep) {
+      setCurrentStep(stepId);
+      clearValidationErrors();
+    }
+  };
+
+  const CurrentStepComponent = currentStepData?.component;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -89,10 +119,37 @@ const CreateCV = () => {
           <CVCreationWizard 
             steps={steps}
             currentStep={currentStep}
-            onStepChange={setCurrentStep}
+            onStepChange={handleStepChange}
+            completedSteps={steps.filter(step => !step.required || validateStep(step.id)).map(s => s.id)}
           />
 
           <Card className="p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-lg border-0">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  currentStepData.required && isStepValid(currentStep) 
+                    ? 'bg-green-100 text-green-600' 
+                    : currentStepData.required 
+                      ? 'bg-red-100 text-red-600'
+                      : 'bg-blue-100 text-blue-600'
+                }`}>
+                  {currentStepData.required && isStepValid(currentStep) ? (
+                    <CheckCircle className="w-5 h-5" />
+                  ) : (
+                    currentStepData.icon
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">
+                    {currentStepData.title}
+                  </h2>
+                  <p className="text-sm text-gray-500">
+                    {currentStepData.required ? 'Obrigatório' : 'Opcional'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {CurrentStepComponent && (
               <CurrentStepComponent
                 data={cvData}
@@ -116,13 +173,17 @@ const CreateCV = () => {
               <span className="sm:hidden">Ant.</span>
             </Button>
 
-            <div className="text-xs sm:text-sm text-gray-500 font-medium">
-              {currentStep} / {steps.length}
+            <div className="text-xs sm:text-sm text-gray-500 font-medium flex items-center gap-2">
+              <span>{currentStep} / {steps.length}</span>
+              {currentStepData.required && isStepValid(currentStep) && (
+                <CheckCircle className="w-4 h-4 text-green-600" />
+              )}
             </div>
 
             <Button
               onClick={handleNext}
-              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2"
+              disabled={currentStepData.required && !isStepValid(currentStep)}
+              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2 disabled:bg-gray-300"
               size="sm"
             >
               <span className="hidden sm:inline">
