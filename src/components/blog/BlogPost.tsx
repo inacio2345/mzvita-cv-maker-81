@@ -43,6 +43,18 @@ const BlogPost = ({
 }: BlogPostProps) => {
   const navigate = useNavigate();
 
+  // Script para anúncio no meio do blog
+  const blogInlineAdScript = `
+    <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
+    <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9"></div>
+  `;
+
+  // Script para anúncio no final do blog
+  const blogEndAdScript = `
+    <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
+    <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9"></div>
+  `;
+
   // Função para inserir anúncio após o primeiro parágrafo
   const insertAdAfterFirstParagraph = (content: React.ReactNode) => {
     if (React.isValidElement(content) && content.props.children) {
@@ -62,6 +74,7 @@ const BlogPost = ({
               id="blog-inline-ad" 
               type="blog-inline" 
               className="my-8"
+              scriptCode={blogInlineAdScript}
             />
           );
           adInserted = true;
@@ -152,6 +165,7 @@ const BlogPost = ({
                   id="blog-end-ad" 
                   type="blog-end" 
                   className="my-8"
+                  scriptCode={blogEndAdScript}
                 />
               </div>
             </CardContent>
@@ -182,7 +196,6 @@ const BlogPost = ({
             </Card>
           )}
 
-          {/* CTA para criação de CV */}
           <Card className="bg-gradient-to-r from-google-blue to-google-green text-white mb-8">
             <CardContent className="p-8 text-center">
               <h2 className="text-2xl font-bold mb-4">
@@ -200,7 +213,6 @@ const BlogPost = ({
             </CardContent>
           </Card>
 
-          {/* Posts relacionados */}
           {relatedPosts.length > 0 && (
             <Card className="bg-white shadow-lg mb-8">
               <CardHeader>
@@ -220,7 +232,6 @@ const BlogPost = ({
             </Card>
           )}
 
-          {/* Voltar ao blog */}
           <div className="text-center">
             <Button 
               onClick={() => navigate('/blog')} 

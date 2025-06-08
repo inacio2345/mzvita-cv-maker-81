@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
@@ -11,6 +10,19 @@ const Header = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
+  const headerAdScript = `
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '3ab88cc45aad291af06779a7141d0c78',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js"></script>
+  `;
+
   return (
     <>
       {/* Espaço para anúncio no topo */}
@@ -20,6 +32,7 @@ const Header = () => {
             id="header-ad" 
             type="header" 
             className="max-w-4xl mx-auto"
+            scriptCode={headerAdScript}
           />
         </div>
       </div>
