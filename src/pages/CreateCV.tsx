@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -36,12 +36,40 @@ const CreateCV = () => {
     { id: 7, title: 'Cores do CV', icon: <Palette className="w-4 h-4 sm:w-5 sm:h-5" />, component: ColorPaletteForm, required: false }
   ];
 
+  // Pre-calculate step validity to avoid calling hooks conditionally
+  const stepValidityMap = useMemo(() => {
+    const validityMap: Record<number, boolean> = {};
+    steps.forEach(step => {
+      if (!step.required) {
+        validityMap[step.id] = true;
+      } else {
+        // For required steps, we'll validate based on the current validation errors
+        // This avoids calling validateStep during render
+        validityMap[step.id] = !Object.keys(validationErrors).some(errorKey => {
+          if (step.id === 1) {
+            return ['fullName', 'email', 'phone', 'address', 'profession'].includes(errorKey);
+          }
+          if (step.id === 3) {
+            return errorKey === 'about';
+          }
+          if (step.id === 4) {
+            return errorKey === 'education' || errorKey.startsWith('education_');
+          }
+          if (step.id === 5) {
+            return errorKey === 'experience' || errorKey.startsWith('experience_');
+          }
+          if (step.id === 6) {
+            return errorKey === 'skills';
+          }
+          return false;
+        });
+      }
+    });
+    return validityMap;
+  }, [validationErrors, steps]);
+
   const currentStepData = steps[currentStep - 1];
-  const isStepValid = (stepId: number) => {
-    const step = steps.find(s => s.id === stepId);
-    if (!step?.required) return true;
-    return validateStep(stepId);
-  };
+  const isCurrentStepValid = stepValidityMap[currentStep];
 
   const handleNext = () => {
     // Limpar erros anteriores
@@ -74,7 +102,7 @@ const CreateCV = () => {
         
         // Voltar para a primeira etapa com erro
         const firstStepWithError = steps.find(step => 
-          step.required && !validateStep(step.id)
+          step.required && !stepValidityMap[step.id]
         );
         if (firstStepWithError) {
           setCurrentStep(firstStepWithError.id);
@@ -102,7 +130,7 @@ const CreateCV = () => {
   const handleStepChange = (stepId: number) => {
     // Permitir navegação apenas se as etapas anteriores obrigatórias estiverem válidas
     const previousRequiredSteps = steps.filter(step => step.id < stepId && step.required);
-    const allPreviousValid = previousRequiredSteps.every(step => validateStep(step.id));
+    const allPreviousValid = previousRequiredSteps.every(step => stepValidityMap[step.id]);
     
     if (allPreviousValid || stepId < currentStep) {
       setCurrentStep(stepId);
@@ -120,20 +148,20 @@ const CreateCV = () => {
             steps={steps}
             currentStep={currentStep}
             onStepChange={handleStepChange}
-            completedSteps={steps.filter(step => !step.required || validateStep(step.id)).map(s => s.id)}
+            completedSteps={steps.filter(step => !step.required || stepValidityMap[step.id]).map(s => s.id)}
           />
 
           <Card className="p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-lg border-0">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  currentStepData.required && isStepValid(currentStep) 
+                  currentStepData.required && isCurrentStepValid 
                     ? 'bg-green-100 text-green-600' 
                     : currentStepData.required 
                       ? 'bg-red-100 text-red-600'
                       : 'bg-blue-100 text-blue-600'
                 }`}>
-                  {currentStepData.required && isStepValid(currentStep) ? (
+                  {currentStepData.required && isCurrentStepValid ? (
                     <CheckCircle className="w-5 h-5" />
                   ) : (
                     currentStepData.icon
@@ -175,14 +203,14 @@ const CreateCV = () => {
 
             <div className="text-xs sm:text-sm text-gray-500 font-medium flex items-center gap-2">
               <span>{currentStep} / {steps.length}</span>
-              {currentStepData.required && isStepValid(currentStep) && (
+              {currentStepData.required && isCurrentStepValid && (
                 <CheckCircle className="w-4 h-4 text-green-600" />
               )}
             </div>
 
             <Button
               onClick={handleNext}
-              disabled={currentStepData.required && !isStepValid(currentStep)}
+              disabled={currentStepData.required && !isCurrentStepValid}
               className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2 disabled:bg-gray-300"
               size="sm"
             >
