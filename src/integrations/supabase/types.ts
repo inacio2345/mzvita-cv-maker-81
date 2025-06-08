@@ -9,96 +9,18 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      saved_cvs: {
+      profiles: {
         Row: {
-          created_at: string
-          cv_data: Json
           id: string
-          status: Database["public"]["Enums"]["cv_status"] | null
-          template_name: string
-          title: string
-          updated_at: string
-          user_id: string
+          role: string
         }
         Insert: {
-          created_at?: string
-          cv_data: Json
-          id?: string
-          status?: Database["public"]["Enums"]["cv_status"] | null
-          template_name: string
-          title: string
-          updated_at?: string
-          user_id: string
+          id: string
+          role?: string
         }
         Update: {
-          created_at?: string
-          cv_data?: Json
           id?: string
-          status?: Database["public"]["Enums"]["cv_status"] | null
-          template_name?: string
-          title?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      user_profiles: {
-        Row: {
-          autenticacao_2fa: boolean | null
-          cv_mais_recente: string | null
-          data_criacao: string | null
-          downloads_realizados: number | null
-          email: string | null
-          email_verificado: boolean | null
-          foto_perfil_url: string | null
-          google_conectado: boolean | null
-          id: string
-          idioma: string | null
-          linkedin_conectado: boolean | null
-          nome_completo: string | null
-          notificacoes_ativadas: boolean | null
-          profissao: string | null
-          tema: Database["public"]["Enums"]["tema_type"] | null
-          total_cvs: number | null
-          ultimo_login: string | null
-        }
-        Insert: {
-          autenticacao_2fa?: boolean | null
-          cv_mais_recente?: string | null
-          data_criacao?: string | null
-          downloads_realizados?: number | null
-          email?: string | null
-          email_verificado?: boolean | null
-          foto_perfil_url?: string | null
-          google_conectado?: boolean | null
-          id: string
-          idioma?: string | null
-          linkedin_conectado?: boolean | null
-          nome_completo?: string | null
-          notificacoes_ativadas?: boolean | null
-          profissao?: string | null
-          tema?: Database["public"]["Enums"]["tema_type"] | null
-          total_cvs?: number | null
-          ultimo_login?: string | null
-        }
-        Update: {
-          autenticacao_2fa?: boolean | null
-          cv_mais_recente?: string | null
-          data_criacao?: string | null
-          downloads_realizados?: number | null
-          email?: string | null
-          email_verificado?: boolean | null
-          foto_perfil_url?: string | null
-          google_conectado?: boolean | null
-          id?: string
-          idioma?: string | null
-          linkedin_conectado?: boolean | null
-          nome_completo?: string | null
-          notificacoes_ativadas?: boolean | null
-          profissao?: string | null
-          tema?: Database["public"]["Enums"]["tema_type"] | null
-          total_cvs?: number | null
-          ultimo_login?: string | null
+          role?: string
         }
         Relationships: []
       }
@@ -107,14 +29,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      increment_downloads: {
-        Args: { user_uuid: string }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
-      cv_status: "rascunho" | "publicado"
-      tema_type: "claro" | "escuro"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -229,9 +147,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      cv_status: ["rascunho", "publicado"],
-      tema_type: ["claro", "escuro"],
-    },
+    Enums: {},
   },
 } as const
