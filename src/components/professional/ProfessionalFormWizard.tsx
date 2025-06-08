@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -54,7 +53,7 @@ const ProfessionalFormWizard = () => {
     if (!selectedProfession || !formData) return;
 
     try {
-      await generateProfessionalCV(formData as any, selectedProfession);
+      await generateProfessionalCV(formData as any);
       toast({
         title: "CV Gerado com Sucesso!",
         description: "Seu CV profissional foi gerado e baixado.",

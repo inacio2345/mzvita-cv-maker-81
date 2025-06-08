@@ -1,4 +1,3 @@
-
 import { CVData } from '@/services/cvService';
 import { jsPDF } from 'jspdf';
 
@@ -186,27 +185,38 @@ export const generateProfessionalCV = async (cvData: CVData) => {
   }
 
   // HABILIDADES
-  if (cvData.skills?.technical && cvData.skills.technical.length > 0) {
+  const skills = cvData.skills;
+  if (skills && Array.isArray(skills) && skills.length > 0) {
     if (yPosition > 240) {
       pdf.addPage();
       yPosition = margin;
     }
     
     yPosition = addSection('COMPETÊNCIAS TÉCNICAS', yPosition);
-    const skillsText = cvData.skills.technical.join(' • ');
+    const skillsText = skills.join(' • ');
+    yPosition = addTextBlock(skillsText, margin, yPosition, contentWidth, 10);
+    yPosition += 8;
+  } else if (skills && typeof skills === 'object' && skills.technical && skills.technical.length > 0) {
+    if (yPosition > 240) {
+      pdf.addPage();
+      yPosition = margin;
+    }
+    
+    yPosition = addSection('COMPETÊNCIAS TÉCNICAS', yPosition);
+    const skillsText = skills.technical.join(' • ');
     yPosition = addTextBlock(skillsText, margin, yPosition, contentWidth, 10);
     yPosition += 8;
   }
 
   // IDIOMAS
-  if (cvData.skills?.languages && cvData.skills.languages.length > 0) {
+  if (skills && typeof skills === 'object' && skills.languages && skills.languages.length > 0) {
     if (yPosition > 250) {
       pdf.addPage();
       yPosition = margin;
     }
     
     yPosition = addSection('IDIOMAS', yPosition);
-    const languagesText = cvData.skills.languages.join(' • ');
+    const languagesText = skills.languages.join(' • ');
     yPosition = addTextBlock(languagesText, margin, yPosition, contentWidth, 10);
   }
 

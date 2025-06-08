@@ -6,6 +6,7 @@ export interface CVData {
     email?: string;
     phone?: string;
     address?: string;
+    profession?: string;
     idNumber?: string;
     website?: string;
     [key: string]: any;
@@ -13,7 +14,10 @@ export interface CVData {
   about: string;
   education: any[];
   experience: any[];
-  skills: any[];
+  skills: {
+    technical?: string[];
+    languages?: string[];
+  } | any[];
   references: any[];
   colorPalette: any;
 }
