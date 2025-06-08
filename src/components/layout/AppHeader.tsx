@@ -49,9 +49,7 @@ const AppHeader = ({
           
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
             
-            <h1 className="text-xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-              {title}
-            </h1>
+            
           </div>
           
           {/* Spacer para equilibrar o layout quando há botão de voltar */}
