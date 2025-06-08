@@ -14,15 +14,17 @@ import AboutForm from '@/components/forms/AboutForm';
 import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
 import PhotoUploadForm from '@/components/forms/PhotoUploadForm';
 import { getDefaultTemplate } from '@/data/cvTemplates';
+import { useToast } from '@/hooks/use-toast';
 
 const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
   const templateData = location.state?.templateData;
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   
   const [currentStep, setCurrentStep] = useState(1);
-  const { cvData, updateCVData } = useCVData(templateData);
+  const { cvData, updateCVData, validateRequiredFields, validationErrors } = useCVData(templateData);
 
   const steps = [
     { id: 1, title: 'Dados Pessoais', icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />, component: PersonalDataForm },
@@ -35,9 +37,33 @@ const CreateCV = () => {
   ];
 
   const handleNext = () => {
+    // Validar campos obrigatórios antes de avançar
+    if (currentStep === 1 || currentStep === 3 || currentStep === 4 || currentStep === 5) {
+      const isValid = validateRequiredFields();
+      if (!isValid) {
+        toast({
+          title: "Campos obrigatórios não preenchidos",
+          description: "Por favor, preencha todos os campos obrigatórios antes de continuar.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
+      // Validação final antes de ir para preview
+      const isValid = validateRequiredFields();
+      if (!isValid) {
+        toast({
+          title: "CV incompleto",
+          description: "Alguns campos obrigatórios não foram preenchidos. Verifique e tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       navigate('/preview', { 
         state: { 
           cvData, 
@@ -71,6 +97,7 @@ const CreateCV = () => {
               <CurrentStepComponent
                 data={cvData}
                 onUpdate={updateCVData}
+                errors={validationErrors}
               />
             )}
           </Card>
