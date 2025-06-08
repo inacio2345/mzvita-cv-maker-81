@@ -1,9 +1,11 @@
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Profession, ProfessionalFormData, ProfessionCategory } from '@/types/professional';
 import { PROFESSIONS, getProfessionsByCategory, searchProfessions } from '@/data/professions';
 
 export const useProfessionalArea = () => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<ProfessionCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProfession, setSelectedProfession] = useState<Profession | null>(null);
@@ -32,8 +34,18 @@ export const useProfessionalArea = () => {
 
   const handleStartForm = () => {
     if (selectedProfession) {
-      setShowForm(true);
-      setCurrentStep(1);
+      // Redirecionar para a página de criar CV com dados da profissão
+      navigate('/criar-cv', {
+        state: {
+          templateData: {
+            personalData: {
+              profession: selectedProfession.name
+            }
+          },
+          fromProfessionalArea: true,
+          selectedProfession: selectedProfession
+        }
+      });
     }
   };
 

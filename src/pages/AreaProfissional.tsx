@@ -4,12 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Filter, Briefcase, Target, TrendingUp, Building } from 'lucide-react';
+import { Search, Filter, Briefcase, Target, TrendingUp, Building, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useProfessionalArea } from '@/hooks/useProfessionalArea';
 import { PROFESSION_CATEGORIES } from '@/data/professions';
 import ProfessionalFormWizard from '@/components/professional/ProfessionalFormWizard';
 
 const AreaProfissional = () => {
+  const navigate = useNavigate();
   const {
     selectedCategory,
     setSelectedCategory,
@@ -32,6 +34,18 @@ const AreaProfissional = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
+          {/* Back Button */}
+          <div className="mb-6">
+            <Button
+              variant="outline"
+              onClick={() => navigate('/')}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Voltar ao Início
+            </Button>
+          </div>
+
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">

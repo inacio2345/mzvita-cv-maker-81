@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Camera, Palette } from 'lucide-react';
+import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Camera, Palette, Home } from 'lucide-react';
 import { useCVData } from '@/hooks/useCVData';
 import CVCreationWizard from '@/components/cv/CVCreationWizard';
 import PersonalDataForm from '@/components/forms/PersonalDataForm';
@@ -20,6 +20,7 @@ const CreateCV = () => {
   const location = useLocation();
   const templateData = location.state?.templateData;
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
+  const fromProfessionalArea = location.state?.fromProfessionalArea;
   
   const [currentStep, setCurrentStep] = useState(1);
   const { cvData, updateCVData } = useCVData(templateData);
@@ -83,6 +84,14 @@ const CreateCV = () => {
     }
   };
 
+  const handleBackToStart = () => {
+    if (fromProfessionalArea) {
+      navigate('/area-profissional');
+    } else {
+      navigate('/');
+    }
+  };
+
   const isStepValid = validateStep(currentStep);
   const CurrentStepComponent = steps[currentStep - 1]?.component;
 
@@ -105,6 +114,31 @@ const CreateCV = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
         <div className="max-w-4xl mx-auto">
+          {/* Back Button */}
+          <div className="mb-6 flex items-center justify-between">
+            <Button
+              variant="outline"
+              onClick={handleBackToStart}
+              className="flex items-center gap-2"
+            >
+              {fromProfessionalArea ? (
+                <>
+                  <ArrowLeft className="w-4 h-4" />
+                  Voltar à Área Profissional
+                </>
+              ) : (
+                <>
+                  <Home className="w-4 h-4" />
+                  Voltar ao Início
+                </>
+              )}
+            </Button>
+            
+            <h2 className="text-xl font-semibold text-gray-800">
+              Criar Meu CV
+            </h2>
+          </div>
+
           <CVCreationWizard 
             steps={steps}
             currentStep={currentStep}
