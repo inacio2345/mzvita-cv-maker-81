@@ -1,5 +1,4 @@
-
-import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase, BookOpen } from "lucide-react";
+import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase, BookOpen, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -30,6 +29,11 @@ const menuItems = [
     title: "Área Profissional",
     url: "/area-profissional",
     icon: Briefcase,
+  },
+  {
+    title: "Meu Emprego",
+    url: "/meu-emprego",
+    icon: MapPin,
   },
   {
     title: "Blog",

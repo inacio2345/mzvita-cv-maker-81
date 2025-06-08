@@ -24,6 +24,7 @@ import CartaPedidoBolsa from "./pages/CartaPedidoBolsa";
 import CartaAgradecimento from "./pages/CartaAgradecimento";
 import AreaProfissional from "./pages/AreaProfissional";
 import Blog from "./pages/Blog";
+import MeuEmprego from "./pages/MeuEmprego";
 import NotFound from "./pages/NotFound";
 import CVProfissionalMocambique from "./pages/blog/CVProfissionalMocambique";
 import ErrosComuns from "./pages/blog/ErrosComuns";
@@ -55,6 +56,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/criar-cv" element={<CreateCV />} />
                   <Route path="/area-profissional" element={<AreaProfissional />} />
+                  <Route path="/meu-emprego" element={<MeuEmprego />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/blog/cv-profissional-mocambique" element={<CVProfissionalMocambique />} />
                   <Route path="/blog/erros-comuns" element={<ErrosComuns />} />
