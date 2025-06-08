@@ -1,208 +1,110 @@
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Search, ExternalLink, AlertCircle } from 'lucide-react';
-
-interface Empresa {
-  name: string;
-  address: string;
-  lat: number;
-  lon: number;
-  place_id: string;
-}
 
 const MeuEmprego = () => {
   const [cidade, setCidade] = useState('');
-  const [tipoEmpresa, setTipoEmpresa] = useState('');
-  const [resultados, setResultados] = useState<Empresa[]>([]);
-  const [carregando, setCarregando] = useState(false);
-  const [erro, setErro] = useState('');
-
-  const API_KEY = '3c94218522294e3a9b2e04a4dd2291b3';
+  const [tipo, setTipo] = useState('');
+  const [resultados, setResultados] = useState('');
 
   const buscarEmpresas = async () => {
-    if (!cidade || !tipoEmpresa) {
-      setErro('Por favor, preencha todos os campos');
+    const cidadeValue = cidade.trim();
+    const tipoValue = tipo.trim();
+    setResultados("Buscando empresas...");
+
+    if (!cidadeValue || !tipoValue) {
+      setResultados("Por favor, preencha a cidade e o tipo de empresa.");
       return;
     }
 
-    setCarregando(true);
-    setErro('');
-    setResultados([]);
+    const apiKey = "3c94218522294e3a9b2e04a4dd2291b3";
 
     try {
-      // Primeiro, geocodificar a cidade
-      const geocodeResponse = await fetch(
-        `https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(cidade)}&apiKey=${API_KEY}`
-      );
-      
-      if (!geocodeResponse.ok) {
-        throw new Error('Erro ao buscar a cidade');
-      }
-      
-      const geocodeData = await geocodeResponse.json();
-      
-      if (!geocodeData.features || geocodeData.features.length === 0) {
-        setErro('Cidade não encontrada. Verifique o nome e tente novamente.');
-        setCarregando(false);
+      // 1. Geocodificar a cidade
+      const geoResp = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(cidadeValue)}&apiKey=${apiKey}`);
+      const geoData = await geoResp.json();
+
+      if (!geoData.features.length) {
+        setResultados("Cidade não encontrada.");
         return;
       }
 
-      const cityCoords = geocodeData.features[0].geometry.coordinates;
-      const [lon, lat] = cityCoords;
+      const { coordinates } = geoData.features[0].geometry;
+      const [lon, lat] = coordinates;
 
-      // Buscar empresas próximas
-      const placesResponse = await fetch(
-        `https://api.geoapify.com/v2/places?categories=commercial.${encodeURIComponent(tipoEmpresa.toLowerCase())}&filter=circle:${lon},${lat},10000&bias=proximity:${lon},${lat}&limit=20&apiKey=${API_KEY}`
-      );
+      // 2. Buscar empresas próximas
+      const categorias = "commercial";
+      const radius = 5000; // raio em metros
+      const placesURL = `https://api.geoapify.com/v2/places?categories=${categorias}&filter=circle:${lon},${lat},${radius}&limit=20&apiKey=${apiKey}`;
+      const placesResp = await fetch(placesURL);
+      const placesData = await placesResp.json();
 
-      if (!placesResponse.ok) {
-        throw new Error('Erro ao buscar empresas');
-      }
-
-      const placesData = await placesResponse.json();
-
-      if (!placesData.features || placesData.features.length === 0) {
-        setErro(`Nenhuma empresa do tipo "${tipoEmpresa}" encontrada em ${cidade}.`);
-        setCarregando(false);
+      if (!placesData.features.length) {
+        setResultados("Nenhuma empresa encontrada.");
         return;
       }
 
-      const empresas: Empresa[] = placesData.features.map((feature: any) => ({
-        name: feature.properties.name || feature.properties.address_line1 || 'Nome não disponível',
-        address: feature.properties.formatted || 'Endereço não disponível',
-        lat: feature.geometry.coordinates[1],
-        lon: feature.geometry.coordinates[0],
-        place_id: feature.properties.place_id || Math.random().toString(36)
-      }));
+      // 3. Filtrar por tipo digitado (ex: supermercado)
+      const filtrados = placesData.features.filter((place: any) => {
+        const nome = (place.properties.name || "").toLowerCase();
+        return nome.includes(tipoValue.toLowerCase());
+      });
 
-      setResultados(empresas);
+      if (!filtrados.length) {
+        setResultados("Nenhuma empresa encontrada com esse tipo.");
+        return;
+      }
+
+      const resultadosHTML = filtrados.map((place: any) => {
+        const nome = place.properties.name || "Nome não disponível";
+        const endereco = place.properties.address_line1 || "Endereço não disponível";
+        const link = `https://www.openstreetmap.org/?mlat=${place.geometry.coordinates[1]}&mlon=${place.geometry.coordinates[0]}#map=18`;
+
+        return `<div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; border-radius: 8px;">
+          <strong>${nome}</strong><br>${endereco}<br>
+          <a href="${link}" target="_blank">Ver no mapa</a>
+        </div>`;
+      }).join('');
+
+      setResultados(resultadosHTML);
+
     } catch (error) {
-      console.error('Erro na busca:', error);
-      setErro('Erro ao buscar empresas. Tente novamente.');
-    } finally {
-      setCarregando(false);
+      console.error(error);
+      setResultados("Erro ao buscar empresas.");
     }
   };
 
-  const abrirNoMapa = (lat: number, lon: number, nome: string) => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
-    window.open(url, '_blank');
-  };
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Encontre Empresas na Sua Cidade
-          </h1>
-          <p className="text-gray-600">
-            Use seu CV para encontrar oportunidades de trabalho em empresas próximas
-          </p>
-        </div>
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
+      <h1>Encontre Empresas Perto de Você</h1>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Search className="w-5 h-5" />
-              Buscar Empresas
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="cidade" className="block text-sm font-medium text-gray-700 mb-2">
-                  Cidade
-                </label>
-                <Input
-                  id="cidade"
-                  type="text"
-                  placeholder="Ex: Maputo, Beira, Nampula..."
-                  value={cidade}
-                  onChange={(e) => setCidade(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="tipoEmpresa" className="block text-sm font-medium text-gray-700 mb-2">
-                  Tipo de Empresa
-                </label>
-                <Input
-                  id="tipoEmpresa"
-                  type="text"
-                  placeholder="Ex: supermarket, pharmacy, bank, hotel..."
-                  value={tipoEmpresa}
-                  onChange={(e) => setTipoEmpresa(e.target.value)}
-                />
-              </div>
-            </div>
-            
-            {erro && (
-              <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-md">
-                <AlertCircle className="w-4 h-4" />
-                <span className="text-sm">{erro}</span>
-              </div>
-            )}
+      <label htmlFor="cidade">Cidade:</label>
+      <input 
+        type="text" 
+        id="cidade" 
+        placeholder="Ex: Maputo" 
+        value={cidade}
+        onChange={(e) => setCidade(e.target.value)}
+        style={{ padding: '10px', margin: '5px 0', width: '100%', maxWidth: '400px' }}
+      />
 
-            <Button 
-              onClick={buscarEmpresas} 
-              className="w-full"
-              disabled={carregando}
-            >
-              {carregando ? 'Buscando...' : 'Buscar'}
-            </Button>
-          </CardContent>
-        </Card>
+      <label htmlFor="tipo">Tipo de empresa:</label>
+      <input 
+        type="text" 
+        id="tipo" 
+        placeholder="Ex: supermercado, farmácia, escola..." 
+        value={tipo}
+        onChange={(e) => setTipo(e.target.value)}
+        style={{ padding: '10px', margin: '5px 0', width: '100%', maxWidth: '400px' }}
+      />
 
-        {/* Área de resultados */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Resultados da Busca
-          </h2>
-          
-          {resultados.length === 0 && !carregando && !erro ? (
-            <Card>
-              <CardContent className="text-center py-8">
-                <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">
-                  Nenhuma empresa encontrada. Faça uma busca para ver os resultados.
-                </p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {resultados.map((empresa, index) => (
-                <Card key={empresa.place_id || index} className="hover:shadow-lg transition-shadow">
-                  <CardContent className="p-4">
-                    <div className="space-y-3">
-                      <h3 className="font-semibold text-lg text-gray-900 line-clamp-2">
-                        {empresa.name}
-                      </h3>
-                      <div className="flex items-start gap-2">
-                        <MapPin className="w-4 h-4 text-gray-500 mt-1 flex-shrink-0" />
-                        <p className="text-sm text-gray-600 line-clamp-3">
-                          {empresa.address}
-                        </p>
-                      </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                        onClick={() => abrirNoMapa(empresa.lat, empresa.lon, empresa.name)}
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Ver no Mapa
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
+      <button 
+        onClick={buscarEmpresas}
+        style={{ padding: '10px', margin: '5px 0', width: '100%', maxWidth: '400px' }}
+      >
+        Buscar
+      </button>
+
+      <div dangerouslySetInnerHTML={{ __html: resultados }} />
     </div>
   );
 };
