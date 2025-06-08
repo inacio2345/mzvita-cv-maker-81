@@ -1,3 +1,4 @@
+
 export interface CVData {
   personalData: {
     photo?: string | null;
@@ -30,12 +31,16 @@ export const getEmptyCVData = (): CVData => ({
   experience: [],
   skills: [],
   references: [],
-  colorPalette: null
+  colorPalette: {
+    primary: '#2563eb',
+    secondary: '#64748b',
+    accent: '#10b981'
+  }
 });
 
 export const validateCVData = (data: CVData): boolean => {
   const { personalData } = data;
-  return !!(personalData?.fullName && personalData?.email && personalData?.phone);
+  return !!(personalData?.fullName && personalData?.profession && personalData?.email && personalData?.phone && personalData?.address);
 };
 
 export const mergeCVData = (current: CVData, updates: Partial<CVData>): CVData => {
@@ -51,6 +56,10 @@ export const validateCVDataSecurely = (data: CVData): { isValid: boolean; errors
     errors.push('Nome completo é obrigatório');
   }
   
+  if (!data.personalData?.profession?.trim()) {
+    errors.push('Profissão é obrigatória');
+  }
+  
   if (!data.personalData?.email?.trim()) {
     errors.push('E-mail é obrigatório');
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.personalData.email)) {
@@ -59,6 +68,10 @@ export const validateCVDataSecurely = (data: CVData): { isValid: boolean; errors
   
   if (!data.personalData?.phone?.trim()) {
     errors.push('Telefone é obrigatório');
+  }
+  
+  if (!data.personalData?.address?.trim()) {
+    errors.push('Endereço é obrigatório');
   }
   
   // Security validation

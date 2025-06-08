@@ -34,6 +34,35 @@ const CreateCV = () => {
     { id: 7, title: 'Cores do CV', icon: <Palette className="w-4 h-4 sm:w-5 sm:h-5" />, component: ColorPaletteForm }
   ];
 
+  // Validação de campos obrigatórios por etapa
+  const validateStep = (step) => {
+    switch (step) {
+      case 1: // Dados Pessoais
+        const personalData = cvData.personalData;
+        return !!(
+          personalData?.fullName?.trim() && 
+          personalData?.profession?.trim() && 
+          personalData?.email?.trim() && 
+          personalData?.phone?.trim() && 
+          personalData?.address?.trim()
+        );
+      case 2: // Foto (Opcional)
+        return true;
+      case 3: // Sobre Mim (Opcional)
+        return true;
+      case 4: // Formação (Opcional)
+        return true;
+      case 5: // Experiência (Opcional)
+        return true;
+      case 6: // Habilidades (Opcional)
+        return true;
+      case 7: // Cores (Opcional)
+        return true;
+      default:
+        return true;
+    }
+  };
+
   const handleNext = () => {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
@@ -54,7 +83,23 @@ const CreateCV = () => {
     }
   };
 
+  const isStepValid = validateStep(currentStep);
   const CurrentStepComponent = steps[currentStep - 1]?.component;
+
+  const getValidationMessage = () => {
+    if (currentStep === 1 && !isStepValid) {
+      const missing = [];
+      const personalData = cvData.personalData;
+      if (!personalData?.fullName?.trim()) missing.push('Nome Completo');
+      if (!personalData?.profession?.trim()) missing.push('Profissão');
+      if (!personalData?.email?.trim()) missing.push('Email');
+      if (!personalData?.phone?.trim()) missing.push('Telefone');
+      if (!personalData?.address?.trim()) missing.push('Endereço');
+      
+      return `Preencha os campos obrigatórios: ${missing.join(', ')}`;
+    }
+    return null;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -74,6 +119,13 @@ const CreateCV = () => {
               />
             )}
           </Card>
+
+          {/* Mensagem de validação */}
+          {!isStepValid && getValidationMessage() && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-700">{getValidationMessage()}</p>
+            </div>
+          )}
 
           {/* Navigation Buttons */}
           <div className="flex justify-between items-center">
@@ -95,7 +147,8 @@ const CreateCV = () => {
 
             <Button
               onClick={handleNext}
-              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2"
+              disabled={!isStepValid}
+              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
               size="sm"
             >
               <span className="hidden sm:inline">

@@ -9,6 +9,7 @@ const PersonalDataForm = ({ data, onUpdate }) => {
     email: data.personalData?.email || '',
     phone: data.personalData?.phone || '',
     address: data.personalData?.address || '',
+    profession: data.personalData?.profession || '',
     idNumber: data.personalData?.idNumber || '',
     website: data.personalData?.website || '',
     profileImage: data.personalData?.profileImage || ''
@@ -45,6 +46,17 @@ const PersonalDataForm = ({ data, onUpdate }) => {
         </div>
 
         <div>
+          <Label htmlFor="profession">Profissão *</Label>
+          <Input 
+            id="profession" 
+            placeholder="Ex: Designer Gráfico, Engenheiro, Professor" 
+            value={formData.profession} 
+            onChange={e => handleChange('profession', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
+
+        <div>
           <Label htmlFor="email">Email *</Label>
           <Input 
             id="email" 
@@ -67,17 +79,6 @@ const PersonalDataForm = ({ data, onUpdate }) => {
           />
         </div>
 
-        <div>
-          <Label htmlFor="idNumber">Número do BI</Label>
-          <Input 
-            id="idNumber" 
-            placeholder="123456789N" 
-            value={formData.idNumber} 
-            onChange={e => handleChange('idNumber', e.target.value)} 
-            className="mt-1" 
-          />
-        </div>
-
         <div className="md:col-span-2">
           <Label htmlFor="address">Endereço *</Label>
           <Input 
@@ -89,7 +90,18 @@ const PersonalDataForm = ({ data, onUpdate }) => {
           />
         </div>
 
-        <div className="md:col-span-2">
+        <div>
+          <Label htmlFor="idNumber">Número do BI (opcional)</Label>
+          <Input 
+            id="idNumber" 
+            placeholder="123456789N" 
+            value={formData.idNumber} 
+            onChange={e => handleChange('idNumber', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
+
+        <div>
           <Label htmlFor="website">Website/Blog (opcional)</Label>
           <Input 
             id="website" 
@@ -103,7 +115,7 @@ const PersonalDataForm = ({ data, onUpdate }) => {
 
       <div className="bg-blue-50 p-4 rounded-lg">
         <p className="text-sm text-blue-800">
-          <strong>Dica:</strong> Certifique-se de que todos os dados estão corretos. 
+          <strong>Dica:</strong> Certifique-se de que todos os campos obrigatórios (*) estão preenchidos. 
           Essas informações aparecerão no cabeçalho do seu CV.
         </p>
       </div>
