@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -12,10 +13,9 @@ import { FileText, Mail, Lock, LogIn, UserPlus } from 'lucide-react';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAuthSuccess?: () => void;
 }
 
-const AuthModal = ({ isOpen, onClose, onAuthSuccess }: AuthModalProps) => {
+const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,6 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }: AuthModalProps) => {
         description: "Bem-vindo de volta ao MzVita CV.",
       });
       onClose();
-      onAuthSuccess?.();
     } catch (error: any) {
       toast({
         title: "Erro no login",
@@ -54,7 +53,6 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }: AuthModalProps) => {
         description: "Verifique seu email para confirmar a conta.",
       });
       onClose();
-      onAuthSuccess?.();
     } catch (error: any) {
       toast({
         title: "Erro ao criar conta",
@@ -75,7 +73,6 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }: AuthModalProps) => {
         description: "Bem-vindo ao MzVita CV.",
       });
       onClose();
-      onAuthSuccess?.();
     } catch (error: any) {
       toast({
         title: "Erro no login com Google",
