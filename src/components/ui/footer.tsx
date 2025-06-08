@@ -2,10 +2,20 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import AdSpace from '@/components/ads/AdSpace';
 
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12">
+      {/* Espaço para anúncio no footer */}
+      <div className="container mx-auto px-4 mb-6">
+        <AdSpace 
+          id="footer-ad" 
+          type="footer" 
+          className="max-w-4xl mx-auto"
+        />
+      </div>
+
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
