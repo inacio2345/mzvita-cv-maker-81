@@ -23,6 +23,8 @@ interface BlogPostProps {
   content: React.ReactNode;
   faqs: FAQ[];
   relatedPosts?: string[];
+  featuredImage?: string;
+  contentImages?: string[];
 }
 
 const BlogPost = ({ 
@@ -34,7 +36,9 @@ const BlogPost = ({
   category, 
   content, 
   faqs,
-  relatedPosts = []
+  relatedPosts = [],
+  featuredImage,
+  contentImages = []
 }: BlogPostProps) => {
   const navigate = useNavigate();
 
@@ -60,7 +64,7 @@ const BlogPost = ({
               {metaDescription}
             </p>
             
-            <div className="flex items-center text-sm text-gray-500 space-x-4">
+            <div className="flex items-center text-sm text-gray-500 space-x-4 mb-6">
               <div className="flex items-center">
                 <User className="w-4 h-4 mr-1" />
                 <span>{author}</span>
@@ -74,6 +78,17 @@ const BlogPost = ({
                 <span>{readTime}</span>
               </div>
             </div>
+
+            {/* Imagem destacada */}
+            {featuredImage && (
+              <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
+                <img 
+                  src={featuredImage} 
+                  alt={title}
+                  className="w-full h-64 md:h-80 object-cover"
+                />
+              </div>
+            )}
           </div>
 
           {/* Conteúdo do artigo */}
@@ -81,6 +96,23 @@ const BlogPost = ({
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none">
                 {content}
+                
+                {/* Imagens do conteúdo */}
+                {contentImages.length > 0 && (
+                  <div className="my-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {contentImages.map((image, index) => (
+                        <div key={index} className="rounded-lg overflow-hidden shadow-md">
+                          <img 
+                            src={image} 
+                            alt={`Ilustração ${index + 1} - ${title}`}
+                            className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

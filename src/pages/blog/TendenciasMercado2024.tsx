@@ -148,33 +148,37 @@ const TendenciasMercado2024 = () => {
 
   const faqs = [
     {
-      question: "Quais são os setores com mais oportunidades em Moçambique em 2024?",
-      answer: "Os setores em maior crescimento são: energia e recursos naturais (devido aos projetos de gás), tecnologia e telecomunicações, construção civil, saúde e educação."
+      question: "Quais são as profissões mais promissoras em Moçambique para 2024?",
+      answer: "Tecnologia da informação, energias renováveis, agricultura sustentável, turismo, saúde digital, logística e comércio eletrónico são as áreas com maior potencial de crescimento em 2024."
     },
     {
-      question: "Que salário posso esperar como profissional iniciante?",
-      answer: "Profissionais iniciantes podem esperar salários entre 8.000 a 15.000 MT, dependendo da área e localização. Setores como tecnologia e energia tendem a oferecer valores superiores."
+      question: "Como me preparar para as tendências do mercado de trabalho?",
+      answer: "Invista em competências digitais, aprenda idiomas (especialmente inglês), desenvolva soft skills, mantenha-se atualizado com as tecnologias da sua área e cultive uma rede profissional sólida."
     },
     {
-      question: "É importante saber inglês para trabalhar em Moçambique?",
-      answer: "Sim, o inglês é altamente valorizado, especialmente em empresas multinacionais e projetos internacionais. Pode ser um diferencial significativo na sua candidatura."
+      question: "O trabalho remoto é uma realidade em Moçambique?",
+      answer: "Sim, o trabalho remoto está a crescer, especialmente em áreas como tecnologia, marketing digital, design e consultoria. Muitas empresas já adotaram modelos híbridos ou totalmente remotos."
     },
     {
-      question: "Como posso me destacar no mercado de trabalho moçambicano?",
-      answer: "Invista em capacitação, desenvolva habilidades digitais, construa uma rede de contactos, mantenha flexibilidade geográfica e apresente um CV profissional adaptado ao mercado local."
+      question: "Quais competências são essenciais para 2024?",
+      answer: "Competências digitais, pensamento crítico, adaptabilidade, comunicação eficaz, trabalho em equipa, resolução de problemas e competências específicas em tecnologias emergentes como IA e automação."
+    },
+    {
+      question: "Como as empresas moçambicanas estão a evoluir em 2024?",
+      answer: "Estão a digitalizar processos, investir em sustentabilidade, valorizar a diversidade, implementar trabalho flexível e procurar profissionais com competências técnicas e soft skills equilibradas."
     }
   ];
 
   const relatedPosts = [
-    "Como criar um CV profissional em Moçambique",
     "Como adaptar seu CV para diferentes áreas profissionais",
+    "Como criar um CV profissional em Moçambique",
     "Primeiro emprego: como montar um CV sem experiência"
   ];
 
   return (
     <BlogPost
       title="Tendências do mercado de trabalho em Moçambique 2024"
-      metaDescription="Descubra as principais tendências, profissões em alta e oportunidades do mercado de trabalho moçambicano em 2024. Guia completo para profissionais."
+      metaDescription="Análise completa das profissões em alta, competências mais valorizadas e oportunidades emergentes no mercado moçambicano em 2024."
       author="Equipe MozVita"
       date="2024-06-04"
       readTime="9 min"
@@ -182,6 +186,10 @@ const TendenciasMercado2024 = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      featuredImage="/lovable-uploads/8c649b67-6396-4226-8797-9a91353dcfeb.png"
+      contentImages={[
+        "/lovable-uploads/df21168d-47b5-45a5-b304-135446a8553a.png"
+      ]}
     />
   );
 };

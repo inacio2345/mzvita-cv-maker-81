@@ -125,27 +125,31 @@ const CVSemExperiencia = () => {
 
   const faqs = [
     {
+      question: "Como destacar competências sem experiência profissional?",
+      answer: "Foque em experiências académicas, projetos pessoais, trabalho voluntário, estágios, cursos extracurriculares e competências desenvolvidas em contextos não profissionais que sejam transferíveis para o trabalho."
+    },
+    {
+      question: "Devo mencionar trabalhos informais no meu primeiro CV?",
+      answer: "Sim, trabalhos informais podem demonstrar responsabilidade, iniciativa e competências práticas. Apresente-os de forma profissional, destacando as competências desenvolvidas e responsabilidades assumidas."
+    },
+    {
+      question: "Qual deve ser o foco do meu CV sem experiência?",
+      answer: "Foque na sua educação, competências técnicas e pessoais, projetos académicos relevantes, certificações, idiomas e demonstre entusiasmo e vontade de aprender na área desejada."
+    },
+    {
       question: "Como compensar a falta de experiência profissional?",
-      answer: "Destaque formação académica, projetos de curso, trabalho voluntário, competências técnicas e pessoais. Mostre motivação e vontade de aprender."
+      answer: "Invista em cursos online, certificações gratuitas, projetos pessoais, trabalho voluntário, estágios não remunerados e networking para ganhar experiência e fazer contactos na área."
     },
     {
-      question: "Devo incluir trabalhos informais no meu CV?",
-      answer: "Sim, se forem relevantes. Trabalhos informais demonstram iniciativa, responsabilidade e habilidades que são valorizadas pelos empregadores."
-    },
-    {
-      question: "Qual o tamanho ideal do CV para primeiro emprego?",
-      answer: "Uma página é suficiente. Focus na qualidade das informações, não na quantidade. Seja conciso e relevante."
-    },
-    {
-      question: "Como destacar competências sem experiência comprovada?",
-      answer: "Use exemplos de situações académicas, pessoais ou de voluntariado onde demonstrou essas competências. Seja específico nos exemplos."
+      question: "É normal ter dificuldades para conseguir o primeiro emprego?",
+      answer: "Sim, é completamente normal. O primeiro emprego é sempre mais desafiante. Mantenha-se persistente, continue a desenvolver competências e considere oportunidades de estágio ou trabalho voluntário."
     }
   ];
 
   const relatedPosts = [
     "Como criar um CV profissional em Moçambique",
     "5 erros comuns que você deve evitar no seu CV",
-    "Tendências do mercado de trabalho em Moçambique 2024"
+    "A importância da foto no currículo moçambicano"
   ];
 
   return (
@@ -159,6 +163,10 @@ const CVSemExperiencia = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      featuredImage="/lovable-uploads/2d5eee70-f88f-4ff5-b360-3a80d9d7becf.png"
+      contentImages={[
+        "/lovable-uploads/7b168937-52b9-4d8c-93e7-dd138aa37786.png"
+      ]}
     />
   );
 };

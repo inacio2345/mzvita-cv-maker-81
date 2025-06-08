@@ -83,33 +83,37 @@ const CVProfissionalMocambique = () => {
 
   const faqs = [
     {
-      question: "Qual o tamanho ideal para um CV em Moçambique?",
-      answer: "O ideal é manter o CV entre 1 a 2 páginas. Para profissionais com pouca experiência, 1 página é suficiente. Para profissionais seniores, até 2 páginas são aceitáveis."
+      question: "Qual é o formato ideal para um CV em Moçambique?",
+      answer: "O formato ideal é de 1-2 páginas, em ordem cronológica reversa, com seções bem definidas: dados pessoais, objetivo profissional, experiência, educação, competências e referências."
     },
     {
-      question: "Devo incluir foto no meu CV?",
-      answer: "Sim, na maioria dos casos é recomendado incluir uma foto profissional no CV em Moçambique. Certifique-se de que seja uma foto recente, com boa qualidade e vestimenta adequada."
+      question: "Devo incluir foto no meu CV moçambicano?",
+      answer: "Sim, em Moçambique é comum e recomendado incluir uma foto profissional no CV. Certifique-se de que seja uma imagem de boa qualidade, com vestimenta adequada e fundo neutro."
     },
     {
-      question: "Como destacar conhecimento de idiomas?",
-      answer: "Liste os idiomas que domina com o nível de proficiência (básico, intermediário, avançado, fluente). Em Moçambique, destaque especialmente português, inglês e línguas locais relevantes."
+      question: "Como adaptar meu CV para diferentes empresas?",
+      answer: "Personalize o objetivo profissional, destaque experiências relevantes para a vaga específica, use palavras-chave do anúncio e ajuste a ordem das seções conforme a importância para cada posição."
     },
     {
-      question: "Devo mencionar salário pretendido no CV?",
-      answer: "Não é necessário mencionar salário no CV. Esta informação pode ser discutida durante a entrevista ou em carta de apresentação, se solicitado."
+      question: "Quais competências são mais valorizadas no mercado moçambicano?",
+      answer: "Comunicação em português e inglês, conhecimentos de informática (especialmente pacote Office), trabalho em equipe, adaptabilidade e conhecimentos específicos da área de atuação."
+    },
+    {
+      question: "Como destacar experiência internacional no CV?",
+      answer: "Crie uma seção específica para experiências internacionais, mencione idiomas falados, destaque competências interculturais e adapte a experiência para o contexto moçambicano."
     }
   ];
 
   const relatedPosts = [
+    "A importância da foto no currículo moçambicano",
     "5 erros comuns que você deve evitar no seu CV",
-    "Primeiro emprego: como montar um CV sem experiência",
-    "A importância da foto no currículo moçambicano"
+    "Primeiro emprego: como montar um CV sem experiência"
   ];
 
   return (
     <BlogPost
       title="Como criar um CV profissional em Moçambique"
-      metaDescription="Guia completo para criar um currículo profissional adaptado ao mercado de trabalho moçambicano. Dicas, estrutura e exemplos práticos."
+      metaDescription="Guia completo para criar um currículo profissional adaptado ao mercado de trabalho moçambicano. Dicas, estrutura e exemplos práticos para se destacar."
       author="Equipe MozVita"
       date="2024-06-07"
       readTime="8 min"
@@ -117,6 +121,10 @@ const CVProfissionalMocambique = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      featuredImage="/lovable-uploads/792b9048-62e9-4cb9-9295-34848dacbae0.png"
+      contentImages={[
+        "/lovable-uploads/d0958b45-cda0-4796-aac4-a03ccebea308.png"
+      ]}
     />
   );
 };

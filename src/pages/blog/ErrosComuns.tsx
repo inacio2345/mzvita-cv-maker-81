@@ -108,27 +108,31 @@ const ErrosComuns = () => {
 
   const faqs = [
     {
-      question: "Quantas vezes devo revisar meu CV antes de enviar?",
-      answer: "Recomenda-se pelo menos 3 revisões: uma para conteúdo, uma para formatação e uma final para ortografia. Idealmente, peça para outra pessoa também revisar."
+      question: "Qual é o erro mais comum em CVs moçambicanos?",
+      answer: "O erro mais comum é a falta de personalização para cada vaga. Muitos candidatos enviam o mesmo CV genérico para todas as oportunidades, sem adaptar o conteúdo às exigências específicas de cada posição."
     },
     {
-      question: "Posso usar modelos prontos de CV?",
-      answer: "Sim, modelos prontos são uma ótima base, mas sempre personalize o conteúdo para sua experiência e para a vaga específica."
+      question: "Como evitar erros de formatação no CV?",
+      answer: "Use um modelo simples e consistente, mantenha a mesma fonte em todo o documento, alinhe corretamente as seções, use espaçamento adequado e sempre salve em PDF para preservar a formatação."
     },
     {
-      question: "Qual o maior erro que pode eliminar minha candidatura?",
-      answer: "Informações de contacto incorretas são fatais, pois impedem o empregador de entrar em contacto. Sempre verifique telefone e email."
+      question: "É erro incluir informações pessoais demais?",
+      answer: "Sim, evite informações desnecessárias como estado civil, religião, número de filhos, ou detalhes sobre hobbies irrelevantes. Foque apenas em informações profissionalmente relevantes."
     },
     {
-      question: "Devo mencionar todos os meus empregos anteriores?",
-      answer: "Inclua experiências relevantes dos últimos 10-15 anos. Trabalhos muito antigos ou irrelevantes podem ser omitidos para focar no que importa."
+      question: "Como corrigir erros de português no CV?",
+      answer: "Revise cuidadosamente, use corretor ortográfico, peça para alguém revisar, leia em voz alta e considere contratar um revisor profissional se necessário. Erros de português causam má impressão."
+    },
+    {
+      question: "Posso mentir sobre experiências no CV?",
+      answer: "Nunca minta no CV. Além de ser antiético, pode resultar em demissão por justa causa se descoberto. Em vez disso, destaque suas experiências reais de forma positiva e relevante."
     }
   ];
 
   const relatedPosts = [
     "Como criar um CV profissional em Moçambique",
     "A importância da foto no currículo moçambicano",
-    "Primeiro emprego: como montar um CV sem experiência"
+    "Como adaptar seu CV para diferentes áreas profissionais"
   ];
 
   return (
@@ -142,6 +146,10 @@ const ErrosComuns = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      featuredImage="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
+      contentImages={[
+        "/lovable-uploads/56a2ffff-f1a3-4796-9a7b-7c15ec8816a0.png"
+      ]}
     />
   );
 };

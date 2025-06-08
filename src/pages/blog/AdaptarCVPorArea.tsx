@@ -160,20 +160,24 @@ const AdaptarCVPorArea = () => {
 
   const faqs = [
     {
-      question: "Preciso criar um CV diferente para cada vaga?",
-      answer: "Não necessariamente para cada vaga, mas sim para cada área profissional. Você pode ter uma versão para saúde, outra para educação, etc., e fazer pequenos ajustes específicos conforme a vaga."
+      question: "Como identificar as competências mais importantes para cada área?",
+      answer: "Analise anúncios de emprego da área, pesquise perfis profissionais no LinkedIn, consulte sites especializados e converse com profissionais da área para entender quais competências são mais valorizadas."
     },
     {
-      question: "Como saber quais competências destacar em cada área?",
-      answer: "Analise anúncios de emprego da área, visite sites de empresas do setor e converse com profissionais da área. Observe quais termos e habilidades aparecem com mais frequência."
+      question: "Devo ter um CV diferente para cada área profissional?",
+      answer: "Sim, idealmente deve ter versões adaptadas do seu CV para cada área ou tipo de posição. Isso permite destacar as experiências e competências mais relevantes para cada contexto."
     },
     {
-      question: "Posso mentir sobre experiências para adaptar meu CV?",
-      answer: "Nunca minta no CV. Adapte significa destacar experiências relevantes que você realmente possui e usar a linguagem adequada da área, não inventar experiências."
+      question: "Como destacar competências transferíveis entre áreas?",
+      answer: "Identifique competências como liderança, comunicação, resolução de problemas e trabalho em equipa que são valiosas em qualquer área. Apresente exemplos concretos de como aplicou essas competências."
     },
     {
-      question: "Quantas versões do CV devo manter?",
-      answer: "Recomenda-se ter uma versão para cada área profissional de seu interesse, normalmente entre 2 a 4 versões são suficientes para a maioria dos profissionais."
+      question: "É possível mudar de área profissional com o mesmo CV?",
+      answer: "É possível, mas não recomendado. Para mudança de área, é crucial adaptar o CV para destacar competências transferíveis e demonstrar interesse genuíno e conhecimento sobre a nova área."
+    },
+    {
+      question: "Como pesquisar as exigências específicas de cada área?",
+      answer: "Use sites de emprego, LinkedIn, associações profissionais, relatórios do mercado de trabalho e converse com profissionais da área para entender as expectativas e requisitos específicos."
     }
   ];
 
@@ -186,7 +190,7 @@ const AdaptarCVPorArea = () => {
   return (
     <BlogPost
       title="Como adaptar seu CV para diferentes áreas profissionais"
-      metaDescription="Aprenda a personalizar seu currículo para destacar competências específicas de cada profissão e aumentar suas chances no mercado moçambicano."
+      metaDescription="Aprenda a personalizar seu currículo para destacar as competências específicas de cada profissão e aumentar suas chances no mercado de trabalho."
       author="Equipe MozVita"
       date="2024-06-03"
       readTime="6 min"
@@ -194,6 +198,10 @@ const AdaptarCVPorArea = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      featuredImage="/lovable-uploads/0caa2974-247d-4390-863a-2988db8f9d7a.png"
+      contentImages={[
+        "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
+      ]}
     />
   );
 };
