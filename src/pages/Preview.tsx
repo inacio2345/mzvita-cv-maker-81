@@ -153,6 +153,7 @@ const Preview = () => {
         isOpen={showDownloadOptions}
         onClose={() => setShowDownloadOptions(false)}
         cvTitle={cvData.personalData?.fullName || 'Meu CV'}
+        cvData={cvData}
       />
 
       {/* Clean Print Styles - Only CV content */}
