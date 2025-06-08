@@ -1,4 +1,3 @@
-
 export interface CVData {
   personalData: {
     photo?: string | null;
@@ -75,8 +74,16 @@ export const validateCVDataSecurely = (data: CVData): { isValid: boolean; errors
     errors.push('Muitas entradas de experiência (máximo 20)');
   }
   
-  if (data.skills && data.skills.length > 50) {
-    errors.push('Muitas habilidades (máximo 50)');
+  if (data.skills) {
+    if (Array.isArray(data.skills) && data.skills.length > 50) {
+      errors.push('Muitas habilidades (máximo 50)');
+    } else if (typeof data.skills === 'object' && !Array.isArray(data.skills)) {
+      const skillsObj = data.skills as { technical?: string[]; languages?: string[] };
+      const totalSkills = (skillsObj.technical?.length || 0) + (skillsObj.languages?.length || 0);
+      if (totalSkills > 50) {
+        errors.push('Muitas habilidades (máximo 50)');
+      }
+    }
   }
   
   return {

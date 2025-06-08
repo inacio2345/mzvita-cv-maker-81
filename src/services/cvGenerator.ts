@@ -1,3 +1,4 @@
+
 import { CVData } from '@/services/cvService';
 import { jsPDF } from 'jspdf';
 
@@ -196,7 +197,7 @@ export const generateProfessionalCV = async (cvData: CVData) => {
     const skillsText = skills.join(' • ');
     yPosition = addTextBlock(skillsText, margin, yPosition, contentWidth, 10);
     yPosition += 8;
-  } else if (skills && typeof skills === 'object' && skills.technical && skills.technical.length > 0) {
+  } else if (skills && typeof skills === 'object' && !Array.isArray(skills) && 'technical' in skills && skills.technical && skills.technical.length > 0) {
     if (yPosition > 240) {
       pdf.addPage();
       yPosition = margin;
@@ -209,7 +210,7 @@ export const generateProfessionalCV = async (cvData: CVData) => {
   }
 
   // IDIOMAS
-  if (skills && typeof skills === 'object' && skills.languages && skills.languages.length > 0) {
+  if (skills && typeof skills === 'object' && !Array.isArray(skills) && 'languages' in skills && skills.languages && skills.languages.length > 0) {
     if (yPosition > 250) {
       pdf.addPage();
       yPosition = margin;
