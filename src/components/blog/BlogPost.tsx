@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,12 +6,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { useNavigate } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
 import Footer from '@/components/ui/footer';
-
 interface FAQ {
   question: string;
   answer: string;
 }
-
 interface BlogPostProps {
   title: string;
   metaDescription: string;
@@ -26,24 +23,21 @@ interface BlogPostProps {
   featuredImage?: string;
   contentImages?: string[];
 }
-
-const BlogPost = ({ 
-  title, 
-  metaDescription, 
-  author, 
-  date, 
-  readTime, 
-  category, 
-  content, 
+const BlogPost = ({
+  title,
+  metaDescription,
+  author,
+  date,
+  readTime,
+  category,
+  content,
   faqs,
   relatedPosts = [],
   featuredImage,
   contentImages = []
 }: BlogPostProps) => {
   const navigate = useNavigate();
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+  return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <AppHeader title="Blog MozVita" />
       
       <div className="container mx-auto px-4 py-8">
@@ -80,15 +74,9 @@ const BlogPost = ({
             </div>
 
             {/* Imagem destacada */}
-            {featuredImage && (
-              <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
-                <img 
-                  src={featuredImage} 
-                  alt={title}
-                  className="w-full h-64 md:h-80 object-cover"
-                />
-              </div>
-            )}
+            {featuredImage && <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
+                <img src={featuredImage} alt={title} className="w-full h-64 md:h-80 object-cover" />
+              </div>}
           </div>
 
           {/* Conteúdo do artigo */}
@@ -98,28 +86,19 @@ const BlogPost = ({
                 {content}
                 
                 {/* Imagens do conteúdo */}
-                {contentImages.length > 0 && (
-                  <div className="my-8">
+                {contentImages.length > 0 && <div className="my-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {contentImages.map((image, index) => (
-                        <div key={index} className="rounded-lg overflow-hidden shadow-md">
-                          <img 
-                            src={image} 
-                            alt={`Ilustração ${index + 1} - ${title}`}
-                            className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      ))}
+                      {contentImages.map((image, index) => <div key={index} className="rounded-lg overflow-hidden shadow-md">
+                          <img src={image} alt={`Ilustração ${index + 1} - ${title}`} className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300" />
+                        </div>)}
                     </div>
-                  </div>
-                )}
+                  </div>}
               </div>
             </CardContent>
           </Card>
 
           {/* FAQ Section */}
-          {faqs.length > 0 && (
-            <Card className="bg-white shadow-lg mb-8">
+          {faqs.length > 0 && <Card className="bg-white shadow-lg mb-8">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-gray-900">
                   Perguntas Frequentes
@@ -127,20 +106,17 @@ const BlogPost = ({
               </CardHeader>
               <CardContent>
                 <Accordion type="single" collapsible className="w-full">
-                  {faqs.map((faq, index) => (
-                    <AccordionItem key={index} value={`item-${index}`}>
+                  {faqs.map((faq, index) => <AccordionItem key={index} value={`item-${index}`}>
                       <AccordionTrigger className="text-left font-medium">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-gray-600">
                         {faq.answer}
                       </AccordionContent>
-                    </AccordionItem>
-                  ))}
+                    </AccordionItem>)}
                 </Accordion>
               </CardContent>
-            </Card>
-          )}
+            </Card>}
 
           {/* CTA para criação de CV */}
           <Card className="bg-gradient-to-r from-google-blue to-google-green text-white mb-8">
@@ -151,44 +127,21 @@ const BlogPost = ({
               <p className="mb-6 opacity-90">
                 Use nossas dicas e crie um currículo que impressiona empregadores em Moçambique.
               </p>
-              <Button 
-                onClick={() => navigate('/criar-cv')}
-                className="bg-white text-google-blue hover:bg-gray-100 font-semibold px-8 py-3"
-              >
+              <Button onClick={() => navigate('/criar-cv')} className="bg-white text-google-blue hover:bg-gray-100 font-semibold px-8 py-3">
                 Criar Meu CV Agora
               </Button>
             </CardContent>
           </Card>
 
           {/* Posts relacionados */}
-          {relatedPosts.length > 0 && (
-            <Card className="bg-white shadow-lg mb-8">
-              <CardHeader>
-                <CardTitle className="text-xl font-bold text-gray-900">
-                  Artigos Relacionados
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {relatedPosts.map((post, index) => (
-                    <li key={index} className="text-google-blue hover:text-blue-600">
-                      <button className="text-left hover:underline">
-                        {post}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
+          {relatedPosts.length > 0 && <Card className="bg-white shadow-lg mb-8">
+              
+              
+            </Card>}
 
           {/* Voltar ao blog */}
           <div className="text-center">
-            <Button 
-              onClick={() => navigate('/blog')}
-              variant="outline"
-              className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
-            >
+            <Button onClick={() => navigate('/blog')} variant="outline" className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar ao Blog
             </Button>
@@ -197,8 +150,6 @@ const BlogPost = ({
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default BlogPost;
