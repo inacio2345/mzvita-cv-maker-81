@@ -1,148 +1,110 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { User, Mail, MapPin, Briefcase } from 'lucide-react';
-import PhoneInput from './PhoneInput';
 
-interface PersonalDataFormProps {
-  data: any;
-  onUpdate: (updates: any) => void;
-  errors?: Record<string, string>;
-}
+const PersonalDataForm = ({ data, onUpdate }) => {
+  const [formData, setFormData] = useState({
+    fullName: data.personalData?.fullName || '',
+    email: data.personalData?.email || '',
+    phone: data.personalData?.phone || '',
+    address: data.personalData?.address || '',
+    idNumber: data.personalData?.idNumber || '',
+    website: data.personalData?.website || '',
+    profileImage: data.personalData?.profileImage || ''
+  });
 
-const PersonalDataForm = ({ data, onUpdate, errors = {} }: PersonalDataFormProps) => {
-  const personalData = data.personalData || {};
-
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field, value) => {
+    const newData = {
+      ...formData,
+      [field]: value
+    };
+    setFormData(newData);
     onUpdate({
-      personalData: {
-        ...personalData,
-        [field]: value
-      }
+      personalData: newData
     });
   };
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <User className="w-5 h-5" />
-            Informações Pessoais
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="fullName">
-                Nome Completo <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="fullName"
-                value={personalData.fullName || ''}
-                onChange={(e) => handleChange('fullName', e.target.value)}
-                placeholder="Seu nome completo"
-                className={errors.fullName ? 'border-red-500' : ''}
-                required
-              />
-              {errors.fullName && <p className="text-sm text-red-500 mt-1">{errors.fullName}</p>}
-            </div>
+      <div className="text-center mb-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">Informações Pessoais</h3>
+        <p className="text-gray-600">Preencha seus dados pessoais para começar seu CV</p>
+      </div>
 
-            <div>
-              <Label htmlFor="profession">
-                Profissão <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="profession"
-                value={personalData.profession || ''}
-                onChange={(e) => handleChange('profession', e.target.value)}
-                placeholder="Sua profissão ou área de atuação"
-                className={errors.profession ? 'border-red-500' : ''}
-                required
-              />
-              {errors.profession && <p className="text-sm text-red-500 mt-1">{errors.profession}</p>}
-            </div>
-          </div>
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <Label htmlFor="fullName">Nome Completo *</Label>
+          <Input 
+            id="fullName" 
+            placeholder="Seu nome completo" 
+            value={formData.fullName} 
+            onChange={e => handleChange('fullName', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="email">
-                Email <span className="text-red-500">*</span>
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  value={personalData.email || ''}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  placeholder="seu.email@exemplo.com"
-                  className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
-                  required
-                />
-              </div>
-              {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email}</p>}
-            </div>
+        <div>
+          <Label htmlFor="email">Email *</Label>
+          <Input 
+            id="email" 
+            type="email" 
+            placeholder="seu.email@exemplo.com" 
+            value={formData.email} 
+            onChange={e => handleChange('email', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
 
-            <div>
-              <PhoneInput
-                value={personalData.phone || ''}
-                onChange={(value) => handleChange('phone', value)}
-                error={errors.phone}
-                required
-              />
-            </div>
-          </div>
+        <div>
+          <Label htmlFor="phone">Telefone *</Label>
+          <Input 
+            id="phone" 
+            placeholder="+258 84 123 4567" 
+            value={formData.phone} 
+            onChange={e => handleChange('phone', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
 
-          <div>
-            <Label htmlFor="address">
-              Endereço Completo <span className="text-red-500">*</span>
-            </Label>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-              <Input
-                id="address"
-                value={personalData.address || ''}
-                onChange={(e) => handleChange('address', e.target.value)}
-                placeholder="Cidade, Bairro, Rua - Moçambique"
-                className={`pl-10 ${errors.address ? 'border-red-500' : ''}`}
-                required
-              />
-            </div>
-            {errors.address && <p className="text-sm text-red-500 mt-1">{errors.address}</p>}
-          </div>
+        <div>
+          <Label htmlFor="idNumber">Número do BI</Label>
+          <Input 
+            id="idNumber" 
+            placeholder="123456789N" 
+            value={formData.idNumber} 
+            onChange={e => handleChange('idNumber', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="birthDate">Data de Nascimento</Label>
-              <Input
-                id="birthDate"
-                type="date"
-                value={personalData.birthDate || ''}
-                onChange={(e) => handleChange('birthDate', e.target.value)}
-                max={new Date().toISOString().split('T')[0]}
-              />
-            </div>
+        <div className="md:col-span-2">
+          <Label htmlFor="address">Endereço *</Label>
+          <Input 
+            id="address" 
+            placeholder="Cidade, Bairro, Rua" 
+            value={formData.address} 
+            onChange={e => handleChange('address', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
 
-            <div>
-              <Label htmlFor="website">Site/LinkedIn (Opcional)</Label>
-              <Input
-                id="website"
-                value={personalData.website || ''}
-                onChange={(e) => handleChange('website', e.target.value)}
-                placeholder="https://linkedin.com/in/seuperfil"
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+        <div className="md:col-span-2">
+          <Label htmlFor="website">Website/Blog (opcional)</Label>
+          <Input 
+            id="website" 
+            placeholder="https://meuportfolio.com" 
+            value={formData.website} 
+            onChange={e => handleChange('website', e.target.value)} 
+            className="mt-1" 
+          />
+        </div>
+      </div>
 
-      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <h4 className="font-medium text-blue-900 mb-2">📋 Campos Obrigatórios</h4>
+      <div className="bg-blue-50 p-4 rounded-lg">
         <p className="text-sm text-blue-800">
-          Os campos marcados com <span className="text-red-500">*</span> são obrigatórios e devem ser preenchidos para continuar.
+          <strong>Dica:</strong> Certifique-se de que todos os dados estão corretos. 
+          Essas informações aparecerão no cabeçalho do seu CV.
         </p>
       </div>
     </div>
