@@ -7,7 +7,7 @@ const CVProfissionalMocambique = () => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Introdução</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Criar um CV profissional em Moçambique requer conhecimento específico do mercado local e das expectativas dos empregadores moçambicanos. Neste guia completo, você aprenderá tudo o que precisa para elaborar um currículo que se destaque no competitivo mercado de trabalho do país.
+        Criar um CV profissional em Moçambique requer conhecimento específico do mercado local e das expectativas dos empregadores moçambicanos. Neste guia completo, você aprenderá tudo o que precisa para elaborar um currículo que se destaque no competitivo mercado de trabalho do país. Para informações sobre vagas disponíveis, consulte o portal oficial do <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional (IEFP)</a>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Estrutura Básica de um CV Moçambicano</h2>
@@ -16,7 +16,7 @@ const CVProfissionalMocambique = () => {
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li><strong>Dados Pessoais:</strong> Nome completo, contacto, endereço (cidade é suficiente)</li>
-        <li><strong>Foto Profissional:</strong> Recomendada para a maioria das posições</li>
+        <li><strong>Foto Profissional:</strong> Recomendada para a maioria das posições - veja nosso <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">guia sobre a importância da foto no currículo</a></li>
         <li><strong>Objetivo Profissional:</strong> Breve descrição dos seus objetivos de carreira</li>
         <li><strong>Formação Académica:</strong> Educação formal, do mais recente para o mais antigo</li>
         <li><strong>Experiência Profissional:</strong> Histórico de trabalho relevante</li>
@@ -26,7 +26,7 @@ const CVProfissionalMocambique = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Formatação e Design Adequados</h2>
       <p className="mb-4 text-gray-700">
-        O visual do seu CV é fundamental para causar boa primeira impressão:
+        O visual do seu CV é fundamental para causar boa primeira impressão. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns de formatação que prejudicam seu currículo</a>:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li>Use fontes profissionais como Times New Roman, Arial ou Calibri</li>
@@ -38,7 +38,7 @@ const CVProfissionalMocambique = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Adaptação ao Mercado Moçambicano</h2>
       <p className="mb-4 text-gray-700">
-        O mercado de trabalho em Moçambique tem suas particularidades:
+        O mercado de trabalho em Moçambique tem suas particularidades. Para entender melhor as <a href="https://www.emprego.co.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">oportunidades disponíveis no mercado</a>, é importante conhecer estas características:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li>Destaque conhecimentos em português e inglês</li>
@@ -62,7 +62,7 @@ const CVProfissionalMocambique = () => {
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Construção Civil</h3>
       <p className="mb-4 text-gray-700">
-        Para pedreiros e técnicos, destaque experiência prática, conhecimento de materiais locais e capacidade de liderar equipas.
+        Para pedreiros e técnicos, destaque experiência prática, conhecimento de materiais locais e capacidade de liderar equipas. Saiba mais sobre <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar seu CV para diferentes áreas profissionais</a>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Erros Comuns a Evitar</h2>
@@ -78,6 +78,30 @@ const CVProfissionalMocambique = () => {
       <p className="mb-6 text-gray-700 leading-relaxed">
         Um CV profissional bem elaborado é sua porta de entrada para o mercado de trabalho moçambicano. Seguindo estas diretrizes e adaptando o conteúdo às especificidades locais, você aumentará significativamente suas chances de conseguir a vaga desejada. Lembre-se de sempre revisar e atualizar seu currículo conforme ganha novas experiências.
       </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <div className="bg-blue-50 p-6 rounded-lg mb-6">
+        <ul className="space-y-3 text-gray-700">
+          <li>
+            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              5 erros comuns que você deve evitar no seu CV
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Descubra os principais erros que podem prejudicar seu currículo e como evitá-los.</p>
+          </li>
+          <li>
+            <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Primeiro emprego: como montar um CV sem experiência
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Guia completo para criar um currículo atrativo mesmo sem experiência profissional.</p>
+          </li>
+          <li>
+            <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Tendências do mercado de trabalho em Moçambique 2024
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Análise das profissões em alta e competências mais valorizadas.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 

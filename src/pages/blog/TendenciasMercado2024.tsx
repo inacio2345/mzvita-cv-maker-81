@@ -7,12 +7,12 @@ const TendenciasMercado2024 = () => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Introdução</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        O mercado de trabalho em Moçambique 2024 apresenta novas oportunidades e desafios únicos. Com o crescimento econômico do país e a expansão de diversos setores, compreender as tendências atuais é fundamental para profissionais que buscam se posicionar estrategicamente no mercado. Este guia analisa as principais tendências, profissões em alta e competências mais valorizadas pelos empregadores moçambicanos.
+        O mercado de trabalho em Moçambique 2024 apresenta novas oportunidades e desafios únicos. Com o crescimento econômico do país e a expansão de diversos setores, compreender as tendências atuais é fundamental para profissionais que buscam se posicionar estrategicamente no mercado. Segundo dados recentes do <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional</a>, novas áreas estão emergindo como promissoras. Este guia analisa as principais tendências, profissões em alta e competências mais valorizadas pelos empregadores moçambicanos.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Setores em Crescimento em Moçambique</h2>
       <p className="mb-4 text-gray-700">
-        O mercado de trabalho moçambicano está passando por uma transformação significativa em 2024, com alguns setores apresentando crescimento acelerado:
+        O mercado de trabalho moçambicano está passando por uma transformação significativa em 2024, com alguns setores apresentando crescimento acelerado. Para preparar seu currículo adequadamente, consulte nosso guia sobre <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">como criar um CV profissional em Moçambique</a>:
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Energia e Recursos Naturais</h3>
@@ -29,7 +29,7 @@ const TendenciasMercado2024 = () => {
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Tecnologia e Telecomunicações</h3>
       <p className="mb-4 text-gray-700">
-        A digitalização crescente criou oportunidades em:
+        A digitalização crescente criou oportunidades em tecnologia. Recursos como o <a href="https://www.worldbank.org/en/country/mozambique" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Banco Mundial</a> destacam este setor como prioritário:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li>Desenvolvimento de software e aplicações</li>
@@ -53,7 +53,7 @@ const TendenciasMercado2024 = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Profissões Mais Procuradas em 2024</h2>
       <p className="mb-4 text-gray-700">
-        Baseado em dados de recrutamento e anúncios de emprego, as profissões com maior demanda incluem:
+        Baseado em dados de recrutamento e anúncios de emprego, as profissões com maior demanda incluem. Para adaptar seu CV a cada área, veja nosso artigo sobre <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como personalizar currículos por área profissional</a>:
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Top 10 Profissões em Moçambique</h3>
@@ -72,7 +72,7 @@ const TendenciasMercado2024 = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Competências Mais Valorizadas</h2>
       <p className="mb-4 text-gray-700">
-        O mercado de trabalho moçambicano valoriza cada vez mais competências específicas:
+        O mercado de trabalho moçambicano valoriza cada vez mais competências específicas. Para evitar erros na apresentação dessas competências, consulte nosso guia sobre <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que prejudicam o CV</a>:
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Técnicas (Hard Skills)</h3>
@@ -108,7 +108,7 @@ const TendenciasMercado2024 = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Dicas para se Destacar no Mercado</h2>
       <p className="mb-4 text-gray-700">
-        Para aproveitar as oportunidades do mercado moçambicano em 2024:
+        Para aproveitar as oportunidades do mercado moçambicano em 2024, especialmente se você está começando a carreira, veja nosso artigo sobre <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">como montar um CV sem experiência</a>:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li>Invista em capacitação contínua</li>
@@ -143,6 +143,30 @@ const TendenciasMercado2024 = () => {
       <p className="mb-6 text-gray-700 leading-relaxed">
         O mercado de trabalho em Moçambique 2024 oferece oportunidades diversificadas para profissionais preparados. O sucesso depende de manter-se atualizado com as tendências, desenvolver as competências certas e apresentar-se profissionalmente. Um CV bem elaborado é o primeiro passo para aproveitar essas oportunidades emergentes.
       </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <div className="bg-blue-50 p-6 rounded-lg mb-6">
+        <ul className="space-y-3 text-gray-700">
+          <li>
+            <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Como adaptar seu CV para diferentes áreas profissionais
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Personalize seu currículo para destacar competências específicas de cada área.</p>
+          </li>
+          <li>
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Como criar um CV profissional em Moçambique
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Estrutura completa e dicas específicas para o mercado moçambicano.</p>
+          </li>
+          <li>
+            <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Primeiro emprego: como montar um CV sem experiência
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Dicas para quem está começando a carreira profissional.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 

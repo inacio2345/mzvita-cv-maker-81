@@ -7,12 +7,12 @@ const CVSemExperiencia = () => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-4">O Desafio do Primeiro Emprego</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Conseguir o primeiro emprego em Moçambique pode parecer um paradoxo: as empresas querem experiência, mas como ganhar experiência sem ter trabalhado antes? A boa notícia é que você tem mais para oferecer do que imagina. Este guia vai ajudá-lo a criar um CV convincente mesmo sem experiência profissional formal.
+        Conseguir o primeiro emprego em Moçambique pode parecer um paradoxo: as empresas querem experiência, mas como ganhar experiência sem ter trabalhado antes? Segundo o <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional</a>, mais de 60% dos jovens enfrentam esta dificuldade. A boa notícia é que você tem mais para oferecer do que imagina. Este guia vai ajudá-lo a criar um CV convincente mesmo sem experiência profissional formal.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Foque na Sua Formação Académica</h2>
       <p className="mb-4 text-gray-700">
-        Quando você não tem experiência profissional, sua formação académica torna-se ainda mais importante:
+        Quando você não tem experiência profissional, sua formação académica torna-se ainda mais importante. Para uma estrutura completa, consulte nosso <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">guia sobre como criar um CV profissional</a>:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li><strong>Destaque seu curso:</strong> Mencione disciplinas relevantes para a vaga</li>
@@ -23,7 +23,7 @@ const CVSemExperiencia = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Valorize Experiências Não-Formais</h2>
       <p className="mb-4 text-gray-700">
-        Muitas experiências que você considera "não profissionais" são valiosas para empregadores:
+        Muitas experiências que você considera "não profissionais" são valiosas para empregadores. Plataformas como o <a href="https://www.emprego.co.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">portal Emprego.co.mz</a> frequentemente destacam a importância dessas experiências:
       </p>
       
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Trabalho Voluntário</h3>
@@ -52,7 +52,7 @@ const CVSemExperiencia = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Desenvolva e Destaque Suas Competências</h2>
       <p className="mb-4 text-gray-700">
-        Competências são muitas vezes mais importantes que experiência para o primeiro emprego:
+        Competências são muitas vezes mais importantes que experiência para o primeiro emprego. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns na apresentação de competências</a>:
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Técnicas</h3>
@@ -99,6 +99,9 @@ const CVSemExperiencia = () => {
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Dicas Específicas para Moçambique</h2>
+      <p className="mb-4 text-gray-700">
+        Para entender melhor as <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline">tendências do mercado de trabalho em 2024</a>, considere estas dicas:
+      </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li>Destaque conhecimento das realidades locais</li>
         <li>Mencione capacidade de trabalhar em ambientes multiculturais</li>
@@ -120,6 +123,30 @@ const CVSemExperiencia = () => {
       <p className="mb-6 text-gray-700 leading-relaxed">
         Não ter experiência profissional não significa não ter valor para oferecer. Foque no seu potencial, nas competências desenvolvidas durante a formação e nas experiências de vida que demonstram suas qualidades pessoais. Muitos empregadores preferem contratar pessoas motivadas e com vontade de aprender do que profissionais experientes mas acomodados. Seu primeiro emprego está mais próximo do que você imagina!
       </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <div className="bg-blue-50 p-6 rounded-lg mb-6">
+        <ul className="space-y-3 text-gray-700">
+          <li>
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Como criar um CV profissional em Moçambique
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Estrutura completa e dicas específicas para o mercado moçambicano.</p>
+          </li>
+          <li>
+            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              5 erros comuns que você deve evitar no seu CV
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Principais erros que podem prejudicar seu currículo e como evitá-los.</p>
+          </li>
+          <li>
+            <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Como adaptar seu CV para diferentes áreas profissionais
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Personalize seu currículo para destacar competências específicas de cada área.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 

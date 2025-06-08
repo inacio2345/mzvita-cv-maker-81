@@ -7,12 +7,12 @@ const AdaptarCVPorArea = () => {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Introdução</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Adaptar seu CV para diferentes áreas profissionais é fundamental para o sucesso na busca por emprego em Moçambique. Cada setor tem suas particularidades, expectativas específicas e competências valorizadas. Este guia ensina como personalizar seu currículo para maximizar suas chances em qualquer área profissional.
+        Adaptar seu CV para diferentes áreas profissionais é fundamental para o sucesso na busca por emprego em Moçambique. Cada setor tem suas particularidades, expectativas específicas e competências valorizadas. Segundo dados do <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional</a>, candidatos que personalizam seus currículos têm 3x mais chances de conseguir entrevistas. Este guia ensina como personalizar seu currículo para maximizar suas chances em qualquer área profissional.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Por que Adaptar seu CV por Área Profissional?</h2>
       <p className="mb-4 text-gray-700">
-        Cada área profissional tem critérios específicos de avaliação. Um CV genérico raramente atende às expectativas dos recrutadores, que buscam candidatos com perfil alinhado às necessidades do setor.
+        Cada área profissional tem critérios específicos de avaliação. Um CV genérico raramente atende às expectativas dos recrutadores, que buscam candidatos com perfil alinhado às necessidades do setor. Para evitar os erros mais comuns, consulte nosso artigo sobre <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">5 erros que prejudicam seu CV</a>.
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Benefícios da Personalização</h3>
@@ -26,7 +26,7 @@ const AdaptarCVPorArea = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">2. CV para Área de Saúde</h2>
       <p className="mb-4 text-gray-700">
-        Profissionais de saúde devem enfatizar formação técnica, certificações e experiência prática.
+        Profissionais de saúde devem enfatizar formação técnica, certificações e experiência prática. Para iniciantes na área, veja nosso guia sobre <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">como montar um CV sem experiência</a>.
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Elementos Essenciais</h3>
@@ -45,7 +45,7 @@ const AdaptarCVPorArea = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. CV para Área de Educação</h2>
       <p className="mb-4 text-gray-700">
-        Educadores devem valorizar formação pedagógica, metodologias e resultados alcançados.
+        Educadores devem valorizar formação pedagógica, metodologias e resultados alcançados. Recursos como o <a href="https://www.unesco.org/en/countries/mozambique" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">portal da UNESCO em Moçambique</a> destacam a importância da qualificação docente.
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Pontos de Destaque</h3>
@@ -90,7 +90,7 @@ const AdaptarCVPorArea = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. CV para Área Comercial</h2>
       <p className="mb-4 text-gray-700">
-        Profissionais de vendas devem destacar resultados, relacionamento e conhecimento de produtos.
+        Profissionais de vendas devem destacar resultados, relacionamento e conhecimento de produtos. Para uma base sólida, consulte nosso <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">guia de criação de CV profissional</a>.
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Essenciais</h3>
@@ -104,7 +104,7 @@ const AdaptarCVPorArea = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">6. CV para Tecnologia</h2>
       <p className="mb-4 text-gray-700">
-        Profissionais de TI devem enfatizar competências técnicas, projetos e certificações.
+        Profissionais de TI devem enfatizar competências técnicas, projetos e certificações. Para entender melhor as <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline">tendências tecnológicas em 2024</a>, consulte nossa análise do mercado.
       </p>
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Elementos Técnicos</h3>
@@ -155,6 +155,30 @@ const AdaptarCVPorArea = () => {
       <p className="mb-6 text-gray-700 leading-relaxed">
         Adaptar seu CV por área profissional é uma estratégia essencial para o sucesso na busca por emprego. Investir tempo na personalização demonstra profissionalismo e aumenta significativamente suas chances de conseguir a vaga desejada. Lembre-se: um CV bem adaptado é um investimento no seu futuro profissional.
       </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <div className="bg-blue-50 p-6 rounded-lg mb-6">
+        <ul className="space-y-3 text-gray-700">
+          <li>
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Como criar um CV profissional em Moçambique
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Base sólida para construir um currículo eficaz no mercado moçambicano.</p>
+          </li>
+          <li>
+            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              5 erros comuns que você deve evitar no seu CV
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Principais erros que podem prejudicar sua candidatura.</p>
+          </li>
+          <li>
+            <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline font-medium">
+              Tendências do mercado de trabalho em Moçambique 2024
+            </a>
+            <p className="text-sm text-gray-600 mt-1">Profissões em alta e competências mais valorizadas.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 
