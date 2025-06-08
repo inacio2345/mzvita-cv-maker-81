@@ -18,96 +18,61 @@ const Exemplos = () => {
     {
       id: 1,
       templateId: "cv01",
-      title: "CV Executivo Premium",
-      description: "Perfeito para cargos de gestão e liderança",
+      title: "Profissional Clássico",
+      description: "Cabeçalho centralizado com layout de duas colunas. Ideal para áreas corporativas e formais.",
       image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
       rating: 5,
-      downloads: 1250,
-      category: "Administração"
+      downloads: 1500,
+      category: "Administração",
+      features: ["Layout tradicional", "Duas colunas", "Cores neutras", "Impressão otimizada"]
     },
     {
       id: 2,
-      templateId: "cv06",
-      title: "CV Moderno Tech",
-      description: "Ideal para profissionais de tecnologia",
+      templateId: "cv02",
+      title: "Barra Lateral Esquerda",
+      description: "Foto e dados pessoais em sidebar colorida. Perfeito para profissionais experientes.",
       image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
       rating: 5,
-      downloads: 980,
-      category: "Informática"
+      downloads: 1250,
+      category: "Saúde",
+      features: ["Sidebar colorida", "Espaço para foto", "Ícones informativos", "Visual corporativo"]
     },
     {
       id: 3,
-      templateId: "cv02",
-      title: "CV Criativo Design",
-      description: "Para designers e profissionais criativos",
+      templateId: "cv03",
+      title: "Layout Simples com Destaques",
+      description: "Estrutura vertical com blocos destacados. Leve e limpo para qualquer área.",
       image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
       rating: 4,
-      downloads: 750,
-      category: "Design"
+      downloads: 980,
+      category: "Engenharia",
+      features: ["Blocos destacados", "Estrutura limpa", "Fácil leitura", "Versátil"]
     },
     {
       id: 4,
       templateId: "cv04",
-      title: "CV Clássico Profissional",
-      description: "Elegante e tradicional para todas as áreas",
+      title: "Criativo Profissional",
+      description: "Cores suaves e tipografia moderna. Ideal para marketing, design e áreas criativas.",
       image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
       rating: 5,
-      downloads: 1500,
-      category: "Administração"
+      downloads: 1100,
+      category: "Design",
+      features: ["Header gradiente", "Ícones grandes", "Cores suaves", "Tipografia moderna"]
     },
     {
       id: 5,
-      templateId: "cv03",
-      title: "CV Minimalista",
-      description: "Limpo e direto ao ponto",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
-      rating: 4,
-      downloads: 650,
-      category: "Engenharia"
-    },
-    {
-      id: 6,
-      templateId: "cv07",
-      title: "CV Académico Formal",
-      description: "Ideal para pesquisadores e acadêmicos",
+      templateId: "cv05",
+      title: "Compacto Menu Direita",
+      description: "Layout enxuto com menu lateral direito. Foco em praticidade e organização.",
       image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
       rating: 4,
       downloads: 850,
-      category: "Educação"
-    },
-    {
-      id: 7,
-      templateId: "cv08",
-      title: "CV Comercial Dinâmico",
-      description: "Para profissionais de vendas e comercial",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
-      rating: 5,
-      downloads: 920,
-      category: "Administração"
-    },
-    {
-      id: 8,
-      templateId: "cv07",
-      title: "CV Saúde Profissional",
-      description: "Especializado para área da saúde",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
-      rating: 4,
-      downloads: 680,
-      category: "Saúde"
-    },
-    {
-      id: 9,
-      templateId: "cv05",
-      title: "CV Hotelaria Elegante",
-      description: "Para profissionais de turismo e hotelaria",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
-      rating: 4,
-      downloads: 540,
-      category: "Hotelaria"
+      category: "Educação",
+      features: ["Menu lateral direito", "Layout compacto", "Organização clara", "Versão prática"]
     }
   ];
 
-  const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Educação", "Hotelaria", "Informática", "Design"];
+  const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Design", "Educação", "Informática", "Hotelaria"];
 
   const filteredExamples = selectedCategory === "Todos" 
     ? examples 
@@ -181,10 +146,10 @@ const Exemplos = () => {
       <section className="py-8 sm:py-12 lg:py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent leading-tight">
-            Exemplos de CVs
+            5 Modelos Profissionais
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2">
-            Explore nossa coleção de templates profissionais e encontre o estilo perfeito para destacar seu perfil no mercado de trabalho.
+            Escolha entre 5 layouts únicos e visuais criados especificamente para diferentes áreas profissionais. Todos compatíveis com os campos do formulário MozVita.
           </p>
         </div>
       </section>
@@ -214,7 +179,7 @@ const Exemplos = () => {
       {/* Examples Grid */}
       <section className="py-8 sm:py-12 lg:py-20 px-4">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto">
             {filteredExamples.map((example) => (
               <Card key={example.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0 shadow-lg group">
                 <div className="aspect-[3/4] overflow-hidden bg-gray-100 relative">
@@ -236,7 +201,7 @@ const Exemplos = () => {
                     </div>
                   </div>
                 </div>
-                <div className="p-4 sm:p-6">
+                <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="bg-gradient-to-r from-google-blue to-google-green text-white text-xs px-2 py-1 rounded-full">
                       {example.category}
@@ -245,37 +210,50 @@ const Exemplos = () => {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-3 h-3 sm:w-4 sm:h-4 ${
+                          className={`w-3 h-3 ${
                             i < example.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
                           }`}
                         />
                       ))}
                     </div>
                   </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">{example.title}</h3>
-                  <p className="text-gray-600 mb-4 text-sm sm:text-base">{example.description}</p>
-                  <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-4">
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{example.title}</h3>
+                  <p className="text-gray-600 mb-3 text-sm">{example.description}</p>
+                  
+                  {/* Features */}
+                  <div className="mb-4">
+                    <div className="flex flex-wrap gap-1">
+                      {example.features.slice(0, 2).map((feature, index) => (
+                        <span key={index} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
                     <div className="flex items-center space-x-1">
-                      <Download className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <Download className="w-3 h-3" />
                       <span>{example.downloads} downloads</span>
                     </div>
                   </div>
+                  
                   <div className="flex space-x-2">
                     <Button 
                       variant="outline" 
                       size="sm" 
                       onClick={() => handleViewExample(example)}
-                      className="flex-1 border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-xs sm:text-sm"
+                      className="flex-1 border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-xs"
                     >
-                      <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                      Ver Exemplo
+                      <Eye className="w-3 h-3 mr-1" />
+                      Ver
                     </Button>
                     <Button 
                       size="sm" 
                       onClick={() => handleUseTemplate(example)}
-                      className="flex-1 bg-google-blue hover:bg-blue-600 text-white text-xs sm:text-sm"
+                      className="flex-1 bg-google-blue hover:bg-blue-600 text-white text-xs"
                     >
-                      Usar Modelo
+                      Usar
                     </Button>
                   </div>
                 </div>
@@ -301,7 +279,7 @@ const Exemplos = () => {
             </DialogTitle>
           </DialogHeader>
           {selectedExample && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="aspect-[3/4] max-h-[70vh] overflow-hidden bg-gray-100 rounded-lg">
                 <img
                   src={selectedExample.image}
@@ -309,21 +287,43 @@ const Exemplos = () => {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="text-xl font-bold">{selectedExample.title}</h3>
-                  <p className="text-gray-600">{selectedExample.description}</p>
-                  <p className="text-sm text-gray-500 mt-2">Categoria: {selectedExample.category}</p>
+              <div className="space-y-4">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold mb-2">{selectedExample.title}</h3>
+                    <p className="text-gray-600 mb-4">{selectedExample.description}</p>
+                    <div className="space-y-2">
+                      <p className="text-sm text-gray-500">
+                        <span className="font-medium">Categoria:</span> {selectedExample.category}
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        <span className="font-medium">Downloads:</span> {selectedExample.downloads}
+                      </p>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={() => {
+                      handleUseTemplate(selectedExample);
+                      setIsModalOpen(false);
+                    }}
+                    className="bg-google-blue hover:bg-blue-600 text-white ml-4"
+                  >
+                    Usar Este Modelo
+                  </Button>
                 </div>
-                <Button 
-                  onClick={() => {
-                    handleUseTemplate(selectedExample);
-                    setIsModalOpen(false);
-                  }}
-                  className="bg-google-blue hover:bg-blue-600 text-white"
-                >
-                  Usar Este Modelo
-                </Button>
+                
+                {/* Features detalhadas */}
+                <div>
+                  <h4 className="font-bold text-gray-800 mb-3">Características do Modelo:</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedExample.features.map((feature, index) => (
+                      <div key={index} className="flex items-center text-sm text-gray-600">
+                        <div className="w-2 h-2 bg-google-blue rounded-full mr-2"></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -333,9 +333,10 @@ const Exemplos = () => {
       {/* CTA Section */}
       <section className="py-12 sm:py-20 bg-gradient-to-r from-google-blue to-google-green">
         <div className="container mx-auto px-4 text-center text-white">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Pronto para Criar seu CV?</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Escolha Seu Modelo Ideal</h2>
           <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-            Use qualquer um destes templates como base e personalize com suas informações para criar um CV profissional em minutos.
+            Todos os modelos suportam foto, dados pessoais completos, experiência, formação, habilidades e idiomas. 
+            Personalize com suas informações e crie um CV profissional em minutos.
           </p>
           <Button 
             size="lg" 

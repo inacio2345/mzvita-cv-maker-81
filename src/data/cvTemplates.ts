@@ -1,4 +1,3 @@
-
 export interface CVTemplate {
   id: string;
   nome: string;
@@ -39,12 +38,87 @@ export interface CVTemplate {
 export const cvTemplates: CVTemplate[] = [
   {
     id: "cv01",
-    nome: "Modelo Executivo Premium",
-    layout: "sidebar_esquerda",
-    foto_posicao: "esquerda_circular",
-    paleta: "azul_executivo",
-    secoes: ["foto", "contato", "skills", "idiomas", "perfil", "experiencia", "educacao"],
+    nome: "Profissional Clássico",
+    layout: "cabecalho_centralizado_duas_colunas",
+    foto_posicao: "opcional",
+    paleta: "cinza_azul_escuro",
+    secoes: ["cabecalho", "contacto", "habilidades", "idiomas", "perfil", "experiencia", "formacao"],
     canvaUrl: "https://www.canva.com/design/DAGpDei1yRQ/BygIKeaStwN18mdOoS3TYQ/view",
+    colorPalette: {
+      primary: "#1e40af",
+      secondary: "#3b82f6", 
+      accent: "#64748b",
+      background: "#f8fafc",
+      text: "#1f2937"
+    },
+    fonts: {
+      primary: "Inter",
+      headings: "Roboto"
+    },
+    layoutConfig: {
+      type: "cabecalho_duas_colunas",
+      sections: ["cabecalho", "contacto", "habilidades", "idiomas", "perfil", "experiencia", "formacao"],
+      columns: {
+        left: ["contacto", "habilidades", "idiomas"],
+        right: ["perfil", "experiencia", "formacao"]
+      }
+    },
+    dados: {
+      personalData: {
+        fullName: "António Silva Macamo",
+        profession: "Gestor Financeiro",
+        email: "antonio.macamo@financas.com",
+        phone: "+258 84 123 4567",
+        address: "Maputo, Moçambique",
+        website: "linkedin.com/in/antoniomacamo"
+      },
+      about: "Profissional experiente em gestão financeira com mais de 8 anos de experiência em instituições bancárias e empresas de grande porte. Especializado em análise de riscos, planejamento orçamental e consultoria financeira.",
+      education: [
+        {
+          degree: "Licenciatura em Economia",
+          institution: "Universidade Eduardo Mondlane",
+          startYear: "2012",
+          endYear: "2016"
+        },
+        {
+          degree: "MBA em Finanças Corporativas", 
+          institution: "ISCTEM",
+          startYear: "2017",
+          endYear: "2019"
+        }
+      ],
+      experience: [
+        {
+          position: "Gestor Financeiro Sénior",
+          company: "Banco Internacional de Moçambique",
+          startDate: "Jan 2020",
+          endDate: "Presente",
+          current: true,
+          description: "Gestão do portfólio de clientes corporativos, análise de crédito e desenvolvimento de produtos financeiros inovadores."
+        },
+        {
+          position: "Analista Financeiro",
+          company: "Grupo Empresarial Maputo",
+          startDate: "Jun 2016",
+          endDate: "Dez 2019",
+          current: false,
+          description: "Análise de demonstrações financeiras, elaboração de relatórios gerenciais e apoio na tomada de decisões estratégicas."
+        }
+      ],
+      skills: {
+        technical: ["Análise Financeira", "Excel Avançado", "SAP", "Power BI", "Gestão de Riscos", "Orçamentação"],
+        languages: ["Português - Nativo", "Inglês - Avançado", "Francês - Intermédio"]
+      }
+    }
+  },
+  {
+    id: "cv02",
+    nome: "Barra Lateral Esquerda",
+    layout: "sidebar_esquerda_colorida",
+    foto_posicao: "esquerda_circular",
+    paleta: "azul_corporativo",
+    secoes: ["foto", "dados_pessoais", "competencias", "idiomas", "perfil", "experiencia", "formacao"],
+    canvaUrl: "https://www.canva.com/design/DAGpDfzeXTg/tGUHKXZS1IserDD8MJbFGw/view",
     colorPalette: {
       primary: "#1e3a8a",
       secondary: "#3b82f6",
@@ -53,63 +127,148 @@ export const cvTemplates: CVTemplate[] = [
       text: "#1f2937"
     },
     fonts: {
-      primary: "Inter",
-      headings: "Poppins"
+      primary: "Open Sans",
+      headings: "Lato"
     },
     layoutConfig: {
-      type: "duas_colunas",
-      sections: ["foto", "contato", "skills", "idiomas", "perfil", "experiencia", "educacao"],
+      type: "sidebar_esquerda",
+      sections: ["foto", "dados_pessoais", "competencias", "idiomas", "perfil", "experiencia", "formacao"],
       columns: {
-        left: ["foto", "contato", "skills", "idiomas"],
-        right: ["perfil", "experiencia", "educacao"]
+        left: ["foto", "dados_pessoais", "competencias", "idiomas"],
+        right: ["perfil", "experiencia", "formacao"]
       }
     },
     dados: {
       personalData: {
-        fullName: "João Silva Santos",
-        profession: "Gestor Executivo",
-        email: "joao.santos@email.com",
-        phone: "+258 84 123 4567",
-        address: "Maputo, Moçambique",
-        website: "linkedin.com/in/joaosantos"
+        fullName: "Dra. Fernanda Sitoe",
+        profession: "Médica Especialista",
+        email: "fernanda.sitoe@hospital.gov.mz",
+        phone: "+258 87 987 6543",
+        address: "Beira, Moçambique",
+        website: "drfernandasitoe.com"
       },
-      about: "Executivo sénior com mais de 10 anos de experiência em liderança empresarial e gestão estratégica.",
+      about: "Médica especialista em medicina interna com mais de 10 anos de experiência no Sistema Nacional de Saúde. Dedicada ao atendimento de qualidade e à formação de novos profissionais de saúde.",
       education: [
         {
-          degree: "MBA em Gestão Empresarial",
+          degree: "Medicina",
           institution: "Universidade Eduardo Mondlane",
-          startYear: "2018",
-          endYear: "2020"
+          startYear: "2008",
+          endYear: "2014"
+        },
+        {
+          degree: "Especialização em Medicina Interna",
+          institution: "Hospital Central de Maputo",
+          startYear: "2015",
+          endYear: "2018"
         }
       ],
       experience: [
         {
-          position: "Director Executivo",
-          company: "Empresa Moçambicana Lda",
-          startDate: "Jan 2020",
+          position: "Médica Especialista",
+          company: "Hospital Central da Beira",
+          startDate: "Mar 2018",
           endDate: "Presente",
           current: true,
-          description: "Liderança estratégica e gestão operacional completa da organização."
+          description: "Atendimento especializado em medicina interna, supervisão de internos e residentes, participação em programas de formação médica contínua."
+        },
+        {
+          position: "Médica Residente",
+          company: "Hospital Central de Maputo",
+          startDate: "Jan 2015",
+          endDate: "Fev 2018",
+          current: false,
+          description: "Formação especializada em medicina interna, atendimento de emergência e acompanhamento de pacientes internados."
         }
       ],
       skills: {
-        technical: ["Gestão Estratégica", "Liderança", "Análise Financeira", "Planejamento"],
-        soft: ["Comunicação", "Negociação", "Visão Estratégica", "Inovação"]
+        technical: ["Medicina Interna", "Diagnóstico Clínico", "Emergência Médica", "Formação Médica", "Investigação Clínica"],
+        languages: ["Português - Nativo", "Inglês - Fluente", "Francês - Básico"]
       }
     }
   },
   {
-    id: "cv02",
-    nome: "Modelo Criativo Moderno",
-    layout: "criativo_colorido",
-    foto_posicao: "topo_central",
-    paleta: "verde_criativo",
-    secoes: ["foto", "perfil", "experiencia", "educacao", "skills_visual"],
-    canvaUrl: "https://www.canva.com/design/DAGpDfzeXTg/tGUHKXZS1IserDD8MJbFGw/view",
+    id: "cv03",
+    nome: "Layout Simples com Destaques",
+    layout: "vertical_blocos_destacados",
+    foto_posicao: "opcional",
+    paleta: "azul_claro_destaques",
+    secoes: ["nome_titulo", "contacto_linha", "perfil_destaque", "experiencia_blocos", "formacao_blocos", "competencias_tags"],
+    canvaUrl: "https://www.canva.com/design/DAGpDfOD3q4/chRZEyg_aUgvbO-WTtQQfA/view",
+    colorPalette: {
+      primary: "#0369a1",
+      secondary: "#0ea5e9",
+      accent: "#06b6d4",
+      background: "#f0f9ff",
+      text: "#0c4a6e"
+    },
+    fonts: {
+      primary: "Source Sans Pro",
+      headings: "Nunito"
+    },
+    layoutConfig: {
+      type: "vertical_destacado",
+      sections: ["nome_titulo", "contacto_linha", "perfil_destaque", "experiencia_blocos", "formacao_blocos", "competencias_tags"]
+    },
+    dados: {
+      personalData: {
+        fullName: "Eng. Carlos Nhantumbo",
+        profession: "Engenheiro Civil",
+        email: "carlos.nhantumbo@construcao.mz",
+        phone: "+258 86 111 2233",
+        address: "Nampula, Moçambique",
+        website: "carlosnhantumbo.eng"
+      },
+      about: "Engenheiro civil experiente com foco em projetos de infraestrutura e construção civil. Especializado em gestão de obras, orçamentação e supervisão técnica de projetos de grande escala.",
+      education: [
+        {
+          degree: "Engenharia Civil",
+          institution: "Universidade Eduardo Mondlane",
+          startYear: "2013",
+          endYear: "2018"
+        },
+        {
+          degree: "Mestrado em Estruturas",
+          institution: "Instituto Superior Técnico - Lisboa",
+          startYear: "2019",
+          endYear: "2021"
+        }
+      ],
+      experience: [
+        {
+          position: "Engenheiro Civil Sénior",
+          company: "Construtora Moçambicana Lda",
+          startDate: "Jun 2021",
+          endDate: "Presente",
+          current: true,
+          description: "Liderança técnica em projetos de infraestrutura rodoviária e edificações comerciais. Responsável pela coordenação de equipas multidisciplinares e controlo de qualidade."
+        },
+        {
+          position: "Engenheiro Júnior",
+          company: "Gabinete de Estudos e Projetos",
+          startDate: "Jan 2018",
+          endDate: "Mai 2021",
+          current: false,
+          description: "Desenvolvimento de projetos estruturais, acompanhamento de obras e elaboração de relatórios técnicos."
+        }
+      ],
+      skills: {
+        technical: ["AutoCAD", "SAP2000", "Gestão de Projetos", "Orçamentação", "Supervisão de Obras", "ETABS"],
+        languages: ["Português - Nativo", "Inglês - Avançado", "Espanhol - Intermédio"]
+      }
+    }
+  },
+  {
+    id: "cv04",
+    nome: "Criativo Profissional",
+    layout: "criativo_cores_suaves",
+    foto_posicao: "integrada_header",
+    paleta: "verde_lilas_coral",
+    secoes: ["header_gradiente", "icones_grandes", "divisores_coloridos", "tipografia_moderna"],
+    canvaUrl: "https://www.canva.com/design/DAGpDWqo6nc/7epmrCS59CaeumjLrCZwng/view",
     colorPalette: {
       primary: "#059669",
       secondary: "#10b981",
-      accent: "#fbbf24",
+      accent: "#f472b6",
       background: "#f0fdf4",
       text: "#065f46"
     },
@@ -118,51 +277,65 @@ export const cvTemplates: CVTemplate[] = [
       headings: "Montserrat"
     },
     layoutConfig: {
-      type: "criativo_vertical",
-      sections: ["foto", "perfil", "experiencia", "educacao", "skills_visual"]
+      type: "criativo_moderno",
+      sections: ["header_gradiente", "icones_grandes", "divisores_coloridos", "tipografia_moderna"]
     },
     dados: {
       personalData: {
-        fullName: "Maria Fernanda Costa",
-        profession: "Designer Gráfica",
-        email: "maria.costa@design.com",
-        phone: "+258 87 987 6543",
-        address: "Beira, Moçambique",
-        website: "behance.net/mariafernanda"
+        fullName: "Sofia Chambal",
+        profession: "Designer Gráfica & Marketing",
+        email: "sofia.chambal@criativo.mz",
+        phone: "+258 84 777 8888",
+        address: "Maputo, Moçambique",
+        website: "sofiachambal.design"
       },
-      about: "Designer criativa especializada em branding e identidade visual com foco em soluções inovadoras.",
+      about: "Designer gráfica criativa especializada em branding, marketing digital e comunicação visual. Apaixonada por criar identidades visuais que contam histórias e conectam marcas aos seus públicos de forma autêntica e impactante.",
       education: [
         {
-          degree: "Licenciatura em Design Gráfico",
-          institution: "Instituto Superior de Artes",
-          startYear: "2018",
+          degree: "Design Gráfico e Multimédia",
+          institution: "Instituto Superior de Artes e Cultura",
+          startYear: "2017",
+          endYear: "2021"
+        },
+        {
+          degree: "Certificação em Marketing Digital",
+          institution: "Google Digital Marketing",
+          startYear: "2022",
           endYear: "2022"
         }
       ],
       experience: [
         {
-          position: "Designer Sénior",
-          company: "Agência Criativa Moz",
-          startDate: "Mar 2022",
+          position: "Designer Sénior & Coordenadora Criativa",
+          company: "Agência PubliMoz",
+          startDate: "Mai 2022",
           endDate: "Presente",
           current: true,
-          description: "Criação de identidades visuais e campanhas publicitárias para clientes nacionais."
+          description: "Liderança criativa em campanhas de branding para clientes nacionais e internacionais. Desenvolvimento de estratégias visuais integradas e coordenação de equipas criativas."
+        },
+        {
+          position: "Designer Gráfica",
+          company: "Estúdio Criativo Maputo",
+          startDate: "Jan 2021",
+          endDate: "Abr 2022",
+          current: false,
+          description: "Criação de identidades visuais, materiais publicitários e conteúdo para redes sociais. Desenvolvimento de projetos para PMEs e startups locais."
         }
       ],
       skills: {
-        technical: ["Adobe Creative Suite", "Figma", "Branding", "UI/UX Design"],
-        soft: ["Criatividade", "Comunicação Visual", "Pensamento Crítico", "Inovação"]
+        technical: ["Adobe Creative Suite", "Figma", "Sketch", "Brand Design", "UI/UX Design", "Marketing Digital"],
+        languages: ["Português - Nativo", "Inglês - Fluente", "Francês - Intermédio"]
       }
     }
   },
   {
-    id: "cv03",
-    nome: "Modelo Minimalista Clean",
-    layout: "minimalista_limpo",
-    foto_posicao: "esquerda_quadrada",
-    paleta: "cinza_minimalista",
-    secoes: ["foto", "dados_pessoais", "experiencia", "educacao", "competencias"],
-    canvaUrl: "https://www.canva.com/design/DAGpDfOD3q4/chRZEyg_aUgvbO-WTtQQfA/view",
+    id: "cv05",
+    nome: "Compacto com Menu à Direita",
+    layout: "menu_lateral_direito",
+    foto_posicao: "opcional",
+    paleta: "neutro_pratico",
+    secoes: ["dados_pessoais_direita", "habilidades_organizadas", "conteudo_esquerda_blocos"],
+    canvaUrl: "https://www.canva.com/design/DAGpDV5eSUU/WaepU_svQ6_PtBtMofOqPQ/view",
     colorPalette: {
       primary: "#374151",
       secondary: "#6b7280",
@@ -171,158 +344,68 @@ export const cvTemplates: CVTemplate[] = [
       text: "#111827"
     },
     fonts: {
-      primary: "Source Sans Pro",
+      primary: "Inter",
       headings: "Roboto"
     },
     layoutConfig: {
-      type: "minimalista",
-      sections: ["foto", "dados_pessoais", "experiencia", "educacao", "competencias"]
-    },
-    dados: {
-      personalData: {
-        fullName: "Carlos Manuel Sitoe",
-        profession: "Analista de Sistemas",
-        email: "carlos.sitoe@tech.com",
-        phone: "+258 86 111 2233",
-        address: "Nampula, Moçambique",
-        website: "github.com/carlossitoe"
-      },
-      about: "Profissional de TI especializado em análise de sistemas e desenvolvimento de soluções tecnológicas.",
-      education: [
-        {
-          degree: "Engenharia Informática",
-          institution: "Universidade Católica de Moçambique",
-          startYear: "2017",
-          endYear: "2021"
-        }
-      ],
-      experience: [
-        {
-          position: "Analista de Sistemas",
-          company: "TechMoz Solutions",
-          startDate: "Jan 2022",
-          endDate: "Presente",
-          current: true,
-          description: "Análise e desenvolvimento de sistemas empresariais usando tecnologias modernas."
-        }
-      ],
-      skills: {
-        technical: ["Java", "Spring Boot", "SQL", "Git", "Agile"],
-        soft: ["Resolução de Problemas", "Trabalho em Equipa", "Comunicação Técnica"]
+      type: "compacto_lateral",
+      sections: ["dados_pessoais_direita", "habilidades_organizadas", "conteudo_esquerda_blocos"],
+      columns: {
+        left: ["perfil", "experiencia", "formacao"],
+        right: ["dados_pessoais", "habilidades", "idiomas"]
       }
-    }
-  },
-  {
-    id: "cv04",
-    nome: "Modelo Profissional Corporativo",
-    layout: "corporativo_tradicional",
-    foto_posicao: "topo_esquerda",
-    paleta: "azul_corporativo",
-    secoes: ["cabecalho_foto", "resumo", "experiencia_detalhada", "formacao", "certificacoes"],
-    canvaUrl: "https://www.canva.com/design/DAGpDWqo6nc/7epmrCS59CaeumjLrCZwng/view",
-    colorPalette: {
-      primary: "#1e40af",
-      secondary: "#3b82f6",
-      accent: "#dc2626",
-      background: "#f8fafc",
-      text: "#1e293b"
-    },
-    fonts: {
-      primary: "Open Sans",
-      headings: "Lato"
-    },
-    layoutConfig: {
-      type: "corporativo",
-      sections: ["cabecalho_foto", "resumo", "experiencia_detalhada", "formacao", "certificacoes"]
     },
     dados: {
       personalData: {
-        fullName: "Ana Sofia Macamo",
-        profession: "Gestora de Recursos Humanos",
-        email: "ana.macamo@rh.com",
-        phone: "+258 84 777 8888",
+        fullName: "Prof. Mariana Cossa",
+        profession: "Professora & Investigadora",
+        email: "mariana.cossa@uem.mz",
+        phone: "+258 82 555 7890",
         address: "Maputo, Moçambique",
-        website: "linkedin.com/in/anasofia"
+        website: "marianacossa.academia.edu"
       },
-      about: "Gestora de RH experiente com foco em desenvolvimento de talentos e cultura organizacional.",
+      about: "Professora universitária e investigadora com doutoramento em Educação. Especializada em metodologias de ensino inovadoras e desenvolvimento curricular. Dedicada à formação de professores e à melhoria da qualidade educacional em Moçambique.",
       education: [
+        {
+          degree: "Doutoramento em Ciências da Educação",
+          institution: "Universidade do Porto",
+          startYear: "2018",
+          endYear: "2022"
+        },
+        {
+          degree: "Mestrado em Ensino",
+          institution: "Universidade Eduardo Mondlane",
+          startYear: "2013",
+          endYear: "2015"
+        },
         {
           degree: "Licenciatura em Psicologia",
           institution: "Universidade Eduardo Mondlane",
-          startYear: "2015",
-          endYear: "2019"
+          startYear: "2008",
+          endYear: "2012"
         }
       ],
       experience: [
         {
-          position: "Gestora de RH",
-          company: "Grupo Empresarial",
-          startDate: "Mai 2020",
+          position: "Professora Auxiliar",
+          company: "Universidade Eduardo Mondlane - Faculdade de Educação",
+          startDate: "Jan 2023",
           endDate: "Presente",
           current: true,
-          description: "Gestão completa do departamento de recursos humanos e desenvolvimento organizacional."
+          description: "Docência em disciplinas de metodologia de ensino e psicologia educacional. Orientação de dissertações de mestrado e supervisão de projetos de investigação."
+        },
+        {
+          position: "Professora Assistente",
+          company: "Instituto Superior Pedagógico",
+          startDate: "Mar 2015",
+          endDate: "Dez 2022",
+          current: false,
+          description: "Leccionação de disciplinas de pedagogia e didática. Coordenação do programa de estágios pedagógicos e desenvolvimento de projetos de extensão universitária."
         }
       ],
       skills: {
-        technical: ["Gestão de Pessoas", "Recrutamento", "Avaliação de Desempenho", "Legislação Laboral"],
-        soft: ["Liderança", "Empatia", "Comunicação", "Negociação"]
-      }
-    }
-  },
-  {
-    id: "cv05",
-    nome: "Modelo Elegante Premium",
-    layout: "elegante_sofisticado",
-    foto_posicao: "direita_circular",
-    paleta: "dourado_elegante",
-    secoes: ["header_elegante", "sobre", "trajetoria", "formacao_premium", "distincoes"],
-    canvaUrl: "https://www.canva.com/design/DAGpDV5eSUU/WaepU_svQ6_PtBtMofOqPQ/view",
-    colorPalette: {
-      primary: "#92400e",
-      secondary: "#d97706",
-      accent: "#fbbf24",
-      background: "#fffbeb",
-      text: "#78350f"
-    },
-    fonts: {
-      primary: "Crimson Text",
-      headings: "Playfair Display"
-    },
-    layoutConfig: {
-      type: "elegante",
-      sections: ["header_elegante", "sobre", "trajetoria", "formacao_premium", "distincoes"]
-    },
-    dados: {
-      personalData: {
-        fullName: "Dr. Fernando Chissano",
-        profession: "Consultor Empresarial",
-        email: "fernando.chissano@consultoria.com",
-        phone: "+258 82 555 7890",
-        address: "Maputo, Moçambique",
-        website: "fernandochissano.com"
-      },
-      about: "Consultor empresarial sénior com vasta experiência em transformação organizacional e estratégia.",
-      education: [
-        {
-          degree: "Doutoramento em Gestão",
-          institution: "ISCTEM",
-          startYear: "2018",
-          endYear: "2022"
-        }
-      ],
-      experience: [
-        {
-          position: "Consultor Sénior",
-          company: "Consultoria Estratégica",
-          startDate: "Jan 2019",
-          endDate: "Presente",
-          current: true,
-          description: "Consultoria estratégica para empresas de grande porte em transformação digital."
-        }
-      ],
-      skills: {
-        technical: ["Estratégia Empresarial", "Transformação Digital", "Gestão de Mudança"],
-        soft: ["Liderança Executiva", "Visão Estratégica", "Comunicação Executiva"]
+        technical: ["Metodologias de Ensino", "Investigação Educacional", "SPSS", "Desenvolvimento Curricular", "Formação de Professores"],
+        languages: ["Português - Nativo", "Inglês - Fluente", "Francês - Avançado", "Espanhol - Intermédio"]
       }
     }
   },
@@ -379,7 +462,7 @@ export const cvTemplates: CVTemplate[] = [
       ],
       skills: {
         technical: ["React", "Node.js", "TypeScript", "MongoDB", "AWS", "Docker"],
-        soft: ["Problem Solving", "Teamwork", "Continuous Learning", "Innovation"]
+        languages: ["Português - Nativo", "Inglês - Avançado"]
       }
     }
   },
@@ -436,7 +519,7 @@ export const cvTemplates: CVTemplate[] = [
       ],
       skills: {
         technical: ["Biotecnologia", "Investigação Científica", "Análise de Dados", "Metodologia"],
-        soft: ["Pensamento Crítico", "Escrita Científica", "Apresentação", "Colaboração"]
+        languages: ["Português - Nativo", "Inglês - Fluente", "Francês - Básico"]
       }
     }
   },
@@ -493,7 +576,7 @@ export const cvTemplates: CVTemplate[] = [
       ],
       skills: {
         technical: ["Gestão de Vendas", "CRM", "Análise de Mercado", "Negociação"],
-        soft: ["Liderança", "Persuasão", "Relacionamento", "Orientação para Resultados"]
+        languages: ["Português - Nativo", "Inglês - Avançado"]
       }
     }
   },
@@ -550,7 +633,7 @@ export const cvTemplates: CVTemplate[] = [
       ],
       skills: {
         technical: ["Ilustração Digital", "Adobe Illustrator", "Photoshop", "Procreate"],
-        soft: ["Criatividade", "Storytelling Visual", "Interpretação Cultural", "Inovação"]
+        languages: ["Português - Nativo", "Inglês - Fluente"]
       }
     }
   },
@@ -607,7 +690,7 @@ export const cvTemplates: CVTemplate[] = [
       ],
       skills: {
         technical: ["Gestão de Projectos", "AutoCAD", "Análise Estrutural", "Orçamentação"],
-        soft: ["Liderança Técnica", "Comunicação com Clientes", "Resolução de Problemas", "Planeamento"]
+        languages: ["Português - Nativo", "Inglês - Fluente"]
       }
     }
   }
