@@ -75,7 +75,7 @@ const BlogPost = ({
 
             {/* Imagem destacada */}
             {featuredImage && <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
-                <img src={featuredImage} alt={title} className="w-full h-64 md:h-80 object-cover" />
+                
               </div>}
           </div>
 
