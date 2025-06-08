@@ -33,6 +33,7 @@ export interface CVTemplate {
     references?: any[];
   };
   canvaUrl?: string;
+  previewImage?: string;
 }
 
 export const cvTemplates: CVTemplate[] = [
@@ -44,6 +45,7 @@ export const cvTemplates: CVTemplate[] = [
     paleta: "cinza_azul_escuro",
     secoes: ["cabecalho", "contacto", "habilidades", "idiomas", "perfil", "experiencia", "formacao"],
     canvaUrl: "https://www.canva.com/design/DAGpDei1yRQ/BygIKeaStwN18mdOoS3TYQ/view",
+    previewImage: "/lovable-uploads/747f1bdf-1fbe-4810-a1c3-72ea53977221.png",
     colorPalette: {
       primary: "#1e40af",
       secondary: "#3b82f6", 
@@ -119,6 +121,7 @@ export const cvTemplates: CVTemplate[] = [
     paleta: "azul_corporativo",
     secoes: ["foto", "dados_pessoais", "competencias", "idiomas", "perfil", "experiencia", "formacao"],
     canvaUrl: "https://www.canva.com/design/DAGpDfzeXTg/tGUHKXZS1IserDD8MJbFGw/view",
+    previewImage: "/lovable-uploads/1854ebd7-7bcf-4b3b-b462-853dbc55e809.png",
     colorPalette: {
       primary: "#1e3a8a",
       secondary: "#3b82f6",
@@ -194,6 +197,7 @@ export const cvTemplates: CVTemplate[] = [
     paleta: "azul_claro_destaques",
     secoes: ["nome_titulo", "contacto_linha", "perfil_destaque", "experiencia_blocos", "formacao_blocos", "competencias_tags"],
     canvaUrl: "https://www.canva.com/design/DAGpDfOD3q4/chRZEyg_aUgvbO-WTtQQfA/view",
+    previewImage: "/lovable-uploads/59c97f28-beba-4d5b-b61f-81af113eb8c3.png",
     colorPalette: {
       primary: "#0369a1",
       secondary: "#0ea5e9",
@@ -265,6 +269,7 @@ export const cvTemplates: CVTemplate[] = [
     paleta: "verde_lilas_coral",
     secoes: ["header_gradiente", "icones_grandes", "divisores_coloridos", "tipografia_moderna"],
     canvaUrl: "https://www.canva.com/design/DAGpDWqo6nc/7epmrCS59CaeumjLrCZwng/view",
+    previewImage: "/lovable-uploads/8ac8cb30-f191-426c-8e75-a0c5b9e3f6f0.png",
     colorPalette: {
       primary: "#059669",
       secondary: "#10b981",
@@ -336,6 +341,7 @@ export const cvTemplates: CVTemplate[] = [
     paleta: "neutro_pratico",
     secoes: ["dados_pessoais_direita", "habilidades_organizadas", "conteudo_esquerda_blocos"],
     canvaUrl: "https://www.canva.com/design/DAGpDV5eSUU/WaepU_svQ6_PtBtMofOqPQ/view",
+    previewImage: "/lovable-uploads/b61b9db8-b219-4dee-9766-53e8fe085d6f.png",
     colorPalette: {
       primary: "#374151",
       secondary: "#6b7280",

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -20,7 +19,7 @@ const Exemplos = () => {
       templateId: "cv01",
       title: "Profissional Clássico",
       description: "Cabeçalho centralizado com layout de duas colunas. Ideal para áreas corporativas e formais.",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
+      image: "/lovable-uploads/747f1bdf-1fbe-4810-a1c3-72ea53977221.png",
       rating: 5,
       downloads: 1500,
       category: "Administração",
@@ -31,7 +30,7 @@ const Exemplos = () => {
       templateId: "cv02",
       title: "Barra Lateral Esquerda",
       description: "Foto e dados pessoais em sidebar colorida. Perfeito para profissionais experientes.",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
+      image: "/lovable-uploads/1854ebd7-7bcf-4b3b-b462-853dbc55e809.png",
       rating: 5,
       downloads: 1250,
       category: "Saúde",
@@ -42,7 +41,7 @@ const Exemplos = () => {
       templateId: "cv03",
       title: "Layout Simples com Destaques",
       description: "Estrutura vertical com blocos destacados. Leve e limpo para qualquer área.",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
+      image: "/lovable-uploads/59c97f28-beba-4d5b-b61f-81af113eb8c3.png",
       rating: 4,
       downloads: 980,
       category: "Engenharia",
@@ -53,7 +52,7 @@ const Exemplos = () => {
       templateId: "cv04",
       title: "Criativo Profissional",
       description: "Cores suaves e tipografia moderna. Ideal para marketing, design e áreas criativas.",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
+      image: "/lovable-uploads/8ac8cb30-f191-426c-8e75-a0c5b9e3f6f0.png",
       rating: 5,
       downloads: 1100,
       category: "Design",
@@ -64,7 +63,7 @@ const Exemplos = () => {
       templateId: "cv05",
       title: "Compacto Menu Direita",
       description: "Layout enxuto com menu lateral direito. Foco em praticidade e organização.",
-      image: "/lovable-uploads/5b6ca5ab-a64b-47e8-a7c5-7799482fe3ef.png",
+      image: "/lovable-uploads/b61b9db8-b219-4dee-9766-53e8fe085d6f.png",
       rating: 4,
       downloads: 850,
       category: "Educação",
@@ -186,7 +185,7 @@ const Exemplos = () => {
                   <img
                     src={example.image}
                     alt={example.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="w-full h-full object-contain bg-white transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -280,7 +279,7 @@ const Exemplos = () => {
           </DialogHeader>
           {selectedExample && (
             <div className="space-y-6">
-              <div className="aspect-[3/4] max-h-[70vh] overflow-hidden bg-gray-100 rounded-lg">
+              <div className="aspect-[3/4] max-h-[70vh] overflow-hidden bg-white rounded-lg border">
                 <img
                   src={selectedExample.image}
                   alt={selectedExample.title}
