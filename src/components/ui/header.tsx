@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText } from 'lucide-react';
@@ -5,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import MobileNav from '@/components/ui/mobile-nav';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AdSpace from '@/components/ads/AdSpace';
+import AuthHeader from '@/components/auth/AuthHeader';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -87,8 +89,12 @@ const Header = () => {
               </nav>
             )}
 
-            {/* Create CV Button */}
+            {/* Actions */}
             <div className="flex items-center space-x-4">
+              {/* Auth Controls */}
+              {!isMobile && <AuthHeader />}
+
+              {/* Create CV Button */}
               <Button
                 onClick={() => navigate('/criar-cv')}
                 className="bg-google-blue hover:bg-blue-600 text-white"
@@ -98,7 +104,7 @@ const Header = () => {
 
               {/* Mobile Navigation */}
               {isMobile && (
-                <MobileNav showAuthButton={false} />
+                <MobileNav showAuthButton={true} />
               )}
             </div>
           </div>
