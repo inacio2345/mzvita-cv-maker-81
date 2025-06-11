@@ -5,11 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-interface MobileNavProps {
-  showAuthButton?: boolean;
-}
-
-const MobileNav = ({ showAuthButton = false }: MobileNavProps) => {
+const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 

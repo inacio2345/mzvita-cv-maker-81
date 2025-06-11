@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import MobileNav from '@/components/ui/mobile-nav';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AdSpace from '@/components/ads/AdSpace';
-import AuthHeader from '@/components/auth/AuthHeader';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -91,9 +90,6 @@ const Header = () => {
 
             {/* Actions */}
             <div className="flex items-center space-x-4">
-              {/* Auth Controls */}
-              {!isMobile && <AuthHeader />}
-
               {/* Create CV Button */}
               <Button
                 onClick={() => navigate('/criar-cv')}
@@ -104,7 +100,7 @@ const Header = () => {
 
               {/* Mobile Navigation */}
               {isMobile && (
-                <MobileNav showAuthButton={true} />
+                <MobileNav />
               )}
             </div>
           </div>
