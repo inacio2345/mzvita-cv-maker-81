@@ -18,6 +18,11 @@ const hexToRgb = (hex: string): [number, number, number] => {
   ] : [37, 99, 235];
 };
 
+// Função auxiliar para verificar se skills é um objeto com technical e languages
+const isSkillsObject = (skills: any): skills is { technical?: string[]; languages?: string[] } => {
+  return skills && typeof skills === 'object' && !Array.isArray(skills);
+};
+
 // Função auxiliar para adicionar texto com quebra automática
 const addTextBlock = (
   pdf: jsPDF, 
@@ -88,7 +93,7 @@ export const generateProfissionalClassico = (pdf: jsPDF, cvData: CVData, colors:
   let leftY = yPosition;
   
   // Habilidades na coluna esquerda
-  if (cvData.skills?.technical?.length > 0) {
+  if (isSkillsObject(cvData.skills) && cvData.skills.technical?.length > 0) {
     pdf.setFillColor(245, 245, 245);
     pdf.rect(margin, leftY - 2, leftColumnWidth, 6, 'F');
     
@@ -108,7 +113,7 @@ export const generateProfissionalClassico = (pdf: jsPDF, cvData: CVData, colors:
   }
 
   // Idiomas na coluna esquerda
-  if (cvData.skills?.languages?.length > 0) {
+  if (isSkillsObject(cvData.skills) && cvData.skills.languages?.length > 0) {
     pdf.setFillColor(245, 245, 245);
     pdf.rect(margin, leftY - 2, leftColumnWidth, 6, 'F');
     
@@ -292,7 +297,7 @@ export const generateBarraLateralEsquerda = (pdf: jsPDF, cvData: CVData, colors:
   }
 
   // Habilidades na sidebar
-  if (cvData.skills?.technical?.length > 0) {
+  if (isSkillsObject(cvData.skills) && cvData.skills.technical?.length > 0) {
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('HABILIDADES', 5, sidebarY);
@@ -309,7 +314,7 @@ export const generateBarraLateralEsquerda = (pdf: jsPDF, cvData: CVData, colors:
   }
 
   // Idiomas na sidebar
-  if (cvData.skills?.languages?.length > 0) {
+  if (isSkillsObject(cvData.skills) && cvData.skills.languages?.length > 0) {
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'bold');
     pdf.text('IDIOMAS', 5, sidebarY);
@@ -608,7 +613,7 @@ export const generateLayoutSimplesDestaques = (pdf: jsPDF, cvData: CVData, color
   }
 
   // Competências com tags
-  if (cvData.skills?.technical?.length > 0 || cvData.skills?.languages?.length > 0) {
+  if (isSkillsObject(cvData.skills) && (cvData.skills.technical?.length > 0 || cvData.skills.languages?.length > 0)) {
     if (yPosition > 240) {
       pdf.addPage();
       yPosition = margin;
@@ -625,7 +630,7 @@ export const generateLayoutSimplesDestaques = (pdf: jsPDF, cvData: CVData, color
     pdf.text('COMPETÊNCIAS', margin + 5, yPosition + 5);
     yPosition += 15;
     
-    if (cvData.skills?.technical?.length > 0) {
+    if (cvData.skills.technical?.length > 0) {
       pdf.setTextColor(0, 0, 0);
       pdf.setFontSize(11);
       pdf.setFont('helvetica', 'bold');
@@ -639,7 +644,7 @@ export const generateLayoutSimplesDestaques = (pdf: jsPDF, cvData: CVData, color
       yPosition += 8;
     }
     
-    if (cvData.skills?.languages?.length > 0) {
+    if (cvData.skills.languages?.length > 0) {
       pdf.setFontSize(11);
       pdf.setFont('helvetica', 'bold');
       pdf.text('Idiomas:', margin + 5, yPosition);
@@ -859,7 +864,7 @@ export const generateCriativoProfissional = (pdf: jsPDF, cvData: CVData, colors:
   }
 
   // Competências com design criativo
-  if (cvData.skills?.technical?.length > 0 || cvData.skills?.languages?.length > 0) {
+  if (isSkillsObject(cvData.skills) && (cvData.skills.technical?.length > 0 || cvData.skills.languages?.length > 0)) {
     if (yPosition > 240) {
       pdf.addPage();
       yPosition = margin;
@@ -884,7 +889,7 @@ export const generateCriativoProfissional = (pdf: jsPDF, cvData: CVData, colors:
     
     yPosition += 20;
     
-    if (cvData.skills?.technical?.length > 0) {
+    if (cvData.skills.technical?.length > 0) {
       pdf.setTextColor(0, 0, 0);
       pdf.setFontSize(12);
       pdf.setFont('helvetica', 'bold');
@@ -917,7 +922,7 @@ export const generateCriativoProfissional = (pdf: jsPDF, cvData: CVData, colors:
       yPosition += 12;
     }
     
-    if (cvData.skills?.languages?.length > 0) {
+    if (cvData.skills.languages?.length > 0) {
       pdf.setTextColor(0, 0, 0);
       pdf.setFontSize(12);
       pdf.setFont('helvetica', 'bold');
