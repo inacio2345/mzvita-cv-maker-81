@@ -15,20 +15,20 @@ export const generateProfessionalCV = async (cvData: CVData, selectedTemplate?: 
     format: 'a4'
   });
 
-  // Cores do template ou padrão
+  // Usar as mesmas cores do preview
   const colors = {
-    primary: cvData.colorPalette?.primary || selectedTemplate?.colorPalette?.primary || '#2563eb',
-    secondary: cvData.colorPalette?.secondary || selectedTemplate?.colorPalette?.secondary || '#64748b',
-    accent: cvData.colorPalette?.accent || selectedTemplate?.colorPalette?.accent || '#10b981'
+    primary: selectedTemplate?.colorPalette?.primary || '#2563eb',
+    secondary: selectedTemplate?.colorPalette?.secondary || '#64748b',
+    accent: selectedTemplate?.colorPalette?.accent || '#10b981'
   };
 
-  // Determinar qual template usar
-  const templateId = selectedTemplate?.id || 'cv01';
+  // Determinar qual template usar - MESMA LÓGICA DO PREVIEW
+  const templateId = selectedTemplate?.id || 'cv03'; // Default para cv03 que é o "Layout Simples com Destaques"
 
   console.log('Gerando PDF com template:', templateId);
   console.log('Cores do template:', colors);
 
-  // Gerar PDF baseado no template selecionado
+  // Gerar PDF baseado no template selecionado - USAR O MESMO MAPEAMENTO
   switch (templateId) {
     case 'cv01':
       generateProfissionalClassico(pdf, cvData, colors);
@@ -52,7 +52,8 @@ export const generateProfessionalCV = async (cvData: CVData, selectedTemplate?: 
       generateBarraLateralEsquerda(pdf, cvData, colors);
       break;
     default:
-      generateProfissionalClassico(pdf, cvData, colors);
+      // Se não especificado, usar o Layout Simples com Destaques que parece ser o padrão
+      generateLayoutSimplesDestaques(pdf, cvData, colors);
   }
 
   // Salvar PDF
@@ -70,15 +71,15 @@ export const generatePDFPreview = async (cvData: CVData, selectedTemplate?: any)
     format: 'a4'
   });
 
-  // Cores do template ou padrão
+  // Usar as mesmas cores do preview
   const colors = {
-    primary: cvData.colorPalette?.primary || selectedTemplate?.colorPalette?.primary || '#2563eb',
-    secondary: cvData.colorPalette?.secondary || selectedTemplate?.colorPalette?.secondary || '#64748b',
-    accent: cvData.colorPalette?.accent || selectedTemplate?.colorPalette?.accent || '#10b981'
+    primary: selectedTemplate?.colorPalette?.primary || '#2563eb',
+    secondary: selectedTemplate?.colorPalette?.secondary || '#64748b',
+    accent: selectedTemplate?.colorPalette?.accent || '#10b981'
   };
 
-  // Determinar qual template usar
-  const templateId = selectedTemplate?.id || 'cv01';
+  // Determinar qual template usar - MESMA LÓGICA DO PREVIEW
+  const templateId = selectedTemplate?.id || 'cv03';
 
   // Gerar PDF baseado no template selecionado (mesmo que o download)
   switch (templateId) {
@@ -103,7 +104,7 @@ export const generatePDFPreview = async (cvData: CVData, selectedTemplate?: any)
       generateBarraLateralEsquerda(pdf, cvData, colors);
       break;
     default:
-      generateProfissionalClassico(pdf, cvData, colors);
+      generateLayoutSimplesDestaques(pdf, cvData, colors);
   }
   
   return pdf.output('datauristring');

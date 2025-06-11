@@ -42,6 +42,248 @@ const addTextBlock = (
   return y + (lines.length * (fontSize * 0.4));
 };
 
+// TEMPLATE 3: Layout Simples com Destaques (CORRIGIDO)
+export const generateLayoutSimplesDestaques = (pdf: jsPDF, cvData: CVData, colors: TemplateColors) => {
+  const pageWidth = 210;
+  const margin = 15;
+  const contentWidth = pageWidth - (margin * 2);
+  const [r, g, b] = hexToRgb(colors.primary);
+  let yPosition = margin;
+
+  // Nome e título no topo - CENTRALIZADO
+  pdf.setTextColor(r, g, b);
+  pdf.setFontSize(28);
+  pdf.setFont('helvetica', 'bold');
+  const fullName = (cvData.personalData?.fullName || 'SEU NOME').toUpperCase();
+  const nameWidth = pdf.getTextWidth(fullName);
+  pdf.text(fullName, (pageWidth - nameWidth) / 2, yPosition + 15);
+  yPosition += 22;
+  
+  if (cvData.personalData?.profession) {
+    pdf.setFontSize(16);
+    pdf.setFont('helvetica', 'normal');
+    const professionWidth = pdf.getTextWidth(cvData.personalData.profession);
+    pdf.text(cvData.personalData.profession, (pageWidth - professionWidth) / 2, yPosition);
+    yPosition += 8;
+  }
+
+  // Linha separadora azul
+  pdf.setLineWidth(2);
+  pdf.setDrawColor(r, g, b);
+  pdf.line(margin, yPosition + 3, pageWidth - margin, yPosition + 3);
+  yPosition += 10;
+
+  // Informações de contato centralizadas
+  pdf.setTextColor(0, 0, 0);
+  pdf.setFontSize(10);
+  const contactInfo = [];
+  if (cvData.personalData?.email) contactInfo.push(cvData.personalData.email);
+  if (cvData.personalData?.phone) contactInfo.push(cvData.personalData.phone);
+  if (cvData.personalData?.address) contactInfo.push(cvData.personalData.address);
+  
+  if (contactInfo.length > 0) {
+    const contactText = contactInfo.join(' | ');
+    const contactWidth = pdf.getTextWidth(contactText);
+    pdf.text(contactText, (pageWidth - contactWidth) / 2, yPosition);
+    yPosition += 15;
+  }
+
+  // Perfil em bloco destacado com fundo cinza
+  if (cvData.about) {
+    // Fundo destacado cinza claro
+    pdf.setFillColor(248, 250, 252);
+    const profileHeight = Math.max(25, Math.ceil(cvData.about.length / 80) * 6 + 15);
+    pdf.rect(margin, yPosition - 5, contentWidth, profileHeight, 'F');
+    
+    pdf.setTextColor(r, g, b);
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('PERFIL PROFISSIONAL', margin + 5, yPosition + 5);
+    yPosition += 12;
+    
+    pdf.setTextColor(0, 0, 0);
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'normal');
+    yPosition = addTextBlock(pdf, cvData.about, margin + 5, yPosition, contentWidth - 10, 11);
+    yPosition += 10;
+  }
+
+  // Experiência em bloco com borda azul
+  if (cvData.experience?.length > 0) {
+    // Calcular altura necessária
+    let experienceHeight = 20;
+    cvData.experience.forEach((exp: any) => {
+      experienceHeight += 25;
+      if (exp.description) {
+        experienceHeight += Math.ceil(exp.description.length / 80) * 4;
+      }
+    });
+
+    // Borda azul
+    pdf.setFillColor(r, g, b);
+    pdf.rect(margin, yPosition - 2, contentWidth, 8, 'F');
+    
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('EXPERIÊNCIA PROFISSIONAL', margin + 5, yPosition + 3);
+    yPosition += 15;
+    
+    // Fundo branco para o conteúdo
+    pdf.setFillColor(255, 255, 255);
+    pdf.rect(margin, yPosition - 5, contentWidth, experienceHeight - 15, 'F');
+    
+    // Borda ao redor do bloco
+    pdf.setDrawColor(r, g, b);
+    pdf.setLineWidth(2);
+    pdf.rect(margin, yPosition - 20, contentWidth, experienceHeight, 'S');
+    
+    cvData.experience.forEach((exp: any, index: number) => {
+      if (yPosition > 250) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      
+      pdf.setTextColor(r, g, b);
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      if (exp.position) {
+        yPosition = addTextBlock(pdf, exp.position, margin + 8, yPosition, contentWidth - 16, 12, true);
+        yPosition += 3;
+      }
+      
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'normal');
+      if (exp.company) {
+        yPosition = addTextBlock(pdf, exp.company, margin + 8, yPosition, contentWidth - 16, 11);
+        yPosition += 2;
+      }
+      
+      pdf.setFontSize(9);
+      if (exp.startDate) {
+        const endDate = exp.current ? 'Presente' : exp.endDate;
+        yPosition = addTextBlock(pdf, `${exp.startDate} - ${endDate}`, margin + 8, yPosition, contentWidth - 16, 9);
+        yPosition += 3;
+      }
+      
+      if (exp.description) {
+        yPosition = addTextBlock(pdf, exp.description, margin + 8, yPosition, contentWidth - 16, 10);
+      }
+      
+      yPosition += 8;
+      
+      // Linha separadora entre experiências
+      if (index < cvData.experience.length - 1) {
+        pdf.setDrawColor(200, 200, 200);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin + 8, yPosition - 2, pageWidth - margin - 8, yPosition - 2);
+        yPosition += 2;
+      }
+    });
+    yPosition += 10;
+  }
+
+  // Formação em bloco destacado
+  if (cvData.education?.length > 0) {
+    if (yPosition > 230) {
+      pdf.addPage();
+      yPosition = margin;
+    }
+    
+    // Fundo destacado cinza
+    pdf.setFillColor(248, 250, 252);
+    const eduHeight = cvData.education.length * 18 + 15;
+    pdf.rect(margin, yPosition - 5, contentWidth, eduHeight, 'F');
+    
+    pdf.setTextColor(r, g, b);
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('FORMAÇÃO ACADÉMICA', margin + 5, yPosition + 5);
+    yPosition += 12;
+    
+    cvData.education.forEach((edu: any) => {
+      pdf.setTextColor(r, g, b);
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'bold');
+      if (edu.degree) {
+        yPosition = addTextBlock(pdf, edu.degree, margin + 5, yPosition, contentWidth - 10, 11, true);
+        yPosition += 2;
+      }
+      
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(10);
+      if (edu.institution) {
+        yPosition = addTextBlock(pdf, edu.institution, margin + 5, yPosition, contentWidth - 10, 10);
+        yPosition += 2;
+      }
+      
+      if (edu.startYear && edu.endYear) {
+        yPosition = addTextBlock(pdf, `${edu.startYear} - ${edu.endYear}`, margin + 5, yPosition, contentWidth - 10, 9);
+      }
+      
+      yPosition += 6;
+    });
+    yPosition += 10;
+  }
+
+  // Competências com borda azul
+  if (isSkillsObject(cvData.skills) && (cvData.skills.technical?.length > 0 || cvData.skills.languages?.length > 0)) {
+    if (yPosition > 240) {
+      pdf.addPage();
+      yPosition = margin;
+    }
+    
+    // Borda azul no topo
+    pdf.setFillColor(r, g, b);
+    pdf.rect(margin, yPosition - 2, contentWidth, 8, 'F');
+    
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('COMPETÊNCIAS', margin + 5, yPosition + 3);
+    yPosition += 15;
+    
+    // Fundo branco
+    const skillsHeight = 40;
+    pdf.setFillColor(255, 255, 255);
+    pdf.rect(margin, yPosition - 5, contentWidth, skillsHeight, 'F');
+    
+    // Borda ao redor
+    pdf.setDrawColor(r, g, b);
+    pdf.setLineWidth(2);
+    pdf.rect(margin, yPosition - 20, contentWidth, skillsHeight + 15, 'S');
+    
+    if (cvData.skills.technical?.length > 0) {
+      pdf.setTextColor(0, 0, 0);
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Habilidades Técnicas:', margin + 8, yPosition);
+      yPosition += 6;
+      
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      const skillsText = cvData.skills.technical.join(' • ');
+      yPosition = addTextBlock(pdf, skillsText, margin + 8, yPosition, contentWidth - 16, 9);
+      yPosition += 8;
+    }
+    
+    if (cvData.skills.languages?.length > 0) {
+      pdf.setFontSize(11);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Idiomas:', margin + 8, yPosition);
+      yPosition += 6;
+      
+      pdf.setFontSize(9);
+      pdf.setFont('helvetica', 'normal');
+      const languagesText = cvData.skills.languages.join(' • ');
+      yPosition = addTextBlock(pdf, languagesText, margin + 8, yPosition, contentWidth - 16, 9);
+    }
+  }
+
+  return pdf;
+};
+
 // TEMPLATE 1: Profissional Clássico
 export const generateProfissionalClassico = (pdf: jsPDF, cvData: CVData, colors: TemplateColors) => {
   const pageWidth = 210;
@@ -445,216 +687,6 @@ export const generateBarraLateralEsquerda = (pdf: jsPDF, cvData: CVData, colors:
       
       mainY += 8;
     });
-  }
-
-  return pdf;
-};
-
-// TEMPLATE 3: Layout Simples com Destaques
-export const generateLayoutSimplesDestaques = (pdf: jsPDF, cvData: CVData, colors: TemplateColors) => {
-  const pageWidth = 210;
-  const margin = 15;
-  const contentWidth = pageWidth - (margin * 2);
-  const [r, g, b] = hexToRgb(colors.primary);
-  let yPosition = margin;
-
-  // Nome e título no topo
-  pdf.setTextColor(r, g, b);
-  pdf.setFontSize(24);
-  pdf.setFont('helvetica', 'bold');
-  const fullName = cvData.personalData?.fullName || 'SEU NOME';
-  pdf.text(fullName.toUpperCase(), margin, yPosition + 10);
-  yPosition += 15;
-  
-  if (cvData.personalData?.profession) {
-    pdf.setFontSize(16);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text(cvData.personalData.profession, margin, yPosition + 5);
-    yPosition += 10;
-  }
-
-  // Linha separadora
-  pdf.setLineWidth(1);
-  pdf.setDrawColor(r, g, b);
-  pdf.line(margin, yPosition + 3, pageWidth - margin, yPosition + 3);
-  yPosition += 10;
-
-  // Informações de contato
-  pdf.setTextColor(0, 0, 0);
-  pdf.setFontSize(10);
-  const contactInfo = [];
-  if (cvData.personalData?.email) contactInfo.push(cvData.personalData.email);
-  if (cvData.personalData?.phone) contactInfo.push(cvData.personalData.phone);
-  if (cvData.personalData?.address) contactInfo.push(cvData.personalData.address);
-  
-  if (contactInfo.length > 0) {
-    const contactText = contactInfo.join(' | ');
-    yPosition = addTextBlock(pdf, contactText, margin, yPosition, contentWidth, 10);
-    yPosition += 15;
-  }
-
-  // Perfil em bloco destacado
-  if (cvData.about) {
-    // Fundo destacado
-    pdf.setFillColor(248, 250, 252);
-    pdf.rect(margin, yPosition - 5, contentWidth, 25, 'F');
-    
-    pdf.setTextColor(r, g, b);
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('PERFIL PROFISSIONAL', margin + 5, yPosition + 5);
-    yPosition += 12;
-    
-    pdf.setTextColor(0, 0, 0);
-    yPosition = addTextBlock(pdf, cvData.about, margin + 5, yPosition, contentWidth - 10, 11);
-    yPosition += 15;
-  }
-
-  // Experiência em bloco com borda
-  if (cvData.experience?.length > 0) {
-    // Borda colorida
-    pdf.setDrawColor(r, g, b);
-    pdf.setLineWidth(2);
-    pdf.rect(margin, yPosition - 5, contentWidth, 20, 'S');
-    
-    pdf.setTextColor(r, g, b);
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('EXPERIÊNCIA PROFISSIONAL', margin + 5, yPosition + 5);
-    yPosition += 15;
-    
-    cvData.experience.forEach((exp: any, index: number) => {
-      if (yPosition > 250) {
-        pdf.addPage();
-        yPosition = margin;
-      }
-      
-      pdf.setTextColor(r, g, b);
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      if (exp.position) {
-        yPosition = addTextBlock(pdf, exp.position, margin + 5, yPosition, contentWidth - 10, 12, true);
-        yPosition += 3;
-      }
-      
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFontSize(11);
-      pdf.setFont('helvetica', 'normal');
-      if (exp.company) {
-        yPosition = addTextBlock(pdf, exp.company, margin + 5, yPosition, contentWidth - 10, 11);
-        yPosition += 2;
-      }
-      
-      pdf.setFontSize(9);
-      if (exp.startDate) {
-        const endDate = exp.current ? 'Presente' : exp.endDate;
-        yPosition = addTextBlock(pdf, `${exp.startDate} - ${endDate}`, margin + 5, yPosition, contentWidth - 10, 9);
-        yPosition += 3;
-      }
-      
-      if (exp.description) {
-        yPosition = addTextBlock(pdf, exp.description, margin + 5, yPosition, contentWidth - 10, 10);
-      }
-      
-      yPosition += 8;
-      
-      // Linha separadora entre experiências
-      if (index < cvData.experience.length - 1) {
-        pdf.setDrawColor(200, 200, 200);
-        pdf.setLineWidth(0.5);
-        pdf.line(margin + 5, yPosition - 2, pageWidth - margin - 5, yPosition - 2);
-        yPosition += 2;
-      }
-    });
-    yPosition += 10;
-  }
-
-  // Formação em bloco destacado
-  if (cvData.education?.length > 0) {
-    if (yPosition > 230) {
-      pdf.addPage();
-      yPosition = margin;
-    }
-    
-    // Fundo destacado
-    pdf.setFillColor(248, 250, 252);
-    const eduHeight = cvData.education.length * 15 + 15;
-    pdf.rect(margin, yPosition - 5, contentWidth, eduHeight, 'F');
-    
-    pdf.setTextColor(r, g, b);
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('FORMAÇÃO ACADÉMICA', margin + 5, yPosition + 5);
-    yPosition += 12;
-    
-    cvData.education.forEach((edu: any) => {
-      pdf.setTextColor(r, g, b);
-      pdf.setFontSize(11);
-      pdf.setFont('helvetica', 'bold');
-      if (edu.degree) {
-        yPosition = addTextBlock(pdf, edu.degree, margin + 5, yPosition, contentWidth - 10, 11, true);
-        yPosition += 2;
-      }
-      
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFontSize(10);
-      if (edu.institution) {
-        yPosition = addTextBlock(pdf, edu.institution, margin + 5, yPosition, contentWidth - 10, 10);
-        yPosition += 2;
-      }
-      
-      if (edu.startYear && edu.endYear) {
-        yPosition = addTextBlock(pdf, `${edu.startYear} - ${edu.endYear}`, margin + 5, yPosition, contentWidth - 10, 9);
-      }
-      
-      yPosition += 6;
-    });
-    yPosition += 10;
-  }
-
-  // Competências com tags
-  if (isSkillsObject(cvData.skills) && (cvData.skills.technical?.length > 0 || cvData.skills.languages?.length > 0)) {
-    if (yPosition > 240) {
-      pdf.addPage();
-      yPosition = margin;
-    }
-    
-    // Borda colorida
-    pdf.setDrawColor(r, g, b);
-    pdf.setLineWidth(2);
-    pdf.rect(margin, yPosition - 5, contentWidth, 30, 'S');
-    
-    pdf.setTextColor(r, g, b);
-    pdf.setFontSize(14);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('COMPETÊNCIAS', margin + 5, yPosition + 5);
-    yPosition += 15;
-    
-    if (cvData.skills.technical?.length > 0) {
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFontSize(11);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Habilidades Técnicas:', margin + 5, yPosition);
-      yPosition += 6;
-      
-      pdf.setFontSize(9);
-      pdf.setFont('helvetica', 'normal');
-      const skillsText = cvData.skills.technical.join(' • ');
-      yPosition = addTextBlock(pdf, skillsText, margin + 5, yPosition, contentWidth - 10, 9);
-      yPosition += 8;
-    }
-    
-    if (cvData.skills.languages?.length > 0) {
-      pdf.setFontSize(11);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Idiomas:', margin + 5, yPosition);
-      yPosition += 6;
-      
-      pdf.setFontSize(9);
-      pdf.setFont('helvetica', 'normal');
-      const languagesText = cvData.skills.languages.join(' • ');
-      yPosition = addTextBlock(pdf, languagesText, margin + 5, yPosition, contentWidth - 10, 9);
-    }
   }
 
   return pdf;
