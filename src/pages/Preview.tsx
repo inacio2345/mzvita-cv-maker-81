@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -18,6 +17,9 @@ const Preview = () => {
   const cvData = location.state?.cvData || {};
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   const userPhoto = location.state?.userPhoto;
+
+  console.log('Preview - Template selecionado:', selectedTemplate);
+  console.log('Preview - Dados do CV:', cvData);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -154,6 +156,7 @@ const Preview = () => {
         onClose={() => setShowDownloadOptions(false)}
         cvTitle={cvData.personalData?.fullName || 'Meu CV'}
         cvData={cvData}
+        selectedTemplate={selectedTemplate}
       />
 
       {/* Clean Print Styles - Only CV content */}

@@ -11,9 +11,10 @@ interface PDFPreviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   cvData: CVData;
+  selectedTemplate?: any;
 }
 
-const PDFPreviewModal = ({ isOpen, onClose, cvData }: PDFPreviewModalProps) => {
+const PDFPreviewModal = ({ isOpen, onClose, cvData, selectedTemplate }: PDFPreviewModalProps) => {
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
@@ -22,12 +23,13 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData }: PDFPreviewModalProps) => {
     if (isOpen && cvData) {
       generatePreview();
     }
-  }, [isOpen, cvData]);
+  }, [isOpen, cvData, selectedTemplate]);
 
   const generatePreview = async () => {
     setIsGenerating(true);
     try {
-      const preview = await generatePDFPreview(cvData);
+      console.log('Gerando preview com template:', selectedTemplate);
+      const preview = await generatePDFPreview(cvData, selectedTemplate);
       setPreviewUrl(preview);
     } catch (error) {
       console.error('Erro ao gerar preview:', error);
@@ -43,7 +45,8 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData }: PDFPreviewModalProps) => {
 
   const handleDownload = async () => {
     try {
-      await generateProfessionalCV(cvData);
+      console.log('Baixando PDF do preview com template:', selectedTemplate);
+      await generateProfessionalCV(cvData, selectedTemplate);
       toast({
         title: "Download concluído!",
         description: "Seu CV foi baixado com sucesso.",
@@ -67,6 +70,9 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData }: PDFPreviewModalProps) => {
             <div className="flex items-center gap-2">
               <Eye className="w-5 h-5" />
               <span>Visualização do CV</span>
+              {selectedTemplate && (
+                <span className="text-sm text-gray-500">({selectedTemplate.nome})</span>
+              )}
             </div>
             <Button variant="ghost" size="sm" onClick={onClose}>
               <X className="w-4 h-4" />

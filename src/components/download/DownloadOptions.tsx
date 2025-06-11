@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,9 +15,10 @@ interface DownloadOptionsProps {
   onClose: () => void;
   cvTitle?: string;
   cvData?: any;
+  selectedTemplate?: any;
 }
 
-const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData }: DownloadOptionsProps) => {
+const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selectedTemplate }: DownloadOptionsProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
   const [showPreview, setShowPreview] = useState(false);
@@ -94,7 +96,8 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData }: Downlo
       }
 
       try {
-        await generateProfessionalCV(cvData);
+        console.log('Baixando PDF com template:', selectedTemplate);
+        await generateProfessionalCV(cvData, selectedTemplate);
         toast({
           title: "Download concluído!",
           description: "Seu CV profissional foi baixado como PDF.",
@@ -239,6 +242,7 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData }: Downlo
         isOpen={showPreview}
         onClose={() => setShowPreview(false)}
         cvData={cvData}
+        selectedTemplate={selectedTemplate}
       />
 
       <AuthModal

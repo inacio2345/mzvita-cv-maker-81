@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -13,9 +12,10 @@ import { FileText, Mail, Lock, LogIn, UserPlus } from 'lucide-react';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onAuthSuccess?: () => void;
 }
 
-const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
+const AuthModal = ({ isOpen, onClose, onAuthSuccess }: AuthModalProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -31,6 +31,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         title: "Login realizado com sucesso!",
         description: "Bem-vindo de volta ao MzVita CV.",
       });
+      onAuthSuccess?.();
       onClose();
     } catch (error: any) {
       toast({
@@ -52,6 +53,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         title: "Conta criada com sucesso!",
         description: "Verifique seu email para confirmar a conta.",
       });
+      onAuthSuccess?.();
       onClose();
     } catch (error: any) {
       toast({
@@ -72,6 +74,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         title: "Login com Google realizado!",
         description: "Bem-vindo ao MzVita CV.",
       });
+      onAuthSuccess?.();
       onClose();
     } catch (error: any) {
       toast({
