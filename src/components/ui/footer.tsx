@@ -36,7 +36,7 @@ const Footer = () => {
       {shouldShowAds && (
         <div className="adsterra-footer-native w-full mx-auto mt-5 mb-6">
           <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9" className="flex justify-center"></div>
-          <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
+          <script async={true} data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
         </div>
       )}
 
