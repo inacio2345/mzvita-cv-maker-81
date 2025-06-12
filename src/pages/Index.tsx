@@ -370,6 +370,43 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Comunidade WhatsApp Section */}
+      <section className="py-12 bg-gradient-to-r from-green-50 to-emerald-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+              <MessageCircle className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Nossa Comunidade no WhatsApp
+            </h2>
+            <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
+              Junte-se à maior comunidade de profissionais de Moçambique! Receba dicas exclusivas, 
+              oportunidades de emprego, suporte técnico e muito mais diretamente no seu WhatsApp.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={() => navigate('/comunidade')}
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                Conhecer Nossa Comunidade
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-6 text-lg rounded-full transition-all duration-300"
+                onClick={() => window.open('https://chat.whatsapp.com/Fr5JP6FK5352kVOdoaU2XP', '_blank')}
+              >
+                <Users className="mr-2 h-5 w-5" />
+                Entrar Direto no WhatsApp
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">

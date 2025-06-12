@@ -32,6 +32,7 @@ import CVSemExperiencia from "./pages/blog/CVSemExperiencia";
 import TendenciasMercado2024 from "./pages/blog/TendenciasMercado2024";
 import AdaptarCVPorArea from "./pages/blog/AdaptarCVPorArea";
 import FotoNoCurriculo from "./pages/blog/FotoNoCurriculo";
+import Comunidade from "./pages/Comunidade";
 
 const queryClient = new QueryClient();
 
@@ -77,6 +78,7 @@ const App = () => (
                     <Route path="/precos" element={<Precos />} />
                     <Route path="/contato" element={<Contato />} />
                     <Route path="/exemplos" element={<Exemplos />} />
+                    <Route path="/comunidade" element={<Comunidade />} />
                     <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
                     <Route path="/termos-de-uso" element={<TermosUso />} />
                     <Route path="*" element={<NotFound />} />
