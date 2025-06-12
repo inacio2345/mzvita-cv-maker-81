@@ -2,8 +2,21 @@ import React from 'react';
 import { FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdSpace from '@/components/ads/AdSpace';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const location = useLocation();
+  
+  // List of pages where ads should not be shown
+  const excludedPages = [
+    '/preview',
+    '/criar-cv',
+    '/precos'
+  ];
+  
+  // Check if the current page should show the ad
+  const shouldShowAds = !excludedPages.includes(location.pathname);
+  
   const footerAdScript = `
     <script type="text/javascript">
       atOptions = {
@@ -19,15 +32,13 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12">
-      {/* Espaço para anúncio no footer */}
-      <div className="container mx-auto px-4 mb-6">
-        <AdSpace 
-          id="footer-ad" 
-          type="footer" 
-          className="max-w-4xl mx-auto"
-          scriptCode={footerAdScript}
-        />
-      </div>
+      {/* Adsterra ad */}
+      {shouldShowAds && (
+        <div className="adsterra-footer-native w-full mx-auto mt-5 mb-6">
+          <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9" className="flex justify-center"></div>
+          <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
+        </div>
+      )}
 
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
