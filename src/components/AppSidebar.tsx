@@ -1,4 +1,4 @@
-import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase, BookOpen, MapPin } from "lucide-react";
+import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase, BookOpen, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -31,14 +31,14 @@ const menuItems = [
     icon: Briefcase,
   },
   {
-    title: "Meu Emprego",
-    url: "/meu-emprego",
-    icon: MapPin,
-  },
-  {
     title: "Blog",
     url: "/blog",
     icon: BookOpen,
+  },
+  {
+    title: "Comunidade",
+    url: "/comunidade",
+    icon: Users,
   },
   {
     title: "Como Funciona",
@@ -54,11 +54,6 @@ const menuItems = [
     title: "Exemplos",
     url: "/exemplos",
     icon: FileImage,
-  },
-  {
-    title: "Contato",
-    url: "/contato",
-    icon: Mail,
   },
 ];
 
@@ -103,6 +98,11 @@ const legalItems = [
     title: "Termos de Uso",
     url: "/termos-de-uso",
     icon: FileText,
+  },
+  {
+    title: "Contato",
+    url: "/contato",
+    icon: Mail,
   },
 ];
 
