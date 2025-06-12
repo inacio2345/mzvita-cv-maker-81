@@ -7,105 +7,95 @@ import {
   generateLayoutSimplesDestaques,
   generateCriativoProfissional
 } from '@/services/templatePdfGenerators';
+import { generatePDFFromHTML, generatePDFPreviewFromHTML } from '@/services/htmlToPdfConverter';
 
 export const generateProfessionalCV = async (cvData: CVData, selectedTemplate?: any) => {
-  const pdf = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4'
-  });
+  try {
+    // Usar o novo método que converte HTML para PDF
+    await generatePDFFromHTML(cvData, selectedTemplate);
+    console.log('PDF gerado com sucesso usando conversão HTML-to-PDF');
+  } catch (error) {
+    console.error('Erro na conversão HTML-to-PDF, usando método fallback:', error);
+    
+    // Fallback para o método original se houver erro
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
 
-  // Usar as mesmas cores do preview
-  const colors = {
-    primary: selectedTemplate?.colorPalette?.primary || '#2563eb',
-    secondary: selectedTemplate?.colorPalette?.secondary || '#64748b',
-    accent: selectedTemplate?.colorPalette?.accent || '#10b981'
-  };
+    const colors = {
+      primary: selectedTemplate?.colorPalette?.primary || '#2563eb',
+      secondary: selectedTemplate?.colorPalette?.secondary || '#64748b',
+      accent: selectedTemplate?.colorPalette?.accent || '#10b981'
+    };
 
-  // Determinar qual template usar - MESMA LÓGICA DO PREVIEW
-  const templateId = selectedTemplate?.id || 'cv03'; // Default para cv03 que é o "Layout Simples com Destaques"
+    const templateId = selectedTemplate?.id || 'cv03';
 
-  console.log('Gerando PDF com template:', templateId);
-  console.log('Cores do template:', colors);
+    switch (templateId) {
+      case 'cv01':
+        generateProfissionalClassico(pdf, cvData, colors);
+        break;
+      case 'cv02':
+        generateBarraLateralEsquerda(pdf, cvData, colors);
+        break;
+      case 'cv03':
+        generateLayoutSimplesDestaques(pdf, cvData, colors);
+        break;
+      case 'cv04':
+        generateCriativoProfissional(pdf, cvData, colors);
+        break;
+      default:
+        generateLayoutSimplesDestaques(pdf, cvData, colors);
+    }
 
-  // Gerar PDF baseado no template selecionado - USAR O MESMO MAPEAMENTO
-  switch (templateId) {
-    case 'cv01':
-      generateProfissionalClassico(pdf, cvData, colors);
-      break;
-    case 'cv02':
-      generateBarraLateralEsquerda(pdf, cvData, colors);
-      break;
-    case 'cv03':
-      generateLayoutSimplesDestaques(pdf, cvData, colors);
-      break;
-    case 'cv04':
-      generateCriativoProfissional(pdf, cvData, colors);
-      break;
-    case 'cv05':
-    case 'cv06':
-    case 'cv07':
-    case 'cv08':
-    case 'cv09':
-    case 'cv10':
-      // Para os outros templates, usar variações
-      generateBarraLateralEsquerda(pdf, cvData, colors);
-      break;
-    default:
-      // Se não especificado, usar o Layout Simples com Destaques que parece ser o padrão
-      generateLayoutSimplesDestaques(pdf, cvData, colors);
+    const fileName = `CV_${cvData.personalData?.fullName?.replace(/\s+/g, '_') || 'Curriculum'}.pdf`;
+    pdf.save(fileName);
+    
+    return pdf;
   }
-
-  // Salvar PDF
-  const fileName = `CV_${cvData.personalData?.fullName?.replace(/\s+/g, '_') || 'Curriculum'}.pdf`;
-  pdf.save(fileName);
-  
-  return pdf;
 };
 
 // Função para gerar preview do PDF
 export const generatePDFPreview = async (cvData: CVData, selectedTemplate?: any): Promise<string> => {
-  const pdf = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4'
-  });
+  try {
+    // Usar o novo método que converte HTML para PDF
+    return await generatePDFPreviewFromHTML(cvData, selectedTemplate);
+  } catch (error) {
+    console.error('Erro na conversão HTML-to-PDF preview, usando método fallback:', error);
+    
+    // Fallback para o método original se houver erro
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
 
-  // Usar as mesmas cores do preview
-  const colors = {
-    primary: selectedTemplate?.colorPalette?.primary || '#2563eb',
-    secondary: selectedTemplate?.colorPalette?.secondary || '#64748b',
-    accent: selectedTemplate?.colorPalette?.accent || '#10b981'
-  };
+    const colors = {
+      primary: selectedTemplate?.colorPalette?.primary || '#2563eb',
+      secondary: selectedTemplate?.colorPalette?.secondary || '#64748b',
+      accent: selectedTemplate?.colorPalette?.accent || '#10b981'
+    };
 
-  // Determinar qual template usar - MESMA LÓGICA DO PREVIEW
-  const templateId = selectedTemplate?.id || 'cv03';
+    const templateId = selectedTemplate?.id || 'cv03';
 
-  // Gerar PDF baseado no template selecionado (mesmo que o download)
-  switch (templateId) {
-    case 'cv01':
-      generateProfissionalClassico(pdf, cvData, colors);
-      break;
-    case 'cv02':
-      generateBarraLateralEsquerda(pdf, cvData, colors);
-      break;
-    case 'cv03':
-      generateLayoutSimplesDestaques(pdf, cvData, colors);
-      break;
-    case 'cv04':
-      generateCriativoProfissional(pdf, cvData, colors);
-      break;
-    case 'cv05':
-    case 'cv06':
-    case 'cv07':
-    case 'cv08':
-    case 'cv09':
-    case 'cv10':
-      generateBarraLateralEsquerda(pdf, cvData, colors);
-      break;
-    default:
-      generateLayoutSimplesDestaques(pdf, cvData, colors);
+    switch (templateId) {
+      case 'cv01':
+        generateProfissionalClassico(pdf, cvData, colors);
+        break;
+      case 'cv02':
+        generateBarraLateralEsquerda(pdf, cvData, colors);
+        break;
+      case 'cv03':
+        generateLayoutSimplesDestaques(pdf, cvData, colors);
+        break;
+      case 'cv04':
+        generateCriativoProfissional(pdf, cvData, colors);
+        break;
+      default:
+        generateLayoutSimplesDestaques(pdf, cvData, colors);
+    }
+    
+    return pdf.output('datauristring');
   }
-  
-  return pdf.output('datauristring');
 };
