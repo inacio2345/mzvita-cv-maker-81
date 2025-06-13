@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { Users, AlertTriangle, CreditCard, Shield, Scale, FileText } from 'lucide-react';
-import Footer from '@/components/ui/footer';
+
 
 const TermosUso = () => {
   const navigate = useNavigate();
@@ -134,7 +134,6 @@ const TermosUso = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

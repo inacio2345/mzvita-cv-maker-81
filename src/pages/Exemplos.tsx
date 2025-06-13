@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Download, Eye, Star, X } from 'lucide-react';
-import Footer from '@/components/ui/footer';
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cvTemplates } from '@/data/cvTemplates';
 
@@ -348,7 +348,6 @@ const Exemplos = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

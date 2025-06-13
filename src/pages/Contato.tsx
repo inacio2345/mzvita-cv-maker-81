@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Phone, Mail, MessageCircle, MapPin, Clock, Users, Headphones } from 'lucide-react';
-import Footer from '@/components/ui/footer';
+
 
 const Contato = () => {
   const navigate = useNavigate();
@@ -290,7 +290,6 @@ const Contato = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

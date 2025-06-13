@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageCircle, Users, HeadphonesIcon, Heart, Bell, Crown } from 'lucide-react';
-import Footer from '@/components/ui/footer';
+
 
 const Comunidade = () => {
   const whatsappGroups = [
@@ -192,8 +192,6 @@ const Comunidade = () => {
           </Button>
         </div>
       </section>
-      
-      <Footer />
     </div>
   );
 };

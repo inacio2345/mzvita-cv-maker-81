@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { Edit2, LogOut } from 'lucide-react';
 import Header from '@/components/ui/header';
-import Footer from '@/components/ui/footer';
+
 import ProfileHeader from '@/components/profile/ProfileHeader';
 import CVsSection from '@/components/profile/CVsSection';
 import StatsSection from '@/components/profile/StatsSection';
@@ -110,7 +110,7 @@ const ProfessionalProfile = () => {
         </div>
       </div>
 
-      <Footer />
+      
 
       {/* Edit Profile Modal */}
       <EditProfileModal

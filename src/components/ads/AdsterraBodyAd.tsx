@@ -29,6 +29,7 @@ const AdsterraBodyAd: React.FC = () => {
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
+      script.async = true;
       
       // Add script to head
       document.head.appendChild(script);
@@ -36,8 +37,8 @@ const AdsterraBodyAd: React.FC = () => {
       return () => {
         // Cleanup script when component unmounts
         const scriptToRemove = document.querySelector('script[src*="3ab88cc45aad291af06779a7141d0c78"]');
-        if (scriptToRemove && document.head.contains(scriptToRemove)) {
-          document.head.removeChild(scriptToRemove);
+        if (scriptToRemove && scriptToRemove.parentNode) {
+          scriptToRemove.parentNode.removeChild(scriptToRemove);
         }
         // Clean up atOptions
         if ((window as any).atOptions) {

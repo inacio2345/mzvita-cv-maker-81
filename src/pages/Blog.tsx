@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Clock, User, BookOpen, ArrowRight, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
-import Footer from '@/components/ui/footer';
+
 import { Badge } from '@/components/ui/badge';
 
 const Blog = () => {
@@ -298,7 +298,6 @@ const Blog = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { useSavedCVs } from '@/hooks/useSavedCVs';
 import { FileText, Edit, Trash2, Plus, Download, AlertCircle, User } from 'lucide-react';
-import Footer from '@/components/ui/footer';
+
 import Header from '@/components/ui/header';
 
 const Profile = () => {
@@ -226,7 +226,6 @@ const Profile = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

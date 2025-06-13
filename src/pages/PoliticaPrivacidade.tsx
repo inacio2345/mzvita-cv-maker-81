@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, Eye, Database, UserCheck } from 'lucide-react';
-import Footer from '@/components/ui/footer';
+
 
 const PoliticaPrivacidade = () => {
   const navigate = useNavigate();
@@ -115,7 +115,6 @@ const PoliticaPrivacidade = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };
