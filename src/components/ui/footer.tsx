@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdSpace from '@/components/ads/AdSpace';
@@ -16,6 +16,34 @@ const Footer = () => {
   
   // Check if the current page should show the ad
   const shouldShowAds = !excludedPages.includes(location.pathname);
+
+  // Load Adsterra script when component mounts and ad should be shown
+  useEffect(() => {
+    if (shouldShowAds) {
+      // Remove existing script if it exists
+      const existingScript = document.querySelector('script[src*="61eba68a47e0ac2b98ec3fed6c320ba9"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      // Create and append new script
+      const script = document.createElement('script');
+      script.async = true;
+      script.setAttribute('data-cfasync', 'false');
+      script.src = '//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js';
+      
+      // Add script to the end of body
+      document.body.appendChild(script);
+
+      return () => {
+        // Cleanup script when component unmounts
+        const scriptToRemove = document.querySelector('script[src*="61eba68a47e0ac2b98ec3fed6c320ba9"]');
+        if (scriptToRemove && document.body.contains(scriptToRemove)) {
+          document.body.removeChild(scriptToRemove);
+        }
+      };
+    }
+  }, [shouldShowAds]);
   
   const footerAdScript = `
     <script type="text/javascript">
@@ -32,11 +60,22 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12">
-      {/* Adsterra ad */}
+      {/* Adsterra ad - Posicionado no final do footer */}
       {shouldShowAds && (
-        <div className="adsterra-footer-native w-full mx-auto mt-5 mb-6">
-          <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9" className="flex justify-center"></div>
-          <script async={true} data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
+        <div className="adsterra-footer-native w-full mx-auto mt-6 mb-4" style={{ display: 'block', minHeight: '100px' }}>
+          <div 
+            id="container-61eba68a47e0ac2b98ec3fed6c320ba9" 
+            className="flex justify-center items-center w-full"
+            style={{ 
+              display: 'block', 
+              minHeight: '100px',
+              margin: '0 auto',
+              textAlign: 'center',
+              visibility: 'visible',
+              overflow: 'visible',
+              zIndex: 1000
+            }}
+          ></div>
         </div>
       )}
 

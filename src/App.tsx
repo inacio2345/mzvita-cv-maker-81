@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AuthProvider } from "@/hooks/useAuth";
+import Footer from "@/components/ui/footer";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import Preview from "./pages/Preview";
@@ -85,6 +86,7 @@ const App = () => (
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>
+                <Footer />
               </SidebarInset>
             </div>
           </SidebarProvider>
