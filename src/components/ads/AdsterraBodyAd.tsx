@@ -16,55 +16,30 @@ const AdsterraBodyAd: React.FC = () => {
 
   useEffect(() => {
     if (shouldShowAds) {
-      // Remove existing ad container if it exists
-      const existingAdContainer = document.querySelector('.ad-header');
-      if (existingAdContainer) {
-        existingAdContainer.remove();
-      }
+      // Configure atOptions
+      (window as any).atOptions = {
+        'key': '3ab88cc45aad291af06779a7141d0c78',
+        'format': 'iframe',
+        'height': 90,
+        'width': 728,
+        'params': {}
+      };
 
-      // Create the ad container div
-      const adContainer = document.createElement('div');
-      adContainer.className = 'ad-header';
-      adContainer.style.cssText = `
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding: 10px 0;
-        background: transparent;
-      `;
-
-      // Create and configure the first script (atOptions)
-      const optionsScript = document.createElement('script');
-      optionsScript.type = 'text/javascript';
-      optionsScript.innerHTML = `
-        atOptions = {
-          'key': '3ab88cc45aad291af06779a7141d0c78',
-          'format': 'iframe',
-          'height': 90,
-          'width': 728,
-          'params': {}
-        };
-      `;
-
-      // Create and configure the invoke script
-      const invokeScript = document.createElement('script');
-      invokeScript.type = 'text/javascript';
-      invokeScript.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
-
-      // Append scripts to the ad container
-      adContainer.appendChild(optionsScript);
-      adContainer.appendChild(invokeScript);
-
-      // Append the ad container to the end of body
-      document.body.appendChild(adContainer);
+      // Create and append the invoke script
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
+      
+      // Add script to head
+      document.head.appendChild(script);
 
       return () => {
-        // Cleanup when component unmounts
-        const adToRemove = document.querySelector('.ad-header');
-        if (adToRemove && document.body.contains(adToRemove)) {
-          document.body.removeChild(adToRemove);
+        // Cleanup script when component unmounts
+        const scriptToRemove = document.querySelector('script[src*="3ab88cc45aad291af06779a7141d0c78"]');
+        if (scriptToRemove && document.head.contains(scriptToRemove)) {
+          document.head.removeChild(scriptToRemove);
         }
-        // Clean up global atOptions
+        // Clean up atOptions
         if ((window as any).atOptions) {
           delete (window as any).atOptions;
         }
@@ -72,9 +47,33 @@ const AdsterraBodyAd: React.FC = () => {
     }
   }, [shouldShowAds, location.pathname]);
 
-  // This component doesn't render anything in the React tree
-  // The ad is injected directly into the DOM at the end of body
-  return null;
+  if (!shouldShowAds) {
+    return null;
+  }
+
+  // Render the ad container in the React tree instead of injecting into DOM
+  return (
+    <div 
+      className="ad-header w-full flex justify-center py-2 mb-4 border-b border-gray-200"
+      style={{
+        background: '#f8f9fa',
+        minHeight: '90px'
+      }}
+    >
+      <div
+        style={{
+          width: '728px',
+          height: '90px',
+          maxWidth: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {/* O conteúdo do anúncio será inserido aqui automaticamente pelo script da Adsterra */}
+      </div>
+    </div>
+  );
 };
 
 export default AdsterraBodyAd;

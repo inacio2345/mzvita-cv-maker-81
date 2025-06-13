@@ -46,7 +46,6 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <AdsterraBodyAd />
           <SidebarProvider>
             <div className="min-h-screen flex w-full">
               <AppSidebar />
@@ -57,6 +56,10 @@ const App = () => (
                     <h1 className="text-lg font-semibold">MozVita</h1>
                   </div>
                 </header>
+                
+                {/* Anúncio Adsterra - Logo após o header */}
+                <AdsterraBodyAd />
+                
                 <div className="flex flex-1 flex-col gap-4 p-4">
                   <Routes>
                     <Route path="/" element={<Index />} />
