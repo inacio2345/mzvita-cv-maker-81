@@ -8,7 +8,7 @@ import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/s
 import { AppSidebar } from "@/components/AppSidebar";
 import { AuthProvider } from "@/hooks/useAuth";
 import Footer from "@/components/ui/footer";
-import AdsterraHeader from "@/components/ads/AdsterraHeader";
+import AdsterraBodyAd from "@/components/ads/AdsterraBodyAd";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import Preview from "./pages/Preview";
@@ -45,6 +45,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <AdsterraBodyAd />
         <BrowserRouter>
           <SidebarProvider>
             <div className="min-h-screen flex w-full">
@@ -56,10 +57,6 @@ const App = () => (
                     <h1 className="text-lg font-semibold">MozVita</h1>
                   </div>
                 </header>
-                
-                {/* Anúncio Adsterra Header - Entre header e conteúdo */}
-                <AdsterraHeader />
-                
                 <div className="flex flex-1 flex-col gap-4 p-4">
                   <Routes>
                     <Route path="/" element={<Index />} />
