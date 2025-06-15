@@ -110,6 +110,37 @@
     max-width: 100%;
     overflow-x: hidden;
   }
+
+  /* Optimize images for better performance */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Optimize iframe responsiveness */
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 a[href*="lovable.dev"],

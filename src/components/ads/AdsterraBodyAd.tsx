@@ -31,6 +31,8 @@ const AdsterraBodyAd: React.FC = () => {
           // Create and append the invoke script
           const script = document.createElement('script');
           script.type = 'text/javascript';
+          script.async = true;
+          script.defer = true;
           script.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
           adSlot.appendChild(script);
         }

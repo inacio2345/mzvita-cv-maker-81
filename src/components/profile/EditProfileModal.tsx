@@ -75,7 +75,7 @@ const EditProfileModal = ({ isOpen, onClose, profile }: EditProfileModalProps) =
               <div className="relative">
                 <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
                   {preview ? (
-                    <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={preview} alt="Preview" className="w-full h-full object-cover max-w-full" loading="lazy" />
                   ) : (
                     <User className="w-8 h-8 text-gray-400" />
                   )}

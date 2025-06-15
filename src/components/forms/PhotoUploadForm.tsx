@@ -71,7 +71,8 @@ const PhotoUploadForm = ({ data, onUpdate }: PhotoUploadFormProps) => {
                 <img
                   src={preview}
                   alt="Preview da foto"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover max-w-full"
+                  loading="lazy"
                 />
               </div>
               <Button

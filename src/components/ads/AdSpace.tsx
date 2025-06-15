@@ -31,6 +31,7 @@ const AdSpace = ({ id, type, className = '', scriptCode }: AdSpaceProps) => {
           externalScript.src = srcMatch[1];
           externalScript.type = 'text/javascript';
           externalScript.async = true;
+          externalScript.defer = true;
           adRef.current.appendChild(externalScript);
         }
       }

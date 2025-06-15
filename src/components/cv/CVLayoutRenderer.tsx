@@ -26,25 +26,25 @@ const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayou
       case 'circular':
         return (
           <div className={`${baseClasses} rounded-full overflow-hidden`}>
-            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover max-w-full" loading="lazy" />
           </div>
         );
       case 'square':
         return (
           <div className={`${baseClasses} rounded-lg overflow-hidden`}>
-            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover max-w-full" loading="lazy" />
           </div>
         );
       case 'hexagonal':
         return (
           <div className={`${baseClasses} rounded-lg transform rotate-6 overflow-hidden`}>
-            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover max-w-full" loading="lazy" />
           </div>
         );
       default:
         return (
           <div className={`${baseClasses} rounded-full overflow-hidden`}>
-            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
+            <img src={photoUrl} alt="" className="w-full h-full object-cover max-w-full" loading="lazy" />
           </div>
         );
     }
