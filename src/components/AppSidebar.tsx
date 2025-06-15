@@ -1,4 +1,4 @@
-import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase, BookOpen, Users } from "lucide-react";
+import { Home, FileText, HelpCircle, DollarSign, Mail, FileImage, Shield, PenTool, ChevronDown, Briefcase, BookOpen, Users, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
@@ -39,6 +39,11 @@ const menuItems = [
     title: "Comunidade",
     url: "/comunidade",
     icon: Users,
+  },
+  {
+    title: "Sobre Nós",
+    url: "/sobre-nos",
+    icon: Info,
   },
   {
     title: "Como Funciona",

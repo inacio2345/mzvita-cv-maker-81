@@ -37,6 +37,7 @@ import TendenciasMercado2024 from "./pages/blog/TendenciasMercado2024";
 import AdaptarCVPorArea from "./pages/blog/AdaptarCVPorArea";
 import FotoNoCurriculo from "./pages/blog/FotoNoCurriculo";
 import Comunidade from "./pages/Comunidade";
+import SobreNos from "./pages/SobreNos";
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const App = () => (
                     <Route path="/contato" element={<Contato />} />
                     <Route path="/exemplos" element={<Exemplos />} />
                     <Route path="/comunidade" element={<Comunidade />} />
+                    <Route path="/sobre-nos" element={<SobreNos />} />
                     <Route path="/politica-de-privacidade" element={<PoliticaPrivacidade />} />
                     <Route path="/termos-de-uso" element={<TermosUso />} />
                     <Route path="*" element={<NotFound />} />
