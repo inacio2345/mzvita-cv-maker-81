@@ -9,6 +9,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { AuthProvider } from "@/hooks/useAuth";
 import Footer from "@/components/ui/footer";
 import AdsterraBodyAd from "@/components/ads/AdsterraBodyAd";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import Preview from "./pages/Preview";
@@ -92,6 +93,7 @@ const App = () => (
                   </Routes>
                 </div>
                 <Footer />
+                <PWAInstallPrompt />
               </SidebarInset>
             </div>
           </SidebarProvider>
