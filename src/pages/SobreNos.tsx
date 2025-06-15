@@ -145,7 +145,7 @@ const SobreNos = () => {
               </div>
               <div className="grid sm:grid-cols-2 gap-6">
                 {valores.map((valor, index) => (
-                  <div key={index} className="flex items-start gap-3 p-4 rounded-xl bg-background/50 hover:bg-background/80 transition-colors duration-200">
+                  <div key={index} className="flex items-start gap-3 p-4 rounded-xl bg-background hover:bg-muted/50 transition-colors duration-200">
                     <div className="p-2 bg-gradient-to-r from-green-500 to-green-600 rounded-lg mt-1">
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
@@ -159,7 +159,7 @@ const SobreNos = () => {
 
         {/* Soluções Oferecidas - Enhanced */}
         <section className="mb-16">
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-blue-50/50 to-indigo-50/50 hover:shadow-3xl transition-all duration-300">
+          <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-blue-50/30 hover:shadow-3xl transition-all duration-300">
             <CardContent className="p-8 md:p-10">
               <div className="flex items-center gap-4 mb-8">
                 <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl">
@@ -171,7 +171,7 @@ const SobreNos = () => {
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {solucoes.map((solucao, index) => (
-                  <div key={index} className="flex items-start gap-3 p-5 rounded-xl bg-background/70 hover:bg-background/90 border border-blue-100 hover:border-blue-200 transition-all duration-200">
+                  <div key={index} className="flex items-start gap-3 p-5 rounded-xl bg-background hover:bg-muted/50 border border-border hover:border-blue-200 transition-all duration-200">
                     <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg mt-1">
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
@@ -185,7 +185,7 @@ const SobreNos = () => {
 
         {/* Nosso Público - Enhanced */}
         <section className="mb-16">
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-purple-50/50 to-pink-50/50 hover:shadow-3xl transition-all duration-300">
+          <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-purple-50/30 hover:shadow-3xl transition-all duration-300">
             <CardContent className="p-8 md:p-10">
               <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl">
@@ -198,7 +198,7 @@ const SobreNos = () => {
               <p className="text-lg text-muted-foreground mb-8 font-medium">Quem pode se beneficiar da MozVita:</p>
               <div className="grid sm:grid-cols-2 gap-6">
                 {publico.map((grupo, index) => (
-                  <div key={index} className="flex items-start gap-3 p-5 rounded-xl bg-background/70 hover:bg-background/90 border border-purple-100 hover:border-purple-200 transition-all duration-200">
+                  <div key={index} className="flex items-start gap-3 p-5 rounded-xl bg-background hover:bg-muted/50 border border-border hover:border-purple-200 transition-all duration-200">
                     <div className="p-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg mt-1">
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
@@ -212,12 +212,12 @@ const SobreNos = () => {
 
         {/* Conecte-se Connosco - Enhanced */}
         <section className="mb-16">
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-green-50/50 to-emerald-50/50 hover:shadow-3xl transition-all duration-300">
+          <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-green-50/30 hover:shadow-3xl transition-all duration-300">
             <CardContent className="p-8 md:p-12 text-center">
               <div className="mb-8">
-                <div className="inline-flex items-center gap-2 bg-green-100 rounded-full px-6 py-3 mb-6">
-                  <MessageCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-green-600 font-semibold">Conecte-se Connosco</span>
+                <div className="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/50 rounded-full px-6 py-3 mb-6">
+                  <MessageCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  <span className="text-green-600 dark:text-green-400 font-semibold">Conecte-se Connosco</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                   Faça Parte da Nossa Comunidade
@@ -251,7 +251,7 @@ const SobreNos = () => {
 
         {/* Privacidade e Confiabilidade - Enhanced */}
         <section className="mb-16">
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-slate-50/50 to-gray-50/50 hover:shadow-3xl transition-all duration-300">
+          <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-slate-50/30 hover:shadow-3xl transition-all duration-300">
             <CardContent className="p-8 md:p-10">
               <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 bg-gradient-to-r from-slate-600 to-slate-700 rounded-xl">
@@ -261,13 +261,13 @@ const SobreNos = () => {
                   Privacidade e Confiabilidade
                 </h2>
               </div>
-              <div className="bg-background/70 rounded-xl p-6 border border-slate-100">
+              <div className="bg-background/90 rounded-xl p-6 border border-border">
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   A MozVita mantém um <span className="text-slate-600 font-semibold">compromisso firme com a proteção de dados pessoais</span>, 
                   respeitando a privacidade dos usuários e atualizando constantemente a plataforma conforme as melhores práticas do mercado 
                   digital e de recursos humanos. <span className="text-slate-600 font-semibold">Sua informação está segura connosco.</span>
                 </p>
-                <div className="flex items-center gap-2 mt-4 pt-4 border-t border-slate-100">
+                <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border">
                   <Award className="w-5 h-5 text-slate-600" />
                   <span className="text-slate-600 font-medium">Certificado em Segurança Digital</span>
                 </div>
@@ -278,7 +278,7 @@ const SobreNos = () => {
 
         {/* Fundadores e Equipa - Enhanced */}
         <section className="mb-16">
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-orange-50/50 to-amber-50/50 hover:shadow-3xl transition-all duration-300">
+          <Card className="border-0 shadow-2xl bg-gradient-to-br from-card via-card to-orange-50/30 hover:shadow-3xl transition-all duration-300">
             <CardContent className="p-8 md:p-10">
               <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl">
@@ -288,13 +288,13 @@ const SobreNos = () => {
                   Fundadores e Equipa
                 </h2>
               </div>
-              <div className="bg-background/70 rounded-xl p-6 border border-orange-100">
+              <div className="bg-background/90 rounded-xl p-6 border border-border">
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   A MozVita foi fundada por <span className="text-orange-600 font-semibold">Inácio Langa</span>, jovem empreendedor 
                   moçambicano com histórico de superação e dedicação ao ensino digital. Inspirado por sua própria trajetória de busca 
                   por emprego, ele criou a plataforma com o objetivo de gerar impacto direto e positivo na vida de outras pessoas.
                 </p>
-                <div className="flex items-center gap-2 mt-4 pt-4 border-t border-orange-100">
+                <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border">
                   <Sparkles className="w-5 h-5 text-orange-600" />
                   <span className="text-orange-600 font-medium">Empreendedorismo • Inovação • Impacto Social</span>
                 </div>
