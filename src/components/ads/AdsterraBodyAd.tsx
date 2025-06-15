@@ -16,34 +16,48 @@ const AdsterraBodyAd: React.FC = () => {
 
   useEffect(() => {
     if (shouldShowAds) {
-      // Configure atOptions
-      (window as any).atOptions = {
-        'key': '3ab88cc45aad291af06779a7141d0c78',
-        'format': 'iframe',
-        'height': 90,
-        'width': 728,
-        'params': {}
+      const loadAdScript = () => {
+        const adSlot = document.getElementById('ad-header-slot');
+        if (adSlot) {
+          // Configure atOptions
+          (window as any).atOptions = {
+            'key': '3ab88cc45aad291af06779a7141d0c78',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
+          };
+
+          // Create and append the invoke script
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
+          adSlot.appendChild(script);
+        }
       };
 
-      // Create and append the invoke script
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
-      script.async = true;
-      
-      // Add script to head
-      document.head.appendChild(script);
+      // Ensure DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadAdScript);
+      } else {
+        loadAdScript();
+      }
 
       return () => {
         // Cleanup script when component unmounts
-        const scriptToRemove = document.querySelector('script[src*="3ab88cc45aad291af06779a7141d0c78"]');
-        if (scriptToRemove && scriptToRemove.parentNode) {
-          scriptToRemove.parentNode.removeChild(scriptToRemove);
+        const adSlot = document.getElementById('ad-header-slot');
+        if (adSlot) {
+          const scriptToRemove = adSlot.querySelector('script[src*="3ab88cc45aad291af06779a7141d0c78"]');
+          if (scriptToRemove) {
+            adSlot.removeChild(scriptToRemove);
+          }
         }
         // Clean up atOptions
         if ((window as any).atOptions) {
           delete (window as any).atOptions;
         }
+        // Remove event listener if it was added
+        document.removeEventListener('DOMContentLoaded', loadAdScript);
       };
     }
   }, [shouldShowAds, location.pathname]);
@@ -62,6 +76,7 @@ const AdsterraBodyAd: React.FC = () => {
       }}
     >
       <div
+        id="ad-header-slot"
         style={{
           width: '728px',
           height: '90px',
