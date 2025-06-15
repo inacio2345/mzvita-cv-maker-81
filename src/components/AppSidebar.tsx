@@ -95,6 +95,11 @@ const cartasOficiaisItems = [
 
 const legalItems = [
   {
+    title: "Sobre Nós",
+    url: "/sobre-nos",
+    icon: Info,
+  },
+  {
     title: "Política de Privacidade",
     url: "/politica-de-privacidade",
     icon: Shield,
