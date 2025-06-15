@@ -69,7 +69,7 @@ const AdsterraBodyAd: React.FC = () => {
   // Render the ad container in the React tree instead of injecting into DOM
   return (
     <div 
-      className="ad-header w-full flex justify-center py-2 mb-4 border-b border-gray-200"
+      className="ad-header w-full flex justify-center py-2 mb-2 sm:mb-4 border-b border-gray-200 overflow-hidden"
       style={{
         background: '#f8f9fa',
         minHeight: '90px'
@@ -77,10 +77,11 @@ const AdsterraBodyAd: React.FC = () => {
     >
       <div
         id="ad-header-slot"
+        className="w-full max-w-full overflow-hidden"
         style={{
-          width: '728px',
+          width: '100%',
+          maxWidth: '728px',
           height: '90px',
-          maxWidth: '100%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center'

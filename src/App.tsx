@@ -47,20 +47,20 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <SidebarProvider>
-            <div className="min-h-screen flex w-full">
+            <div className="min-h-screen flex w-full overflow-x-hidden">
               <AppSidebar />
-              <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b">
+              <SidebarInset className="overflow-x-hidden w-full">
+                <header className="flex h-16 shrink-0 items-center gap-2 px-2 sm:px-4 border-b">
                   <SidebarTrigger className="-ml-1" />
                   <div className="ml-auto">
-                    <h1 className="text-lg font-semibold">MozVita</h1>
+                    <h1 className="text-sm sm:text-lg font-semibold truncate">MozVita</h1>
                   </div>
                 </header>
                 
                 {/* Anúncio Adsterra - Logo após o header */}
                 <AdsterraBodyAd />
                 
-                <div className="flex flex-1 flex-col gap-4 p-4">
+                <div className="flex flex-1 flex-col gap-2 sm:gap-4 p-2 sm:p-4 overflow-x-hidden max-w-full">
                   <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/criar-cv" element={<CreateCV />} />

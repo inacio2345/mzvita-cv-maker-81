@@ -98,6 +98,17 @@
 
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
+  /* Prevent horizontal scroll and ensure responsive behavior */
+  .container {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }
 

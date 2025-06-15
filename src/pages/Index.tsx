@@ -22,33 +22,33 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 overflow-x-hidden max-w-full">
       {/* Hero Section - Otimizada para SEO */}
-      <section className="py-12 md:py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+      <section className="py-12 md:py-20 overflow-x-hidden">
+        <div className="container mx-auto px-4 text-center overflow-x-hidden max-w-full">
+          <div className="max-w-4xl mx-auto overflow-x-hidden">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 px-2">
               Crie Seu <span className="bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
                 CV Profissional Online
               </span> em Moçambique
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto px-2">
               Rápido, gratuito e adaptado para o mercado de trabalho local. 
               Em poucos minutos, você terá seu currículo pronto para imprimir ou enviar.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center px-2">
               <Button 
                 size="lg" 
-                className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
+                className="bg-google-blue hover:bg-blue-600 text-white px-4 sm:px-8 py-4 sm:py-6 text-base sm:text-lg w-full sm:w-auto"
                 onClick={() => navigate('/criar-cv')}
               >
-                <FileText className="mr-2 h-5 w-5" />
+                <FileText className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Começar Agora
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white px-8 py-6 text-lg"
+                className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white px-4 sm:px-8 py-4 sm:py-6 text-base sm:text-lg w-full sm:w-auto"
                 onClick={() => navigate('/exemplos')}
               >
                 Ver Modelos de CV
@@ -59,17 +59,17 @@ const Index = () => {
       </section>
 
       {/* Como Funciona Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
+      <section className="py-12 bg-white overflow-x-hidden">
+        <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 px-2">
               Como funciona o MozVita?
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-600 max-w-2xl mx-auto px-2">
               Criar seu CV profissional nunca foi tão simples
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Briefcase className="w-8 h-8 text-google-blue" />
@@ -108,18 +108,18 @@ const Index = () => {
       </section>
 
       {/* Benefícios Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
+      <section className="py-12 bg-gray-50 overflow-x-hidden">
+        <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 px-2">
               Por que usar o MozVita?
             </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
+            <p className="text-gray-600 max-w-3xl mx-auto px-2">
               Descubra os benefícios de usar nossa plataforma para criar um currículo profissional e 
               aumentar suas chances de sucesso no mercado de trabalho moçambicano.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl font-semibold">
@@ -346,12 +346,12 @@ const Index = () => {
               e habilidades específicas da sua profissão
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
             {professionAreas.map((area, index) => (
               <Button
                 key={index}
                 variant="outline"
-                className="h-12 text-sm hover:bg-google-blue hover:text-white transition-colors"
+                className="h-12 text-xs sm:text-sm hover:bg-google-blue hover:text-white transition-colors"
                 onClick={() => navigate('/area-profissional')}
               >
                 CV para {area}

@@ -59,27 +59,28 @@ const Footer = () => {
   `;
 
   return (
-    <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12">
+    <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
       {/* Adsterra ad - Posicionado no final do footer */}
       {shouldShowAds && (
-        <div className="adsterra-footer-native w-full mx-auto mt-6 mb-4" style={{ display: 'block', minHeight: '100px' }}>
+        <div className="adsterra-footer-native w-full mx-auto mt-6 mb-4 overflow-hidden" style={{ display: 'block', minHeight: '100px' }}>
           <div 
             id="container-61eba68a47e0ac2b98ec3fed6c320ba9" 
-            className="flex justify-center items-center w-full"
+            className="flex justify-center items-center w-full max-w-full overflow-hidden"
             style={{ 
               display: 'block', 
               minHeight: '100px',
               margin: '0 auto',
               textAlign: 'center',
               visibility: 'visible',
-              overflow: 'visible',
-              zIndex: 1000
+              overflow: 'hidden',
+              zIndex: 1000,
+              maxWidth: '100%'
             }}
           ></div>
         </div>
       )}
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center space-x-2 mb-4 justify-center sm:justify-start">
