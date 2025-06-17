@@ -305,18 +305,17 @@ const SobreNos = () => {
 
         {/* Junte-se à Transformação - Enhanced CTA */}
         <section className="mb-16">
-          <Card className="border-0 shadow-3xl bg-gradient-to-r from-primary via-secondary to-accent relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-secondary/90 to-accent/90"></div>
+          <Card className="border-0 shadow-2xl bg-primary relative overflow-hidden">
             <CardContent className="relative p-8 md:p-12 text-center text-white">
               <div className="mb-6">
                 <div className="inline-flex items-center gap-2 bg-white/20 rounded-full px-6 py-3 mb-6">
                   <Sparkles className="w-5 h-5 text-white" />
                   <span className="text-white font-semibold">Transformação Digital</span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
                   Junte-se à Revolução
                 </h2>
-                <p className="text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto text-white/90">
+                <p className="text-xl md:text-2xl leading-relaxed max-w-4xl mx-auto text-white/95">
                   "Faça parte da revolução digital que está mudando a forma como os moçambicanos se apresentam ao mercado de trabalho. 
                   Transforme seu futuro com a MozVita."
                 </p>
@@ -325,16 +324,16 @@ const SobreNos = () => {
                 <Button 
                   onClick={() => navigate('/criar-cv')}
                   size="lg"
-                  className="bg-white text-primary hover:bg-white/90 hover:text-primary/90 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 font-semibold px-8 py-4"
+                  className="bg-white text-primary hover:bg-white/95 hover:text-primary border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold px-8 py-4"
                 >
-                  <Sparkles className="w-5 h-5 mr-3" />
+                  <Sparkles className="w-5 h-5 mr-3 text-primary" />
                   Criar Meu CV Agora
                 </Button>
                 <Button 
                   onClick={() => navigate('/comunidade')}
                   variant="outline"
                   size="lg"
-                  className="border-2 border-white text-white hover:bg-white hover:text-primary shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 font-semibold px-8 py-4"
+                  className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold px-8 py-4"
                 >
                   <Users className="w-5 h-5 mr-3" />
                   Ver Comunidade
