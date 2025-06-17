@@ -128,15 +128,6 @@ const Exemplos = () => {
                 Contato
               </Button>
             </nav>
-
-            <div className="flex items-center space-x-2">
-              <Button 
-                onClick={() => navigate('/criar-cv')}
-                className="bg-google-blue hover:bg-blue-600 text-white text-sm px-4 py-2"
-              >
-                Criar CV Grátis
-              </Button>
-            </div>
           </div>
         </div>
       </header>
@@ -340,9 +331,9 @@ const Exemplos = () => {
           <Button 
             size="lg" 
             className="bg-white text-google-blue hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
-            onClick={() => navigate('/criar-cv')}
+            onClick={() => navigate('/como-funciona')}
           >
-            Começar Agora - Grátis
+            Saiba Como Funciona
             <FileText className="ml-2 w-5 h-5" />
           </Button>
         </div>
