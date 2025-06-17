@@ -10,6 +10,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Footer from "@/components/ui/footer";
 import AdsterraBodyAd from "@/components/ads/AdsterraBodyAd";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
+import CookieBanner from "@/components/CookieBanner";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import Preview from "./pages/Preview";
@@ -96,6 +97,7 @@ const App = () => (
                 </div>
                 <Footer />
                 <PWAInstallPrompt />
+                <CookieBanner />
               </SidebarInset>
             </div>
           </SidebarProvider>
