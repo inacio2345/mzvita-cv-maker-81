@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,7 +16,6 @@ import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import Preview from "./pages/Preview";
 import ComoFunciona from "./pages/ComoFunciona";
-import Precos from "./pages/Precos";
 import Contato from "./pages/Contato";
 import Exemplos from "./pages/Exemplos";
 import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
@@ -85,7 +85,6 @@ const App = () => (
                     <Route path="/carta-agradecimento" element={<CartaAgradecimento />} />
                     <Route path="/preview" element={<Preview />} />
                     <Route path="/como-funciona" element={<ComoFunciona />} />
-                    <Route path="/precos" element={<Precos />} />
                     <Route path="/contato" element={<Contato />} />
                     <Route path="/exemplos" element={<Exemplos />} />
                     <Route path="/comunidade" element={<Comunidade />} />

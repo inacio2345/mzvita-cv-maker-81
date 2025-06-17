@@ -66,13 +66,6 @@ const Header = () => {
                 </Button>
                 <Button
                   variant="ghost"
-                  onClick={() => navigate('/precos')}
-                  className="text-gray-600 hover:text-google-blue"
-                >
-                  Preços
-                </Button>
-                <Button
-                  variant="ghost"
                   onClick={() => navigate('/contato')}
                   className="text-gray-600 hover:text-google-blue"
                 >

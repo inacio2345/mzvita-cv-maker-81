@@ -56,13 +56,6 @@ const MobileNav = () => {
               <Button
                 variant="ghost"
                 className="justify-start text-base font-medium hover:bg-gray-100"
-                onClick={() => handleNavigation('/precos')}
-              >
-                Preços
-              </Button>
-              <Button
-                variant="ghost"
-                className="justify-start text-base font-medium hover:bg-gray-100"
                 onClick={() => handleNavigation('/contato')}
               >
                 Contato
