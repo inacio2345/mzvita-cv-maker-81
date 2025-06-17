@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -42,27 +43,27 @@ const ProfessionalFormWizard = () => {
 
   const handleNext = () => {
     if (currentStep === 2) {
-      // Gerar CV
-      handleGenerateCV();
+      // Redirecionar para exemplos
+      handleRedirectToExamples();
     } else {
       nextStep();
     }
   };
 
-  const handleGenerateCV = async () => {
+  const handleRedirectToExamples = () => {
     if (!selectedProfession || !formData) return;
 
     try {
-      await generateProfessionalCV(formData as any);
+      // Redirecionar para página de exemplos com os dados preenchidos
+      window.location.href = '/exemplos';
       toast({
-        title: "CV Gerado com Sucesso!",
-        description: "Seu CV profissional foi gerado e baixado.",
+        title: "Dados Salvos!",
+        description: "Redirecionando para ver os modelos disponíveis.",
       });
-      resetForm();
     } catch (error) {
       toast({
-        title: "Erro ao Gerar CV",
-        description: "Houve um problema ao gerar seu CV. Tente novamente.",
+        title: "Erro",
+        description: "Houve um problema. Tente novamente.",
         variant: "destructive",
       });
     }
@@ -86,7 +87,7 @@ const ProfessionalFormWizard = () => {
               Criação de CV - {selectedProfession?.name}
             </h1>
             <p className="text-gray-600">
-              Preencha os dados para gerar seu CV personalizado
+              Preencha os dados para ver os modelos disponíveis
             </p>
           </div>
 
@@ -160,7 +161,7 @@ const ProfessionalFormWizard = () => {
               disabled={!isStepValid()}
               className="bg-green-600 hover:bg-green-700"
             >
-              {currentStep === steps.length ? 'Gerar CV' : 'Próximo'}
+              {currentStep === steps.length ? 'Ver Modelos' : 'Próximo'}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>

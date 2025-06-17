@@ -26,7 +26,7 @@ const Profile = () => {
   };
 
   const handleEditCV = (cv: any) => {
-    navigate('/criar-cv', {
+    navigate('/exemplos', {
       state: {
         templateData: cv.cv_data,
         selectedTemplate: {
@@ -139,11 +139,11 @@ const Profile = () => {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Meus CVs</h2>
               <Button
-                onClick={() => navigate('/criar-cv')}
+                onClick={() => navigate('/exemplos')}
                 className="bg-google-blue hover:bg-blue-600 text-white"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                Criar Novo CV
+                Ver Modelos
               </Button>
             </div>
 
@@ -213,11 +213,11 @@ const Profile = () => {
                     Comece criando seu primeiro CV profissional
                   </p>
                   <Button
-                    onClick={() => navigate('/criar-cv')}
+                    onClick={() => navigate('/exemplos')}
                     className="bg-google-blue hover:bg-blue-600 text-white"
                   >
                     <Plus className="w-4 h-4 mr-2" />
-                    Criar Meu Primeiro CV
+                    Ver Modelos de CV
                   </Button>
                 </CardContent>
               </Card>

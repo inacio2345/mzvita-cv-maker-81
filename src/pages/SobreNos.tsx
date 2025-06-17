@@ -303,7 +303,7 @@ const SobreNos = () => {
           </Card>
         </section>
 
-        {/* Junte-se à Transformação - Enhanced CTA */}
+        {/* Junte-se à Transformação - Enhanced CTA with updated redirect */}
         <section className="mb-16">
           <Card className="border-0 shadow-2xl bg-primary relative overflow-hidden">
             <CardContent className="relative p-8 md:p-12 text-center text-white">
@@ -322,12 +322,12 @@ const SobreNos = () => {
               </div>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => navigate('/criar-cv')}
+                  onClick={() => navigate('/exemplos')}
                   size="lg"
                   className="bg-white text-primary hover:bg-white/95 hover:text-primary border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold px-8 py-4"
                 >
                   <Sparkles className="w-5 h-5 mr-3 text-primary" />
-                  Criar Meu CV Agora
+                  Ver Modelos de CV
                 </Button>
                 <Button 
                   onClick={() => navigate('/comunidade')}
