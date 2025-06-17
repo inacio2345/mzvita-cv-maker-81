@@ -2,8 +2,21 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { sanitizeString, personalDataSchema } from '@/services/securityService';
+import { useToast } from '@/hooks/use-toast';
+
+interface FormErrors {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  profession?: string;
+  idNumber?: string;
+  website?: string;
+}
 
 const PersonalDataForm = ({ data, onUpdate }) => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     fullName: data.personalData?.fullName || '',
     email: data.personalData?.email || '',
@@ -14,16 +27,43 @@ const PersonalDataForm = ({ data, onUpdate }) => {
     website: data.personalData?.website || '',
     profileImage: data.personalData?.profileImage || ''
   });
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  const validateField = (field: string, value: string) => {
+    try {
+      const fieldSchema = personalDataSchema.shape[field as keyof typeof personalDataSchema.shape];
+      if (fieldSchema) {
+        fieldSchema.parse(value);
+      }
+      return null;
+    } catch (error: any) {
+      return error.errors?.[0]?.message || 'Valor inválido';
+    }
+  };
 
   const handleChange = (field, value) => {
+    // Sanitize input
+    const sanitizedValue = sanitizeString(value);
+    
+    // Validate field
+    const error = validateField(field, sanitizedValue);
+    setErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
+
     const newData = {
       ...formData,
-      [field]: value
+      [field]: sanitizedValue
     };
     setFormData(newData);
-    onUpdate({
-      personalData: newData
-    });
+    
+    // Only update if no errors
+    if (!error) {
+      onUpdate({
+        personalData: newData
+      });
+    }
   };
 
   return (
@@ -41,8 +81,12 @@ const PersonalDataForm = ({ data, onUpdate }) => {
             placeholder="Seu nome completo" 
             value={formData.fullName} 
             onChange={e => handleChange('fullName', e.target.value)} 
-            className="mt-1" 
+            className={`mt-1 ${errors.fullName ? 'border-red-500' : ''}`}
+            maxLength={100}
           />
+          {errors.fullName && (
+            <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+          )}
         </div>
 
         <div>
@@ -64,8 +108,12 @@ const PersonalDataForm = ({ data, onUpdate }) => {
             placeholder="seu.email@exemplo.com" 
             value={formData.email} 
             onChange={e => handleChange('email', e.target.value)} 
-            className="mt-1" 
+            className={`mt-1 ${errors.email ? 'border-red-500' : ''}`}
+            maxLength={255}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
         </div>
 
         <div>
@@ -75,8 +123,12 @@ const PersonalDataForm = ({ data, onUpdate }) => {
             placeholder="+258 84 123 4567" 
             value={formData.phone} 
             onChange={e => handleChange('phone', e.target.value)} 
-            className="mt-1" 
+            className={`mt-1 ${errors.phone ? 'border-red-500' : ''}`}
+            maxLength={20}
           />
+          {errors.phone && (
+            <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+          )}
         </div>
 
         <div className="md:col-span-2">
@@ -86,8 +138,12 @@ const PersonalDataForm = ({ data, onUpdate }) => {
             placeholder="Cidade, Bairro, Rua" 
             value={formData.address} 
             onChange={e => handleChange('address', e.target.value)} 
-            className="mt-1" 
+            className={`mt-1 ${errors.address ? 'border-red-500' : ''}`}
+            maxLength={500}
           />
+          {errors.address && (
+            <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+          )}
         </div>
 
         <div>
@@ -97,19 +153,28 @@ const PersonalDataForm = ({ data, onUpdate }) => {
             placeholder="123456789N" 
             value={formData.idNumber} 
             onChange={e => handleChange('idNumber', e.target.value)} 
-            className="mt-1" 
+            className={`mt-1 ${errors.idNumber ? 'border-red-500' : ''}`}
+            maxLength={50}
           />
+          {errors.idNumber && (
+            <p className="text-red-500 text-sm mt-1">{errors.idNumber}</p>
+          )}
         </div>
 
         <div>
           <Label htmlFor="website">Website/Blog (opcional)</Label>
           <Input 
             id="website" 
+            type="url"
             placeholder="https://meuportfolio.com" 
             value={formData.website} 
             onChange={e => handleChange('website', e.target.value)} 
-            className="mt-1" 
+            className={`mt-1 ${errors.website ? 'border-red-500' : ''}`}
+            maxLength={255}
           />
+          {errors.website && (
+            <p className="text-red-500 text-sm mt-1">{errors.website}</p>
+          )}
         </div>
       </div>
 

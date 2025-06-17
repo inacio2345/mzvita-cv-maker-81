@@ -1,5 +1,6 @@
 
 import { z } from 'zod';
+import { AuditService } from './auditService';
 
 // Validation schemas
 export const personalDataSchema = z.object({
@@ -70,6 +71,11 @@ export const checkRateLimit = (key: string, maxRequests: number = 10, windowMs: 
   }
   
   if (record.count >= maxRequests) {
+    // Log rate limit exceeded
+    const userId = key.split('_').pop();
+    if (userId) {
+      AuditService.logRateLimitExceeded(userId, key.replace(`_${userId}`, ''));
+    }
     return false;
   }
   
@@ -78,30 +84,44 @@ export const checkRateLimit = (key: string, maxRequests: number = 10, windowMs: 
 };
 
 // Validation functions
-export const validateCVData = (data: any): { isValid: boolean; errors: string[] } => {
+export const validateCVData = (data: any, userId?: string): { isValid: boolean; errors: string[] } => {
   try {
     cvDataSchema.parse(data);
     return { isValid: true, errors: [] };
   } catch (error) {
     if (error instanceof z.ZodError) {
+      const errors = error.errors.map(e => `${e.path.join('.')}: ${e.message}`);
+      
+      // Log validation errors for security monitoring
+      if (userId) {
+        AuditService.logValidationError(userId, 'cv_data', JSON.stringify(data).substring(0, 100));
+      }
+      
       return { 
         isValid: false, 
-        errors: error.errors.map(e => `${e.path.join('.')}: ${e.message}`) 
+        errors 
       };
     }
     return { isValid: false, errors: ['Validation failed'] };
   }
 };
 
-export const validateUserProfile = (data: any): { isValid: boolean; errors: string[] } => {
+export const validateUserProfile = (data: any, userId?: string): { isValid: boolean; errors: string[] } => {
   try {
     userProfileSchema.parse(data);
     return { isValid: true, errors: [] };
   } catch (error) {
     if (error instanceof z.ZodError) {
+      const errors = error.errors.map(e => `${e.path.join('.')}: ${e.message}`);
+      
+      // Log validation errors for security monitoring
+      if (userId) {
+        AuditService.logValidationError(userId, 'user_profile', JSON.stringify(data).substring(0, 100));
+      }
+      
       return { 
         isValid: false, 
-        errors: error.errors.map(e => `${e.path.join('.')}: ${e.message}`) 
+        errors 
       };
     }
     return { isValid: false, errors: ['Validation failed'] };

@@ -1,18 +1,19 @@
 
 import { supabase } from '@/lib/supabase';
 import { sanitizeObject, validateCVData, validateUserProfile, checkRateLimit } from './securityService';
+import { AuditService } from './auditService';
 import { CVData } from './cvService';
 import { UserProfile } from '@/hooks/useUserProfile';
 
 export class SecureDbService {
-  private static getUserId(): string | null {
-    const user = supabase.auth.getUser();
-    return user ? (user as any).data?.user?.id || null : null;
+  private static async getUserId(): Promise<string | null> {
+    const { data: { user } } = await supabase.auth.getUser();
+    return user?.id || null;
   }
 
   // Secure CV operations
   static async saveCVSecurely(title: string, templateName: string, cvData: CVData) {
-    const userId = this.getUserId();
+    const userId = await this.getUserId();
     if (!userId) {
       throw new Error('Authentication required');
     }
@@ -23,7 +24,7 @@ export class SecureDbService {
     }
 
     // Validate and sanitize data
-    const validation = validateCVData(cvData);
+    const validation = validateCVData(cvData, userId);
     if (!validation.isValid) {
       throw new Error(`Invalid CV data: ${validation.errors.join(', ')}`);
     }
@@ -48,7 +49,7 @@ export class SecureDbService {
   }
 
   static async updateCVSecurely(cvId: string, title: string, cvData: CVData) {
-    const userId = this.getUserId();
+    const userId = await this.getUserId();
     if (!userId) {
       throw new Error('Authentication required');
     }
@@ -59,7 +60,7 @@ export class SecureDbService {
     }
 
     // Validate and sanitize data
-    const validation = validateCVData(cvData);
+    const validation = validateCVData(cvData, userId);
     if (!validation.isValid) {
       throw new Error(`Invalid CV data: ${validation.errors.join(', ')}`);
     }
@@ -84,7 +85,7 @@ export class SecureDbService {
   }
 
   static async deleteCVSecurely(cvId: string) {
-    const userId = this.getUserId();
+    const userId = await this.getUserId();
     if (!userId) {
       throw new Error('Authentication required');
     }
@@ -106,7 +107,7 @@ export class SecureDbService {
 
   // Secure profile operations
   static async updateProfileSecurely(updates: Partial<UserProfile>) {
-    const userId = this.getUserId();
+    const userId = await this.getUserId();
     if (!userId) {
       throw new Error('Authentication required');
     }
@@ -117,7 +118,7 @@ export class SecureDbService {
     }
 
     // Validate and sanitize data
-    const validation = validateUserProfile(updates);
+    const validation = validateUserProfile(updates, userId);
     if (!validation.isValid) {
       throw new Error(`Invalid profile data: ${validation.errors.join(', ')}`);
     }
@@ -138,7 +139,7 @@ export class SecureDbService {
 
   // Secure download increment
   static async incrementDownloadsSecurely() {
-    const userId = this.getUserId();
+    const userId = await this.getUserId();
     if (!userId) {
       throw new Error('Authentication required');
     }
