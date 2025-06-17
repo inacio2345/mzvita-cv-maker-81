@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -120,9 +121,6 @@ const Exemplos = () => {
               </Button>
               <Button variant="ghost" onClick={() => navigate('/como-funciona')} className="text-gray-600 hover:text-google-blue">
                 Como Funciona
-              </Button>
-              <Button variant="ghost" onClick={() => navigate('/precos')} className="text-gray-600 hover:text-google-blue">
-                Preços
               </Button>
               <Button variant="ghost" onClick={() => navigate('/contato')} className="text-gray-600 hover:text-google-blue">
                 Contato

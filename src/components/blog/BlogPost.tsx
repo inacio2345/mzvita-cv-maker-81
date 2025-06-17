@@ -205,10 +205,10 @@ const BlogPost = ({
                 Use nossas dicas e crie um currículo que impressiona empregadores em Moçambique.
               </p>
               <Button 
-                onClick={() => navigate('/criar-cv')} 
+                onClick={() => navigate('/exemplos')} 
                 className="bg-white text-google-blue hover:bg-gray-100 font-semibold px-8 py-3"
               >
-                Criar Meu CV Agora
+                Ver Modelos de CV
               </Button>
             </CardContent>
           </Card>
