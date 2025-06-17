@@ -90,12 +90,12 @@ const Header = () => {
 
             {/* Actions */}
             <div className="flex items-center space-x-4">
-              {/* Create CV Button */}
+              {/* Ver Modelos Button */}
               <Button
-                onClick={() => navigate('/criar-cv')}
+                onClick={() => navigate('/exemplos')}
                 className="bg-google-blue hover:bg-blue-600 text-white"
               >
-                Criar CV
+                Ver Modelos
               </Button>
 
               {/* Mobile Navigation */}

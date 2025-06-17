@@ -1,10 +1,13 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, ArrowRight } from 'lucide-react';
+
 const ComoFunciona = () => {
   const navigate = useNavigate();
+
   const steps = [{
     number: "01",
     title: "Preencha seus dados",
@@ -21,6 +24,7 @@ const ComoFunciona = () => {
     description: "Download instantâneo do seu CV em alta qualidade, pronto para enviar ou imprimir.",
     details: ["Download em PDF de alta qualidade", "Pronto para impressão", "Formatação preservada", "Compatível com todos os dispositivos"]
   }];
+
   return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
@@ -94,12 +98,13 @@ const ComoFunciona = () => {
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Junte-se a milhares de moçambicanos que já conseguiram o emprego dos sonhos
           </p>
-          <Button size="lg" className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105" onClick={() => navigate('/criar-cv')}>
-            Criar Meu CV Agora
+          <Button size="lg" className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105" onClick={() => navigate('/exemplos')}>
+            Ver Modelos de CV
             <FileText className="ml-2 w-5 h-5" />
           </Button>
         </div>
       </section>
     </div>;
 };
+
 export default ComoFunciona;

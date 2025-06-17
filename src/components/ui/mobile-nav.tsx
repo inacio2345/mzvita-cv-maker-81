@@ -74,14 +74,6 @@ const MobileNav = () => {
               >
                 Exemplos
               </Button>
-              <Button
-                variant="ghost"
-                className="justify-start text-base font-medium hover:bg-gray-100"
-                onClick={() => handleNavigation('/criar-cv')}
-              >
-                <FileText className="w-4 h-4 mr-2" />
-                Criar CV
-              </Button>
             </nav>
           </div>
         </SheetContent>

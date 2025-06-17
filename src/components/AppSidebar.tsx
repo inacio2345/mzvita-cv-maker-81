@@ -21,11 +21,6 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: "Criar CV",
-    url: "/criar-cv",
-    icon: FileText,
-  },
-  {
     title: "Área Profissional",
     url: "/area-profissional",
     icon: Briefcase,

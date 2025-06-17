@@ -22,7 +22,7 @@ const Precos = () => {
         "Suporte básico"
       ],
       popular: false,
-      buttonText: "Gerar CV"
+      buttonText: "Ver Modelos"
     },
     {
       name: "Mensal",
@@ -128,7 +128,7 @@ const Precos = () => {
                       ? 'bg-google-blue hover:bg-blue-600 text-white' 
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                   }`}
-                  onClick={() => navigate('/criar-cv')}
+                  onClick={() => navigate('/exemplos')}
                 >
                   {plan.buttonText}
                 </Button>

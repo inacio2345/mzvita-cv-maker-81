@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +39,7 @@ const Index = () => {
               <Button 
                 size="lg" 
                 className="bg-google-blue hover:bg-blue-600 text-white px-4 sm:px-8 py-4 sm:py-6 text-base sm:text-lg w-full sm:w-auto"
-                onClick={() => navigate('/criar-cv')}
+                onClick={() => navigate('/como-funciona')}
               >
                 <FileText className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
                 Começar Agora
@@ -522,10 +521,10 @@ const Index = () => {
           <Button 
             size="lg" 
             className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
-            onClick={() => navigate('/criar-cv')}
+            onClick={() => navigate('/exemplos')}
           >
             <CheckCircle className="mr-2 h-5 w-5" />
-            Criar Meu CV Agora
+            Ver Modelos de CV
           </Button>
         </div>
       </section>
