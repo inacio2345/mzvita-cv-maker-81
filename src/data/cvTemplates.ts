@@ -38,16 +38,74 @@ export interface CVTemplate {
 
 export const cvTemplates: CVTemplate[] = [
   {
-    id: "cv01",
-    nome: "Profissional Clássico",
-    layout: "cabecalho_centralizado_duas_colunas",
-    foto_posicao: "opcional",
-    paleta: "cinza_azul_escuro",
-    secoes: ["cabecalho", "contacto", "habilidades", "idiomas", "perfil", "experiencia", "formacao"],
-    canvaUrl: "https://www.canva.com/design/DAGpDei1yRQ/BygIKeaStwN18mdOoS3TYQ/view",
-    previewImage: "/lovable-uploads/747f1bdf-1fbe-4810-a1c3-72ea53977221.png",
+    id: "modern-professional",
+    nome: "Profissional Moderno",
+    layout: "two-column-sidebar",
+    foto_posicao: "sidebar",
+    paleta: "azul_moderno",
+    secoes: ["cabecalho", "contacto", "perfil", "experiencia", "formacao", "habilidades", "idiomas"],
     colorPalette: {
-      primary: "#1e40af",
+      primary: "#2563eb",
+      secondary: "#1e40af",
+      accent: "#3b82f6",
+      background: "#ffffff",
+      text: "#1f2937"
+    },
+    fonts: {
+      primary: "Inter",
+      headings: "Poppins"
+    },
+    layoutConfig: {
+      type: "two-column-sidebar",
+      sections: ["header", "contact", "profile", "experience", "education", "skills", "languages"],
+      columns: {
+        left: ["contact", "skills", "languages"],
+        right: ["profile", "experience", "education"]
+      }
+    },
+    dados: {
+      personalData: {
+        fullName: "Nome Completo",
+        profession: "Profissão",
+        email: "email@exemplo.com",
+        phone: "+258 84 000 0000",
+        address: "Maputo, Moçambique",
+        linkedin: "linkedin.com/in/perfil"
+      },
+      about: "Profissional experiente com forte capacidade analítica e de resolução de problemas.",
+      experience: [
+        {
+          position: "Cargo Atual",
+          company: "Empresa",
+          startDate: "2022",
+          endDate: "Presente",
+          current: true,
+          description: "Descrição das responsabilidades."
+        }
+      ],
+      education: [
+        {
+          degree: "Licenciatura",
+          institution: "Universidade",
+          startYear: "2018",
+          endYear: "2022"
+        }
+      ],
+      skills: {
+        technical: ["Habilidade 1", "Habilidade 2", "Habilidade 3"],
+        languages: ["Português - Nativo", "Inglês - Avançado"]
+      }
+    }
+  },
+  {
+    id: "elegant-minimal",
+    nome: "Elegante Minimalista",
+    layout: "single-column",
+    foto_posicao: "topo",
+    paleta: "preto_elegante",
+    secoes: ["cabecalho", "perfil", "experiencia", "formacao", "habilidades", "idiomas"],
+    colorPalette: {
+      primary: "#0f172a",
       secondary: "#3b82f6", 
       accent: "#64748b",
       background: "#f8fafc",
