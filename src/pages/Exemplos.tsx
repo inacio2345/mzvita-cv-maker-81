@@ -17,62 +17,117 @@ const Exemplos = () => {
   const examples = [
     {
       id: 1,
-      templateId: "cv01",
-      title: "Profissional Clássico",
-      description: "Cabeçalho centralizado com layout de duas colunas. Ideal para áreas corporativas e formais.",
-      image: "/lovable-uploads/747f1bdf-1fbe-4810-a1c3-72ea53977221.png",
+      templateId: "cv-classico-elegante",
+      title: "Clássico Elegante",
+      description: "Design elegante com layout de coluna única e foto no topo. Ideal para profissões formais.",
+      image: "/lovable-uploads/template-01.jpg",
       rating: 5,
-      downloads: 1500,
+      downloads: 2100,
       category: "Administração",
-      features: ["Layout tradicional", "Duas colunas", "Cores neutras", "Impressão otimizada"]
+      features: ["Layout elegante", "Foto circular", "Seções de referências", "Cores sofisticadas"]
     },
     {
       id: 2,
-      templateId: "cv02",
-      title: "Barra Lateral Esquerda",
-      description: "Foto e dados pessoais em sidebar colorida. Perfeito para profissionais experientes.",
-      image: "/lovable-uploads/1854ebd7-7bcf-4b3b-b462-853dbc55e809.png",
+      templateId: "cv-sidebar-professional",
+      title: "Sidebar Profissional",
+      description: "Sidebar lateral com foto grande e layout moderno. Perfeito para destacar expertise.",
+      image: "/lovable-uploads/template-02.jpg",
       rating: 5,
-      downloads: 1250,
-      category: "Saúde",
-      features: ["Sidebar colorida", "Espaço para foto", "Ícones informativos", "Visual corporativo"]
+      downloads: 1850,
+      category: "Design",
+      features: ["Sidebar bold", "Foto retangular", "Layout duas colunas", "Seção de expertise"]
     },
     {
       id: 3,
-      templateId: "cv03",
-      title: "Layout Simples com Destaques",
-      description: "Estrutura vertical com blocos destacados. Leve e limpo para qualquer área.",
-      image: "/lovable-uploads/59c97f28-beba-4d5b-b61f-81af113eb8c3.png",
-      rating: 4,
-      downloads: 980,
+      templateId: "cv-diagonal-modern",
+      title: "Diagonal Moderno",
+      description: "Design com elementos diagonais únicos. Ideal para quem busca algo diferente.",
+      image: "/lovable-uploads/template-03.jpg",
+      rating: 5,
+      downloads: 1620,
       category: "Engenharia",
-      features: ["Blocos destacados", "Estrutura limpa", "Fácil leitura", "Versátil"]
+      features: ["Design diagonal", "Layout moderno", "Cores suaves", "Visual único"]
     },
     {
       id: 4,
-      templateId: "cv04",
-      title: "Criativo Profissional",
-      description: "Cores suaves e tipografia moderna. Ideal para marketing, design e áreas criativas.",
-      image: "/lovable-uploads/8ac8cb30-f191-426c-8e75-a0c5b9e3f6f0.png",
+      templateId: "cv-minimalist-clean",
+      title: "Minimalista Limpo",
+      description: "Layout minimalista em preto e branco. Foco total no conteúdo.",
+      image: "/lovable-uploads/template-04.jpg",
       rating: 5,
-      downloads: 1100,
-      category: "Design",
-      features: ["Header gradiente", "Ícones grandes", "Cores suaves", "Tipografia moderna"]
+      downloads: 1980,
+      category: "Saúde",
+      features: ["Minimalista", "Preto e branco", "Sem foto", "Profissional"]
     },
     {
       id: 5,
-      templateId: "cv05",
-      title: "Compacto Menu Direita",
-      description: "Layout enxuto com menu lateral direito. Foco em praticidade e organização.",
-      image: "/lovable-uploads/b61b9db8-b219-4dee-9766-53e8fe085d6f.png",
+      templateId: "cv-sidebar-dark",
+      title: "Sidebar Escura",
+      description: "Sidebar com fundo escuro e foto circular. Design sofisticado e moderno.",
+      image: "/lovable-uploads/template-05.jpg",
+      rating: 5,
+      downloads: 1750,
+      category: "Informática",
+      features: ["Sidebar escura", "Foto circular", "Contraste alto", "Moderno"]
+    },
+    {
+      id: 6,
+      templateId: "cv-tech-futuristic",
+      title: "Tech Futurista",
+      description: "Design futurista com elementos geométricos. Ideal para área de tecnologia.",
+      image: "/lovable-uploads/template-06.jpg",
+      rating: 5,
+      downloads: 1420,
+      category: "Informática",
+      features: ["Futurista", "Elementos geométricos", "Cores tech", "Inovador"]
+    },
+    {
+      id: 7,
+      templateId: "cv-creative-yellow",
+      title: "Criativo Amarelo",
+      description: "Design criativo com toques de amarelo. Perfeito para áreas criativas.",
+      image: "/lovable-uploads/template-07.jpg",
+      rating: 5,
+      downloads: 1560,
+      category: "Design",
+      features: ["Cores vibrantes", "Layout criativo", "Foto em losango", "Tipografia ousada"]
+    },
+    {
+      id: 8,
+      templateId: "cv-professional-clean",
+      title: "Profissional Limpo",
+      description: "Layout profissional e estruturado. Ideal para áreas corporativas.",
+      image: "/lovable-uploads/template-08.jpg",
+      rating: 5,
+      downloads: 1890,
+      category: "Administração",
+      features: ["Estruturado", "Limpo", "Corporativo", "Tradicional"]
+    },
+    {
+      id: 9,
+      templateId: "cv-corporate-simple",
+      title: "Corporativo Simples",
+      description: "Layout corporativo equilibrado em duas colunas. Simples e eficaz.",
+      image: "/lovable-uploads/template-09.jpg",
       rating: 4,
-      downloads: 850,
-      category: "Educação",
-      features: ["Menu lateral direito", "Layout compacto", "Organização clara", "Versão prática"]
+      downloads: 1340,
+      category: "Administração",
+      features: ["Duas colunas", "Equilibrado", "Simples", "Corporativo"]
+    },
+    {
+      id: 10,
+      templateId: "cv-minimalist-teal",
+      title: "Minimalista Teal",
+      description: "Minimalista com toques de teal. Limpo e profissional.",
+      image: "/lovable-uploads/template-10.jpg",
+      rating: 5,
+      downloads: 1670,
+      category: "Saúde",
+      features: ["Minimalista", "Cores suaves", "Linhas limpas", "Profissional"]
     }
   ];
 
-  const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Design", "Educação", "Informática", "Hotelaria"];
+  const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Design", "Educação", "Informática"];
 
   const filteredExamples = selectedCategory === "Todos" 
     ? examples 
@@ -134,10 +189,10 @@ const Exemplos = () => {
       <section className="py-8 sm:py-12 lg:py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent leading-tight">
-            5 Modelos Profissionais
+            10 Modelos Profissionais
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2">
-            Escolha entre 5 layouts únicos e visuais criados especificamente para diferentes áreas profissionais. Todos compatíveis com os campos do formulário MozVita.
+            Escolha entre 10 layouts únicos criados para diferentes áreas profissionais. Todos compatíveis com os campos do formulário MozVita.
           </p>
         </div>
       </section>

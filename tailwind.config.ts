@@ -70,6 +70,17 @@ export default {
 					green: '#34a853'
 				}
 			},
+			fontFamily: {
+				'libre-baskerville': ['Libre Baskerville', 'serif'],
+				'montserrat': ['Montserrat', 'sans-serif'],
+				'poppins': ['Poppins', 'sans-serif'],
+				'roboto': ['Roboto', 'sans-serif'],
+				'orbitron': ['Orbitron', 'sans-serif'],
+				'exo': ['Exo 2', 'sans-serif'],
+				'bebas': ['Bebas Neue', 'sans-serif'],
+				'lato': ['Lato', 'sans-serif'],
+				'open-sans': ['Open Sans', 'sans-serif'],
+			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
