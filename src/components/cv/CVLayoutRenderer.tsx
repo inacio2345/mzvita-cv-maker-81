@@ -2,18 +2,38 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Globe, Calendar, Award, Briefcase, GraduationCap, User, Star, Languages, Wrench } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { LayoutConfig, getDefaultLayoutConfig } from '@/services/cvService';
 
 interface CVLayoutRendererProps {
   data: any;
   template: any;
   className?: string;
   userPhoto?: string;
+  layoutConfig?: LayoutConfig;
+  isAdvancedMode?: boolean;
+  onDataChange?: (data: any) => void;
 }
 
-const CVLayoutRenderer = ({ data, template, className = "", userPhoto }: CVLayoutRendererProps) => {
+const CVLayoutRenderer = ({ 
+  data, 
+  template, 
+  className = "", 
+  userPhoto,
+  layoutConfig,
+  isAdvancedMode = false,
+  onDataChange
+}: CVLayoutRendererProps) => {
   const isMobile = useIsMobile();
   const colors = data.colorPalette || template.colorPalette;
   const fonts = template.fonts || { primary: 'Inter', headings: 'Poppins' };
+  
+  // Use provided layoutConfig or get from data or use default
+  const activeLayoutConfig = layoutConfig || data.layoutConfig || getDefaultLayoutConfig();
+  
+  // Helper to check if section is hidden
+  const isSectionHidden = (sectionId: string) => {
+    return activeLayoutConfig.hiddenSections?.includes(sectionId) || false;
+  };
 
   // Função para renderizar foto do usuário
   const renderUserPhoto = (position: string, size: string = "w-24 h-24 sm:w-32 sm:h-32") => {
