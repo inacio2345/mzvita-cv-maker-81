@@ -1,26 +1,40 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Download, Edit, FileText } from 'lucide-react';
+import { ArrowLeft, Download, Edit, FileText, Layers, ClipboardList } from 'lucide-react';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
+import AdvancedCVEditor from '@/components/cv/AdvancedCVEditor';
 import { getDefaultTemplate } from '@/data/cvTemplates';
+import { getDefaultLayoutConfig, LayoutConfig } from '@/services/cvService';
 import MobileNav from '@/components/ui/mobile-nav';
 import DownloadOptions from '@/components/download/DownloadOptions';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useLayoutPersistence } from '@/hooks/useLayoutPersistence';
+import { cn } from '@/lib/utils';
 
 const Preview = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
+  const [editorMode, setEditorMode] = useState<'simple' | 'advanced'>('simple');
+  
   const cvData = location.state?.cvData || {};
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   const userPhoto = location.state?.userPhoto;
+  const cvId = location.state?.cvId;
 
-  console.log('Preview - Template selecionado:', selectedTemplate);
-  console.log('Preview - Dados do CV:', cvData);
+  // Use layout persistence hook
+  const {
+    layoutConfig,
+    reorderSections,
+    toggleSectionVisibility,
+    resetLayout,
+    forceSave,
+    isDirty
+  } = useLayoutPersistence(cvId);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -56,6 +70,34 @@ const Preview = () => {
             {/* Desktop Actions */}
             {!isMobile && (
               <div className="flex gap-2">
+                {/* Mode Toggle */}
+                <div className="flex rounded-lg border overflow-hidden mr-2">
+                  <Button
+                    variant={editorMode === 'simple' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setEditorMode('simple')}
+                    className={cn(
+                      "rounded-none border-0",
+                      editorMode === 'simple' && "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    <ClipboardList className="w-4 h-4 mr-1" />
+                    Simples
+                  </Button>
+                  <Button
+                    variant={editorMode === 'advanced' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setEditorMode('advanced')}
+                    className={cn(
+                      "rounded-none border-0",
+                      editorMode === 'advanced' && "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    <Layers className="w-4 h-4 mr-1" />
+                    Avançado
+                  </Button>
+                </div>
+
                 <Button
                   variant="outline"
                   onClick={() => navigate('/criar-cv', { 
@@ -87,9 +129,41 @@ const Preview = () => {
             )}
           </div>
 
-          {/* Mobile Actions Row */}
+          {/* Mobile Mode Toggle */}
           {isMobile && (
             <div className="flex gap-2 mt-3 pt-3 border-t border-gray-200">
+              <div className="flex rounded-lg border overflow-hidden flex-1">
+                <Button
+                  variant={editorMode === 'simple' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setEditorMode('simple')}
+                  className={cn(
+                    "flex-1 rounded-none border-0 text-xs",
+                    editorMode === 'simple' && "bg-primary text-primary-foreground"
+                  )}
+                >
+                  <ClipboardList className="w-3 h-3 mr-1" />
+                  Simples
+                </Button>
+                <Button
+                  variant={editorMode === 'advanced' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setEditorMode('advanced')}
+                  className={cn(
+                    "flex-1 rounded-none border-0 text-xs",
+                    editorMode === 'advanced' && "bg-primary text-primary-foreground"
+                  )}
+                >
+                  <Layers className="w-3 h-3 mr-1" />
+                  Avançado
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Mobile Actions Row */}
+          {isMobile && (
+            <div className="flex gap-2 mt-2">
               <Button
                 variant="outline"
                 onClick={() => navigate('/criar-cv', { 
@@ -119,7 +193,25 @@ const Preview = () => {
 
       {/* CV Preview Container */}
       <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-6 print:p-0">
-        <div className="max-w-4xl mx-auto">
+        <div className={cn(
+          "max-w-4xl mx-auto",
+          editorMode === 'advanced' && !isMobile && "grid grid-cols-[300px_1fr] gap-6"
+        )}>
+          
+          {/* Advanced Editor Panel */}
+          {editorMode === 'advanced' && (
+            <div className={cn(isMobile && "mb-4")}>
+              <AdvancedCVEditor
+                layoutConfig={layoutConfig}
+                onReorderSections={reorderSections}
+                onToggleVisibility={toggleSectionVisibility}
+                onReset={resetLayout}
+                onSave={forceSave}
+                isDirty={isDirty}
+              />
+            </div>
+          )}
+
           {/* A4 Preview Card */}
           <Card className="bg-white shadow-lg print:shadow-none print:border-none overflow-hidden">
             {/* A4 Size Container */}
@@ -132,16 +224,21 @@ const Preview = () => {
               }}
             >
               <CVLayoutRenderer 
-                data={cvData} 
+                data={{
+                  ...cvData,
+                  layoutConfig: layoutConfig
+                }} 
                 template={selectedTemplate}
                 userPhoto={userPhoto}
                 className="w-full h-full"
+                layoutConfig={layoutConfig}
+                isAdvancedMode={editorMode === 'advanced'}
               />
             </div>
           </Card>
 
           {/* Mobile Info */}
-          {isMobile && (
+          {isMobile && editorMode === 'simple' && (
             <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200 print:hidden">
               <p className="text-sm text-blue-700 text-center">
                 📱 Visualização otimizada para mobile. O download final será no formato A4 padrão.
@@ -156,7 +253,10 @@ const Preview = () => {
         isOpen={showDownloadOptions}
         onClose={() => setShowDownloadOptions(false)}
         cvTitle={cvData.personalData?.fullName || 'Meu CV'}
-        cvData={cvData}
+        cvData={{
+          ...cvData,
+          layoutConfig: layoutConfig
+        }}
         selectedTemplate={selectedTemplate}
       />
 

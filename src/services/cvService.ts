@@ -1,4 +1,14 @@
 
+// Layout configuration for advanced mode
+export interface LayoutConfig {
+  sectionsOrder: string[];
+  hiddenSections: string[];
+  itemOrder: {
+    experience: string[];
+    education: string[];
+  };
+}
+
 export interface CVData {
   personalData: {
     photo?: string | null;
@@ -20,7 +30,21 @@ export interface CVData {
   } | any[];
   references: any[];
   colorPalette: any;
+  layoutConfig?: LayoutConfig;
 }
+
+export const DEFAULT_SECTIONS_ORDER = [
+  'header', 'about', 'experience', 'education', 'skills', 'languages', 'references'
+];
+
+export const getDefaultLayoutConfig = (): LayoutConfig => ({
+  sectionsOrder: [...DEFAULT_SECTIONS_ORDER],
+  hiddenSections: [],
+  itemOrder: {
+    experience: [],
+    education: []
+  }
+});
 
 export const getEmptyCVData = (): CVData => ({
   personalData: {
@@ -35,7 +59,8 @@ export const getEmptyCVData = (): CVData => ({
     primary: '#2563eb',
     secondary: '#64748b',
     accent: '#10b981'
-  }
+  },
+  layoutConfig: getDefaultLayoutConfig()
 });
 
 export const validateCVData = (data: CVData): boolean => {
