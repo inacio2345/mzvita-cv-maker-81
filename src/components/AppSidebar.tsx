@@ -21,34 +21,14 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: "Área Profissional",
-    url: "/area-profissional",
-    icon: Briefcase,
+    title: "Criar currículo",
+    url: "/exemplos",
+    icon: FileText,
   },
   {
     title: "Blog",
     url: "/blog",
     icon: BookOpen,
-  },
-  {
-    title: "Comunidade",
-    url: "/comunidade",
-    icon: Users,
-  },
-  {
-    title: "Sobre Nós",
-    url: "/sobre-nos",
-    icon: Info,
-  },
-  {
-    title: "Como Funciona",
-    url: "/como-funciona",
-    icon: HelpCircle,
-  },
-  {
-    title: "Exemplos",
-    url: "/exemplos",
-    icon: FileImage,
   },
 ];
 
@@ -134,7 +114,7 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        
+
         <SidebarGroup>
           <SidebarGroupLabel>
             <button
@@ -142,8 +122,8 @@ export function AppSidebar() {
               onClick={() => setCartasExpanded(!cartasExpanded)}
             >
               <span>Cartas Oficiais</span>
-              <ChevronDown 
-                className={`w-4 h-4 transition-transform ${cartasExpanded ? 'rotate-180' : ''}`} 
+              <ChevronDown
+                className={`w-4 h-4 transition-transform ${cartasExpanded ? 'rotate-180' : ''}`}
               />
             </button>
           </SidebarGroupLabel>

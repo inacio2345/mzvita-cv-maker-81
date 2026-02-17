@@ -5,145 +5,83 @@ import BlogPost from '@/components/blog/BlogPost';
 const CVSemExperiencia = () => {
   const content = (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">O Desafio do Primeiro Emprego</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">O Desafio do Primeiro Emprego: Criando o seu CV Moçambique do Zero</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Conseguir o primeiro emprego em Moçambique pode parecer um paradoxo: as empresas querem experiência, mas como ganhar experiência sem ter trabalhado antes? Segundo o <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional</a>, mais de 60% dos jovens enfrentam esta dificuldade. A boa notícia é que você tem mais para oferecer do que imagina. Este guia vai ajudá-lo a criar um CV convincente mesmo sem experiência profissional formal.
+        Conseguir o primeiro emprego em Moçambique pode parecer um paradoxo: as empresas querem experiência, mas como ganhar experiência sem ter trabalhado antes? A verdade é que um <strong>cv moçambique</strong> para iniciantes não deve focar apenas no que você já fez por dinheiro, mas sim em todo o seu potencial e nas habilidades que você construiu durante a sua vida académica e pessoal.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Foque na Sua Formação Académica</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Estrutura de um CV Moçambique para Estudantes e Recém-Licenciados</h2>
       <p className="mb-4 text-gray-700">
-        Quando você não tem experiência profissional, sua formação académica torna-se ainda mais importante. Para uma estrutura completa, consulte nosso <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">guia sobre como criar um CV profissional</a>:
+        Se você está em Maputo, Beira, Nampula ou qualquer outra província, a regra de ouro para o seu <strong>cv moçambique</strong> é a organização. Um currículo limpo e direto ao ponto é o que mais atrai os recrutadores.
+      </p>
+
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Educação: O seu Maior Ativo</h3>
+      <p className="mb-4 text-gray-700">
+        Como você ainda não tem um histórico profissional longo, sua educação deve estar no topo. Mencione não apenas o nome do curso e da instituição (Ex: UEM, UP, ISCTEM), mas também disciplinas específicas que tenham relação direta com a vaga desejada. Se você foi monitor de alguma disciplina ou participou de projetos de pesquisa, isso conta como "experiência técnica" no seu <strong>currículo vitae moçambique</strong>.
+      </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Transformando Atividades em Experiência no seu CV Moçambique</h2>
+      <p className="mb-4 text-gray-700">
+        Muitos jovens moçambicanos cometem o erro de deixar a seção de experiência vazia. No entanto, o mercado local valoriza muito o que chamamos de "proatividade".
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Trabalho Voluntário e Projetos Comunitários</h3>
+      <p className="mb-4 text-gray-700">
+        Atuou em uma ONG, igreja ou associação de bairro? Isso demonstra liderança e responsabilidade. No seu <strong>cv moçambique</strong>, descreva essas atividades como "Experiências de Impacto Social". Detalhe o que você fazia: <em>"Organização de eventos para 200 pessoas"</em> ou <em>"Gestão de stock de donativos"</em>.
+      </p>
+
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Estágios e Práticas Profissionais</h3>
+      <p className="mb-4 text-gray-700">
+        Mesmo que o estágio não tenha sido remunerado, ele é experiência real. Se você está seguindo as <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</a>, sabe que demonstrar aprendizado prático é fundamental.
+      </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Competências Técnicas (Hard Skills) vs. Comportamentais (Soft Skills)</h2>
+      <p className="mb-4 text-gray-700">
+        Em um <strong>modelo de cv moçambique</strong> para quem não tem experiência, as competências ganham destaque total.
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li><strong>Destaque seu curso:</strong> Mencione disciplinas relevantes para a vaga</li>
-        <li><strong>Notas e reconhecimentos:</strong> Se teve bom desempenho, mencione</li>
-        <li><strong>Projetos académicos:</strong> Trabalhos de conclusão, pesquisas, apresentações</li>
-        <li><strong>Atividades extracurriculares:</strong> Grupos de estudo, representação estudantil</li>
+        <li><strong>Informática:</strong> Domínio do Pacote Office (Excel e Word são básicos).</li>
+        <li><strong>Idiomas:</strong> O Inglês é o grande diferencial em Moçambique. Se você fala uma língua local (Emakhuwa, Changana, etc), mencione! Isso pode ser vital para projetos rurais.</li>
+        <li><strong>Soft Skills:</strong> Adaptabilidade, vontade de aprender e pontualidade.</li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Valorize Experiências Não-Formais</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. O Diferencial do Objetivo Profissional</h2>
       <p className="mb-4 text-gray-700">
-        Muitas experiências que você considera "não profissionais" são valiosas para empregadores. Plataformas como o <a href="https://www.emprego.co.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">portal Emprego.co.mz</a> frequentemente destacam a importância dessas experiências:
-      </p>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Trabalho Voluntário</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-1">
-        <li>Atividades em ONGs ou instituições de caridade</li>
-        <li>Trabalho comunitário</li>
-        <li>Apoio em eventos religiosos ou culturais</li>
-        <li>Tutoria ou ensino informal</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Trabalhos Informais</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-1">
-        <li>Vendas informais (demonstra iniciativa)</li>
-        <li>Cuidar de crianças (responsabilidade)</li>
-        <li>Ajuda em negócios familiares</li>
-        <li>Trabalhos sazonais ou de fim de semana</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Estágios e Práticas</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-1">
-        <li>Estágios curriculares obrigatórios</li>
-        <li>Práticas profissionais</li>
-        <li>Observações ou visitas técnicas</li>
-        <li>Programas de trainee</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Desenvolva e Destaque Suas Competências</h2>
-      <p className="mb-4 text-gray-700">
-        Competências são muitas vezes mais importantes que experiência para o primeiro emprego. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns na apresentação de competências</a>:
+        Para quem está começando, o objetivo profissional deve ser uma declaração de intenções. Em vez de pedir um emprego, diga como você quer ajudar a empresa.
+        Exemplo: <em>"Recém-formado em Contabilidade focado em aplicar conhecimentos técnicos para otimizar a gestão financeira da organização e desenvolver uma carreira sólida no setor bancário moçambicano."</em>
       </p>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Técnicas</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-1">
-        <li>Informática: Office, Internet, redes sociais profissionais</li>
-        <li>Idiomas: Português, inglês, línguas locais</li>
-        <li>Certificações: Cursos online, workshops, seminários</li>
-        <li>Competências específicas da área de formação</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Pessoais</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-1">
-        <li>Comunicação e relacionamento interpessoal</li>
-        <li>Trabalho em equipa</li>
-        <li>Liderança (mesmo em contextos não profissionais)</li>
-        <li>Resolução de problemas</li>
-        <li>Adaptabilidade e flexibilidade</li>
-        <li>Pontualidade e responsabilidade</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Estrutura Ideal para CV sem Experiência</h2>
-      <div className="mb-6 text-gray-700">
-        <strong>Ordem sugerida das seções:</strong>
-        <ol className="list-decimal pl-6 mt-2 space-y-1">
-          <li>Dados pessoais e contacto</li>
-          <li>Objetivo profissional (fundamental para iniciantes)</li>
-          <li>Formação académica (detalhada)</li>
-          <li>Competências e habilidades</li>
-          <li>Experiências relevantes (estágios, voluntariado)</li>
-          <li>Cursos e certificações</li>
-          <li>Idiomas</li>
-          <li>Outras informações relevantes</li>
-        </ol>
-      </div>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Como Escrever o Objetivo Profissional</h2>
-      <p className="mb-4 text-gray-700">
-        Para quem não tem experiência, o objetivo profissional é crucial. Deve ser específico e mostrar motivação:
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Dicas Finais para Conquistar a Primeira Entrevista</h2>
+      <p className="mb-6 text-gray-700 leading-relaxed">
+        Não se esqueça de revisar os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que eliminam candidatos</a>. No primeiro emprego, o nível de atenção aos detalhes no seu <strong>cv moçambique</strong> diz muito sobre como você será como funcionário. Use fontes profissionais e salve sempre em PDF para garantir que o formato não mude.
       </p>
-      <div className="bg-blue-50 p-4 rounded-lg mb-6">
-        <p className="text-gray-700 italic">
-          <strong>Exemplo:</strong> "Recém-formado em Administração, procuro oportunidade como Assistente Administrativo onde possa aplicar conhecimentos em gestão e desenvolver experiência prática. Motivado para aprender e contribuir para o crescimento da organização."
+
+      <div className="bg-google-blue/10 border-l-4 border-google-blue p-6 rounded-r-lg mb-8">
+        <h3 className="text-lg font-bold text-google-blue mb-2">Conclusão:</h3>
+        <p className="text-slate-700 italic">
+          "A falta de experiência formal não é uma barreira intransponível. Com um <strong>cv moçambique</strong> bem pensado, focado em competências e com uma excelente apresentação, você estará no topo da lista dos recrutadores."
         </p>
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Dicas Específicas para Moçambique</h2>
-      <p className="mb-4 text-gray-700">
-        Para entender melhor as <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline">tendências do mercado de trabalho em 2024</a>, considere estas dicas:
-      </p>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Destaque conhecimento das realidades locais</li>
-        <li>Mencione capacidade de trabalhar em ambientes multiculturais</li>
-        <li>Valorize formação em português e inglês</li>
-        <li>Inclua atividades comunitárias (muito valorizadas)</li>
-        <li>Mostre disposição para aprender e crescer</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">7. O que Não Incluir</h2>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Não mencione falta de experiência negativamente</li>
-        <li>Evite seções vazias ou com pouco conteúdo</li>
-        <li>Não use frases como "sem experiência prévia"</li>
-        <li>Não inclua hobbies irrelevantes para a vaga</li>
-        <li>Evite informações pessoais desnecessárias</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão</h2>
-      <p className="mb-6 text-gray-700 leading-relaxed">
-        Não ter experiência profissional não significa não ter valor para oferecer. Foque no seu potencial, nas competências desenvolvidas durante a formação e nas experiências de vida que demonstram suas qualidades pessoais. Muitos empregadores preferem contratar pessoas motivadas e com vontade de aprender do que profissionais experientes mas acomodados. Seu primeiro emprego está mais próximo do que você imagina!
-      </p>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Conteúdos que vão impulsionar sua carreira:</h2>
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
-        <ul className="space-y-3 text-gray-700">
+        <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Como criar um CV profissional em Moçambique
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Guia Completo: CV Profissional Moçambique
             </a>
-            <p className="text-sm text-gray-600 mt-1">Estrutura completa e dicas específicas para o mercado moçambicano.</p>
+            <p className="text-sm text-gray-600">Aprenda a estruturar seu currículo como um especialista do mercado local.</p>
           </li>
           <li>
-            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              5 erros comuns que você deve evitar no seu CV
+            <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Devo usar Foto no CV?
             </a>
-            <p className="text-sm text-gray-600 mt-1">Principais erros que podem prejudicar seu currículo e como evitá-los.</p>
+            <p className="text-sm text-gray-600">Entenda as normas e preferências dos recrutadores moçambicanos sobre imagens.</p>
           </li>
           <li>
-            <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Como adaptar seu CV para diferentes áreas profissionais
+            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Modelos de CV em Moçambique (PDF)
             </a>
-            <p className="text-sm text-gray-600 mt-1">Personalize seu currículo para destacar competências específicas de cada área.</p>
+            <p className="text-sm text-gray-600">Baixe modelos prontos e otimizados para qualquer área profissional.</p>
           </li>
         </ul>
       </div>

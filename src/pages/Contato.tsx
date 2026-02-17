@@ -58,34 +58,6 @@ const Contato = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MozVita
-              </h1>
-            </div>
-            <nav className="hidden md:flex space-x-4 lg:space-x-8">
-              <Button variant="ghost" onClick={() => navigate('/')} className="text-gray-600 hover:text-google-blue text-sm lg:text-base">
-                Início
-              </Button>
-              <Button variant="ghost" onClick={() => navigate('/como-funciona')} className="text-gray-600 hover:text-google-blue text-sm lg:text-base">
-                Como Funciona
-              </Button>
-              <Button variant="ghost" onClick={() => navigate('/precos')} className="text-gray-600 hover:text-google-blue text-sm lg:text-base">
-                Preços
-              </Button>
-              <span className="text-google-blue font-semibold text-sm lg:text-base">Contato</span>
-            </nav>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
       <section className="py-8 sm:py-12 lg:py-20 px-4">
         <div className="container mx-auto text-center">
@@ -124,7 +96,7 @@ const Contato = () => {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 text-gray-900">Como Podemos Ajudar?</h2>
             <p className="text-base sm:text-lg lg:text-xl text-gray-600">Escolha a melhor forma de entrar em contato conosco</p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto mb-8 sm:mb-16">
             {contactMethods.map((method, index) => (
               <Card key={index} className="p-4 sm:p-6 lg:p-8 text-center hover:shadow-xl transition-all duration-300 border-0 shadow-lg transform hover:scale-105">
@@ -137,7 +109,7 @@ const Contato = () => {
                   {method.details.map((detail, i) => (
                     <div key={i}>
                       {method.link ? (
-                        <a 
+                        <a
                           href={method.link}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -189,7 +161,7 @@ const Contato = () => {
                   </li>
                 </ul>
               </Card>
-              
+
               <Card className="p-4 sm:p-6 lg:p-8 border-0 shadow-lg">
                 <div className="flex items-center mb-4 sm:mb-6">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-xl flex items-center justify-center mr-3 sm:mr-4">
@@ -265,21 +237,21 @@ const Contato = () => {
             Entre em contato conosco agora mesmo! Nossa equipe especializada está sempre pronta para ajudar você a criar o CV perfeito e conseguir o emprego dos seus sonhos.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <a 
+            <a
               href="https://api.whatsapp.com/send?phone=258841524822&text=Ol%C3%A1%2C%20tenho%20interesse%20nos%20seus%20servi%C3%A7os.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es%3F"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Button 
-                size="default" 
+              <Button
+                size="default"
                 className="bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 w-full sm:w-auto"
               >
                 <MessageCircle className="mr-2 w-4 h-4 sm:w-5 sm:h-5" />
                 Falar no WhatsApp
               </Button>
             </a>
-            <Button 
-              size="default" 
+            <Button
+              size="default"
               className="bg-white text-google-blue hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105 w-full sm:w-auto"
               onClick={() => navigate('/criar-cv')}
             >
@@ -289,7 +261,6 @@ const Contato = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

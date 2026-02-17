@@ -5,100 +5,91 @@ import BlogPost from '@/components/blog/BlogPost';
 const CVProfissionalMocambique = () => {
   const content = (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Introdução</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">A Importância de um CV Moçambique de Alta Qualidade</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Criar um CV profissional em Moçambique requer conhecimento específico do mercado local e das expectativas dos empregadores moçambicanos. Neste guia completo, você aprenderá tudo o que precisa para elaborar um currículo que se destaque no competitivo mercado de trabalho do país. Para informações sobre vagas disponíveis, consulte o portal oficial do <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional (IEFP)</a>.
+        No mercado de trabalho atual, ter um <strong>cv moçambique</strong> bem estruturado é mais do que uma necessidade; é o seu diferencial competitivo. Quer você esteja em Maputo, Beira ou Nampula, o recrutamento tornou-se altamente digitalizado, e as empresas agora buscam perfis que não apenas tenham competência técnica, mas que também saibam apresentar essa trajetória de forma clara e profissional.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Estrutura Básica de um CV Moçambicano</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Estrutura Estratégica para o Curriculum Vitae</h2>
       <p className="mb-4 text-gray-700">
-        Um CV profissional em Moçambique deve seguir uma estrutura clara e organizada:
+        Para que o seu <strong>cv moçambique</strong> seja lido por grandes empresas (como Vale, TotalEnergies ou bancos locais), ele deve seguir uma hierarquia de informações que facilite a vida do recrutador.
+      </p>
+
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Cabeçalho e Contactos</h3>
+      <p className="mb-4 text-gray-700">
+        Muitos candidatos falham em coisas simples. Certifique-se de que o seu número de telefone (com o prefixo +258 se necessário) e e-mail profissional estão visíveis. Em Moçambique, a inclusão da cidade de residência é crucial para que o recrutador entenda a sua mobilidade geográfica.
+      </p>
+
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">O Perfil Profissional (O Gancho)</h3>
+      <p className="mb-4 text-gray-700">
+        Esqueça frases vagas como "procuro novos desafios". No seu <strong>cv moçambique</strong>, use as primeiras 3 linhas para resumir quem você é, seus anos de experiência e sua maior conquista. Exemplo: <em>"Especialista em Logística com 5 anos de atuação no Porto da Beira, reduzindo custos operacionais em 15%."</em>
+      </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Experiência Profissional: Foco em Resultados</h2>
+      <p className="mb-4 text-gray-700">
+        Esta é a seção mais importante de qualquer <strong>modelo de cv moçambique</strong>. Em vez de apenas listar tarefas, foque em resultados quantificáveis.
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li><strong>Dados Pessoais:</strong> Nome completo, contacto, endereço (cidade é suficiente)</li>
-        <li><strong>Foto Profissional:</strong> Recomendada para a maioria das posições - veja nosso <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">guia sobre a importância da foto no currículo</a></li>
-        <li><strong>Objetivo Profissional:</strong> Breve descrição dos seus objetivos de carreira</li>
-        <li><strong>Formação Académica:</strong> Educação formal, do mais recente para o mais antigo</li>
-        <li><strong>Experiência Profissional:</strong> Histórico de trabalho relevante</li>
-        <li><strong>Competências:</strong> Habilidades técnicas e pessoais</li>
-        <li><strong>Idiomas:</strong> Especialmente importante em Moçambique (Português, Inglês, línguas locais)</li>
+        <li><strong>Use verbos de ação:</strong> Desenvolvi, Liderei, Implementei, Gerenciei.</li>
+        <li><strong>Contexto local:</strong> Se trabalhou em projetos financiados por ONGs ou Governo, mencione as siglas e o impacto social/económico.</li>
+        <li><strong>Ordem Cronológica Inversa:</strong> Comece sempre pelo seu emprego atual ou mais recente.</li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Formatação e Design Adequados</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Educação e Qualificações em Moçambique</h2>
       <p className="mb-4 text-gray-700">
-        O visual do seu CV é fundamental para causar boa primeira impressão. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns de formatação que prejudicam seu currículo</a>:
-      </p>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Use fontes profissionais como Times New Roman, Arial ou Calibri</li>
-        <li>Mantenha tamanho de fonte entre 10-12 pontos</li>
-        <li>Limite o CV a 2 páginas no máximo</li>
-        <li>Use espaçamento adequado entre seções</li>
-        <li>Mantenha consistência na formatação</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Adaptação ao Mercado Moçambicano</h2>
-      <p className="mb-4 text-gray-700">
-        O mercado de trabalho em Moçambique tem suas particularidades. Para entender melhor as <a href="https://www.emprego.co.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">oportunidades disponíveis no mercado</a>, é importante conhecer estas características:
-      </p>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Destaque conhecimentos em português e inglês</li>
-        <li>Mencione experiência com diferentes culturas e etnias</li>
-        <li>Inclua trabalho voluntário e atividades comunitárias</li>
-        <li>Valorize formações técnicas e certificações</li>
-        <li>Destaque flexibilidade e adaptabilidade</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Dicas Específicas por Setor</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Educação</h3>
-      <p className="mb-4 text-gray-700">
-        Para professores e educadores, destaque formação pedagógica, experiência com diferentes faixas etárias e conhecimento do currículo moçambicano.
+        Mencione sua formação académica detalhando a instituição (Ex: UEM, UP, ISCTEM). Se você é um recém-licenciado, destaque o tema do seu trabalho de culminação de curso se ele for relevante para a vaga. Veja também nosso <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">guia para currículos de primeiro emprego</a>.
       </p>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Saúde</h3>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Competências Digitais e Idiomas (O Diferencial)</h2>
       <p className="mb-4 text-gray-700">
-        Profissionais de saúde devem enfatizar certificações, experiência em contextos rurais e urbanos, e capacidade de trabalhar com recursos limitados.
+        Em um contexto de globalização, o domínio do Inglês e de ferramentas tecnológicas é o que separa o "bom" do "excelente" no seu <strong>curriculum vitae moçambique</strong>.
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Línguas</h3>
+      <p className="mb-4 text-gray-700">
+        O Português é a base, mas o Inglês é a ponte para multinacionais. Seja honesto sobre o seu nível (Básico, Intermédio, Fluente).
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Documentos Oficiais</h3>
+      <p className="mb-4 text-gray-700">
+        Muitas vezes, a candidatura exige mais do que apenas o currículo. Certifique-se de saber <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar os seus documentos</a> para diferentes editais.
       </p>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Construção Civil</h3>
-      <p className="mb-4 text-gray-700">
-        Para pedreiros e técnicos, destaque experiência prática, conhecimento de materiais locais e capacidade de liderar equipas. Saiba mais sobre <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar seu CV para diferentes áreas profissionais</a>.
-      </p>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Erros Comuns a Evitar</h2>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Não incluir informações de contacto atualizadas</li>
-        <li>Usar fotos inadequadas ou de baixa qualidade</li>
-        <li>Exagerar nas qualificações ou experiências</li>
-        <li>Não adaptar o CV para cada vaga específica</li>
-        <li>Incluir informações pessoais irrelevantes</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. O Debate da Foto no CV</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Um CV profissional bem elaborado é sua porta de entrada para o mercado de trabalho moçambicano. Seguindo estas diretrizes e adaptando o conteúdo às especificidades locais, você aumentará significativamente suas chances de conseguir a vaga desejada. Lembre-se de sempre revisar e atualizar seu currículo conforme ganha novas experiências.
+        Embora em alguns países a foto seja desaconselhada, em Moçambique muitos recrutadores ainda a preferem para criar uma conexão visual e profissionalismo. Se decidir usar, garanta que seja uma foto de rosto, com fundo neutro e vestimenta formal. Saiba mais detalhes no nosso artigo sobre <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">foto no currículo moçambicano</a>.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: Próximos Passos</h2>
+      <p className="mb-6 text-gray-700 leading-relaxed">
+        Ter um <strong>cv moçambique</strong> impecável é apenas o primeiro passo. A consistência entre o que está no papel e como você se apresenta na entrevista é o que garante a contratação. Não deixe de revisar cada vírgula e garantir que seu contato esteja sempre ativo.
+      </p>
+
+      <div className="bg-google-green/10 border-l-4 border-google-green p-6 rounded-r-lg mb-8">
+        <h3 className="text-lg font-bold text-google-green mb-2">Dica de Especialista:</h3>
+        <p className="text-slate-700 italic">
+          "Mais do que listar cargos, mostre como você ajudou a empresa a crescer ou a resolver problemas. O recrutador quer saber o que você pode fazer por eles hoje."
+        </p>
+      </div>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Recursos Adicionais para sua Carreira</h2>
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
-        <ul className="space-y-3 text-gray-700">
+        <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              5 erros comuns que você deve evitar no seu CV
+            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Evite estes 5 Erros Fatais no seu CV
             </a>
-            <p className="text-sm text-gray-600 mt-1">Descubra os principais erros que podem prejudicar seu currículo e como evitá-los.</p>
+            <p className="text-sm text-gray-600">Pequenos deslizes que podem custar a sua vaga de emprego em Moçambique.</p>
           </li>
           <li>
-            <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Primeiro emprego: como montar um CV sem experiência
+            <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Regras do Currículo para 2026
             </a>
-            <p className="text-sm text-gray-600 mt-1">Guia completo para criar um currículo atrativo mesmo sem experiência profissional.</p>
+            <p className="text-sm text-gray-600">Saiba o que mudou nas tendências de contratação digital e automação (ATS).</p>
           </li>
           <li>
-            <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Tendências do mercado de trabalho em Moçambique 2024
+            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Hub Central: Tudo sobre CV Moçambique
             </a>
-            <p className="text-sm text-gray-600 mt-1">Análise das profissões em alta e competências mais valorizadas.</p>
+            <p className="text-sm text-gray-600">Acesse modelos, exemplos por profissão e dicas de design atualizadas.</p>
           </li>
         </ul>
       </div>

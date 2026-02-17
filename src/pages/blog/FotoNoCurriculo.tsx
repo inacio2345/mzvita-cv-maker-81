@@ -5,171 +5,102 @@ import BlogPost from '@/components/blog/BlogPost';
 const FotoNoCurriculo = () => {
   const content = (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Introdução</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Realidade do CV Moçambique: Por que a Foto é Tão Comentada?</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        A decisão de incluir foto no currículo em Moçambique é uma questão importante que pode influenciar significativamente o processo de seleção. Compreender quando, como e por que incluir uma foto profissional no seu CV é fundamental para causar a melhor impressão possível aos recrutadores moçambicanos.
+        A decisão de incluir foto no currículo em Moçambique é uma questão que gera debates intensos entre candidatos e recrutadores. Enquanto em mercados como os EUA ou Reino Unido a foto é vista como um risco de discriminação, no contexto do <strong>cv moçambique</strong>, ela é frequentemente vista como um elemento de transparência e profissionalismo que ajuda a "humanizar" o papel.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Foto no Currículo: Realidade Moçambicana</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Foto no Currículo: A Expectativa do Mercado Local</h2>
       <p className="mb-4 text-gray-700">
-        Em Moçambique, incluir foto no currículo é uma prática amplamente aceita e, em muitos casos, esperada pelos empregadores. Diferentemente de alguns países onde isso pode ser considerado discriminatório, no contexto moçambicano a foto é vista como uma forma de apresentação pessoal.
+        Em Moçambique, a cultura de recrutamento ainda valoriza muito a primeira impressão visual. Ter uma foto no seu <strong>cv moçambique</strong> pode ser o diferencial para vagas que exigem contacto direto com o público, como no setor bancário, hotelaria ou vendas.
       </p>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Por que os Empregadores Valorizam a Foto?</h3>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Vantagens de Incluir Foto</h3>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Facilita a identificação durante entrevistas</li>
-        <li>Demonstra cuidado com a apresentação pessoal</li>
-        <li>Cria conexão visual com o candidato</li>
-        <li>É uma expectativa cultural estabelecida</li>
-        <li>Ajuda na memorização do candidato</li>
+        <li><strong>Identificação Imediata:</strong> Ajuda o recrutador a lembrar de você após uma breve conversa ou feira de emprego.</li>
+        <li><strong>Demonstração de Postura:</strong> Uma foto profissional no seu <strong>curriculum vitae moçambique</strong> comunica que você entende o "dress code" da empresa.</li>
+        <li><strong>Conexão Emocional:</strong> Fotos passam confiança e seriedade, atributos muito buscados em Maputo e outras províncias.</li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Quando Incluir Foto no Currículo</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Áreas que Recomendam Foto</h3>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Quando a Foto Torna-se Quase Obrigatória</h2>
       <p className="mb-4 text-gray-700">
-        Algumas profissões valorizam especialmente a apresentação visual:
+        Existem áreas específicas onde o seu <strong>modelo de cv moçambique</strong> deve obrigatoriamente conter uma imagem de alta qualidade:
       </p>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li><strong>Atendimento ao cliente:</strong> Vendas, recepção, telemarketing</li>
-        <li><strong>Hotelaria e turismo:</strong> Hotéis, restaurantes, agências</li>
-        <li><strong>Educação:</strong> Professores, coordenadores, diretores</li>
-        <li><strong>Saúde:</strong> Médicos, enfermeiros, técnicos</li>
-        <li><strong>Administração:</strong> Assistentes, secretários, gestores</li>
-        <li><strong>Segurança:</strong> Vigilantes, seguranças, porteiros</li>
-      </ul>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Áreas Onde a Foto é Opcional</h3>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Atendimento ao Cliente e Vendas</h3>
+      <p className="mb-4 text-gray-700">
+        Empresas de retalho, telecomunicações e serviços financeiros buscam profissionais que tenham uma imagem cuidada e empática. Nesses casos, a foto não é apenas estética, mas um indicativo de adequação à função.
+      </p>
+
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Setor de Hospitalidade e Aviação</h3>
+      <p className="mb-4 text-gray-700">
+        Para quem busca vagas em hotéis ou como tripulante de cabine em Moçambique, a apresentação pessoal é parte fundamental da avaliação técnica. Veja também como preparar um <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">cv profissional moçambique</a> completo para estas áreas.
+      </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. O Guia para a Foto Profissional Perfeita</h2>
+      <p className="mb-4 text-gray-700">
+        Não adianta colocar qualquer foto. Um erro comum no <strong>cv moçambique</strong> é usar fotos de redes sociais ou festas (as famosas "selfies").
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Fundo e Iluminação</h3>
+      <p className="mb-4 text-gray-700">
+        O fundo deve ser neutro (branco ou cinza claro). Use a luz natural de Moçambique a seu favor: tire a foto perto de uma janela durante o dia, mas evite o sol direto que cria sombras pesadas no rosto.
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Vestimenta e Expressão</h3>
+      <p className="mb-4 text-gray-700">
+        Use roupas formais ou "business casual". Um leve sorriso demonstra abertura e simpatia, mas mantenha a seriedade necessária para um documento oficial. Lembre-se que o seu <strong>curriculum vitae moçambique</strong> é o seu cartão de visitas.
+      </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Erros Fatais com Imagens no CV</h2>
+      <p className="mb-4 text-gray-700">
+        Muitas candidaturas são descartadas devido ao descuido com a imagem. Antes de enviar seu currículo, verifique nosso guia de <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que deve evitar</a>:
+      </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li><strong>Tecnologia:</strong> Programadores, analistas de sistemas</li>
-        <li><strong>Engenharia:</strong> Engenheiros, técnicos especializados</li>
-        <li><strong>Pesquisa:</strong> Investigadores, cientistas</li>
-        <li><strong>Construção civil:</strong> Pedreiros, carpinteiros (dependendo da função)</li>
+        <li><strong>Fotos de óculos escuros ou bonés:</strong> Passam uma imagem pouco profissional.</li>
+        <li><strong>Fundos bagunçados:</strong> Distraem o recrutador do que realmente importa (o seu rosto).</li>
+        <li><strong>Filtros exagerados:</strong> Evite filtros de Instagram; o recrutador quer ver sua aparência real.</li>
+        <li><strong>Fotos cortadas de grupo:</strong> Nunca use uma foto onde aparece o ombro ou braço de outra pessoa.</li>
       </ul>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Como Tirar a Foto Profissional Perfeita</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Características Essenciais</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li><strong>Qualidade:</strong> Alta resolução, sem pixelação</li>
-        <li><strong>Fundo:</strong> Neutro (branco, cinza claro ou azul claro)</li>
-        <li><strong>Iluminação:</strong> Natural e bem distribuída</li>
-        <li><strong>Enquadramento:</strong> Do peito para cima, centralizado</li>
-        <li><strong>Expressão:</strong> Sorriso discreto e olhar direto</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Vestimenta Adequada</h3>
-      <p className="mb-4 text-gray-700">
-        A escolha da roupa deve refletir o ambiente profissional da área:
-      </p>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li><strong>Áreas corporativas:</strong> Camisa social, blazer ou fato</li>
-        <li><strong>Área da saúde:</strong> Jaleco ou roupa social</li>
-        <li><strong>Educação:</strong> Roupa social ou semi-formal</li>
-        <li><strong>Atendimento:</strong> Uniforme da empresa ou roupa social</li>
-        <li><strong>Áreas técnicas:</strong> Camisa polo ou social simples</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Dicas de Postura e Expressão</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Mantenha postura ereta e ombros relaxados</li>
-        <li>Olhe diretamente para a câmera</li>
-        <li>Sorria de forma natural e discreta</li>
-        <li>Evite acessórios chamativos</li>
-        <li>Mantenha cabelo arrumado e bem cuidado</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Erros Comuns com Fotos no CV</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Erros de Qualidade Técnica</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li>Fotos tiradas com celular em baixa resolução</li>
-        <li>Iluminação inadequada (muito escura ou clara)</li>
-        <li>Fundo bagunçado ou inadequado</li>
-        <li>Foto cortada incorretamente</li>
-        <li>Imagem desfocada ou tremida</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Erros de Apresentação</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li>Usar fotos de redes sociais ou festas</li>
-        <li>Vestimentas inadequadas para a profissão</li>
-        <li>Expressão muito séria ou artificial</li>
-        <li>Acessórios excessivos ou inadequados</li>
-        <li>Foto muito antiga (mais de 2 anos)</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Erros de Posicionamento no CV</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Foto muito grande (deve ocupar máximo 15% do CV)</li>
-        <li>Posicionamento inadequado (sempre no canto superior)</li>
-        <li>Foto que dificulta a leitura do texto</li>
-        <li>Múltiplas fotos no mesmo CV</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Alternativas para Fotos Profissionais</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Opções Econômicas</h3>
-      <p className="mb-4 text-gray-700">
-        Para quem não pode pagar um fotógrafo profissional:
-      </p>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li>Peça ajuda a um amigo com boa câmera</li>
-        <li>Use luz natural próximo a uma janela</li>
-        <li>Improvise um fundo com lençol branco</li>
-        <li>Use aplicativos para melhorar a qualidade</li>
-        <li>Pratique poses e expressões no espelho</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Estúdios Acessíveis</h3>
-      <p className="mb-6 text-gray-700">
-        Muitas cidades moçambicanas têm estúdios que oferecem "fotos 3x4 profissionais" por preços acessíveis. Procure referências e compare preços antes de escolher.
-      </p>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Aspectos Legais e Éticos</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Discriminação e Direitos</h3>
-      <p className="mb-4 text-gray-700">
-        Embora a foto seja aceita em Moçambique, é importante conhecer seus direitos:
-      </p>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li>Ninguém pode ser discriminado por aparência física</li>
-        <li>A competência deve ser o critério principal</li>
-        <li>Você tem direito de não incluir foto se preferir</li>
-        <li>Recrutadores éticos valorizam qualificações acima da aparência</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Quando Não Incluir Foto</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Se a empresa explicitamente pedir CV sem foto</li>
-        <li>Para vagas internacionais ou empresas estrangeiras</li>
-        <li>Se você não se sente confortável</li>
-        <li>Para posições que valorizam apenas competências técnicas</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Impacto da Foto na Seleção</h2>
-      
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Primeiras Impressões</h3>
-      <p className="mb-4 text-gray-700">
-        Uma foto profissional pode transmitir:
-      </p>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li>Seriedade e comprometimento</li>
-        <li>Cuidado com detalhes</li>
-        <li>Profissionalismo</li>
-        <li>Confiabilidade</li>
-        <li>Adequação à cultura empresarial</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Estatísticas e Dados</h3>
-      <p className="mb-6 text-gray-700">
-        Estudos indicam que CVs com fotos profissionais adequadas têm 30% mais chances de serem selecionados para entrevistas em Moçambique, especialmente em áreas de atendimento e vendas.
-      </p>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Legislação e Ética no Recrutamento Moçambicano</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        A foto no currículo moçambicano é uma ferramenta importante quando usada corretamente. Investir em uma imagem profissional de qualidade pode fazer a diferença na sua candidatura. Lembre-se: a foto deve complementar suas qualificações, não substituí-las. Uma apresentação cuidadosa demonstra respeito pelo processo seletivo e pela oportunidade.
+        Embora a foto seja comum, a Lei do Trabalho em Moçambique protege contra qualquer forma de discriminação. Se você preferir não incluir foto, garanta que o conteúdo textual do seu <strong>cv moçambique</strong> seja impecável. Se você está em busca do <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">primeiro emprego</a>, sinta-se à vontade para incluir uma foto para ajudar a dar mais "corpo" ao seu documento inicial.
       </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: Invista na sua Imagem</h2>
+      <p className="mb-6 text-gray-700 leading-relaxed">
+        No fim do dia, a foto é uma ferramenta de marketing pessoal. Se bem utilizada no seu <strong>cv moçambique</strong>, ela pode abrir portas. Se mal utilizada, pode fechá-las. Siga as tendências do mercado e as <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</a> para estar sempre um passo à frente da concorrência.
+      </p>
+
+      <div className="bg-google-blue/10 border-l-4 border-google-blue p-6 rounded-r-lg mb-8">
+        <h3 className="text-lg font-bold text-google-blue mb-2">Resumo em 1 Minuto:</h3>
+        <p className="text-slate-700 italic">
+          "Se a vaga for em atendimento, vendas ou hospitalidade, use uma foto profissional. Garanta fundo neutro, boa luz e vestimenta formal. O seu <strong>cv moçambique</strong> agradece o cuidado extra."
+        </p>
+      </div>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Quer Saber Mais sobre Carreira em Moçambique?</h2>
+      <div className="bg-blue-50 p-6 rounded-lg mb-6">
+        <ul className="space-y-4 text-gray-700">
+          <li>
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Guia: Como criar um CV Profissional em Moçambique
+            </a>
+            <p className="text-sm text-gray-600">O passo a passo completo para o sucesso no mercado local.</p>
+          </li>
+          <li>
+            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              5 Erros que Destroem o seu CV
+            </a>
+            <p className="text-sm text-gray-600">Não deixe pequenos detalhes tirarem você do processo seletivo.</p>
+          </li>
+          <li>
+            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Ver Modelos de CV Moçambique Grátis
+            </a>
+            <p className="text-sm text-gray-600">Crie seu currículo agora usando nossos templates testados por profissionais.</p>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 

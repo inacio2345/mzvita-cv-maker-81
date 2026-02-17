@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
 import Footer from '@/components/ui/footer';
 import AdSpace from '@/components/ads/AdSpace';
+import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
 
 interface FAQ {
   question: string;
@@ -55,29 +56,51 @@ const BlogPost = ({
     <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9"></div>
   `;
 
-  // Função para inserir anúncio após o primeiro parágrafo
-  const insertAdAfterFirstParagraph = (content: React.ReactNode) => {
+  // Função para inserir anúncios no conteúdo
+  const insertAdsIntoContent = (content: React.ReactNode) => {
     if (React.isValidElement(content) && content.props.children) {
       const children = React.Children.toArray(content.props.children);
       const newChildren: React.ReactNode[] = [];
-      let adInserted = false;
+      const totalElements = children.length;
+      const middleIndex = Math.floor(totalElements / 2);
+
+      let topAdInserted = false;
+      let middleAdInserted = false;
 
       children.forEach((child, index) => {
         newChildren.push(child);
-        
-        // Inserir anúncio após o primeiro elemento que contém texto (normalmente o primeiro parágrafo)
-        if (!adInserted && React.isValidElement(child) && 
-            (child.type === 'p' || (child.props && child.props.className && child.props.className.includes('mb-6')))) {
+
+        // 1. Anúncio no Topo (após o primeiro parágrafo)
+        if (!topAdInserted && React.isValidElement(child) &&
+          (child.type === 'p' || (child.props && child.props.className && child.props.className.includes('mb-6')))) {
           newChildren.push(
-            <AdSpace 
-              key="blog-inline-ad"
-              id="blog-inline-ad" 
-              type="blog-inline" 
-              className="my-8"
-              scriptCode={blogInlineAdScript}
-            />
+            <div key="blog-top-ad-container" className="my-8">
+              <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2 text-center">Anúncio</p>
+              <AdSpace
+                id="blog-inline-ad"
+                type="blog-inline"
+                scriptCode={blogInlineAdScript}
+              />
+              <AdsterraMobileBanner />
+            </div>
           );
-          adInserted = true;
+          topAdInserted = true;
+        }
+
+        // 2. Anúncio no Meio (aproximadamente 50% do conteúdo, se tiver elementos suficientes)
+        if (topAdInserted && !middleAdInserted && index === middleIndex && totalElements > 6) {
+          newChildren.push(
+            <div key="blog-middle-ad-container" className="my-8">
+              <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2 text-center">Anúncio</p>
+              <AdSpace
+                id="blog-middle-ad"
+                type="blog-inline"
+                scriptCode={blogInlineAdScript}
+              />
+              <AdsterraMobileBanner />
+            </div>
+          );
+          middleAdInserted = true;
         }
       });
 
@@ -86,12 +109,12 @@ const BlogPost = ({
     return content;
   };
 
-  const enhancedContent = insertAdAfterFirstParagraph(content);
+  const enhancedContent = insertAdsIntoContent(content);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <AppHeader title="Blog MozVita" />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header do artigo */}
@@ -101,15 +124,15 @@ const BlogPost = ({
                 {category}
               </span>
             </div>
-            
+
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
               {title}
             </h1>
-            
+
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
               {metaDescription}
             </p>
-            
+
             <div className="flex items-center text-sm text-gray-500 space-x-4 mb-6">
               <div className="flex items-center">
                 <User className="w-4 h-4 mr-1" />
@@ -128,10 +151,11 @@ const BlogPost = ({
             {/* Imagem destacada */}
             {featuredImage && (
               <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
-                <img 
-                  src={featuredImage} 
-                  alt={title} 
+                <img
+                  src={featuredImage}
+                  alt={title}
                   className="w-full h-64 md:h-80 object-cover"
+                  loading="lazy"
                 />
               </div>
             )}
@@ -142,17 +166,17 @@ const BlogPost = ({
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none">
                 {enhancedContent}
-                
+
                 {/* Imagens do conteúdo */}
                 {contentImages.length > 0 && (
                   <div className="my-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {contentImages.map((image, index) => (
                         <div key={index} className="rounded-lg overflow-hidden shadow-md">
-                          <img 
-                            src={image} 
-                            alt={`Ilustração ${index + 1} - ${title}`} 
-                            className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300" 
+                          <img
+                            src={image}
+                            alt={`Ilustração ${index + 1} - ${title}`}
+                            className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                           />
                         </div>
                       ))}
@@ -161,9 +185,9 @@ const BlogPost = ({
                 )}
 
                 {/* Anúncio no final do artigo */}
-                <AdSpace 
-                  id="blog-end-ad" 
-                  type="blog-end" 
+                <AdSpace
+                  id="blog-end-ad"
+                  type="blog-end"
                   className="my-8"
                   scriptCode={blogEndAdScript}
                 />
@@ -204,8 +228,8 @@ const BlogPost = ({
               <p className="mb-6 opacity-90">
                 Use nossas dicas e crie um currículo que impressiona empregadores em Moçambique.
               </p>
-              <Button 
-                onClick={() => navigate('/exemplos')} 
+              <Button
+                onClick={() => navigate('/exemplos')}
                 className="bg-white text-google-blue hover:bg-gray-100 font-semibold px-8 py-3"
               >
                 Ver Modelos de CV
@@ -233,9 +257,9 @@ const BlogPost = ({
           )}
 
           <div className="text-center">
-            <Button 
-              onClick={() => navigate('/blog')} 
-              variant="outline" 
+            <Button
+              onClick={() => navigate('/blog')}
+              variant="outline"
               className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />

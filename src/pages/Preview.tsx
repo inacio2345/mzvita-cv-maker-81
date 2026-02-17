@@ -20,7 +20,7 @@ const Preview = () => {
   const isMobile = useIsMobile();
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const [editorMode, setEditorMode] = useState<'simple' | 'advanced'>('simple');
-  
+
   const cvData = location.state?.cvData || {};
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
   const userPhoto = location.state?.userPhoto;
@@ -53,7 +53,7 @@ const Preview = () => {
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 <span className="hidden sm:inline">Voltar</span>
               </Button>
-              
+
               <div className="flex items-center space-x-2">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
                   <FileText className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
@@ -100,10 +100,10 @@ const Preview = () => {
 
                 <Button
                   variant="outline"
-                  onClick={() => navigate('/criar-cv', { 
-                    state: { 
-                      templateData: cvData, 
-                      selectedTemplate: selectedTemplate 
+                  onClick={() => navigate('/criar-cv', {
+                    state: {
+                      templateData: cvData,
+                      selectedTemplate: selectedTemplate
                     }
                   })}
                   className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
@@ -166,10 +166,10 @@ const Preview = () => {
             <div className="flex gap-2 mt-2">
               <Button
                 variant="outline"
-                onClick={() => navigate('/criar-cv', { 
-                  state: { 
-                    templateData: cvData, 
-                    selectedTemplate: selectedTemplate 
+                onClick={() => navigate('/criar-cv', {
+                  state: {
+                    templateData: cvData,
+                    selectedTemplate: selectedTemplate
                   }
                 })}
                 className="flex-1 flex items-center justify-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
@@ -197,7 +197,7 @@ const Preview = () => {
           "max-w-4xl mx-auto",
           editorMode === 'advanced' && !isMobile && "grid grid-cols-[300px_1fr] gap-6"
         )}>
-          
+
           {/* Advanced Editor Panel */}
           {editorMode === 'advanced' && (
             <div className={cn(isMobile && "mb-4")}>
@@ -215,19 +215,19 @@ const Preview = () => {
           {/* A4 Preview Card */}
           <Card className="bg-white shadow-lg print:shadow-none print:border-none overflow-hidden">
             {/* A4 Size Container */}
-            <div 
-              className="cv-content mx-auto bg-white print:min-h-[297mm] relative"
+            <div
+              className="cv-content mx-auto bg-white cv-a4-preview print:min-h-[297mm] relative"
               style={{
                 width: isMobile ? '100%' : '210mm',
                 minHeight: isMobile ? 'auto' : '297mm',
                 maxWidth: '100%'
               }}
             >
-              <CVLayoutRenderer 
+              <CVLayoutRenderer
                 data={{
                   ...cvData,
                   layoutConfig: layoutConfig
-                }} 
+                }}
                 template={selectedTemplate}
                 userPhoto={userPhoto}
                 className="w-full h-full"

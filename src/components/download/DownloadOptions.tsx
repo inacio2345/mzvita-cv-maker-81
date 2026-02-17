@@ -6,7 +6,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { FileImage, FileText, X, Share2, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { generateProfessionalCV } from '@/services/cvGenerator';
+import { captureDesktopCanvas } from '@/services/htmlToPdfConverter';
 import PDFPreviewModal from './PDFPreviewModal';
+import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
 
 interface DownloadOptionsProps {
   isOpen: boolean;
@@ -19,51 +21,59 @@ interface DownloadOptionsProps {
 const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selectedTemplate }: DownloadOptionsProps) => {
   const { toast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
+  const [isPreparing, setIsPreparing] = useState(false);
+  const [countdown, setCountdown] = useState(5);
+  const [pendingDownload, setPendingDownload] = useState<(() => Promise<void>) | null>(null);
 
-  const downloadAsPNG = () => {
-    const element = document.querySelector('.cv-content') as HTMLElement;
-    if (!element) return;
+  const startDownloadWithGate = (downloadFn: () => Promise<void>) => {
+    setPendingDownload(() => downloadFn);
+    setIsPreparing(true);
+    setCountdown(5);
 
-    import('html2canvas').then((html2canvas) => {
-      html2canvas.default(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff'
-      }).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = `${cvTitle}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        toast({
-          title: "Download concluído!",
-          description: "Seu CV foi baixado como PNG.",
-        });
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
       });
+    }, 1000);
+
+    // Trigger download after 5 seconds
+    setTimeout(async () => {
+      await downloadFn();
+      setIsPreparing(false);
+      setPendingDownload(null);
+    }, 5500);
+  };
+
+  const downloadAsPNG = async () => {
+    const canvas = await captureDesktopCanvas();
+    if (!canvas) return;
+
+    const link = document.createElement('a');
+    link.download = `${cvTitle}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    toast({
+      title: "Download concluído!",
+      description: "Seu CV foi baixado como PNG.",
     });
     onClose();
   };
 
-  const downloadAsJPG = () => {
-    const element = document.querySelector('.cv-content') as HTMLElement;
-    if (!element) return;
+  const downloadAsJPG = async () => {
+    const canvas = await captureDesktopCanvas();
+    if (!canvas) return;
 
-    import('html2canvas').then((html2canvas) => {
-      html2canvas.default(element, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff'
-      }).then((canvas) => {
-        const link = document.createElement('a');
-        link.download = `${cvTitle}.jpg`;
-        link.href = canvas.toDataURL('image/jpeg', 0.95);
-        link.click();
-        toast({
-          title: "Download concluído!",
-          description: "Seu CV foi baixado como JPG.",
-        });
-      });
+    const link = document.createElement('a');
+    link.download = `${cvTitle}.jpg`;
+    link.href = canvas.toDataURL('image/jpeg', 0.95);
+    link.click();
+    toast({
+      title: "Download concluído!",
+      description: "Seu CV foi baixado como JPG.",
     });
     onClose();
   };
@@ -136,7 +146,7 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selected
               </Button>
             </DialogTitle>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setShowPreview(true)}>
               <CardContent className="p-4">
@@ -150,7 +160,7 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selected
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={downloadProfessionalPDF}>
+            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => startDownloadWithGate(downloadProfessionalPDF)}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
                   <FileText className="w-8 h-8 text-red-600" />
@@ -162,7 +172,7 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selected
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={downloadAsPNG}>
+            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => startDownloadWithGate(downloadAsPNG)}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
                   <FileImage className="w-8 h-8 text-green-600" />
@@ -174,7 +184,7 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selected
               </CardContent>
             </Card>
 
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={downloadAsJPG}>
+            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => startDownloadWithGate(downloadAsJPG)}>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
                   <FileImage className="w-8 h-8 text-orange-600" />
@@ -198,6 +208,44 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selected
               </CardContent>
             </Card>
           </div>
+
+          {/* Interstitial Gate Overlay */}
+          {isPreparing && (
+            <div className="absolute inset-0 z-50 bg-white flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
+              <div className="mb-6">
+                <div className="relative w-20 h-20 mb-4 mx-auto">
+                  <div className="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                  <div
+                    className="absolute inset-0 border-4 border-google-blue rounded-full border-t-transparent animate-spin"
+                    style={{ animationDuration: '2s' }}
+                  ></div>
+                  <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-google-blue">
+                    {countdown}
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Preparando seu CV...</h3>
+                <p className="text-slate-600 text-sm">
+                  O download começará automaticamente em alguns segundos.
+                </p>
+              </div>
+
+              <div className="w-full mt-4">
+                <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Anúncio</p>
+                <div className="min-h-[50px] flex justify-center items-center bg-slate-50 rounded-lg overflow-hidden border border-slate-100 italic text-slate-400 text-xs">
+                  <AdsterraMobileBanner />
+                </div>
+              </div>
+
+              <Button
+                variant="ghost"
+                size="sm"
+                className="mt-8 text-slate-400 hover:text-slate-600"
+                onClick={() => setIsPreparing(false)}
+              >
+                Cancelar
+              </Button>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 

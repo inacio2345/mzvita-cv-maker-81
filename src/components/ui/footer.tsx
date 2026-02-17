@@ -7,13 +7,13 @@ import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const location = useLocation();
-  
+
   // List of pages where ads should not be shown
   const excludedPages = [
     '/preview',
     '/criar-cv'
   ];
-  
+
   // Check if the current page should show the ad
   const shouldShowAds = !excludedPages.includes(location.pathname);
 
@@ -31,7 +31,7 @@ const Footer = () => {
       script.async = true;
       script.setAttribute('data-cfasync', 'false');
       script.src = '//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js';
-      
+
       // Add script to the end of body
       document.body.appendChild(script);
 
@@ -44,7 +44,7 @@ const Footer = () => {
       };
     }
   }, [shouldShowAds]);
-  
+
   const footerAdScript = `
     <script type="text/javascript">
       atOptions = {
@@ -63,11 +63,11 @@ const Footer = () => {
       {/* Adsterra ad - Posicionado no final do footer */}
       {shouldShowAds && (
         <div className="adsterra-footer-native w-full mx-auto mt-6 mb-4 overflow-hidden" style={{ display: 'block', minHeight: '100px' }}>
-          <div 
-            id="container-61eba68a47e0ac2b98ec3fed6c320ba9" 
+          <div
+            id="container-61eba68a47e0ac2b98ec3fed6c320ba9"
             className="flex justify-center items-center w-full max-w-full overflow-hidden"
-            style={{ 
-              display: 'block', 
+            style={{
+              display: 'block',
               minHeight: '100px',
               margin: '0 auto',
               textAlign: 'center',
@@ -108,10 +108,10 @@ const Footer = () => {
               <li><Link to="/contato" className="hover:text-white transition-colors">Central de Ajuda</Link></li>
               <li><Link to="/contato" className="hover:text-white transition-colors">Contato</Link></li>
               <li>
-                <a 
-                  href="https://api.whatsapp.com/send?phone=258841524822&text=Ol%C3%A1%2C%20tenho%20interesse%20nos%20seus%20servi%C3%A7os.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es%3F" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://api.whatsapp.com/send?phone=258841524822&text=Ol%C3%A1%2C%20tenho%20interesse%20nos%20seus%20servi%C3%A7os.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es%3F"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-white transition-colors block"
                 >
                   WhatsApp
@@ -129,6 +129,9 @@ const Footer = () => {
         </div>
         <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm md:text-base">
           <p>&copy; 2024 MzVita CV. Todos os direitos reservados.</p>
+          <p className="mt-2 text-[10px] sm:text-xs opacity-70">
+            Desenvolvido por <a href="https://www.lgtecserv.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-google-blue/30 underline-offset-4">LG TecServ</a>
+          </p>
         </div>
       </div>
     </footer>

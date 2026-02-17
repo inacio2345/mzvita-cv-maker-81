@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, FileText } from 'lucide-react';
+import { Menu, FileText, Zap, MessageCircle, Mail, PenTool } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const MobileNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,45 +28,55 @@ const MobileNav = () => {
           <div className="flex flex-col h-full">
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                  <FileText className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-lg font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                  MozVita
-                </span>
-              </div>
+              <span className="text-lg font-bold text-slate-800">Menu</span>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex flex-col space-y-4 py-6 flex-1">
+            <nav className="flex flex-col space-y-2 py-6 flex-1">
               <Button
                 variant="ghost"
-                className="justify-start text-base font-medium hover:bg-gray-100"
-                onClick={() => handleNavigation('/')}
+                className="justify-start text-base font-bold hover:bg-slate-50 text-slate-700 h-12"
+                onClick={() => handleNavigation('/criar-cv')}
               >
-                Início
+                <FileText className="mr-3 h-5 w-5 text-google-blue" />
+                Criar Currículo
+              </Button>
+
+              <Accordion type="single" collapsible className="w-full">
+                <AccordionItem value="others" className="border-none">
+                  <AccordionTrigger className="px-4 py-3 text-base font-bold text-slate-700 hover:no-underline hover:bg-slate-50 rounded-md">
+                    <div className="flex items-center">
+                      <PenTool className="mr-3 h-5 w-5 text-google-green" />
+                      Criar outros documentos
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-2 pt-1 pl-4 flex flex-col space-y-1">
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-apresentacao')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Apresentação</Button>
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-pedido-estagio')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Pedido de Estágio</Button>
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-requisicao')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Requisição</Button>
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-demissao')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Demissão</Button>
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-recomendacao')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Recomendação</Button>
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-pedido-bolsa')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Pedido de Bolsa</Button>
+                    <Button variant="ghost" className="justify-start font-semibold text-slate-600 text-sm" onClick={() => handleNavigation('/carta-agradecimento')}><PenTool className="mr-2 h-4 w-4 opacity-50" /> Carta de Agradecimento</Button>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+
+              <Button
+                variant="ghost"
+                className="justify-start text-base font-bold hover:bg-slate-50 text-slate-700 h-12"
+                onClick={() => handleNavigation('/blog')}
+              >
+                <Zap className="mr-3 h-5 w-5 text-google-yellow" />
+                Blog
               </Button>
               <Button
                 variant="ghost"
-                className="justify-start text-base font-medium hover:bg-gray-100"
-                onClick={() => handleNavigation('/como-funciona')}
-              >
-                Como Funciona
-              </Button>
-              <Button
-                variant="ghost"
-                className="justify-start text-base font-medium hover:bg-gray-100"
+                className="justify-start text-base font-bold hover:bg-slate-50 text-slate-700 h-12"
                 onClick={() => handleNavigation('/contato')}
               >
+                <MessageCircle className="mr-3 h-5 w-5 text-google-red" />
                 Contato
-              </Button>
-              <Button
-                variant="ghost"
-                className="justify-start text-base font-medium hover:bg-gray-100"
-                onClick={() => handleNavigation('/exemplos')}
-              >
-                Exemplos
               </Button>
             </nav>
           </div>

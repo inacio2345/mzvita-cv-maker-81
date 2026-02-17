@@ -69,68 +69,13 @@ const Exemplos = () => {
       downloads: 1750,
       category: "Informática",
       features: ["Sidebar escura", "Foto circular", "Contraste alto", "Moderno"]
-    },
-    {
-      id: 6,
-      templateId: "cv-tech-futuristic",
-      title: "Tech Futurista",
-      description: "Design futurista com elementos geométricos. Ideal para área de tecnologia.",
-      image: "/lovable-uploads/template-06.jpg",
-      rating: 5,
-      downloads: 1420,
-      category: "Informática",
-      features: ["Futurista", "Elementos geométricos", "Cores tech", "Inovador"]
-    },
-    {
-      id: 7,
-      templateId: "cv-creative-yellow",
-      title: "Criativo Amarelo",
-      description: "Design criativo com toques de amarelo. Perfeito para áreas criativas.",
-      image: "/lovable-uploads/template-07.jpg",
-      rating: 5,
-      downloads: 1560,
-      category: "Design",
-      features: ["Cores vibrantes", "Layout criativo", "Foto em losango", "Tipografia ousada"]
-    },
-    {
-      id: 8,
-      templateId: "cv-professional-clean",
-      title: "Profissional Limpo",
-      description: "Layout profissional e estruturado. Ideal para áreas corporativas.",
-      image: "/lovable-uploads/template-08.jpg",
-      rating: 5,
-      downloads: 1890,
-      category: "Administração",
-      features: ["Estruturado", "Limpo", "Corporativo", "Tradicional"]
-    },
-    {
-      id: 9,
-      templateId: "cv-corporate-simple",
-      title: "Corporativo Simples",
-      description: "Layout corporativo equilibrado em duas colunas. Simples e eficaz.",
-      image: "/lovable-uploads/template-09.jpg",
-      rating: 4,
-      downloads: 1340,
-      category: "Administração",
-      features: ["Duas colunas", "Equilibrado", "Simples", "Corporativo"]
-    },
-    {
-      id: 10,
-      templateId: "cv-minimalist-teal",
-      title: "Minimalista Teal",
-      description: "Minimalista com toques de teal. Limpo e profissional.",
-      image: "/lovable-uploads/template-10.jpg",
-      rating: 5,
-      downloads: 1670,
-      category: "Saúde",
-      features: ["Minimalista", "Cores suaves", "Linhas limpas", "Profissional"]
     }
   ];
 
   const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Design", "Educação", "Informática"];
 
-  const filteredExamples = selectedCategory === "Todos" 
-    ? examples 
+  const filteredExamples = selectedCategory === "Todos"
+    ? examples
     : examples.filter(example => example.category === selectedCategory);
 
   const handleViewExample = (example) => {
@@ -153,46 +98,14 @@ const Exemplos = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <div 
-              className="flex items-center space-x-2 cursor-pointer" 
-              onClick={() => navigate('/')}
-            >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                MozVita
-              </h1>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex space-x-4 xl:space-x-8">
-              <Button variant="ghost" onClick={() => navigate('/')} className="text-gray-600 hover:text-google-blue">
-                Início
-              </Button>
-              <Button variant="ghost" onClick={() => navigate('/como-funciona')} className="text-gray-600 hover:text-google-blue">
-                Como Funciona
-              </Button>
-              <Button variant="ghost" onClick={() => navigate('/contato')} className="text-gray-600 hover:text-google-blue">
-                Contato
-              </Button>
-            </nav>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section */}
-      <section className="py-8 sm:py-12 lg:py-20 px-4">
+      <section className="py-8 sm:py-12 lg:py-20 px-4 mt-8 sm:mt-12">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent leading-tight">
-            10 Modelos Profissionais
+            Modelos Profissionais
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2">
-            Escolha entre 10 layouts únicos criados para diferentes áreas profissionais. Todos compatíveis com os campos do formulário MozVita.
+            Escolha entre layouts únicos criados para diferentes áreas profissionais. Todos compatíveis com os campos do formulário MozVita.
           </p>
         </div>
       </section>
@@ -206,11 +119,10 @@ const Exemplos = () => {
                 key={category}
                 variant={category === selectedCategory ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                className={`text-xs sm:text-sm px-3 sm:px-4 py-2 ${
-                  category === selectedCategory 
-                    ? "bg-google-blue hover:bg-blue-600 text-white" 
-                    : "border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
-                }`}
+                className={`text-xs sm:text-sm px-3 sm:px-4 py-2 ${category === selectedCategory
+                  ? "bg-google-blue hover:bg-blue-600 text-white"
+                  : "border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
+                  }`}
               >
                 {category}
               </Button>
@@ -253,16 +165,15 @@ const Exemplos = () => {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-3 h-3 ${
-                            i < example.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                          }`}
+                          className={`w-3 h-3 ${i < example.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                            }`}
                         />
                       ))}
                     </div>
                   </div>
                   <h3 className="text-lg font-bold text-gray-900 mb-2">{example.title}</h3>
                   <p className="text-gray-600 mb-3 text-sm">{example.description}</p>
-                  
+
                   {/* Features */}
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-1">
@@ -280,19 +191,19 @@ const Exemplos = () => {
                       <span>{example.downloads} downloads</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex space-x-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => handleViewExample(example)}
                       className="flex-1 border-google-blue text-google-blue hover:bg-google-blue hover:text-white text-xs"
                     >
                       <Eye className="w-3 h-3 mr-1" />
                       Ver
                     </Button>
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       onClick={() => handleUseTemplate(example)}
                       className="flex-1 bg-google-blue hover:bg-blue-600 text-white text-xs"
                     >
@@ -344,7 +255,7 @@ const Exemplos = () => {
                       </p>
                     </div>
                   </div>
-                  <Button 
+                  <Button
                     onClick={() => {
                       handleUseTemplate(selectedExample);
                       setIsModalOpen(false);
@@ -354,7 +265,7 @@ const Exemplos = () => {
                     Usar Este Modelo
                   </Button>
                 </div>
-                
+
                 {/* Features detalhadas */}
                 <div>
                   <h4 className="font-bold text-gray-800 mb-3">Características do Modelo:</h4>
@@ -378,11 +289,11 @@ const Exemplos = () => {
         <div className="container mx-auto px-4 text-center text-white">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Escolha Seu Modelo Ideal</h2>
           <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
-            Todos os modelos suportam foto, dados pessoais completos, experiência, formação, habilidades e idiomas. 
+            Todos os modelos suportam foto, dados pessoais completos, experiência, formação, habilidades e idiomas.
             Personalize com suas informações e crie um CV profissional em minutos.
           </p>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="bg-white text-google-blue hover:bg-gray-100 px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
             onClick={() => navigate('/como-funciona')}
           >

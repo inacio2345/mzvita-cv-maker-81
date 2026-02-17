@@ -5,144 +5,90 @@ import BlogPost from '@/components/blog/BlogPost';
 const TendenciasMercado2024 = () => {
   const content = (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Introdução</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">A Nova Dinâmica do Mercado de Trabalho em Moçambique 2024</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        O mercado de trabalho em Moçambique 2024 apresenta novas oportunidades e desafios únicos. Com o crescimento econômico do país e a expansão de diversos setores, compreender as tendências atuais é fundamental para profissionais que buscam se posicionar estrategicamente no mercado. Segundo dados recentes do <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional</a>, novas áreas estão emergindo como promissoras. Este guia analisa as principais tendências, profissões em alta e competências mais valorizadas pelos empregadores moçambicanos.
+        O ano de 2024 marca um ponto de viragem para o emprego em Moçambique. Com a estabilização de grandes investimentos e a aceleração da transformação digital, o perfil do candidato ideal mudou. Hoje, não basta ter um curso superior; o mercado exige adaptabilidade e competências que vão além do diploma. Se você está a preparar o seu <strong>cv moçambique</strong>, precisa de alinhar a sua experiência com estas novas exigências.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Setores em Crescimento em Moçambique</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Digitalização: O Grande Motor de Emprego em Maputo e Beira</h2>
       <p className="mb-4 text-gray-700">
-        O mercado de trabalho moçambicano está passando por uma transformação significativa em 2024, com alguns setores apresentando crescimento acelerado. Para preparar seu currículo adequadamente, consulte nosso guia sobre <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">como criar um CV profissional em Moçambique</a>:
+        A digitalização já não é uma tendência de futuro, é a realidade atual. Empresas de todos os setores — desde a logística à banca — estão a automatizar processos. Isso significa que o seu <strong>curriculum vitae moçambique</strong> deve refletir fluência digital.
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Profissões em Ascensão no Setor Tecnológico:</h3>
+      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+        <li><strong>Especialistas em Cibersegurança:</strong> Proteção de dados financeiros e corporativos.</li>
+        <li><strong>Analistas de Dados (BI):</strong> Transformar informação em decisões estratégicas.</li>
+        <li><strong>Desenvolvedores de Apps:</strong> Com o crescimento do mobile money (M-Pesa, E-Mola), a demanda é gigante.</li>
+      </ul>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. O Boom do Setor de Energia e Recursos Naturais</h2>
+      <p className="mb-4 text-gray-700">
+        Os projetos de exploração de gás e minerais continuam a ser os maiores contratantes em Moçambique. No entanto, a exigência técnica aumentou. O seu <strong>modelo de cv moçambique</strong> para este setor deve ser extremamente detalhado.
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Oportunidades em Cabo Delgado e Tete:</h3>
+      <p className="mb-4 text-gray-700">
+        Há uma procura crescente por técnicos certificados internacionalmente. Certificações como NEBOSH ou normas ISO são diferenciais que colocam o seu <strong>cv moçambique</strong> no topo da pilha. Saiba mais sobre como <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">adaptar seu currículo para a área de minas</a>.
       </p>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Energia e Recursos Naturais</h3>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Trabalho Remoto e Freelancing Local</h2>
       <p className="mb-4 text-gray-700">
-        Com os projetos de gás natural em Cabo Delgado e a expansão do setor energético, há alta demanda por:
+        Pela primeira vez em Moçambique, vemos um crescimento real do trabalho remoto. Jovens moçambicanos estão a trabalhar para empresas na Europa ou África do Sul sem sair de casa.
+      </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Como se Preparar:</h3>
+      <p className="mb-4 text-gray-700">
+        Neste cenário, o seu <strong>curriculum vitae moçambique</strong> deve destacar competências de gestão de tempo e proatividade. O domínio do Inglês tornou-se, finalmente, uma competência obrigatória e não apenas um "extra". Veja também nossas dicas para <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">currículos digitais em 2026</a>.
+      </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Soft Skills: O que os Recrutadores Realmente Querem</h2>
+      <p className="mb-4 text-gray-700">
+        As chamadas "competências suaves" estão a ganhar peso. Em 2024, as empresas moçambicanas valorizam:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Engenheiros petroquímicos e de processos</li>
-        <li>Técnicos em segurança industrial</li>
-        <li>Especialistas em meio ambiente</li>
-        <li>Operadores de equipamentos especializados</li>
-        <li>Gestores de projetos internacionais</li>
+        <li><strong>Pensamento Crítico:</strong> Capacidade de resolver problemas no terreno sem depender de supervisão constante.</li>
+        <li><strong>Inteligência Emocional:</strong> Essencial para o clima organizacional em equipas multiculturais.</li>
+        <li><strong>Resiliência:</strong> Capacidade de lidar com os desafios logísticos e operacionais típicos de Moçambique.</li>
       </ul>
 
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Tecnologia e Telecomunicações</h3>
-      <p className="mb-4 text-gray-700">
-        A digitalização crescente criou oportunidades em tecnologia. Recursos como o <a href="https://www.worldbank.org/en/country/mozambique" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Banco Mundial</a> destacam este setor como prioritário:
-      </p>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Desenvolvimento de software e aplicações</li>
-        <li>Suporte técnico e helpdesk</li>
-        <li>Marketing digital e e-commerce</li>
-        <li>Administração de redes e sistemas</li>
-        <li>Análise de dados e business intelligence</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Construção Civil e Infraestrutura</h3>
-      <p className="mb-4 text-gray-700">
-        Os grandes projetos de infraestrutura mantêm a demanda por:
-      </p>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Pedreiros e carpinteiros especializados</li>
-        <li>Engenheiros civis e arquitetos</li>
-        <li>Mestres de obras e supervisores</li>
-        <li>Operadores de máquinas pesadas</li>
-        <li>Técnicos em segurança do trabalho</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Profissões Mais Procuradas em 2024</h2>
-      <p className="mb-4 text-gray-700">
-        Baseado em dados de recrutamento e anúncios de emprego, as profissões com maior demanda incluem. Para adaptar seu CV a cada área, veja nosso artigo sobre <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como personalizar currículos por área profissional</a>:
-      </p>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Top 10 Profissões em Moçambique</h3>
-      <ol className="list-decimal pl-6 mb-6 text-gray-700 space-y-2">
-        <li><strong>Enfermeiros e técnicos de saúde</strong> - Sistema de saúde em expansão</li>
-        <li><strong>Professores (todos os níveis)</strong> - Crescimento do setor educacional</li>
-        <li><strong>Vendedores e representantes comerciais</strong> - Expansão do comércio</li>
-        <li><strong>Técnicos em informática</strong> - Digitalização das empresas</li>
-        <li><strong>Motoristas profissionais</strong> - Crescimento do transporte e logística</li>
-        <li><strong>Seguranças e vigilantes</strong> - Aumento da demanda por segurança</li>
-        <li><strong>Cozinheiros e chefs</strong> - Expansão do setor gastronômico</li>
-        <li><strong>Contabilistas e auxiliares financeiros</strong> - Formalização das empresas</li>
-        <li><strong>Técnicos agrícolas</strong> - Modernização da agricultura</li>
-        <li><strong>Operadores de call center</strong> - Crescimento dos serviços de atendimento</li>
-      </ol>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Competências Mais Valorizadas</h2>
-      <p className="mb-4 text-gray-700">
-        O mercado de trabalho moçambicano valoriza cada vez mais competências específicas. Para evitar erros na apresentação dessas competências, consulte nosso guia sobre <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que prejudicam o CV</a>:
-      </p>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Técnicas (Hard Skills)</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Domínio de português e inglês (essencial)</li>
-        <li>Conhecimentos básicos de informática</li>
-        <li>Certificações profissionais específicas</li>
-        <li>Experiência com ferramentas digitais</li>
-        <li>Conhecimento das línguas locais (diferencial)</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Competências Comportamentais (Soft Skills)</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Adaptabilidade e flexibilidade</li>
-        <li>Trabalho em equipe multicultural</li>
-        <li>Comunicação eficaz</li>
-        <li>Resolução de problemas</li>
-        <li>Responsabilidade e pontualidade</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Salários e Benefícios Esperados</h2>
-      <p className="mb-4 text-gray-700">
-        Os salários em Moçambique variam significativamente por setor e experiência:
-      </p>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Faixas Salariais por Categoria</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li><strong>Iniciante (0-2 anos):</strong> 8.000 - 15.000 MT</li>
-        <li><strong>Nível médio (3-5 anos):</strong> 15.000 - 30.000 MT</li>
-        <li><strong>Sênior (5+ anos):</strong> 30.000 - 60.000 MT</li>
-        <li><strong>Gestão/Especialista:</strong> 60.000+ MT</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Dicas para se Destacar no Mercado</h2>
-      <p className="mb-4 text-gray-700">
-        Para aproveitar as oportunidades do mercado moçambicano em 2024, especialmente se você está começando a carreira, veja nosso artigo sobre <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">como montar um CV sem experiência</a>:
-      </p>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Invista em capacitação contínua</li>
-        <li>Desenvolva habilidades digitais básicas</li>
-        <li>Construa uma rede de contactos profissionais</li>
-        <li>Mantenha seu CV sempre atualizado</li>
-        <li>Mostre flexibilidade para trabalhar em diferentes regiões</li>
-        <li>Valorize experiências de voluntariado</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">6. Desafios e Oportunidades</h2>
-      <p className="mb-4 text-gray-700">
-        O mercado apresenta tanto desafios quanto oportunidades únicas:
-      </p>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Principais Desafios</h3>
-      <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li>Competição acirrada em algumas áreas</li>
-        <li>Necessidade de qualificação específica</li>
-        <li>Localização geográfica das oportunidades</li>
-      </ul>
-
-      <h3 className="text-xl font-semibold text-gray-900 mb-3">Grandes Oportunidades</h3>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Projetos de desenvolvimento internacional</li>
-        <li>Crescimento do empreendedorismo</li>
-        <li>Expansão do setor de serviços</li>
-        <li>Investimentos estrangeiros crescentes</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Sustentabilidade e Agricultura de Precisão</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        O mercado de trabalho em Moçambique 2024 oferece oportunidades diversificadas para profissionais preparados. O sucesso depende de manter-se atualizado com as tendências, desenvolver as competências certas e apresentar-se profissionalmente. Um CV bem elaborado é o primeiro passo para aproveitar essas oportunidades emergentes.
+        Moçambique é um país agrícola. Contudo, em 2024, o foco mudou para a tecnologia no campo. Profissionais que entendem de sustentabilidade e irrigação moderna estão a encontrar caminhos rápidos para o emprego. Se você é um recém-licenciado, não ignore o setor agrário no seu <strong>cv moçambique</strong>.
       </p>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: O Futuro Pertence aos Preparados</h2>
+      <p className="mb-6 text-gray-700 leading-relaxed">
+        O mercado moçambicano não é estático. Ele recompensa quem se informa e se adapta. Use este guia de tendências para ajustar o seu <strong>curriculum vitae moçambique</strong> e garantir que você está a comunicar as competências que as empresas realmente precisam hoje. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</a> e mantenha o foco na atualização contínua.
+      </p>
+
+      <div className="bg-google-blue border-l-8 border-white p-8 rounded-lg shadow-lg mb-10 text-white">
+        <h3 className="text-xl font-bold mb-3">⚠️ Alerta de Oportunidade:</h3>
+        <p className="text-lg opacity-90 leading-relaxed">
+          "Para 2024, a maior procura será por profissionais 'híbridos': pessoas com formação técnica sólida (Engenharia, Saúde, Educação) mas que também dominam ferramentas digitais e têm boa comunicação interpessoal."
+        </p>
+      </div>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Aprofunde os seus Conhecimentos:</h2>
+      <div className="bg-blue-50 p-6 rounded-lg mb-6">
+        <ul className="space-y-4 text-gray-700">
+          <li>
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Guia: Como Criar um CV Profissional Imbatível
+            </a>
+            <p className="text-sm text-gray-600">Aprenda a estruturar seu percurso de forma vencedora.</p>
+          </li>
+          <li>
+            <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Primeiro Emprego: Estratégias para Jovens Moçambicanos
+            </a>
+            <p className="text-sm text-gray-600">Dicas práticas para superar a falta de experiência no papel.</p>
+          </li>
+          <li>
+            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Modelos de CV Moçambique - Download Grátis
+            </a>
+            <p className="text-sm text-gray-600">Comece hoje mesmo a usar os melhores templates do mercado.</p>
+          </li>
+        </ul>
+      </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
       <div className="bg-blue-50 p-6 rounded-lg mb-6">

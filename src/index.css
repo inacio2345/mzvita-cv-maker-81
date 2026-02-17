@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -107,8 +106,26 @@
 
   /* Prevent horizontal scroll and ensure responsive behavior */
   .container {
-    max-width: 100%;
-    overflow-x: hidden;
+    max-width: 1400px !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media (min-width: 640px) {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Section spacing improvements */
+  section {
+    @apply py-12 md:py-20 lg:py-24;
   }
 
   /* Optimize images for better performance */
@@ -132,7 +149,7 @@
     html {
       scroll-behavior: auto;
     }
-    
+
     *,
     *::before,
     *::after {
@@ -152,6 +169,15 @@
 .cv-item {
   break-inside: avoid;
   page-break-inside: avoid;
+}
+
+/* Visual A4 Page Break Indicator for Screen */
+@media screen {
+  .cv-a4-preview {
+    background-image: linear-gradient(to bottom, transparent calc(297mm - 1px), #94a3b8 calc(297mm - 1px), #94a3b8 297mm);
+    background-size: 100% 297mm;
+    background-repeat: repeat-y;
+  }
 }
 
 /* Print styles for A4 */
@@ -176,7 +202,12 @@
     page-break-inside: avoid;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     break-after: avoid;
     page-break-after: avoid;
   }
@@ -187,6 +218,70 @@
   }
 }
 
+/* Premium Navigation Effects */
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+@keyframes premium-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(14, 116, 144, 0.4);
+    transform: scale(1);
+  }
+
+  70% {
+    box-shadow: 0 0 0 15px rgba(14, 116, 144, 0);
+    transform: scale(1.05);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(14, 116, 144, 0);
+    transform: scale(1);
+  }
+}
+
+.nav-button-premium {
+  @apply relative overflow-hidden transition-all duration-300 hover:text-google-blue;
+}
+
+.nav-button-premium::after {
+  content: '';
+  @apply absolute bottom-1 left-1/2 w-0 h-0.5 bg-google-blue transition-all duration-300 -translate-x-1/2;
+}
+
+.nav-button-premium:hover::after {
+  @apply w-2/3;
+}
+
+.btn-shine-sweep {
+  @apply relative overflow-hidden;
+}
+
+.btn-shine-sweep::before {
+  content: '';
+  @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-10;
+  transition: none;
+}
+
+.btn-shine-sweep:hover::before {
+  animation: shine-sweep 0.8s ease-in-out;
+}
+
+.animate-premium-pulse {
+  animation: premium-pulse 2s infinite;
+}
+
+.dropdown-item-premium {
+  @apply flex items-center gap-2 p-3 rounded-xl transition-all duration-200 hover:bg-slate-50 border border-transparent hover:border-slate-100;
+}
+
+/* Hide Lovable Elements */
 a[href*="lovable.dev"],
 iframe[src*="lovable.dev"],
 div[style*="Edit with Lovable"],

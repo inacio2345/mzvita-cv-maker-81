@@ -5,125 +5,87 @@ import BlogPost from '@/components/blog/BlogPost';
 const ErrosComuns = () => {
   const content = (
     <div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Por que evitar erros no CV é crucial?</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Por que Evitar Erros no seu CV Moçambique é a sua Maior Prioridade</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Em um mercado de trabalho competitivo como o de Moçambique, pequenos erros no seu CV podem ser a diferença entre conseguir uma entrevista ou ter sua candidatura descartada. Recrutadores frequentemente recebem centenas de currículos e qualquer descuido pode eliminar suas chances. Segundo dados do <a href="https://iefp.gov.mz/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Instituto de Emprego e Formação Profissional</a>, 70% dos CVs são descartados por erros básicos. Vamos abordar os 5 erros mais comuns e como evitá-los.
+        Em um mercado de trabalho tão competitivo quanto o nosso, o seu <strong>cv moçambique</strong> é frequentemente a única chance de causar uma boa impressão. Recrutadores de grandes empresas em Maputo, Beira e outras capitais provinciais recebem centenas de candidaturas por dia. Qualquer pequeno deslize — seja um erro de digitação ou uma formatação confusa — pode ser o motivo suficiente para o seu currículo ir para a "pilha dos descartados".
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Informações de Contacto Incorretas ou Desatualizadas</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Erros de Português e Gramática: O Assassino Silencioso</h2>
       <p className="mb-4 text-gray-700">
-        <strong>O erro:</strong> Incluir números de telefone antigos, emails profissionais de empregos anteriores ou endereços desatualizados.
+        Não importa o quão qualificado você seja; se o seu <strong>curriculum vitae moçambique</strong> tiver erros de ortografia, você comunica falta de atenção e desinteresse.
       </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Como os Recrutadores Reagem</h3>
       <p className="mb-4 text-gray-700">
-        <strong>Por que prejudica:</strong> Se o empregador não conseguir entrar em contacto, sua candidatura será automaticamente descartada.
-      </p>
-      <p className="mb-6 text-gray-700">
-        <strong>Como evitar:</strong> Sempre revise e atualize seus dados antes de enviar. Use um email profissional (nome.sobrenome@gmail.com) e certifique-se de que o número de celular está correto e ativo. Para dicas sobre <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">como estruturar corretamente um CV</a>, consulte nosso guia completo.
+        Um erro de português sugere que você não revisou o documento. No mundo corporativo, a atenção aos detalhes é vital. Use corretores automáticos, mas não confie apenas neles. Peça para um amigo ler ou use as ferramentas de revisão do MozVita.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Erros de Ortografia e Gramática</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Foto Desleixada ou Inadequada</h2>
       <p className="mb-4 text-gray-700">
-        <strong>O erro:</strong> Palavras mal escritas, concordância incorreta, pontuação errada ou uso inadequado de maiúsculas.
+        Já discutimos a <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">importância da foto no currículo moçambicano</a>, mas o erro persiste: muitos candidatos usam selfies ou fotos de festas.
       </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">O que Evitar na Imagem</h3>
       <p className="mb-4 text-gray-700">
-        <strong>Por que prejudica:</strong> Demonstra falta de atenção aos detalhes e pode indicar baixo nível de educação ou desleixo.
+        Nunca use fotos com óculos escuros, fundos de bares ou praias, ou fotos onde você aparece cortado de um grupo. O seu <strong>cv moçambique</strong> exige uma imagem de rosto limpa, com fundo neutro e vestimenta formal.
       </p>
-      <div className="mb-6 text-gray-700">
-        <strong>Como evitar:</strong>
-        <ul className="list-disc pl-6 mt-2 space-y-1">
-          <li>Use ferramentas de correção como Word ou Google Docs</li>
-          <li>Peça para outra pessoa revisar seu CV</li>
-          <li>Leia em voz alta para identificar erros</li>
-          <li>Preste atenção especial aos nomes de empresas e cargos</li>
-        </ul>
-      </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Foto Inadequada ou de Má Qualidade</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Ausência de Palavras-Chave (O Pesadelo dos ATS)</h2>
       <p className="mb-4 text-gray-700">
-        <strong>O erro:</strong> Usar fotos casuais, selfies, imagens pixeladas ou com vestuário inadequado.
+        Seguindo as <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</a>, entendemos que muitas empresas em Moçambique agora usam software para filtrar currículos. Se o seu <strong>curriculum vitae moçambique</strong> não tiver as palavras-chave da vaga, ele nunca será visto por um humano.
       </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Como Resolver</h3>
       <p className="mb-4 text-gray-700">
-        <strong>Por que prejudica:</strong> A primeira impressão é visual, e uma foto inadequada pode criar uma imagem não profissional. Consulte recursos profissionais como o portal <a href="https://www.linkedin.com/help/linkedin" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">LinkedIn Help Center</a> para dicas sobre fotos profissionais.
+        Leia o anúncio da vaga atentamente. Se a vaga pede "experiência em SAP" ou "gestão de equipas", essas palavras exatas devem aparecer no seu texto. Não tente ser criativo demais; seja estratégico.
       </p>
-      <div className="mb-6 text-gray-700">
-        <strong>Como evitar:</strong>
-        <ul className="list-disc pl-6 mt-2 space-y-1">
-          <li>Use foto recente e profissional</li>
-          <li>Vista roupas adequadas ao cargo pretendido</li>
-          <li>Certifique-se de que a qualidade da imagem é boa</li>
-          <li>Mantenha expressão séria mas amigável</li>
-        </ul>
-      </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Exagerar ou Mentir sobre Experiências</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Objetivos Profissionais Genéricos e Vagos</h2>
       <p className="mb-4 text-gray-700">
-        <strong>O erro:</strong> Inflacionar responsabilidades, inventar experiências ou estender períodos de trabalho.
+        Frases como "estou aqui para ajudar a empresa a crescer" são vazias de significado. No seu <strong>cv moçambique</strong>, o objetivo deve ser uma ponte direta entre a sua competência e a necessidade da empresa.
       </p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-3">Exemplo de Melhoria</h3>
       <p className="mb-4 text-gray-700">
-        <strong>Por que prejudica:</strong> Durante a entrevista ou verificação de referências, as mentiras serão descobertas, destruindo sua credibilidade. Para profissionais iniciantes, veja nosso artigo sobre <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">como montar um CV sem experiência</a> de forma honesta.
+        Em vez de "quero trabalhar na área administrativa", use "Procuro vaga de Assistente Administrativo para aplicar minha experiência em gestão de arquivos e suporte à diretoria, visando a eficiência operacional da empresa". Se você é iniciante, veja nosso guia de <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">cv para primeiro emprego</a>.
       </p>
-      <div className="mb-6 text-gray-700">
-        <strong>Como evitar:</strong>
-        <ul className="list-disc pl-6 mt-2 space-y-1">
-          <li>Seja honesto sobre suas experiências</li>
-          <li>Destaque realizações reais e mensuráveis</li>
-          <li>Se tem pouca experiência, foque em potencial e aprendizado</li>
-          <li>Use verbos de ação para valorizar o que realmente fez</li>
-        </ul>
-      </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Formato Confuso e Desorganizado</h2>
-      <p className="mb-4 text-gray-700">
-        <strong>O erro:</strong> Usar muitas cores, fontes diferentes, falta de espaçamento adequado ou ordem cronológica confusa.
-      </p>
-      <p className="mb-4 text-gray-700">
-        <strong>Por que prejudica:</strong> Dificulta a leitura e pode cansar o recrutador, que tem pouco tempo para analisar cada CV.
-      </p>
-      <div className="mb-6 text-gray-700">
-        <strong>Como evitar:</strong>
-        <ul className="list-disc pl-6 mt-2 space-y-1">
-          <li>Use formato simples e clean</li>
-          <li>Mantenha consistência na formatação</li>
-          <li>Organize informações em ordem cronológica reversa</li>
-          <li>Use espaçamento adequado entre seções</li>
-          <li>Limite-se a 1-2 fontes no máximo</li>
-        </ul>
-      </div>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Dicas Extras para o Mercado Moçambicano</h2>
-      <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
-        <li>Não inclua informações pessoais desnecessárias (estado civil, religião)</li>
-        <li>Evite usar gírias ou linguagem muito informal</li>
-        <li>Não coloque referências no CV, apenas "Referências disponíveis mediante solicitação"</li>
-        <li>Adapte o CV para cada vaga específica - veja como <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">adaptar seu CV para diferentes áreas profissionais</a></li>
-        <li>Use exemplos concretos de suas realizações</li>
-      </ul>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Mentiras e Exageros: O Risco da Credibilidade</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Evitar estes erros comuns pode significativamente melhorar suas chances no mercado de trabalho moçambicano. Lembre-se: seu CV é seu cartão de visitas profissional. Invista tempo na sua elaboração, revise cuidadosamente e mantenha-o sempre atualizado. Um CV bem feito abre portas, enquanto um CV com erros as fecha.
+        Nunca invente certificações ou experiências que você não possui. Moçambique tem um mercado de trabalho onde "todos se conhecem". Uma mentira descoberta pode manchar a sua reputação permanentemente no setor. Seja honesto e foque nas suas competências reais.
       </p>
 
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: Revise, Revise e Revise</h2>
+      <p className="mb-6 text-gray-700 leading-relaxed">
+        O seu <strong>cv moçambique</strong> é um organismo vivo. Ele deve ser atualizado e revisado constantemente. Antes de carregar o PDF para uma candidatura, faça um "checklist" final: os contactos estão certos? O português está impecável? As datas fazem sentido? O sucesso começa com o cuidado.
+      </p>
+
+      <div className="bg-google-blue/10 border-l-4 border-google-blue p-6 rounded-r-lg mb-8 text-google-blue">
+        <h3 className="text-lg font-bold mb-2 uppercase">Checklist de Ouro:</h3>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Revisão gramatical completa.</li>
+          <li>Inclusão de palavras-chave da vaga.</li>
+          <li>Foto profissional com fundo neutro.</li>
+          <li>Arquivo salvo em PDF com nome profissional (Ex: CV_TeuNome.pdf).</li>
+        </ul>
+      </div>
+
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Conteúdos Relacionados:</h2>
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
-        <ul className="space-y-3 text-gray-700">
+        <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Como criar um CV profissional em Moçambique
+            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Guia Completo: Como Criar um CV Moçambique de Sucesso
             </a>
-            <p className="text-sm text-gray-600 mt-1">Guia completo com estrutura e dicas específicas para o mercado moçambicano.</p>
+            <p className="text-sm text-gray-600">O manual definitivo para se destacar no mercado local.</p>
           </li>
           <li>
-            <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              A importância da foto no currículo moçambicano
+            <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Aprenda a Adaptar seu CV por Área Profissional
             </a>
-            <p className="text-sm text-gray-600 mt-1">Saiba como escolher e posicionar a foto ideal no seu CV.</p>
+            <p className="text-sm text-gray-600">Saiba como personalizar seu perfil para cada edital específico.</p>
           </li>
           <li>
-            <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Tendências do mercado de trabalho em Moçambique 2024
+            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+              Acesse nosso Hub: Modelos de CV Moçambique
             </a>
-            <p className="text-sm text-gray-600 mt-1">Fique por dentro das profissões em alta e competências valorizadas.</p>
+            <p className="text-sm text-gray-600">Templates profissionais e fáceis de editar para todas as profissões.</p>
           </li>
         </ul>
       </div>

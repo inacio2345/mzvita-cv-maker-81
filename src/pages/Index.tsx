@@ -1,472 +1,400 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, Zap, Shield, Download, Star, Users, CheckCircle, User, Briefcase, Clock, Search, MessageCircle, ChevronDown } from 'lucide-react';
+import {
+  FileText, Zap, Shield, Download, Star, Users, CheckCircle,
+  User, Briefcase, Search, MessageCircle, ChevronDown, Globe,
+  Check, ArrowRight
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
+import SEO from '@/components/SEO';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { cvTemplates } from '@/data/cvTemplates';
 
 const Index = () => {
   const navigate = useNavigate();
 
   const professionAreas = [
-    'Professor',
-    'Pedreiro', 
-    'Enfermeira',
-    'Designer Gráfico',
-    'Técnico de Informática',
-    'Contador',
-    'Vendedor',
-    'Mecânico'
+    { name: 'Professor', path: '/area-profissional' },
+    { name: 'Pedreiro', path: '/area-profissional' },
+    { name: 'Enfermeira', path: '/area-profissional' },
+    { name: 'Motorista', path: '/blog/cv-motorista-mocambique' },
+    { name: 'Contador', path: '/area-profissional' },
+    { name: 'Vendedor', path: '/area-profissional' },
+    { name: 'Técnico de IT', path: '/area-profissional' },
+    { name: 'Mecânico', path: '/area-profissional' }
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Como criar um cv moçambique profissional?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para criar um cv moçambique profissional, basta escolher um modelo na nossa plataforma, preencher seus dados e baixar o arquivo em PDF. Todo o processo é adaptado ao mercado local."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "O Mozvita é gratuito?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim, o Mozvita permite criar e baixar seu cv moçambique de forma totalmente gratuita e sem custos ocultos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Posso baixar o cv moçambique pdf no telemóvel?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim, nossa plataforma é mobile-first e permite que você gere e baixe seu cv moçambique pdf diretamente do seu telemóvel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Como fazer um cv em inglês moçambique?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Temos uma seção dedicada para cv em inglês moçambique, ideal para quem busca vagas em multinacionais de Oil & Gas ou ONGs internacionais no país."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quais são os melhores modelos de cv moçambique?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Os melhores modelos de cv moçambique são aqueles que equilibram sobriedade e modernidade. Oferecemos designs testados e aprovados por recrutadores moçambicanos."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Existem exemplos cv moçambique para diferentes áreas?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sim, fornecemos exemplos cv moçambique para diversas profissões, ajudando você a descrever suas competências de forma eficaz."
+        }
+      }
+    ]
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 overflow-x-hidden max-w-full">
-      {/* Hero Section - Otimizada para SEO */}
-      <section className="py-12 md:py-20 overflow-x-hidden">
-        <div className="container mx-auto px-4 text-center overflow-x-hidden max-w-full">
-          <div className="max-w-4xl mx-auto overflow-x-hidden">
-            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 px-2">
-              Crie Seu <span className="bg-gradient-to-r from-google-blue to-google-green bg-clip-text text-transparent">
-                CV Profissional Online
-              </span> em Moçambique
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto px-2">
-              Rápido, gratuito e adaptado para o mercado de trabalho local. 
-              Em poucos minutos, você terá seu currículo pronto para imprimir ou enviar.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center px-2">
-              <Button 
-                size="lg" 
-                className="bg-google-blue hover:bg-blue-600 text-white px-4 sm:px-8 py-4 sm:py-6 text-base sm:text-lg w-full sm:w-auto"
-                onClick={() => navigate('/como-funciona')}
+    <div className="min-h-screen bg-slate-50 overflow-x-hidden max-w-full">
+      <SEO
+        title="Criar CV Moçambique Online e Grátis | MozVita"
+        description="A principal plataforma para criar seu cv moçambique profissional. Modelos modernos, download de cv moçambique pdf e exemplos reais para o mercado nacional."
+        keywords="cv moçambique, cv moçambique pdf, modelo de cv moçambique, exemplos cv moçambique, cv em inglês moçambique"
+        canonical="/"
+        schemaData={faqSchema}
+      />
+
+      {/* 1. Hero Section */}
+      <section className="relative bg-white pt-16 pb-20 lg:pt-24 lg:pb-28 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <Breadcrumbs />
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="flex-1 text-left">
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-tight mb-6">
+                Criar <span className="text-google-blue">CV Moçambique</span> Profissional Online e Grátis
+              </h1>
+              <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl">
+                Destaque-se no mercado de trabalho com um currículo adaptado às exigências de Moçambique.
+                Rápido, simples e pronto para baixar em PDF.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  size="lg"
+                  className="bg-google-blue hover:bg-blue-600 text-white px-8 h-14 text-lg rounded-xl shadow-lg shadow-blue-200"
+                  onClick={() => navigate('/criar-cv')}
+                >
+                  <FileText className="mr-2 h-5 w-5" />
+                  Criar meu CV Agora
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-slate-200 text-slate-700 hover:bg-slate-50 px-8 h-14 text-lg rounded-xl"
+                  onClick={() => navigate('/exemplos')}
+                >
+                  Ver Modelos
+                </Button>
+              </div>
+              <div className="mt-8 flex items-center gap-4 text-sm text-slate-500">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map(i => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center">
+                      <User className="w-4 h-4" />
+                    </div>
+                  ))}
+                </div>
+                <p>Junte-se a mais de <strong>5.000 profissionais</strong> em Moçambique.</p>
+              </div>
+            </div>
+            <div className="flex-1 relative">
+              <div className="relative z-10 bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 rotate-2 hover:rotate-0 transition-transform duration-500">
+                <img
+                  src="/lovable-uploads/hero-woman.jpg"
+                  alt="MozVita CV - Criar Currículo Profissional em Moçambique"
+                  className="rounded-lg w-full h-auto object-cover shadow-xl"
+                />
+              </div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-blue-50 rounded-full blur-3xl -z-10 opacity-60"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. Benefícios do Mozvita */}
+      <section className="py-20 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Vantagens de usar o Mozvita</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto italic">Otimizado para o mercado moçambicano</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { icon: <Zap className="text-yellow-500" />, title: 'Rápido e Prático', desc: 'Gere seu cv moçambique em menos de 10 minutos.' },
+              { icon: <Globe className="text-blue-500" />, title: 'Padrão Nacional', desc: 'Modelos alinhados com o que os RHs de Moçambique esperam.' },
+              { icon: <Shield className="text-green-500" />, title: '100% Seguro', desc: 'Seus dados protegidos e exportação limpa em PDF.' },
+              { icon: <Star className="text-purple-500" />, title: 'Alta Conversão', desc: 'Aumente suas chances de entrevista em até 60%.' }
+            ].map((b, i) => (
+              <Card key={i} className="border-none shadow-sm hover:shadow-md transition-shadow bg-white rounded-2xl p-2">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-slate-50 rounded-lg flex items-center justify-center mb-4">
+                    {b.icon}
+                  </div>
+                  <CardTitle className="text-xl font-bold">{b.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-slate-600">{b.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Modelos de CV Moçambique */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Modelo de CV Moçambique</h2>
+              <p className="text-slate-600 leading-relaxed mb-4">
+                Nossos designs são criados pensando na clareza e profissionalismo. Cada <strong>modelo de cv moçambique</strong>
+                disponível na plataforma respeita as normas de recrutamento das maiores empresas do país.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Badge variant="secondary" className="bg-slate-100 text-slate-600">Moderno</Badge>
+                <Badge variant="secondary" className="bg-slate-100 text-slate-600">Clássico</Badge>
+                <Badge variant="secondary" className="bg-slate-100 text-slate-600">Criativo</Badge>
+                <Badge variant="secondary" className="bg-slate-100 text-slate-600">ATS Friendly</Badge>
+              </div>
+            </div>
+            <Button
+              variant="link"
+              className="text-google-blue font-bold p-0 flex items-center"
+              onClick={() => navigate('/modelo-cv-mocambique')}
+            >
+              Ver todos os modelos <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 lg:gap-8">
+            {cvTemplates.slice(0, 5).map((template) => (
+              <div
+                key={template.id}
+                className="group relative rounded-xl overflow-hidden border border-slate-100 shadow-sm transition-all duration-500"
               >
-                <FileText className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-                Começar Agora
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-google-blue text-google-blue hover:bg-google-blue hover:text-white px-4 sm:px-8 py-4 sm:py-6 text-base sm:text-lg w-full sm:w-auto"
-                onClick={() => navigate('/exemplos')}
-              >
-                Ver Modelos de CV
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Como Funciona Section */}
-      <section className="py-12 bg-white overflow-x-hidden">
-        <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 px-2">
-              Como funciona o MozVita?
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto px-2">
-              Criar seu CV profissional nunca foi tão simples
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Briefcase className="w-8 h-8 text-google-blue" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">1. Escolha sua área profissional</h3>
-              <p className="text-gray-600 text-sm">Selecione entre dezenas de profissões disponíveis</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <User className="w-8 h-8 text-google-green" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">2. Preencha seus dados</h3>
-              <p className="text-gray-600 text-sm">Insira suas informações pessoais e profissionais</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-yellow-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">3. Revise o conteúdo</h3>
-              <p className="text-gray-600 text-sm">Confira todas as informações do seu CV</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Download className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">4. Baixe em PDF</h3>
-              <p className="text-gray-600 text-sm">Seu currículo estará pronto para impressão</p>
-            </div>
-          </div>
-          <div className="text-center mt-8">
-            <p className="text-lg font-medium text-gray-700">
-              Tudo online, gratuito e com visual profissional.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefícios Section */}
-      <section className="py-12 bg-gray-50 overflow-x-hidden">
-        <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
-          <div className="text-center mb-10">
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 px-2">
-              Por que usar o MozVita?
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto px-2">
-              Descubra os benefícios de usar nossa plataforma para criar um currículo profissional e 
-              aumentar suas chances de sucesso no mercado de trabalho moçambicano.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold">
-                  <Briefcase className="mr-2 h-5 w-5 text-blue-500" />
-                  CVs Adaptados por Área
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Geração de CVs profissionais adaptados à sua área de atuação, destacando as competências certas para cada profissão.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold">
-                  <FileText className="mr-2 h-5 w-5 text-green-500" />
-                  Modelos Modernos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Modelos modernos e prontos para impressão, com design limpo e profissional que impressiona recrutadores.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold">
-                  <Star className="mr-2 h-5 w-5 text-yellow-500" />
-                  Primeiro Emprego
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Ideal para quem busca o primeiro emprego ou deseja atualizar o currículo com foco no mercado moçambicano.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold">
-                  <Zap className="mr-2 h-5 w-5 text-orange-500" />
-                  Geração Rápida
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Geração rápida de PDF com design limpo e organizado, pronto para envio em questão de minutos.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold">
-                  <Shield className="mr-2 h-5 w-5 text-purple-500" />
-                  Otimizado para RH
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  CVs otimizados para recrutadores e plataformas de emprego, seguindo as melhores práticas do mercado.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl font-semibold">
-                  <Clock className="mr-2 h-5 w-5 text-red-500" />
-                  100% Gratuito
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Plataforma completamente gratuita, sem custos ocultos ou limitações para criar seu CV profissional.
-                </CardDescription>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Depoimentos Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Quem já usou o MozVita
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Veja o que nossos usuários estão falando sobre a experiência de criar seus currículos 
-              com o MozVita e como conseguiram suas oportunidades de emprego.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6 relative">
-                <Star className="absolute top-2 right-2 h-4 w-4 text-yellow-400" />
-                <p className="text-gray-700 mb-4">
-                  "Consegui meu primeiro emprego como pedreiro depois de usar o CV gerado pelo MozVita. Foi fácil e rápido."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 mr-4">
-                    <Users className="w-6 h-6 text-gray-500 mx-auto mt-2" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">João</p>
-                    <p className="text-gray-500 text-sm">Maputo</p>
-                  </div>
+                <div className="aspect-[3/4] overflow-hidden">
+                  <img
+                    src={template.previewImage}
+                    alt={template.nome}
+                    className="w-full h-full object-cover transition-transform duration-700"
+                  />
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6 relative">
-                <Star className="absolute top-2 right-2 h-4 w-4 text-yellow-400" />
-                <p className="text-gray-700 mb-4">
-                  "Sou professora e o modelo de currículo ficou muito melhor do que o que eu tinha antes."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 mr-4">
-                    <Users className="w-6 h-6 text-gray-500 mx-auto mt-2" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Elsa</p>
-                    <p className="text-gray-500 text-sm">Beira</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="pt-6 relative">
-                <Star className="absolute top-2 right-2 h-4 w-4 text-yellow-400" />
-                <p className="text-gray-700 mb-4">
-                  "Criei meu CV de enfermeira em menos de 10 minutos. O resultado foi muito profissional!"
-                </p>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-gray-200 mr-4">
-                    <Users className="w-6 h-6 text-gray-500 mx-auto mt-2" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Ana</p>
-                    <p className="text-gray-500 text-sm">Nampula</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Blog/Dicas Section */}
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Dicas para se destacar no mercado
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Artigos e dicas essenciais para melhorar seu currículo e aumentar suas chances de conseguir emprego
+      {/* 4. CV Moçambique PDF */}
+      <section className="py-20 bg-google-blue text-white rounded-[3rem] mx-4 mb-20 overflow-hidden relative">
+        <div className="container mx-auto px-8 relative z-10">
+          <div className="max-w-3xl">
+            <h2 className="text-3xl md:text-5xl font-bold mb-8">Download de CV Moçambique PDF</h2>
+            <p className="text-xl opacity-90 mb-10 leading-relaxed">
+              O formato PDF é o preferido pelos recrutadores em Moçambique. Ele garante que seu layout
+              não se quebre e seja legível em qualquer dispositivo. Gere seu <strong>cv moçambique pdf</strong>
+              rapidamente e esteja pronto para enviar via e-mail ou WhatsApp.
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  Como montar um currículo profissional em Moçambique
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Evite erros comuns e destaque suas habilidades mesmo sem muita experiência. 
-                  Dicas específicas para o mercado moçambicano.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  5 erros que você deve evitar no seu CV
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Erros simples podem eliminar você da seleção. Saiba o que não fazer e 
-                  como criar um currículo que impressiona.
-                </CardDescription>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  Currículo para primeiro emprego: por onde começar?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-500">
-                  Veja como apresentar suas qualidades mesmo sem experiência profissional 
-                  e conquistar sua primeira oportunidade.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <div className="flex flex-wrap gap-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-6 h-6" />
+                </div>
+                <span>Leve e compacto</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <Check className="w-6 h-6" />
+                </div>
+                <span>Compatibilidade ATS</span>
+              </div>
+            </div>
+            <Button
+              size="lg"
+              className="mt-12 bg-white text-google-blue hover:bg-slate-100 px-10 h-14 text-lg rounded-xl font-bold"
+              onClick={() => navigate('/cv-mocambique-pdf')}
+            >
+              Saiba mais sobre PDF
+            </Button>
           </div>
         </div>
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-[-20deg] translate-x-1/2"></div>
       </section>
 
-      {/* Áreas Profissionais Section */}
-      <section className="py-12 bg-white">
+      {/* 5. Exemplos de CV */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Crie seu CV por área profissional
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Escolha sua área de atuação e crie um CV personalizado com as competências 
-              e habilidades específicas da sua profissão
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Exemplos CV Moçambique por Profissão</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">
+              Inspire-se em nossos <strong>exemplos cv moçambique</strong> reais e saiba o que destacar no seu setor.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {professionAreas.map((area, index) => (
               <Button
                 key={index}
                 variant="outline"
-                className="h-12 text-xs sm:text-sm hover:bg-google-blue hover:text-white transition-colors"
-                onClick={() => navigate('/area-profissional')}
+                className="h-16 text-slate-700 hover:border-google-blue hover:text-google-blue transition-all bg-white rounded-xl shadow-sm border-slate-100"
+                onClick={() => navigate(area.path)}
               >
-                CV para {area}
+                CV para {area.name}
               </Button>
             ))}
           </div>
-          <div className="text-center">
+          <div className="mt-12 text-center">
             <Button
-              variant="default"
-              className="bg-google-green hover:bg-green-600 text-white px-8 py-3"
-              onClick={() => navigate('/area-profissional')}
+              variant="link"
+              className="text-google-blue font-bold text-lg"
+              onClick={() => navigate('/exemplos-cv-mocambique')}
             >
-              Ver todas as áreas
+              Ver todos os exemplos <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Comunidade WhatsApp Section */}
-      <section className="py-12 bg-gradient-to-r from-green-50 to-emerald-50">
+      {/* 6. CV em Inglês Moçambique */}
+      <section className="py-20 bg-slate-900 text-white">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-              <MessageCircle className="w-8 h-8 text-white" />
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="flex-1">
+              <div className="inline-block bg-blue-500/20 text-blue-400 px-4 py-1 rounded-full text-sm font-bold mb-6">
+                International Careers
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold mb-8">CV em Inglês Moçambique</h2>
+              <p className="text-lg opacity-80 mb-10 leading-relaxed">
+                Multinacionais de Oil & Gas e ONGs internacionais em Moçambique exigem currículos em inglês.
+                Oferecemos as ferramentas para você traduzir sua experiência e brilhar em processos seletivos globais.
+              </p>
+              <ul className="space-y-4 mb-10">
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="text-blue-500 w-6 h-6" />
+                  <span>Vocabulário corporativo adequado</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <CheckCircle className="text-blue-500 w-6 h-6" />
+                  <span>Dicas para multinacionais (Total, Eni, Exxon)</span>
+                </li>
+              </ul>
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 h-12 text-lg rounded-xl"
+                onClick={() => navigate('/cv-em-ingles-mocambique')}
+              >
+                Guia de CV em Inglês
+              </Button>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              Nossa Comunidade no WhatsApp
-            </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
-              Junte-se à maior comunidade de profissionais de Moçambique! Receba dicas exclusivas, 
-              oportunidades de emprego, suporte técnico e muito mais diretamente no seu WhatsApp.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-                onClick={() => navigate('/comunidade')}
-              >
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Conhecer Nossa Comunidade
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white px-8 py-6 text-lg rounded-full transition-all duration-300"
-                onClick={() => window.open('https://chat.whatsapp.com/Fr5JP6FK5352kVOdoaU2XP', '_blank')}
-              >
-                <Users className="mr-2 h-5 w-5" />
-                Entrar Direto no WhatsApp
-              </Button>
+            <div className="flex-1 bg-slate-800 p-8 rounded-[2rem] border border-slate-700">
+              <div className="space-y-4 opacity-40 select-none pointer-events-none">
+                <div className="h-4 bg-slate-600 rounded w-1/4"></div>
+                <div className="h-8 bg-slate-600 rounded w-3/4"></div>
+                <div className="h-4 bg-slate-600 rounded w-full"></div>
+                <div className="h-4 bg-slate-600 rounded w-full"></div>
+                <div className="h-32 bg-slate-600 rounded w-full mt-8"></div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-12 bg-gray-50">
+      {/* 7. FAQ Estruturado */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              Perguntas frequentes
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Tire suas dúvidas sobre como criar um CV profissional com o MozVita
-            </p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Perguntas Frequentes</h2>
+            <p className="text-slate-600">Tudo o que você precisa saber sobre o seu <strong>cv moçambique</strong>.</p>
           </div>
           <div className="max-w-3xl mx-auto">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-left">
-                  Como criar um CV profissional em Moçambique?
+                <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
+                  Como criar um cv moçambique profissional?
                 </AccordionTrigger>
-                <AccordionContent>
-                  Com o MozVita, você escolhe sua área profissional e preenche um formulário adaptado. 
-                  O sistema gera automaticamente seu currículo com o layout e conteúdo adequados 
-                  para o mercado de trabalho moçambicano.
+                <AccordionContent className="text-slate-600 pb-6">
+                  Para criar um <strong>cv moçambique</strong> profissional, basta escolher um modelo na nossa plataforma,
+                  preencher seus dados e baixar o arquivo em PDF. Todo o processo é adaptado ao mercado local.
                 </AccordionContent>
               </AccordionItem>
-              
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-left">
-                  Posso incluir minha foto no currículo?
+                <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
+                  O Mozvita é gratuito?
                 </AccordionTrigger>
-                <AccordionContent>
-                  Sim. O gerador permite que você envie sua foto e ela será incluída no PDF final 
-                  de forma profissional e adequada ao layout escolhido.
+                <AccordionContent className="text-slate-600 pb-6">
+                  Sim, o Mozvita permite criar e baixar seu <strong>cv moçambique</strong> de forma totalmente gratuita.
+                  Nossa missão é facilitar o acesso ao emprego para todos os moçambicanos.
                 </AccordionContent>
               </AccordionItem>
-              
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-left">
-                  Preciso pagar para gerar meu currículo?
+                <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
+                  Posso baixar o cv moçambique pdf no telemóvel?
                 </AccordionTrigger>
-                <AccordionContent>
-                  Não. O MozVita é completamente gratuito e acessível a todos. Você pode criar 
-                  e baixar quantos CVs quiser sem nenhum custo.
+                <AccordionContent className="text-slate-600 pb-6">
+                  Com certeza! Nossa plataforma é 100% responsiva (mobile-first), o que significa que você pode fazer tudo
+                  pelo seu smartphone e baixar seu <strong>cv moçambique pdf</strong> instantaneamente.
                 </AccordionContent>
               </AccordionItem>
-              
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-left">
-                  Que formato de arquivo posso baixar?
+                <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
+                  Como fazer um cv em inglês moçambique?
                 </AccordionTrigger>
-                <AccordionContent>
-                  Seu currículo é gerado em formato PDF, pronto para impressão ou envio digital. 
-                  O PDF mantém a formatação profissional em qualquer dispositivo.
+                <AccordionContent className="text-slate-600 pb-6">
+                  Aceda à nossa página dedicada de <strong>cv em inglês moçambique</strong>. Lá você encontrará dicas de tradução
+                  e termos específicos usados por multinacionais no país.
                 </AccordionContent>
               </AccordionItem>
-              
               <AccordionItem value="item-5">
-                <AccordionTrigger className="text-left">
-                  Posso editar meu CV depois de criado?
+                <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
+                  Quais são os melhores modelos de cv moçambique?
                 </AccordionTrigger>
-                <AccordionContent>
-                  Você pode criar novos CVs a qualquer momento com informações atualizadas. 
-                  Recomendamos manter seus dados sempre atualizados para melhores resultados.
+                <AccordionContent className="text-slate-600 pb-6">
+                  Oferecemos uma variedade de <strong>modelos de cv moçambique</strong>. O "melhor" depende do seu cargo,
+                  mas os modelos limpos e organizados são os mais valorizados pelos RHs nacionais.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-6">
+                <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
+                  Existem exemplos cv moçambique para diferentes áreas?
+                </AccordionTrigger>
+                <AccordionContent className="text-slate-600 pb-6">
+                  Sim, temos uma vasta biblioteca de <strong>exemplos cv moçambique</strong> para professores, motoristas,
+                  contadores e muitas outras profissões.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -474,63 +402,75 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 bg-white">
+      {/* 8. Conteúdo Educativo (Mini Artigo) */}
+      <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <p className="text-4xl font-bold text-google-blue mb-2">
-                5000+
+          <div className="max-w-4xl mx-auto bg-white p-10 md:p-16 rounded-[2rem] shadow-sm border border-slate-100">
+            <h2 className="text-3xl font-bold text-slate-900 mb-8">Importância do CV Moçambique em 2026</h2>
+            <div className="prose prose-slate prose-lg max-w-none">
+              <p>
+                Em 2026, o mercado de trabalho em Moçambique está a passar por uma transformação digital acelerada.
+                As empresas agora utilizam sistemas de triagem automática e esperam currículos mais objetivos e focados em competências específicas.
               </p>
-              <p className="text-gray-600">
-                Currículos Criados
+              <p>
+                Ter um <strong>cv moçambique</strong> bem feito não é apenas sobre estética; é sobre comunicação estratégica.
+                Saber como estruturar suas experiências em Moçambique, destacar certificações locais e demonstrar
+                domínio de línguas além do português, como o inglês e línguas nacionais, são diferenciais imensos.
+              </p>
+              <p>
+                Nossa plataforma foca em consolidar a autoridade local. Cada link interno e cada <strong>modelo de cv moçambique</strong>
+                foi desenhado por especialistas que entendem a realidade de quem procura emprego em Maputo, Beira, Nampula e Tete.
               </p>
             </div>
-
-            <div>
-              <p className="text-4xl font-bold text-google-green mb-2">
-                98%
-              </p>
-              <p className="text-gray-600">
-                Satisfação dos Usuários
-              </p>
-            </div>
-
-            <div>
-              <p className="text-4xl font-bold text-yellow-500 mb-2">
-                25+
-              </p>
-              <p className="text-gray-600">
-                Áreas Profissionais
-              </p>
+            <div className="mt-10 pt-8 border-t border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Search className="text-google-blue w-5 h-5" />
+                <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">SEO Authority Hub</span>
+              </div>
+              <Button variant="link" onClick={() => navigate('/blog/guia-cv-2026')}>Ler artigo completo</Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-100 to-green-100">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Comece agora a criar o seu currículo de sucesso!
+      {/* 9. CTA Final */}
+      <section className="py-24 bg-gradient-to-br from-google-blue via-blue-700 to-slate-900 text-white text-center">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-6xl font-extrabold mb-8">
+            Dê o próximo passo na sua carreira hoje
           </h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
-            Não perca mais tempo, crie um currículo profissional e destaque-se no mercado de trabalho moçambicano. 
-            Seu próximo emprego está a um clique de distância.
+          <p className="text-xl opacity-90 mb-12 max-w-2xl mx-auto">
+            Não perca mais tempo. Crie seu <strong>cv moçambique</strong> agora e destaque-se para os melhores empregadores do país.
           </p>
-          <Button 
-            size="lg" 
-            className="bg-google-blue hover:bg-blue-600 text-white px-8 py-6 text-lg"
-            onClick={() => navigate('/exemplos')}
-          >
-            <CheckCircle className="mr-2 h-5 w-5" />
-            Ver Modelos de CV
-          </Button>
+          <div className="flex flex-col sm:flex-row justify-center gap-6">
+            <Button
+              size="lg"
+              className="bg-white text-google-blue hover:bg-slate-100 px-12 h-16 text-xl rounded-2xl font-bold shadow-2xl"
+              onClick={() => navigate('/criar-cv')}
+            >
+              Criar CV Grátis Agora
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10 px-12 h-16 text-xl rounded-2xl"
+              onClick={() => navigate('/comunidade')}
+            >
+              Comunidade WhatsApp
+            </Button>
+          </div>
         </div>
       </section>
-      
+
     </div>
   );
 };
+
+// Helper components
+const Badge = ({ children, variant, className }: { children: React.ReactNode, variant?: string, className?: string }) => (
+  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${className}`}>
+    {children}
+  </span>
+);
 
 export default Index;

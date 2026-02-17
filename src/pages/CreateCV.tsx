@@ -1,201 +1,219 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, User, GraduationCap, Briefcase, Award, FileText, Camera, Palette, Home } from 'lucide-react';
+import {
+  ArrowLeft, Settings2, Download, Eye, Sparkles, PenLine
+} from 'lucide-react';
 import { useCVData } from '@/hooks/useCVData';
-import CVCreationWizard from '@/components/cv/CVCreationWizard';
-import PersonalDataForm from '@/components/forms/PersonalDataForm';
-import EducationForm from '@/components/forms/EducationForm';
-import ExperienceForm from '@/components/forms/ExperienceForm';
-import SkillsForm from '@/components/forms/SkillsForm';
-import AboutForm from '@/components/forms/AboutForm';
-import ColorPaletteForm from '@/components/forms/ColorPaletteForm';
-import PhotoUploadForm from '@/components/forms/PhotoUploadForm';
+import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
+import AdvancedCVEditor from '@/components/cv/AdvancedCVEditor';
 import { getDefaultTemplate } from '@/data/cvTemplates';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const CreateCV = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isMobile = useIsMobile();
   const templateData = location.state?.templateData;
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
-  const fromProfessionalArea = location.state?.fromProfessionalArea;
-  
-  const [currentStep, setCurrentStep] = useState(1);
-  const { cvData, updateCVData } = useCVData(templateData);
 
-  const steps = [
-    { id: 1, title: 'Dados Pessoais', icon: <User className="w-4 h-4 sm:w-5 sm:h-5" />, component: PersonalDataForm },
-    { id: 2, title: 'Foto (Opcional)', icon: <Camera className="w-4 h-4 sm:w-5 sm:h-5" />, component: PhotoUploadForm },
-    { id: 3, title: 'Sobre Mim', icon: <FileText className="w-4 h-4 sm:w-5 sm:h-5" />, component: AboutForm },
-    { id: 4, title: 'Formação', icon: <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />, component: EducationForm },
-    { id: 5, title: 'Experiência', icon: <Briefcase className="w-4 h-4 sm:w-5 sm:h-5" />, component: ExperienceForm },
-    { id: 6, title: 'Habilidades', icon: <Award className="w-4 h-4 sm:w-5 sm:h-5" />, component: SkillsForm },
-    { id: 7, title: 'Cores do CV', icon: <Palette className="w-4 h-4 sm:w-5 sm:h-5" />, component: ColorPaletteForm }
-  ];
+  const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
+  const {
+    cvData,
+    updateCVData,
+    reorderSections,
+    toggleSectionVisibility,
+    resetLayoutConfig,
+    layoutConfig
+  } = useCVData(templateData);
 
-  // Validação de campos obrigatórios por etapa
-  const validateStep = (step) => {
-    switch (step) {
-      case 1: // Dados Pessoais
-        const personalData = cvData.personalData;
-        return !!(
-          personalData?.fullName?.trim() && 
-          personalData?.profession?.trim() && 
-          personalData?.email?.trim() && 
-          personalData?.phone?.trim() && 
-          personalData?.address?.trim()
-        );
-      case 2: // Foto (Opcional)
-        return true;
-      case 3: // Sobre Mim (Opcional)
-        return true;
-      case 4: // Formação (Opcional)
-        return true;
-      case 5: // Experiência (Opcional)
-        return true;
-      case 6: // Habilidades (Opcional)
-        return true;
-      case 7: // Cores (Opcional)
-        return true;
-      default:
-        return true;
-    }
+  const goToPreview = () => {
+    navigate('/preview', {
+      state: {
+        cvData,
+        selectedTemplate: selectedTemplate,
+        userPhoto: cvData.personalData?.photo
+      }
+    });
   };
 
-  const handleNext = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      navigate('/preview', { 
-        state: { 
-          cvData, 
-          selectedTemplate: selectedTemplate,
-          userPhoto: cvData.personalData?.photo
-        }
-      });
+  useEffect(() => {
+    if (!selectedTemplate && !location.state?.fromExamples) {
+      navigate('/exemplos');
     }
-  };
+  }, [selectedTemplate, location.state, navigate]);
 
-  const handlePrevious = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const handleBackToStart = () => {
-    if (fromProfessionalArea) {
-      navigate('/area-profissional');
-    } else {
-      navigate('/');
-    }
-  };
-
-  const isStepValid = validateStep(currentStep);
-  const CurrentStepComponent = steps[currentStep - 1]?.component;
-
-  const getValidationMessage = () => {
-    if (currentStep === 1 && !isStepValid) {
-      const missing = [];
-      const personalData = cvData.personalData;
-      if (!personalData?.fullName?.trim()) missing.push('Nome Completo');
-      if (!personalData?.profession?.trim()) missing.push('Profissão');
-      if (!personalData?.email?.trim()) missing.push('Email');
-      if (!personalData?.phone?.trim()) missing.push('Telefone');
-      if (!personalData?.address?.trim()) missing.push('Endereço');
-      
-      return `Preencha os campos obrigatórios: ${missing.join(', ')}`;
-    }
+  if (!selectedTemplate && !location.state?.fromExamples) {
     return null;
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <div className="mb-6 flex items-center justify-between">
-            <Button
-              variant="outline"
-              onClick={handleBackToStart}
-              className="flex items-center gap-2"
-            >
-              {fromProfessionalArea ? (
-                <>
-                  <ArrowLeft className="w-4 h-4" />
-                  Voltar à Área Profissional
-                </>
-              ) : (
-                <>
-                  <Home className="w-4 h-4" />
-                  Voltar ao Início
-                </>
-              )}
-            </Button>
-            
-            <h2 className="text-xl font-semibold text-gray-800">
-              Criar Meu CV
-            </h2>
+    <div className="min-h-screen bg-slate-100 flex flex-col h-screen overflow-hidden">
+      {/* Compact Header */}
+      <header className={cn(
+        "bg-white border-b flex items-center justify-between z-20 shadow-sm",
+        isMobile ? "px-3 py-2" : "px-6 py-3"
+      )}>
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/exemplos')} className="p-2">
+            <ArrowLeft className="h-4 w-4" />
+            <span className="hidden sm:inline ml-2">Mudar Modelo</span>
+          </Button>
+          {!isMobile && (
+            <>
+              <div className="h-6 w-px bg-slate-200" />
+              <h2 className="font-bold flex items-center gap-2">
+                <Settings2 className="w-5 h-5 text-google-blue" />
+                Editor de CV Profissional
+              </h2>
+            </>
+          )}
+        </div>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className="hidden sm:flex"
+            onClick={goToPreview}
+          >
+            <Eye className="w-4 h-4 mr-2" /> Visualizar
+          </Button>
+          <Button
+            size="sm"
+            className="bg-google-blue hover:bg-blue-600"
+            onClick={goToPreview}
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline ml-2 text-white">Pronto / Baixar CV</span>
+          </Button>
+        </div>
+      </header>
+
+      <main className="flex-1 flex overflow-hidden relative">
+        {/* Left Side: Controls/Forms — visible on desktop always, on mobile only when mobileView='editor' */}
+        <aside className={cn(
+          "bg-white border-r flex flex-col shadow-xl z-10 transition-all duration-300",
+          isMobile
+            ? cn("w-full absolute inset-0", mobileView !== 'editor' && "hidden")
+            : "w-[400px]"
+        )}>
+          <div className={cn(
+            "flex-1 overflow-y-auto",
+            isMobile ? "p-4 pb-24" : "p-6"
+          )}>
+            <div className="space-y-4 sm:space-y-6">
+              <AdvancedCVEditor
+                layoutConfig={layoutConfig}
+                onReorderSections={reorderSections}
+                onToggleVisibility={toggleSectionVisibility}
+                onReset={resetLayoutConfig}
+                onSave={() => {
+                  // The data is automatically saved in state/hook. 
+                  // We can show a feedback message or just rely on the automatic preview.
+                }}
+                isDirty={false}
+                colors={cvData.colorPalette || selectedTemplate?.colorPalette}
+                fonts={cvData.fonts || selectedTemplate?.fonts}
+                onUpdateStyle={(type, value) => {
+                  if (type === 'colors') {
+                    updateCVData({ colorPalette: value });
+                  } else if (type === 'fonts') {
+                    updateCVData({ fonts: value });
+                  }
+                }}
+              />
+
+              <div className="bg-emerald-50 p-3 sm:p-4 rounded-xl border border-emerald-100">
+                <h4 className="font-bold text-emerald-900 flex items-center gap-2 mb-1 text-sm">
+                  <Sparkles className="w-4 h-4" /> Dica Pro
+                </h4>
+                <p className="text-xs sm:text-sm text-emerald-700">
+                  {isMobile
+                    ? 'Toque em "Preview" abaixo para ver e editar o CV diretamente clicando nos textos!'
+                    : 'Você pode clicar em qualquer texto do currículo ao lado para editá-lo diretamente!'
+                  }
+                </p>
+              </div>
+            </div>
           </div>
 
-          <CVCreationWizard 
-            steps={steps}
-            currentStep={currentStep}
-            onStepChange={setCurrentStep}
-          />
-
-          <Card className="p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8 shadow-lg border-0">
-            {CurrentStepComponent && (
-              <CurrentStepComponent
-                data={cvData}
-                onUpdate={updateCVData}
-              />
-            )}
-          </Card>
-
-          {/* Mensagem de validação */}
-          {!isStepValid && getValidationMessage() && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-700">{getValidationMessage()}</p>
+          {!isMobile && (
+            <div className="p-4 border-t bg-slate-50 text-center text-[10px] text-slate-400">
+              Powered by MozVita - Seu Sucesso Profissional
             </div>
           )}
+        </aside>
 
-          {/* Navigation Buttons */}
-          <div className="flex justify-between items-center">
-            <Button
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={currentStep === 1}
-              className="flex items-center text-sm sm:text-base px-3 sm:px-4 py-2"
-              size="sm"
+        {/* Right Side: Live Preview — visible on desktop always, on mobile only when mobileView='preview' */}
+        <section className={cn(
+          "flex-1 bg-slate-200/50 overflow-y-auto items-start justify-center",
+          isMobile
+            ? cn("w-full absolute inset-0", mobileView !== 'preview' ? "hidden" : "flex pb-20")
+            : "hidden lg:flex p-8"
+        )}>
+          <div className={cn(
+            "bg-white shadow-2xl origin-top transition-transform duration-500",
+            isMobile
+              ? "w-full min-h-full"
+              : "w-[210mm] cv-a4-preview scale-[0.85] xl:scale-100"
+          )}>
+            <CVLayoutRenderer
+              data={cvData}
+              template={selectedTemplate}
+              layoutConfig={layoutConfig}
+              isAdvancedMode={true}
+              onDataChange={updateCVData}
+              isMobile={isMobile}
+            />
+          </div>
+        </section>
+      </main>
+
+      {/* Mobile Bottom Tab Bar — fixed at bottom */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 z-30 bg-white border-t shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
+          <div className="flex">
+            <button
+              onClick={() => setMobileView('editor')}
+              className={cn(
+                "flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors min-h-[56px]",
+                mobileView === 'editor'
+                  ? "text-google-blue bg-blue-50 font-semibold"
+                  : "text-slate-500"
+              )}
             >
-              <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Anterior</span>
-              <span className="sm:hidden">Ant.</span>
-            </Button>
-
-            <div className="text-xs sm:text-sm text-gray-500 font-medium">
-              {currentStep} / {steps.length}
-            </div>
-
-            <Button
-              onClick={handleNext}
-              disabled={!isStepValid}
-              className="bg-google-blue hover:bg-blue-600 text-white flex items-center text-sm sm:text-base px-3 sm:px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              size="sm"
+              <PenLine className="w-5 h-5" />
+              <span className="text-xs">Editor</span>
+            </button>
+            <div className="w-px bg-slate-200" />
+            <button
+              onClick={() => setMobileView('preview')}
+              className={cn(
+                "flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors min-h-[56px]",
+                mobileView === 'preview'
+                  ? "text-google-blue bg-blue-50 font-semibold"
+                  : "text-slate-500"
+              )}
             >
-              <span className="hidden sm:inline">
-                {currentStep === steps.length ? 'Visualizar CV' : 'Próximo'}
-              </span>
-              <span className="sm:hidden">
-                {currentStep === steps.length ? 'Ver CV' : 'Próx.'}
-              </span>
-              <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" />
-            </Button>
+              <Eye className="w-5 h-5" />
+              <span className="text-xs">Preview</span>
+            </button>
+            <div className="w-px bg-slate-200" />
+            <button
+              onClick={goToPreview}
+              className="flex-1 flex flex-col items-center justify-center py-3 gap-1 text-emerald-600 min-h-[56px]"
+            >
+              <Download className="w-5 h-5" />
+              <span className="text-xs font-semibold">Pronto</span>
+            </button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
