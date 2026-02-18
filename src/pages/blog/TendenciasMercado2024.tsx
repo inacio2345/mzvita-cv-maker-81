@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const TendenciasMercado2024 = () => {
@@ -27,7 +28,7 @@ const TendenciasMercado2024 = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Oportunidades em Cabo Delgado e Tete:</h3>
       <p className="mb-4 text-gray-700">
-        Há uma procura crescente por técnicos certificados internacionalmente. Certificações como NEBOSH ou normas ISO são diferenciais que colocam o seu <strong>cv moçambique</strong> no topo da pilha. Saiba mais sobre como <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">adaptar seu currículo para a área de minas</a>.
+        Há uma procura crescente por técnicos certificados internacionalmente. Certificações como NEBOSH ou normas ISO são diferenciais que colocam o seu <strong>cv moçambique</strong> no topo da pilha. Saiba mais sobre como <Link to="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">adaptar seu currículo para a área de minas</Link>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Trabalho Remoto e Freelancing Local</h2>
@@ -36,7 +37,7 @@ const TendenciasMercado2024 = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Como se Preparar:</h3>
       <p className="mb-4 text-gray-700">
-        Neste cenário, o seu <strong>curriculum vitae moçambique</strong> deve destacar competências de gestão de tempo e proatividade. O domínio do Inglês tornou-se, finalmente, uma competência obrigatória e não apenas um "extra". Veja também nossas dicas para <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">currículos digitais em 2026</a>.
+        Neste cenário, o seu <strong>curriculum vitae moçambique</strong> deve destacar competências de gestão de tempo e proatividade. O domínio do Inglês tornou-se, finalmente, uma competência obrigatória e não apenas um "extra". Veja também nossas dicas para <Link to="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">currículos digitais em 2026</Link>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Soft Skills: O que os Recrutadores Realmente Querem</h2>
@@ -56,7 +57,7 @@ const TendenciasMercado2024 = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: O Futuro Pertence aos Preparados</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        O mercado moçambicano não é estático. Ele recompensa quem se informa e se adapta. Use este guia de tendências para ajustar o seu <strong>curriculum vitae moçambique</strong> e garantir que você está a comunicar as competências que as empresas realmente precisam hoje. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</a> e mantenha o foco na atualização contínua.
+        O mercado moçambicano não é estático. Ele recompensa quem se informa e se adapta. Use este guia de tendências para ajustar o seu <strong>curriculum vitae moçambique</strong> e garantir que você está a comunicar as competências que as empresas realmente precisam hoje. Evite os <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</Link> e mantenha o foco na atualização contínua.
       </p>
 
       <div className="bg-google-blue border-l-8 border-white p-8 rounded-lg shadow-lg mb-10 text-white">
@@ -70,21 +71,21 @@ const TendenciasMercado2024 = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Guia: Como Criar um CV Profissional Imbatível
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Aprenda a estruturar seu percurso de forma vencedora.</p>
           </li>
           <li>
-            <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Primeiro Emprego: Estratégias para Jovens Moçambicanos
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Dicas práticas para superar a falta de experiência no papel.</p>
           </li>
           <li>
-            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Modelos de CV Moçambique - Download Grátis
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Comece hoje mesmo a usar os melhores templates do mercado.</p>
           </li>
         </ul>
@@ -94,21 +95,21 @@ const TendenciasMercado2024 = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-3 text-gray-700">
           <li>
-            <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-medium">
+            <Link to="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-medium">
               Como adaptar seu CV para diferentes áreas profissionais
-            </a>
+            </Link>
             <p className="text-sm text-gray-600 mt-1">Personalize seu currículo para destacar competências específicas de cada área.</p>
           </li>
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
+            <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
               Como criar um CV profissional em Moçambique
-            </a>
+            </Link>
             <p className="text-sm text-gray-600 mt-1">Estrutura completa e dicas específicas para o mercado moçambicano.</p>
           </li>
           <li>
-            <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-medium">
+            <Link to="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline font-medium">
               Primeiro emprego: como montar um CV sem experiência
-            </a>
+            </Link>
             <p className="text-sm text-gray-600 mt-1">Dicas para quem está começando a carreira profissional.</p>
           </li>
         </ul>
@@ -140,9 +141,9 @@ const TendenciasMercado2024 = () => {
   ];
 
   const relatedPosts = [
-    "Como adaptar seu CV para diferentes áreas profissionais",
-    "Como criar um CV profissional em Moçambique",
-    "Primeiro emprego: como montar um CV sem experiência"
+    { title: "Como adaptar seu CV para diferentes áreas profissionais", slug: "adaptar-cv-por-area" },
+    { title: "Como criar um CV profissional em Moçambique", slug: "cv-profissional-mocambique" },
+    { title: "Primeiro emprego: como montar um CV sem experiência", slug: "cv-sem-experiencia" }
   ];
 
   return (
@@ -156,6 +157,7 @@ const TendenciasMercado2024 = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      slug="tendencias-mercado-2024"
       featuredImage="/blog/tendencias-2024.jpg"
       contentImages={[
         "/lovable-uploads/df21168d-47b5-45a5-b304-135446a8553a.png"

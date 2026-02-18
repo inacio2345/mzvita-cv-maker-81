@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const CVSemExperiencia = () => {
@@ -31,7 +32,7 @@ const CVSemExperiencia = () => {
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Estágios e Práticas Profissionais</h3>
       <p className="mb-4 text-gray-700">
-        Mesmo que o estágio não tenha sido remunerado, ele é experiência real. Se você está seguindo as <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</a>, sabe que demonstrar aprendizado prático é fundamental.
+        Mesmo que o estágio não tenha sido remunerado, ele é experiência real. Se você está seguindo as <Link to="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</Link>, sabe que demonstrar aprendizado prático é fundamental.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Competências Técnicas (Hard Skills) vs. Comportamentais (Soft Skills)</h2>
@@ -52,7 +53,7 @@ const CVSemExperiencia = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Dicas Finais para Conquistar a Primeira Entrevista</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Não se esqueça de revisar os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que eliminam candidatos</a>. No primeiro emprego, o nível de atenção aos detalhes no seu <strong>cv moçambique</strong> diz muito sobre como você será como funcionário. Use fontes profissionais e salve sempre em PDF para garantir que o formato não mude.
+        Não se esqueça de revisar os <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que eliminam candidatos</Link>. No primeiro emprego, o nível de atenção aos detalhes no seu <strong>cv moçambique</strong> diz muito sobre como você será como funcionário. Use fontes profissionais e salve sempre em PDF para garantir que o formato não mude.
       </p>
 
       <div className="bg-google-blue/10 border-l-4 border-google-blue p-6 rounded-r-lg mb-8">
@@ -66,21 +67,21 @@ const CVSemExperiencia = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Guia Completo: CV Profissional Moçambique
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Aprenda a estruturar seu currículo como um especialista do mercado local.</p>
           </li>
           <li>
-            <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Devo usar Foto no CV?
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Entenda as normas e preferências dos recrutadores moçambicanos sobre imagens.</p>
           </li>
           <li>
-            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Modelos de CV em Moçambique (PDF)
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Baixe modelos prontos e otimizados para qualquer área profissional.</p>
           </li>
         </ul>
@@ -112,9 +113,9 @@ const CVSemExperiencia = () => {
   ];
 
   const relatedPosts = [
-    "Como criar um CV profissional em Moçambique",
-    "5 erros comuns que você deve evitar no seu CV",
-    "A importância da foto no currículo moçambicano"
+    { title: "Como criar um CV profissional em Moçambique", slug: "cv-profissional-mocambique" },
+    { title: "5 erros comuns que você deve evitar no seu CV", slug: "erros-comuns" },
+    { title: "A importância da foto no currículo moçambicano", slug: "foto-no-curriculo" }
   ];
 
   return (
@@ -128,6 +129,7 @@ const CVSemExperiencia = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      slug="cv-sem-experiencia"
       featuredImage="/blog/primeiro-emprego.jpg"
       contentImages={[
         "/lovable-uploads/7b168937-52b9-4d8c-93e7-dd138aa37786.png"

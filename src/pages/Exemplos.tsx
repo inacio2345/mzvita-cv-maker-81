@@ -59,17 +59,6 @@ const Exemplos = () => {
       category: "Saúde",
       features: ["Minimalista", "Preto e branco", "Sem foto", "Profissional"]
     },
-    {
-      id: 5,
-      templateId: "cv-sidebar-dark",
-      title: "Sidebar Escura",
-      description: "Sidebar com fundo escuro e foto circular. Design sofisticado e moderno.",
-      image: "/lovable-uploads/template-05.jpg",
-      rating: 5,
-      downloads: 1750,
-      category: "Informática",
-      features: ["Sidebar escura", "Foto circular", "Contraste alto", "Moderno"]
-    }
   ];
 
   const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Design", "Educação", "Informática"];

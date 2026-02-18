@@ -1,12 +1,11 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, User, ArrowLeft } from 'lucide-react';
+import { Calendar, Clock, User, ArrowLeft, Facebook, Linkedin, MessageCircle, Home, ChevronRight } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
-import Footer from '@/components/ui/footer';
 import AdSpace from '@/components/ads/AdSpace';
 import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
 import SEO from '@/components/SEO';
@@ -25,9 +24,10 @@ interface BlogPostProps {
   category: string;
   content: React.ReactNode;
   faqs: FAQ[];
-  relatedPosts?: string[];
+  relatedPosts?: { title: string; slug: string }[];
   featuredImage?: string;
   contentImages?: string[];
+  slug: string;
 }
 
 const BlogPost = ({
@@ -41,11 +41,75 @@ const BlogPost = ({
   faqs,
   relatedPosts = [],
   featuredImage,
-  contentImages = []
+  contentImages = [],
+  slug
 }: BlogPostProps) => {
   const navigate = useNavigate();
+  const siteUrl = 'https://www.mozvita.online';
+  const imageUrl = featuredImage ? (featuredImage.startsWith('http') ? featuredImage : `${siteUrl}${featuredImage}`) : `${siteUrl}/og-image.png`;
+  const postUrl = `/blog/${slug}`;
+  const fullPostUrl = `${siteUrl}${postUrl}`;
 
-  // Script para anúncio no meio do blog
+  // State for reading progress
+  const [readingProgress, setReadingProgress] = useState(0);
+
+  useEffect(() => {
+    const updateReadingProgress = () => {
+      const currentScroll = window.scrollY;
+      const scrollHeight = document.body.scrollHeight - window.innerHeight;
+      if (scrollHeight) {
+        setReadingProgress(Number((currentScroll / scrollHeight).toFixed(2)) * 100);
+      }
+    };
+
+    window.addEventListener('scroll', updateReadingProgress);
+    return () => window.removeEventListener('scroll', updateReadingProgress);
+  }, []);
+
+  const shareOnWhatsApp = () => {
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(title + ' - ' + fullPostUrl)}`, '_blank');
+  };
+
+  const shareOnFacebook = () => {
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fullPostUrl)}`, '_blank');
+  };
+
+  const shareOnLinkedIn = () => {
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(fullPostUrl)}`, '_blank');
+  };
+
+  // Schema.org Structured Data
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": title,
+    "image": [imageUrl],
+    "datePublished": date,
+    "dateModified": date,
+    "author": [{
+      "@type": "Person",
+      "name": author,
+      "url": "https://www.mozvita.online/sobre"
+    }],
+    "datePublished": date,
+    "dateModified": date,
+    "articleSection": category,
+    "publisher": {
+      "@type": "Organization",
+      "name": "MozVita CV Maker",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.mozvita.online/logo.png"
+      }
+    },
+    "description": metaDescription,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `${siteUrl}${postUrl}`
+    }
+  };
+
+  // ... (Ads scripts omitted for brevity, keeping existing) ...
   const blogInlineAdScript = `
     <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
     <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9"></div>
@@ -117,13 +181,45 @@ const BlogPost = ({
       <SEO
         title={`${title} | MozVita Blog`}
         description={metaDescription}
-        ogImage={featuredImage}
+        ogImage={imageUrl}
         ogType="article"
+        schemaData={schemaData}
+        canonical={postUrl}
       />
+
+      {/* Reading Progress Bar */}
+      <div className="fixed top-0 left-0 h-1 bg-blue-600 z-50 transition-all duration-300" style={{ width: `${readingProgress}%` }} />
+
       <AppHeader title="Blog MozVita" />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+
+          {/* Breadcrumbs */}
+          <nav className="flex items-center text-sm text-gray-500 mb-6 overflow-x-auto whitespace-nowrap pb-2">
+            <Link to="/" className="hover:text-blue-600 flex items-center">
+              <Home className="w-3 h-3 mr-1" /> Home
+            </Link>
+            <ChevronRight className="w-3 h-3 mx-2" />
+            <Link to="/blog" className="hover:text-blue-600">Blog</Link>
+            <ChevronRight className="w-3 h-3 mx-2" />
+            <span className="text-gray-900 font-medium">{category}</span>
+          </nav>
+
+          {/* Social Share Floating (Desktop) */}
+          <div className="hidden lg:flex flex-col fixed left-4 top-1/2 -translate-y-1/2 gap-3 z-40 bg-white p-3 rounded-xl shadow-lg border border-gray-100">
+            <span className="text-xs font-bold text-center text-gray-400 mb-1">Share</span>
+            <Button variant="ghost" size="icon" className="hover:bg-green-50 hover:text-green-600" onClick={shareOnWhatsApp} title="Compartilhar no WhatsApp">
+              <MessageCircle className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:bg-blue-50 hover:text-blue-600" onClick={shareOnFacebook} title="Compartilhar no Facebook">
+              <Facebook className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="icon" className="hover:bg-blue-50 hover:text-blue-700" onClick={shareOnLinkedIn} title="Compartilhar no LinkedIn">
+              <Linkedin className="w-5 h-5" />
+            </Button>
+          </div>
+
           {/* Header do artigo */}
           <div className="mb-8">
             <div className="flex items-center mb-4">
@@ -160,7 +256,7 @@ const BlogPost = ({
               <div className="mb-8 rounded-lg overflow-hidden shadow-lg">
                 <img
                   src={featuredImage}
-                  alt={title}
+                  alt={`Capa do artigo: ${title} - MozVita Blog`}
                   className="w-full h-64 md:h-80 object-cover"
                   loading="lazy"
                 />
@@ -168,10 +264,26 @@ const BlogPost = ({
             )}
           </div>
 
+          {/* Mobile Share Bar (Top) */}
+          <div className="lg:hidden flex items-center justify-between bg-white border border-gray-100 rounded-lg p-3 mb-8 shadow-sm">
+            <span className="text-sm font-semibold text-gray-700">Compartilhar:</span>
+            <div className="flex gap-2">
+              <Button size="sm" variant="outline" className="border-green-200 text-green-700 bg-green-50" onClick={shareOnWhatsApp}>
+                <MessageCircle className="w-4 h-4 mr-2" /> WhatsApp
+              </Button>
+              <Button size="icon" variant="ghost" onClick={shareOnFacebook}>
+                <Facebook className="w-4 h-4 text-blue-600" />
+              </Button>
+              <Button size="icon" variant="ghost" onClick={shareOnLinkedIn}>
+                <Linkedin className="w-4 h-4 text-blue-700" />
+              </Button>
+            </div>
+          </div>
+
           {/* Conteúdo do artigo */}
           <Card className="bg-white shadow-lg mb-8">
             <CardContent className="p-8">
-              <div className="prose prose-lg max-w-none">
+              <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-strong:text-gray-900">
                 {enhancedContent}
 
                 {/* Imagens do conteúdo */}
@@ -182,7 +294,7 @@ const BlogPost = ({
                         <div key={index} className="rounded-lg overflow-hidden shadow-md">
                           <img
                             src={image}
-                            alt={`Ilustração ${index + 1} - ${title}`}
+                            alt={`Ilustração visual para o tópico ${index + 1} do artigo ${title}`}
                             className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                           />
                         </div>
@@ -254,8 +366,14 @@ const BlogPost = ({
               <CardContent>
                 <ul className="space-y-2">
                   {relatedPosts.map((post, index) => (
-                    <li key={index} className="text-blue-600 hover:text-blue-800 cursor-pointer">
-                      {post}
+                    <li key={index}>
+                      <a
+                        href={`/blog/${post.slug}`}
+                        className="text-blue-600 hover:text-blue-800 font-medium hover:underline block py-1"
+                        title={post.title}
+                      >
+                        {post.title}
+                      </a>
                     </li>
                   ))}
                 </ul>
@@ -276,8 +394,8 @@ const BlogPost = ({
         </div>
       </div>
 
-      <Footer />
     </div>
+
   );
 };
 

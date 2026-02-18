@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth event:', event, session);
+        // Auth event: event, session
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
@@ -39,9 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 .select('*')
                 .eq('id', session.user.id)
                 .single();
-              
+
               if (!profile) {
-                console.log('Perfil não encontrado, será criado automaticamente');
+                // Perfil não encontrado, será criado automaticamente
               }
             } catch (error) {
               console.error('Erro ao verificar perfil:', error);
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (email: string, password: string) => {
     const redirectUrl = `${window.location.origin}/`;
-    
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -84,9 +84,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signInWithGoogle = async () => {
     const redirectUrl = `${window.location.origin}/`;
-    
-    console.log('Iniciando login com Google, redirect URL:', redirectUrl);
-    
+
+    // Iniciando login com Google, redirect URL: redirectUrl
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -97,7 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       }
     });
-    
+
     if (error) {
       console.error('Erro no login do Google:', error);
       throw error;

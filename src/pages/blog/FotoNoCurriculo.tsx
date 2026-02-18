@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const FotoNoCurriculo = () => {
@@ -34,7 +35,7 @@ const FotoNoCurriculo = () => {
 
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Setor de Hospitalidade e Aviação</h3>
       <p className="mb-4 text-gray-700">
-        Para quem busca vagas em hotéis ou como tripulante de cabine em Moçambique, a apresentação pessoal é parte fundamental da avaliação técnica. Veja também como preparar um <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">cv profissional moçambique</a> completo para estas áreas.
+        Para quem busca vagas em hotéis ou como tripulante de cabine em Moçambique, a apresentação pessoal é parte fundamental da avaliação técnica. Veja também como preparar um <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">cv profissional moçambique</Link> completo para estas áreas.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. O Guia para a Foto Profissional Perfeita</h2>
@@ -52,7 +53,7 @@ const FotoNoCurriculo = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Erros Fatais com Imagens no CV</h2>
       <p className="mb-4 text-gray-700">
-        Muitas candidaturas são descartadas devido ao descuido com a imagem. Antes de enviar seu currículo, verifique nosso guia de <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que deve evitar</a>:
+        Muitas candidaturas são descartadas devido ao descuido com a imagem. Antes de enviar seu currículo, verifique nosso guia de <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns que deve evitar</Link>:
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li><strong>Fotos de óculos escuros ou bonés:</strong> Passam uma imagem pouco profissional.</li>
@@ -63,12 +64,12 @@ const FotoNoCurriculo = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Legislação e Ética no Recrutamento Moçambicano</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Embora a foto seja comum, a Lei do Trabalho em Moçambique protege contra qualquer forma de discriminação. Se você preferir não incluir foto, garanta que o conteúdo textual do seu <strong>cv moçambique</strong> seja impecável. Se você está em busca do <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">primeiro emprego</a>, sinta-se à vontade para incluir uma foto para ajudar a dar mais "corpo" ao seu documento inicial.
+        Embora a foto seja comum, a Lei do Trabalho em Moçambique protege contra qualquer forma de discriminação. Se você preferir não incluir foto, garanta que o conteúdo textual do seu <strong>cv moçambique</strong> seja impecável. Se você está em busca do <Link to="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">primeiro emprego</Link>, sinta-se à vontade para incluir uma foto para ajudar a dar mais "corpo" ao seu documento inicial.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: Invista na sua Imagem</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        No fim do dia, a foto é uma ferramenta de marketing pessoal. Se bem utilizada no seu <strong>cv moçambique</strong>, ela pode abrir portas. Se mal utilizada, pode fechá-las. Siga as tendências do mercado e as <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</a> para estar sempre um passo à frente da concorrência.
+        No fim do dia, a foto é uma ferramenta de marketing pessoal. Se bem utilizada no seu <strong>cv moçambique</strong>, ela pode abrir portas. Se mal utilizada, pode fechá-las. Siga as tendências do mercado e as <Link to="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</Link> para estar sempre um passo à frente da concorrência.
       </p>
 
       <div className="bg-google-blue/10 border-l-4 border-google-blue p-6 rounded-r-lg mb-8">
@@ -82,21 +83,21 @@ const FotoNoCurriculo = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Guia: Como criar um CV Profissional em Moçambique
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">O passo a passo completo para o sucesso no mercado local.</p>
           </li>
           <li>
-            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               5 Erros que Destroem o seu CV
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Não deixe pequenos detalhes tirarem você do processo seletivo.</p>
           </li>
           <li>
-            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Ver Modelos de CV Moçambique Grátis
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Crie seu currículo agora usando nossos templates testados por profissionais.</p>
           </li>
         </ul>
@@ -128,9 +129,9 @@ const FotoNoCurriculo = () => {
   ];
 
   const relatedPosts = [
-    "Como criar um CV profissional em Moçambique",
-    "5 erros comuns que você deve evitar no seu CV",
-    "Como adaptar seu CV para diferentes áreas profissionais"
+    { title: "Como criar um CV profissional em Moçambique", slug: "cv-profissional-mocambique" },
+    { title: "5 erros comuns que você deve evitar no seu CV", slug: "erros-comuns" },
+    { title: "Como adaptar seu CV para diferentes áreas profissionais", slug: "adaptar-cv-por-area" }
   ];
 
   return (
@@ -144,6 +145,7 @@ const FotoNoCurriculo = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      slug="foto-no-curriculo"
       featuredImage="/blog/foto-curriculo.jpg"
       contentImages={[
         "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"

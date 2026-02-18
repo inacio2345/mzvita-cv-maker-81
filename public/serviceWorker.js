@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mozvita-cv-v1.0.1-force-refresh';
+const CACHE_NAME = 'mozvita-cv-v1.0.2-mobile-ux-fix';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',

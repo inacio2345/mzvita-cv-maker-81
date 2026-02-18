@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const GuiaCV2026 = () => {
@@ -15,7 +16,7 @@ const GuiaCV2026 = () => {
             </p>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Otimização para ATS</h3>
             <p className="mb-4 text-gray-700">
-                Para garantir que o seu perfil seja selecionado, use palavras-chave que aparecem no anúncio da vaga. No nosso <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">post sobre erros comuns</a>, detalhamos como pequenas falhas de formatação podem fazer o sistema ignorar o seu CV.
+                Para garantir que o seu perfil seja selecionado, use palavras-chave que aparecem no anúncio da vaga. No nosso <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">post sobre erros comuns</Link>, detalhamos como pequenas falhas de formatação podem fazer o sistema ignorar o seu CV.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Competências Digitais: O Novo Requisito Mínimo</h2>
@@ -30,13 +31,13 @@ const GuiaCV2026 = () => {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">3. A Importância da Carta de Apresentação Combinada</h2>
             <p className="mb-4 text-gray-700">
-                Em 2026, o currículo raramente viaja sozinho. As empresas valorizam candidatos que enviem uma <strong>Carta de Apresentação</strong> personalizada. Veja nossa seção de <a href="/carta-apresentacao" className="text-blue-600 hover:text-blue-800 underline">modelos de cartas oficiais</a> para complementar o seu perfil.
+                Em 2026, o currículo raramente viaja sozinho. As empresas valorizam candidatos que enviem uma <strong>Carta de Apresentação</strong> personalizada. Veja nossa seção de <Link to="/carta-apresentacao" className="text-blue-600 hover:text-blue-800 underline">modelos de cartas oficiais</Link> para complementar o seu perfil.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Personalização por Setor em 2026</h2>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Setor Extractivo e Energia</h3>
             <p className="mb-4 text-gray-700">
-                Com o avanço dos projetos de gás na bacia do Rovuma, perfis técnicos com certificações internacionais de segurança (HSE) e proficiência em Inglês têm prioridade máxima. Saiba mais sobre <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar seu CV por área</a>.
+                Com o avanço dos projetos de gás na bacia do Rovuma, perfis técnicos com certificações internacionais de segurança (HSE) e proficiência em Inglês têm prioridade máxima. Saiba mais sobre <Link to="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar seu CV por área</Link>.
             </p>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Empreendedorismo e Freelancing</h3>
             <p className="mb-4 text-gray-700">
@@ -61,12 +62,12 @@ const GuiaCV2026 = () => {
             </p>
 
             <div className="flex justify-center my-10">
-                <a
-                    href="/criar-cv"
+                <Link
+                    to="/criar-cv"
                     className="bg-google-blue text-white px-8 py-4 rounded-full font-bold shadow-xl hover:shadow-blue-200 transition-all hover:scale-105"
                 >
                     Criar meu CV 2026 Agora
-                </a>
+                </Link>
             </div>
         </div>
     );
@@ -88,6 +89,7 @@ const GuiaCV2026 = () => {
             category="Blog"
             content={content}
             faqs={faqs}
+            slug="guia-cv-2026"
             featuredImage="/blog/guia-cv-2026.jpg"
         />
     );

@@ -130,26 +130,19 @@ const InlineEdit = ({
         className={cn(
           className,
           "cursor-pointer rounded px-1 -mx-1 transition-all duration-200 border-b border-dashed border-transparent",
-          "hover:bg-white/20 hover:border-current/30",
-          "active:bg-white/30 active:scale-[0.99]",
-          "min-h-[32px] inline-flex items-center",
-          !value && "text-muted-foreground italic"
+          "hover:bg-black/5 hover:border-black/20",
+          "active:bg-black/10 active:scale-[0.99]",
+          "min-h-[32px] inline-flex items-center relative",
+          !value && "text-muted-foreground italic bg-yellow-50/50 border-yellow-200"
         )}
       >
         {value || placeholder}
-      </Component>
-      <button
-        onClick={handleClick}
-        className={cn(
-          "absolute -right-5 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 bg-white rounded-full shadow-sm border border-slate-100 transition-all",
-          "sm:opacity-0 sm:group-hover:opacity-100",
-          "opacity-60"
+        {isAdvancedMode && (
+          <span className="inline-flex ml-2 opacity-40 group-hover:opacity-100 sm:opacity-0 transition-opacity">
+            <Pencil className="w-3 h-3 text-slate-400" />
+          </span>
         )}
-        title="Editar"
-        aria-label="Editar campo"
-      >
-        <Pencil className="w-3 h-3" />
-      </button>
+      </Component>
     </WrapperElement>
   );
 };

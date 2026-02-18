@@ -16,6 +16,7 @@ import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import CookieBanner from "@/components/CookieBanner";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
+import BlogPostTemplate from "./pages/BlogPostTemplate";
 import Preview from "./pages/Preview";
 import ComoFunciona from "./pages/ComoFunciona";
 import Contato from "./pages/Contato";
@@ -81,6 +82,7 @@ const App = () => (
                       <Route path="/criar-cv" element={<CreateCV />} />
                       <Route path="/meu-emprego" element={<MeuEmprego />} />
                       <Route path="/blog" element={<Blog />} />
+                      <Route path="/blog/:slug" element={<BlogPostTemplate />} />
                       <Route path="/blog/cv-profissional-mocambique" element={<CVProfissionalMocambique />} />
                       <Route path="/blog/erros-comuns" element={<ErrosComuns />} />
                       <Route path="/blog/cv-sem-experiencia" element={<CVSemExperiencia />} />

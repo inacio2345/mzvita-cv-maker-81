@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const ErrosComuns = () => {
@@ -21,7 +22,7 @@ const ErrosComuns = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Foto Desleixada ou Inadequada</h2>
       <p className="mb-4 text-gray-700">
-        Já discutimos a <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">importância da foto no currículo moçambicano</a>, mas o erro persiste: muitos candidatos usam selfies ou fotos de festas.
+        Já discutimos a <Link to="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">importância da foto no currículo moçambicano</Link>, mas o erro persiste: muitos candidatos usam selfies ou fotos de festas.
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">O que Evitar na Imagem</h3>
       <p className="mb-4 text-gray-700">
@@ -30,7 +31,7 @@ const ErrosComuns = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Ausência de Palavras-Chave (O Pesadelo dos ATS)</h2>
       <p className="mb-4 text-gray-700">
-        Seguindo as <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</a>, entendemos que muitas empresas em Moçambique agora usam software para filtrar currículos. Se o seu <strong>curriculum vitae moçambique</strong> não tiver as palavras-chave da vaga, ele nunca será visto por um humano.
+        Seguindo as <Link to="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">regras do CV para 2026</Link>, entendemos que muitas empresas em Moçambique agora usam software para filtrar currículos. Se o seu <strong>curriculum vitae moçambique</strong> não tiver as palavras-chave da vaga, ele nunca será visto por um humano.
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Como Resolver</h3>
       <p className="mb-4 text-gray-700">
@@ -43,7 +44,7 @@ const ErrosComuns = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Exemplo de Melhoria</h3>
       <p className="mb-4 text-gray-700">
-        Em vez de "quero trabalhar na área administrativa", use "Procuro vaga de Assistente Administrativo para aplicar minha experiência em gestão de arquivos e suporte à diretoria, visando a eficiência operacional da empresa". Se você é iniciante, veja nosso guia de <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">cv para primeiro emprego</a>.
+        Em vez de "quero trabalhar na área administrativa", use "Procuro vaga de Assistente Administrativo para aplicar minha experiência em gestão de arquivos e suporte à diretoria, visando a eficiência operacional da empresa". Se você é iniciante, veja nosso guia de <Link to="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">cv para primeiro emprego</Link>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Mentiras e Exageros: O Risco da Credibilidade</h2>
@@ -70,21 +71,21 @@ const ErrosComuns = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Guia Completo: Como Criar um CV Moçambique de Sucesso
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">O manual definitivo para se destacar no mercado local.</p>
           </li>
           <li>
-            <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Aprenda a Adaptar seu CV por Área Profissional
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Saiba como personalizar seu perfil para cada edital específico.</p>
           </li>
           <li>
-            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Acesse nosso Hub: Modelos de CV Moçambique
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Templates profissionais e fáceis de editar para todas as profissões.</p>
           </li>
         </ul>
@@ -116,9 +117,9 @@ const ErrosComuns = () => {
   ];
 
   const relatedPosts = [
-    "Como criar um CV profissional em Moçambique",
-    "A importância da foto no currículo moçambicano",
-    "Como adaptar seu CV para diferentes áreas profissionais"
+    { title: "Como criar um CV profissional em Moçambique", slug: "cv-profissional-mocambique" },
+    { title: "A importância da foto no currículo moçambicano", slug: "foto-no-curriculo" },
+    { title: "Como adaptar seu CV para diferentes áreas profissionais", slug: "adaptar-cv-por-area" }
   ];
 
   return (
@@ -132,6 +133,7 @@ const ErrosComuns = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      slug="erros-comuns"
       featuredImage="/blog/erros-comuns.jpg"
       contentImages={[
         "/lovable-uploads/56a2ffff-f1a3-4796-9a7b-7c15ec8816a0.png"

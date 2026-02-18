@@ -26,7 +26,7 @@ const PWAInstallPrompt: React.FC = () => {
     };
 
     const handleAppInstalled = () => {
-      console.log('PWA: App was installed');
+      // PWA: App was installed
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
     };
@@ -48,11 +48,11 @@ const PWAInstallPrompt: React.FC = () => {
 
     // Wait for the user to respond to the prompt
     const { outcome } = await deferredPrompt.userChoice;
-    
+
     if (outcome === 'accepted') {
-      console.log('PWA: User accepted the install prompt');
+      // PWA: User accepted the install prompt
     } else {
-      console.log('PWA: User dismissed the install prompt');
+      // PWA: User dismissed the install prompt
     }
 
     // Clear the deferredPrompt variable

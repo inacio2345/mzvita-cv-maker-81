@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const CVMotoristaMocambique = () => {
@@ -21,7 +22,7 @@ const CVMotoristaMocambique = () => {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Destacando Competências Técnicas</h2>
             <p className="mb-4 text-gray-700">
-                Um bom motorista em Moçambique não é apenas quem conduz bem, mas quem entende de segurança e manutenção básica. Use o nosso <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">guia de CV profissional</a> para estruturar estas competências:
+                Um bom motorista em Moçambique não é apenas quem conduz bem, mas quem entende de segurança e manutenção básica. Use o nosso <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline">guia de CV profissional</Link> para estruturar estas competências:
             </p>
             <h3 className="text-xl font-semibold text-gray-900 mb-3">Habilidades mais valorizadas:</h3>
             <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
@@ -33,7 +34,7 @@ const CVMotoristaMocambique = () => {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Adapte seu CV para o Setor de Logística</h2>
             <p className="mb-4 text-gray-700">
-                Se você está a concorrer para uma vaga de motorista de pesados numa mineradora, o seu <strong>cv moçambique</strong> deve ser diferente de um motorista de distribuição urbana. Veja como <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">adaptar seu currículo por área</a> para entender melhor essa dinâmica.
+                Se você está a concorrer para uma vaga de motorista de pesados numa mineradora, o seu <strong>cv moçambique</strong> deve ser diferente de um motorista de distribuição urbana. Veja como <Link to="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">adaptar seu currículo por área</Link> para entender melhor essa dinâmica.
             </p>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Exemplos de Experiência Profissional</h2>
@@ -54,7 +55,7 @@ const CVMotoristaMocambique = () => {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão</h2>
             <p className="mb-6 text-gray-700 leading-relaxed">
-                O mercado de transportes em Moçambique é competitivo, mas há sempre espaço para bons profissionais. Um <strong>curriculum vitae moçambique</strong> bem estruturado e focado nas competências certas abrirá portas para as melhores transportadoras do país. Não esqueça de evitar <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</a> que podem desqualificar a sua candidatura.
+                O mercado de transportes em Moçambique é competitivo, mas há sempre espaço para bons profissionais. Um <strong>curriculum vitae moçambique</strong> bem estruturado e focado nas competências certas abrirá portas para as melhores transportadoras do país. Não esqueça de evitar <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</Link> que podem desqualificar a sua candidatura.
             </p>
 
             <div className="bg-blue-50 p-8 rounded-xl border border-blue-100 mb-10">
@@ -66,14 +67,14 @@ const CVMotoristaMocambique = () => {
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Recursos Úteis para Você:</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <a href="/cv-mocambique" className="p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                <Link to="/cv-mocambique" className="p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
                     <h4 className="font-bold text-blue-600">Modelos de CV Grátis</h4>
                     <p className="text-sm text-gray-600">Baixe o modelo ideal para motoristas.</p>
-                </a>
-                <a href="/blog/cv-sem-experiencia" className="p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+                </Link>
+                <Link to="/blog/cv-sem-experiencia" className="p-4 bg-white border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
                     <h4 className="font-bold text-blue-600">Primeiro Emprego</h4>
                     <p className="text-sm text-gray-600">Dicas para motoristas recém-encartados.</p>
-                </a>
+                </Link>
             </div>
         </div>
     );
@@ -102,9 +103,9 @@ const CVMotoristaMocambique = () => {
     ];
 
     const relatedPosts = [
-        "Como criar um CV profissional em Moçambique",
-        "Como adaptar seu CV para diferentes áreas profissionais",
-        "A importância da foto no currículo moçambicano"
+        { title: "Como criar um CV profissional em Moçambique", slug: "cv-profissional-mocambique" },
+        { title: "Como adaptar seu CV para diferentes áreas profissionais", slug: "adaptar-cv-por-area" },
+        { title: "A importância da foto no currículo moçambicano", slug: "foto-no-curriculo" }
     ];
 
     return (
@@ -118,6 +119,7 @@ const CVMotoristaMocambique = () => {
             content={content}
             faqs={faqs}
             relatedPosts={relatedPosts}
+            slug="cv-motorista-mocambique"
             featuredImage="/blog/cv-motorista.jpg"
         />
     );

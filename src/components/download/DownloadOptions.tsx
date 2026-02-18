@@ -89,7 +89,7 @@ const DownloadOptions = ({ isOpen, onClose, cvTitle = "Meu CV", cvData, selected
     }
 
     try {
-      console.log('Baixando PDF com template:', selectedTemplate);
+      // Baixando PDF com template: selectedTemplate
       await generateProfessionalCV(cvData, selectedTemplate);
       toast({
         title: "Download concluído!",

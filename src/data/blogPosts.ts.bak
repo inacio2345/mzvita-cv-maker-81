@@ -1,0 +1,757 @@
+import React from 'react';
+
+export interface BlogPostData {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  readTime: string;
+  category: string;
+  image: string;
+  featured: boolean;
+  metaDescription?: string;
+  content: string; // HTML/JSX string or component structure
+}
+
+export const blogPosts: BlogPostData[] = [
+  // --- Novos Artigos: Primeiro Emprego ---
+  {
+    id: 101,
+    slug: "primeira-entrevista-emprego",
+    title: "Como se vestir para a primeira entrevista de emprego em Moçambique",
+    excerpt: "A primeira impressão conta muito. Saiba o que vestir (e o que evitar) para garantir que sua imagem transmita profissionalismo.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Primeiro Emprego",
+    image: "/blog/primeira-entrevista.jpg",
+    featured: false,
+    metaDescription: "Guia de vestimenta para entrevistas de emprego em Moçambique. Dicas para homens e mulheres.",
+    content: `
+      <h2>A Importância da Imagem Profissional</h2>
+      <p>Em Moçambique, a cultura corporativa ainda é bastante formal. Para o seu primeiro emprego, é sempre melhor pecar pelo excesso de formalidade do que pela falta dela.</p>
+      
+      <h3>Para Homens</h3>
+      <ul>
+        <li><strong>Camisa:</strong> Uma camisa de manga comprida, branca ou azul clara, é infalível.</li>
+        <li><strong>Calças:</strong> Calças de tecido (social) pretas, cinza ou azul marinho. Evite jeans.</li>
+        <li><strong>Sapatos:</strong> Sapatos fechados, limpos e engraxados.</li>
+        <li><strong>Cabelo e Barba:</strong> Corte de cabelo arrumado e barba feita ou bem aparada.</li>
+      </ul>
+
+      <h3>Para Mulheres</h3>
+      <ul>
+        <li><strong>Roupa:</strong> Blazer com calça social ou saia na altura do joelho. Vestidos sociais também funcionam.</li>
+        <li><strong>Cores:</strong> Prefira tons neutros. Evite estampas muito chamativas.</li>
+        <li><strong>Maquiagem e Acessórios:</strong> Maquiagem leve e acessórios discretos.</li>
+      </ul>
+
+      <h3>O Que Evitar a Todo Custo</h3>
+      <p>Chinelos, calções, camisetas de times de futebol, roupas transparentes ou muito justas. Lembre-se: você quer que o entrevistador se lembre da sua competência, não da sua roupa.</p>
+    `
+  },
+  {
+    id: 102,
+    slug: "modelos-cv-estagio",
+    title: "Modelos de CV para Estágio: O que colocar quando não se tem experiência?",
+    excerpt: "Não ter experiência não é o fim do mundo. Aprenda a destacar sua formação, projetos acadêmicos e voluntariado.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Primeiro Emprego",
+    image: "/blog/cv-estagio.jpg",
+    featured: true,
+    metaDescription: "Baixe modelos de CV para estágio e aprenda a preencher sem ter experiência profissional.",
+    content: `
+      <h2>O Foco Deve Ser o Potencial</h2>
+      <p>Quando uma empresa contrata um estagiário, ela não espera um especialista. Ela procura alguém com vontade de aprender, proatividade e boa base teórica.</p>
+
+      <h3>Estrutura Ideal para CV de Estágio</h3>
+      <ol>
+        <li><strong>Objetivo:</strong> Seja claro. "Busco oportunidade de estágio na área de Contabilidade para aplicar conhecimentos acadêmicos."</li>
+        <li><strong>Educação:</strong> Este é o seu ponto forte. Detalhe seu curso, média (se for boa) e cadeiras relevantes.</li>
+        <li><strong>Projetos Acadêmicos:</strong> Fez um trabalho grande na faculdade? Organizou uma feira de ciências? Coloque aqui!</li>
+        <li><strong>Habilidades:</strong> Computador (Excel, Word), Línguas e Soft Skills (comunicação, trabalho em equipe).</li>
+      </ol>
+
+      <h3>Voluntariado Vale Ouro</h3>
+      <p>Se você já participou de grupos de jovens, ações na igreja ou ONGs, inclua como experiência. Isso mostra responsabilidade e engajamento social.</p>
+    `
+  },
+  {
+    id: 103,
+    slug: "pedir-emprego-email",
+    title: "Como pedir emprego por email: Exemplo prático",
+    excerpt: "O assunto do email, o corpo da mensagem e o anexo. Tudo o que precisa saber para não ser ignorado pelos RHs.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "4 min",
+    category: "Primeiro Emprego",
+    image: "/blog/email-emprego.jpg",
+    featured: false,
+    metaDescription: "Modelo de email para enviar currículo. Aumente suas chances de ser lido pelos recrutadores.",
+    content: `
+      <h2>O Assunto é a Chave</h2>
+      <p>Recrutadores recebem centenas de emails. Se o assunto for "CV" ou "Emprego", ele pode ser ignorado.</p>
+      <p><strong>Certo:</strong> Candidatura para Vaga de Assistente Administrativo - [Seu Nome]</p>
+      <p><strong>Certo (Candidatura Espontânea):</strong> CV para Área Financeira - Disponibilidade Imediata - [Seu Nome]</p>
+
+      <h2>O Corpo do Email</h2>
+      <p>Nunca envie o email em branco apenas com o anexo. Escreva uma breve apresentação profissional.</p>
+
+      <div class="bg-gray-100 p-4 rounded-md my-4">
+        <p><em>Exemplo:</em></p>
+        <p>Prezado(a) Responsável pelo Recrutamento,</p>
+        <p>Escrevo para manifestar meu interesse na vaga de [Nome da Vaga] divulgada em [Onde viu a vaga].</p>
+        <p>Sou recém-graduado em [Sua Área] e acredito que minhas habilidades em [Habilidade 1] e [Habilidade 2] podem contribuir para a [Nome da Empresa].</p>
+        <p>Anexo meu CV para sua análise.</p>
+        <p>Atenciosamente,<br>[Seu Nome]<br>[Seu Telefone]</p>
+      </div>
+
+      <h3>Dica Final</h3>
+      <p>Sempre envie o CV em PDF, nunca em Word, para garantir que a formatação não se perca.</p>
+    `
+  },
+  {
+    id: 104,
+    slug: "trabalho-voluntario-experiencia",
+    title: "Trabalho voluntário conta como experiência? A resposta é SIM!",
+    excerpt: "Muitos jovens ignoram suas experiências na igreja ou comunidade. Descubra como transformar isso em um diferencial no CV.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "4 min",
+    category: "Primeiro Emprego",
+    image: "/blog/voluntariado.jpg",
+    featured: false,
+    metaDescription: "Saiba como incluir trabalho voluntário no seu currículo e impressionar recrutadores.",
+    content: `
+      <h2>Experiência é Experiência</h2>
+      <p>Para um recrutador, "experiência" não significa apenas trabalho pago. Significa: "Você teve responsabilidades? Cumpriu horários? Aprendeu algo?". Se a resposta for sim, então conta.</p>
+
+      <h3>Exemplos de Voluntariado para por no CV</h3>
+      <ul>
+        <li><strong>Na Igreja:</strong> Se você organiza o grupo de jovens, canta no coro ou ajuda na tesouraria, isso mostra liderança, trabalho em equipa e honestidade.</li>
+        <li><strong>Na Comunidade:</strong> Participou de campanhas de limpeza? Ajudou na distribuição de alimentos? Isso mostra proatividade e cidadania.</li>
+        <li><strong>Na Escola/Faculdade:</strong> Chefiar a turma ou organizar eventos estudantis demonstra capacidade de gestão.</li>
+      </ul>
+
+      <h3>Como Escrever no CV</h3>
+      <div class="bg-gray-100 p-4 rounded-md my-4">
+        <p><strong>Secção:</strong> Experiência de Voluntariado</p>
+        <p><strong>Cargo:</strong> Tesoureiro do Grupo de Jovens</p>
+        <p><strong>Organização:</strong> Paróquia de São José</p>
+        <p><strong>Responsabilidades:</strong> Gestão de fundos para eventos semanais, organização de escalas de limpeza e coordenação de 20 membros.</p>
+      </div>
+    `
+  },
+  {
+    id: 105,
+    slug: "sites-emprego-mocambique",
+    title: "Os 5 Melhores Sites para Achar o Primeiro Emprego em Moçambique",
+    excerpt: "Pare de entregar CVs em papel. A maioria das vagas está na internet. Saiba onde procurar.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Primeiro Emprego",
+    image: "/blog/sites-emprego.jpg",
+    featured: false,
+    metaDescription: "Lista dos melhores sites e portais de emprego em Moçambique para recém-graduados.",
+    content: `
+      <h2>Onde Estão as Vagas?</h2>
+      <p>A entrega de CV físico está a desaparecer. As grandes empresas usam plataformas digitais.</p>
+
+      <h3>1. LinkedIn</h3>
+      <p>Não é apenas um site de vagas, é uma rede social. Siga empresas como Sasol, Mozal, BCI e Vodacom. Muitas postam vagas apenas lá.</p>
+
+      <h3>2. Emprego.co.mz</h3>
+      <p>Um dos portais mais antigos e confiáveis. Tem muitas vagas para Maputo e províncias.</p>
+
+      <h3>3. MMO Emprego</h3>
+      <p>Muito popular e atualizado diariamente. Ótimo para vagas de ONGs e setor público.</p>
+
+      <h3>4. Contact e Elite (Agências)</h3>
+      <p>Cadastre seu CV diretamente no site dessas agências de recrutamento. Elas são contratadas por grandes empresas para selecionar candidatos.</p>
+
+      <h3>5. Facebook (Com Cuidado)</h3>
+      <p>Grupos como "Vagas de Emprego em Moçambique" são úteis, mas cuidado com burlas! Nunca pague para se candidatar.</p>
+    `
+  },
+  {
+    id: 104,
+    slug: "trabalho-voluntario-experiencia",
+    title: "Trabalho voluntário conta como experiência? A resposta é SIM!",
+    excerpt: "Muitos jovens ignoram suas experiências na igreja ou comunidade. Descubra como transformar isso em um diferencial no CV.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "4 min",
+    category: "Primeiro Emprego",
+    image: "/blog/voluntariado.jpg",
+    featured: false,
+    metaDescription: "Saiba como incluir trabalho voluntário no seu currículo e impressionar recrutadores.",
+    content: `
+      <h2>Experiência é Experiência</h2>
+      <p>Para um recrutador, "experiência" não significa apenas trabalho pago. Significa: "Você teve responsabilidades? Cumpriu horários? Aprendeu algo?". Se a resposta for sim, então conta.</p>
+
+      <h3>Exemplos de Voluntariado para por no CV</h3>
+      <ul>
+        <li><strong>Na Igreja:</strong> Se você organiza o grupo de jovens, canta no coro ou ajuda na tesouraria, isso mostra liderança, trabalho em equipa e honestidade.</li>
+        <li><strong>Na Comunidade:</strong> Participou de campanhas de limpeza? Ajudou na distribuição de alimentos? Isso mostra proatividade e cidadania.</li>
+        <li><strong>Na Escola/Faculdade:</strong> Chefiar a turma ou organizar eventos estudantis demonstra capacidade de gestão.</li>
+      </ul>
+
+      <h3>Como Escrever no CV</h3>
+      <div class="bg-gray-100 p-4 rounded-md my-4">
+        <p><strong>Secção:</strong> Experiência de Voluntariado</p>
+        <p><strong>Cargo:</strong> Tesoureiro do Grupo de Jovens</p>
+        <p><strong>Organização:</strong> Paróquia de São José</p>
+        <p><strong>Responsabilidades:</strong> Gestão de fundos para eventos semanais, organização de escalas de limpeza e coordenação de 20 membros.</p>
+      </div>
+    `
+  },
+  {
+    id: 105,
+    slug: "sites-emprego-mocambique",
+    title: "Os 5 Melhores Sites para Achar o Primeiro Emprego em Moçambique",
+    excerpt: "Pare de entregar CVs em papel. A maioria das vagas está na internet. Saiba onde procurar.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Primeiro Emprego",
+    image: "/blog/sites-emprego.jpg",
+    featured: false,
+    metaDescription: "Lista dos melhores sites e portais de emprego em Moçambique para recém-graduados.",
+    content: `
+      <h2>Onde Estão as Vagas?</h2>
+      <p>A entrega de CV físico está a desaparecer. As grandes empresas usam plataformas digitais.</p>
+
+      <h3>1. LinkedIn</h3>
+      <p>Não é apenas um site de vagas, é uma rede social. Siga empresas como Sasol, Mozal, BCI e Vodacom. Muitas postam vagas apenas lá.</p>
+
+      <h3>2. Emprego.co.mz</h3>
+      <p>Um dos portais mais antigos e confiáveis. Tem muitas vagas para Maputo e províncias.</p>
+
+      <h3>3. MMO Emprego</h3>
+      <p>Muito popular e atualizado diariamente. Ótimo para vagas de ONGs e setor público.</p>
+
+      <h3>4. Contact e Elite (Agências)</h3>
+      <p>Cadastre seu CV diretamente no site dessas agências de recrutamento. Elas são contratadas por grandes empresas para selecionar candidatos.</p>
+
+      <h3>5. Facebook (Com Cuidado)</h3>
+      <p>Grupos como "Vagas de Emprego em Moçambique" são úteis, mas cuidado com burlas! Nunca pague para se candidatar.</p>
+    `
+  },
+
+  // --- Novos Artigos: Mercado de Trabalho ---
+  {
+    id: 106,
+    slug: "profissoes-maiores-salarios",
+    title: "As 7 Profissões com Maiores Salários em Moçambique em 2024",
+    excerpt: "Quer ganhar bem? Descubra quais as áreas que pagam os melhores salários no mercado moçambicano atualmente.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "7 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/salarios-altos.jpg",
+    featured: true,
+    metaDescription: "Ranking das profissões mais bem pagas em Moçambique nos setores de Gás, Banca e TI.",
+    content: `
+      <h2>Onde Está o Dinheiro?</h2>
+      <p>Em Moçambique, os salários variam muito dependendo do setor. Enquanto o salário mínimo nacional ronda os 5.000 a 10.000 MT, certas profissões pagam 10x ou 20x mais.</p>
+
+      <h3>1. Engenharia de Petróleo e Gás</h3>
+      <p>Com os projetos da Total e ExxonMobil, engenheiros especializados podem ganhar acima de 150.000 MT/mês, especialmente se trabalharem em regime de rotação (Cabo Delgado).</p>
+
+      <h3>2. Diretores Financeiros (CFO)</h3>
+      <p>Na banca e grandes empresas, gestores financeiros seniores têm salários base acima de 200.000 MT, fora bônus.</p>
+
+      <h3>3. Especialistas em TI e Cibersegurança</h3>
+      <p>A digitalização dos bancos e serviços criou uma escassez de talento. Um programador senior ou especialista em segurança pode ganhar entre 80.000 a 150.000 MT.</p>
+
+      <h3>4. Gestores de Procurement (Compras)</h3>
+      <p>Responsáveis por contratos milionários em multinacionais, são altamente valorizados pela capacidade de poupar dinheiro à empresa.</p>
+
+      <h3>Outras Áreas Promissoras</h3>
+      <ul>
+        <li>Medicina Especializada (Cirurgia, Anestesiologia)</li>
+        <li>Direito Comercial e Fiscal</li>
+        <li>Geologia e Minas</li>
+      </ul>
+    `
+  },
+  {
+    id: 107,
+    slug: "futuro-trabalho-remoto",
+    title: "O Futuro do Trabalho Remoto em Moçambique: Vale a pena?",
+    excerpt: "Trabalhar de casa em Maputo ou Beira para empresas estrangeiras? Veja como essa tendência está a crescer.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/trabalho-remoto.jpg",
+    featured: false,
+    metaDescription: "Como conseguir trabalhos remotos em Moçambique e ganhar em Dólar ou Euro.",
+    content: `
+      <h2>A Revolução Digital</h2>
+      <p>A internet em Moçambique está a melhorar e isso abriu portas globais. Hoje, um designer na Matola pode trabalhar para uma empresa em Portugal ou nos EUA.</p>
+
+      <h3>Vantagens</h3>
+      <ul>
+        <li><strong>Salário em Moeda Forte:</strong> Ganhar em Dólares ou Euros valoriza muito seu rendimento em Meticais.</li>
+        <li><strong>Flexibilidade:</strong> Sem trânsito, sem horário fixo de escritório.</li>
+      </ul>
+
+      <h3>Desafios</h3>
+      <ul>
+        <li><strong>Conexão Instável:</strong> É preciso ter um bom plano de dados (fibra ótica de preferência) e um backup (Movitel/Vodacom).</li>
+        <li><strong>Energia:</strong> Falhas de corrente exigem investir num UPS ou gerador pequeno.</li>
+      </ul>
+
+      <h3>Profissões Ideais para Remoto</h3>
+      <p>Programação, Design Gráfico, Tradução, Assistência Virtual e Marketing Digital.</p>
+    `
+  },
+  {
+    id: 108,
+    slug: "oportunidades-petroleo-gas",
+    title: "Oportunidades no Setor de Petróleo e Gás (Além da Engenharia)",
+    excerpt: "Você não precisa ser engenheiro para trabalhar nos megaprojetos. Há vagas para RH, contabilidade, cozinha e mais.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/gas-oleo.jpg",
+    featured: false,
+    metaDescription: "Vagas não técnicas no setor de Petróleo e Gás em Moçambique: Logística, RH, Catering e Saúde.",
+    content: `
+      <h2>Uma Cidade em Cada Projeto</h2>
+      <p>Um acampamento de gás em Palma ou Afungi funciona como uma pequena cidade. Eles precisam de tudo, não apenas de quem extrai o gás.</p>
+
+      <h3>Áreas de Suporte (Vagas "Escondidas")</h3>
+      <ul>
+        <li><strong>Catering e Hotelaria:</strong> Quem faz a comida? Quem limpa os quartos? Empresas como a CIS ou TCS contratam centenas de cozinheiros e camareiros.</li>
+        <li><strong>Saúde e Segurança:</strong> Enfermeiros, paramédicos e técnicos de HST são essenciais 24h/dia.</li>
+        <li><strong>Logística e Motoristas:</strong> Transportar pessoas e materiais é uma operação gigantesca.</li>
+        <li><strong>Administração:</strong> Contabilistas, assistentes de RH e gestores de documentação.</li>
+      </ul>
+
+      <h3>Requisito Chave: Inglês</h3>
+      <p>Mesmo para vagas de suporte, o inglês é muitas vezes obrigatório, pois os gestores podem ser estrangeiros.</p>
+    `
+  },
+  {
+    id: 109,
+    slug: "turismo-mocambique-2025",
+    title: "O Renascimento do Turismo em 2025: Onde estão as vagas?",
+    excerpt: "Com a isenção de vistos para muitos países, o turismo promete bombar. Saiba como se preparar.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/turismo-2025.jpg",
+    featured: false,
+    metaDescription: "Vagas no setor de Turismo em Moçambique: Hotéis, Agências e Guias Turísticos.",
+    content: `
+      <h2>Mozambique is Back!</h2>
+      <p>As novas medidas de facilitação de vistos estão a trazer mais turistas para Tofo, Vilankulo e Maputo. Isso gera emprego imediato.</p>
+
+      <h3>Perfis Procurados</h3>
+      <ul>
+        <li><strong>Recepcionistas Bilingues:</strong> Falar Inglês é o mínimo. Francês ou Mandarim são grandes diferenciais.</li>
+        <li><strong>Guias Turísticos:</strong> Jovens que conhecem a história local e sabem comunicar bem.</li>
+        <li><strong>Chefs e Bartenders:</strong> A gastronomia moçambicana é um atrativo forte.</li>
+      </ul>
+
+      <h3>Dica para Começar</h3>
+      <p>Se você vive em zona costeira, aproxime-se dos lodges e resorts. Leve seu CV pessoalmente e mostre proatividade.</p>
+    `
+  },
+  {
+    id: 110,
+    slug: "ongs-mocambique-vagas",
+    title: "ONGs em Moçambique: Como conseguir emprego no setor humanitário",
+    excerpt: "Trabalhar em ONGs oferece bons salários e propósito. Veja como entrar em organizações como UNICEF, Save the Children e outras.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/ongs-mocambique.jpg",
+    featured: false,
+    metaDescription: "Guia para trabalhar em ONGs e setor humanitário em Moçambique.",
+    content: `
+      <h2>O Setor do Desenvolvimento</h2>
+      <p>Moçambique tem uma forte presença de ajuda internacional. As ONGs são conhecidas por pagar acima da média e oferecer boas condições.</p>
+
+      <h3>O Que Eles Procuram?</h3>
+      <p>Além da formação técnica (Saúde, Educação, Serviço Social), eles valorizam:</p>
+      <ul>
+        <li><strong>Experiência em Campo:</strong> Ter trabalhado em distritos rurais é mais valioso do que só experiência de escritório em Maputo.</li>
+        <li><strong>Gestão de Projetos:</strong> Saber monitorar indicadores, fazer relatórios e gerir orçamentos.</li>
+        <li><strong>Línguas Locais:</strong> Falar Changana, Macua ou Sena é crucial para projetos comunitários.</li>
+      </ul>
+
+      <h3>Onde Ver Vagas?</h3>
+      <p>Sites como MMO e os portais oficiais das próprias organizações (UN Jobs, por exemplo).</p>
+    `
+  },
+
+  // --- Novos Artigos: Setores Específicos ---
+  {
+    id: 111,
+    slug: "cv-banca-financas",
+    title: "Como fazer um CV para Banca e Finanças (Millennium bim, BCI, Standard Bank)",
+    excerpt: "O setor bancário é conservador e exigente. Veja como estruturar seu currículo para passar na triagem dos bancos.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Setores",
+    image: "/blog/banca-financas.jpg",
+    featured: false,
+    metaDescription: "Dicas de CV para trabalhar em bancos em Moçambique. O que os RHs bancários procuram.",
+    content: `
+      <h2>Confiança e Precisão</h2>
+      <p>No setor financeiro, o seu CV precisa transmitir duas coisas: que você é confiável e que é atento aos detalhes. Um erro de ortografia num CV de banco é fatal.</p>
+
+      <h3>O Que Destacar</h3>
+      <ul>
+        <li><strong>Formação Acadêmica:</strong> Bancos valorizam licenciaturas em Economia, Gestão e Contabilidade. Coloque a média final se for alta.</li>
+        <li><strong>Certificações:</strong> CPA, ACCA ou cursos específicos de sistemas bancários são grandes diferenciais.</li>
+        <li><strong>Integridade:</strong> Mencione referências de empregos anteriores que possam atestar sua honestidade.</li>
+      </ul>
+
+      <h3>Design do CV</h3>
+      <p>Use modelos sóbrios. Nada de cores muito vivas. Azul escuro, cinza e preto são as cores ideais. O modelo "Clássico" do MozVita é perfeito para isso.</p>
+    `
+  },
+  {
+    id: 112,
+    slug: "cv-hotelaria-turismo",
+    title: "CV para Hotelaria e Turismo: Destaque suas Línguas e Simpatia",
+    excerpt: "Hotéis e resorts buscam personalidade. Saiba como mostrar que você tem o 'dom de servir' no seu currículo.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Setores",
+    image: "/blog/hotelaria-cv.jpg",
+    featured: false,
+    metaDescription: "Como criar um currículo para trabalhar em hotéis e turismo. Dicas para recepcionistas e garçons.",
+    content: `
+      <h2>A Arte de Receber</h2>
+      <p>Em hotelaria, as soft skills (simpatia, paciência, comunicação) são tão importantes quanto a experiência técnica.</p>
+
+      <h3>Pontos Fortes no CV</h3>
+      <ul>
+        <li><strong>Idiomas:</strong> Crie uma secção de destaque para Línguas. Indique o nível real (Básico, Intermédio, Fluente).</li>
+        <li><strong>Flexibilidade:</strong> Mencione explicitamente a disponibilidade para trabalhar em turnos, feriados e fins de semana.</li>
+        <li><strong>Foto:</strong> Na hotelaria, a apresentação pessoal conta muito. Use uma foto profissional, sorrindo e com roupa adequada.</li>
+      </ul>
+    `
+  },
+  {
+    id: 113,
+    slug: "cv-construcao-civil",
+    title: "CV para Construção Civil e Obras Públicas",
+    excerpt: "De pedreiros a engenheiros civis: como fazer um currículo focado em projetos e obras.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Setores",
+    image: "/blog/construcao-civil.jpg",
+    featured: false,
+    metaDescription: "Modelo de CV para construção civil. Destaque suas obras e competências técnicas.",
+    content: `
+      <h2>Foco na Obra Feita</h2>
+      <p>Na construção, o que fala mais alto é o portfólio. Não diga apenas "trabalhei como pedreiro". Diga "construí 3 moradias T4 no bairro do Triunfo".</p>
+
+      <h3>Dicas Práticas</h3>
+      <ul>
+        <li><strong>Lista de Projetos:</strong> Crie uma secção chamada "Principais Obras". Liste o tipo de obra, o cliente (se possível) e sua função exata.</li>
+        <li><strong>Segurança:</strong> Mencione sempre conhecimentos de HST (Higiene e Segurança no Trabalho). Isso mostra que você é um profissional responsável.</li>
+        <li><strong>Ferramentas:</strong> Liste as máquinas e ferramentas que sabe operar (betoneiras, rebarbadoras, etc.).</li>
+      </ul>
+    `
+  },
+  {
+    id: 114,
+    slug: "cv-call-center",
+    title: "CV para Call Center e Atendimento ao Cliente: O que colocar?",
+    excerpt: "Uma das áreas que mais contrata jovens em Moçambique. Veja como provar que você tem paciência e boa dicção.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "4 min",
+    category: "Setores",
+    image: "/blog/call-center.jpg",
+    featured: false,
+    metaDescription: "Como conseguir vaga em Call Center. Dicas de CV para atendimento ao cliente.",
+    content: `
+      <h2>A Voz da Empresa</h2>
+      <p>Para trabalhar na Vodacom, Movitel ou bancos como assistente de call center, você precisa provar resistência ao stress e boa comunicação.</p>
+
+      <h3>Palavras-Chave para o CV</h3>
+      <ul>
+        <li><strong>Resolução de Conflitos:</strong> Capacidade de acalmar clientes irritados.</li>
+        <li><strong>Informática:</strong> Rapidez na digitação e facilidade com sistemas (CRM).</li>
+        <li><strong>Disponibilidade:</strong> Call centers funcionam 24h. Diga que pode trabalhar à noite se for o caso.</li>
+      </ul>
+
+      <h3>Dica de Ouro</h3>
+      <p>Revise o português do seu CV 10 vezes. Se você vai trabalhar falando e escrevendo, erros de gramática eliminam você na hora.</p>
+    `
+  },
+
+  // --- Novos Artigos: Empreendedorismo ---
+  {
+    id: 115,
+    slug: "legalizar-empresa-mocambique",
+    title: "Como Legalizar sua Pequena Empresa em Moçambique (Passo a Passo)",
+    excerpt: "NUIT, Alvará, BR: Entenda a burocracia de forma simples para formalizar seu negócio e evitar multas.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "8 min",
+    category: "Empreendedorismo",
+    image: "/blog/legalizar-empresa.jpg",
+    featured: true,
+    metaDescription: "Guia completo para abrir e legalizar empresa em Moçambique. Custos e documentos necessários.",
+    content: `
+      <h2>Sair da Informalidade Compensa</h2>
+      <p>Muitos empreendedores fogem da legalização, mas sem ela, você não cresce, não pega empréstimos no banco e não pode fornecer para grandes empresas.</p>
+
+      <h3>O Básico: Empresa em Nome Individual</h3>
+      <p>É o jeito mais fácil e barato. Você responde pelo negócio.</p>
+      <ol>
+        <li><strong>NUIT:</strong> Vá às Finanças e tire seu NUIT de comerciante.</li>
+        <li><strong>Reserva de Nome:</strong> Na Conservatória do Registo de Entidades Legais (CREL).</li>
+        <li><strong>Alvará Simplificado:</strong> Para muitas atividades (comércio, serviços simples), o Balcão de Atendimento Único (BAU) emite o alvará rápido.</li>
+      </ol>
+
+      <h3>Custos (Estimativa)</h3>
+      <p>Com o regime simplificado, é possível legalizar pequenos negócios gastando menos de 5.000 MT em taxas oficiais (sem contar despachantes).</p>
+    `
+  },
+  {
+    id: 116,
+    slug: "ideias-negocio-baixo-custo",
+    title: "5 Ideias de Negócios para começar com menos de 10.000 MT",
+    excerpt: "Não tem capital? Comece pequeno. Ideias práticas para gerar renda extra hoje mesmo.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Empreendedorismo",
+    image: "/blog/negocio-barato.jpg",
+    featured: false,
+    metaDescription: "Ideias de negócios lucrativos e baratos em Moçambique.",
+    content: `
+      <h2>Comece com o que tem</h2>
+      <p>O melhor negócio é aquele que resolve um problema usando habilidades que você já possui.</p>
+
+      <h3>1. Venda de Refeições (Marmitas)</h3>
+      <p>Cozinhe em casa e entregue em escritórios próximos. Custo inicial: ingredientes e embalagens.</p>
+
+      <h3>2. Serviços de Limpeza e Organização</h3>
+      <p>Ofereça limpeza pós-obra ou organização de casas. Custo inicial: produtos de limpeza básicos.</p>
+
+      <h3>3. Revenda de Produtos de Beleza</h3>
+      <p>Marcas como Avon ou produtos naturais locais. Você compra e revende com margem.</p>
+
+      <h3>4. Explicações e Aulas Particulares</h3>
+      <p>É bom em Matemática ou Inglês? Dê aulas para crianças do bairro. Custo inicial: Zero.</p>
+
+      <h3>5. Gestão de Redes Sociais</h3>
+      <p>Muitas lojinhas não sabem usar o Instagram. Ofereça para tirar fotos e postar por uma taxa mensal.</p>
+    `
+  },
+  {
+    id: 117,
+    slug: "marketing-digital-whatsapp",
+    title: "Marketing no WhatsApp: Como vender mais usando o Status e Grupos",
+    excerpt: "O WhatsApp é a maior ferramenta de vendas em Moçambique. Aprenda a usar o WhatsApp Business profissionalmente.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Empreendedorismo",
+    image: "/blog/whatsapp-marketing.jpg",
+    featured: false,
+    metaDescription: "Dicas para vender pelo WhatsApp. Como usar listas de transmissão e status.",
+    content: `
+      <h2>Onde a Atenção Está</h2>
+      <p>Todo mundo em Moçambique tem WhatsApp. Se seu negócio não está lá, você está perdendo dinheiro.</p>
+
+      <h3>Regras de Ouro</h3>
+      <ul>
+        <li><strong>Use o WhatsApp Business:</strong> Ele permite ter catálogo, horário de funcionamento e respostas rápidas.</li>
+        <li><strong>Não faça Spam:</strong> Não mande mensagens no privado de quem não pediu. Use o Status (Estados) para divulgar promoções.</li>
+        <li><strong>Listas de Transmissão > Grupos:</strong> Grupos ficam chatos e as pessoas saem. Listas de transmissão enviam a mensagem individualmente (mas a pessoa precisa ter seu número salvo).</li>
+      </ul>
+    `
+  },
+  {
+    id: 118,
+    slug: "gestao-financeira-basica",
+    title: "Gestão Financeira para Empreendedores: O Erro do 'Bolso Único'",
+    excerpt: "Misturar o dinheiro da empresa com o dinheiro de casa é o que falhe a maioria dos negócios. Aprenda a separar.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Empreendedorismo",
+    image: "/blog/financas-basicas.jpg",
+    featured: false,
+    metaDescription: "Como gerir o dinheiro do seu pequeno negócio. Dicas de fluxo de caixa.",
+    content: `
+      <h2>O Dinheiro da Venda NÃO é Seu Lucro</h2>
+      <p>Se você vendeu um produto por 500 MT, esse dinheiro não é todo seu. Você precisa repor o stock (300 MT), pagar transporte (50 MT) e guardar para emergências.</p>
+
+      <h3>Defina um Salário (Pró-labore)</h3>
+      <p>Mesmo sendo dono, defina um valor fixo para retirar por mês. Se a empresa lucrar mais, esse dinheiro fica na empresa para investir.</p>
+
+      <h3>Anote Tudo</h3>
+      <p>Tenha um caderno ou planilha. Anote cada centavo que entra e cada centavo que sai. Sem controle, não há gestão.</p>
+    `
+  },
+  {
+    id: 119,
+    slug: "mulheres-empreendedorismo",
+    title: "Mulheres no Empreendedorismo Moçambicano: Desafios e Sucesso",
+    excerpt: "Histórias inspiradoras e dicas específicas para mulheres que querem abrir seu próprio negócio.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Empreendedorismo",
+    image: "/blog/mulheres-negocios.jpg",
+    featured: true,
+    metaDescription: "Dicas para empreendedoras moçambicanas. Empoderamento feminino nos negócios.",
+    content: `
+      <h2>A Força da Mulher Moçambicana</h2>
+      <p>As mulheres sempre foram a base da economia informal. Agora, estão a liderar startups e grandes empresas.</p>
+
+      <h3>Redes de Apoio</h3>
+      <p>Procure grupos como a ANJE ou associações de mulheres empresárias. O networking feminino é poderoso para abrir portas e conseguir mentoria.</p>
+
+      <h3>Conciliação</h3>
+      <p>Sabemos que a mulher muitas vezes acumula o cuidado da casa. Busque negócios que permitam flexibilidade de horário ou que possam ser geridos de casa inicialmente.</p>
+    `
+  },
+
+  // --- Novos Artigos: Dicas de Carreira ---
+  {
+    id: 120,
+    slug: "pedir-aumento-salario",
+    title: "Como pedir aumento de salário sem medo (e conseguir)",
+    excerpt: "Não peça aumento porque 'precisa'. Peça porque 'merece'. Veja como preparar argumentos irrefutáveis.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Dicas de Carreira",
+    image: "/blog/pedir-aumento.jpg",
+    featured: false,
+    metaDescription: "Guia para negociar salário com o chefe. O momento certo e o que dizer.",
+    content: `
+      <h2>Prepare o Terreno</h2>
+      <p>Um aumento é uma negociação comercial, não um favor pessoal.</p>
+
+      <h3>Passo a Passo</h3>
+      <ol>
+        <li><strong>Liste suas Conquistas:</strong> O que você fez nos últimos 6 meses que trouxe dinheiro ou poupou custos para a empresa?</li>
+        <li><strong>Pesquise o Mercado:</strong> Quanto ganham profissionais com a sua experiência em outras empresas? Use isso como base.</li>
+        <li><strong>Agende uma Reunião:</strong> Não peça no corredor. Marque um horário formal com o chefe.</li>
+      </ol>
+
+      <h3>E se a resposta for Não?</h3>
+      <p>Não desanime. Pergunte: "O que preciso entregar ou melhorar para conseguir esse aumento daqui a 6 meses?". Crie um plano de metas com o chefe.</p>
+    `
+  },
+  {
+    id: 121,
+    slug: "networking-maputo",
+    title: "Networking em Maputo: Onde ir e como se conectar",
+    excerpt: "Em Moçambique, o 'quem indica' conta muito. Saiba como expandir sua rede de contactos profissionais.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "4 min",
+    category: "Dicas de Carreira",
+    image: "/blog/networking-maputo.jpg",
+    featured: false,
+    metaDescription: "Melhores lugares para fazer networking profissional em Maputo.",
+    content: `
+      <h2>Saia da Bolha</h2>
+      <p>Enviar CVs online é bom, mas conhecer pessoas é melhor. 70% das vagas são preenchidas por indicação.</p>
+
+      <h3>Onde Fazer Networking?</h3>
+      <ul>
+        <li><strong>Eventos e Conferências:</strong> Feiras como a FACIM, MozTech ou eventos da Câmara de Comércio.</li>
+        <li><strong>Workshops e Cursos:</strong> Além de aprender, você conhece colegas da área.</li>
+        <li><strong>Linkedin Local:</strong> Comente nas postagens de profissionais moçambicanos. Convide para um café virtual.</li>
+      </ul>
+
+      <h3>Como Abordar?</h3>
+      <p>Não chegue pedindo emprego. Chegue oferecendo ajuda, elogiando um trabalho ou pedindo um conselho. Construa a relação primeiro.</p>
+    `
+  },
+  {
+    id: 122,
+    slug: "equilibrio-vida-trabalho",
+    title: "Equilíbrio Vida Pessoal e Trabalho: Evitando o Burnout",
+    excerpt: "Trabalhar muito é bom, adoecer por trabalho não. Sinais de que você está no limite e como colocar limites.",
+    date: "2026-02-19",
+    author: "Equipe MozVita",
+    readTime: "5 min",
+    category: "Dicas de Carreira",
+    image: "/blog/burnout-prevencao.jpg",
+    featured: false,
+    metaDescription: "Dicas de saúde mental no trabalho e prevenção de burnout.",
+    content: `
+      <h2>Trabalhar para Viver, Não Viver para Trabalhar</h2>
+      <p>A cultura da "correria" pode ser tóxica. O descanso é parte da produtividade.</p>
+
+      <h3>Sinais de Alerta</h3>
+      <ul>
+        <li>Cansaço que não passa mesmo depois de dormir.</li>
+        <li>Irritabilidade constante com colegas ou família.</li>
+        <li>Falta de concentração.</li>
+      </ul>
+
+      <h3>Dicas de Sobrevivência</h3>
+      <ul>
+        <li><strong>Desligue as Notificações:</strong> Fora do horário de trabalho, não responda emails ou WhatsApps, a menos que seja uma urgência real de vida ou morte.</li>
+        <li><strong>Tenha Hobbies:</strong> Faça algo que não envolva telas. Futebol, cozinha, ler, correr.</li>
+        <li><strong>Tire Férias:</strong> Não venda suas férias. O cérebro precisa de reset.</li>
+      </ul>
+    `
+  },
+  {
+    id: 12,
+    slug: "soft-skills-mocambique",
+    title: "As 5 Competências (Soft Skills) que Garantem Emprego",
+    excerpt: "Inteligência emocional, comunicação e adaptabilidade: saiba quais são as habilidades comportamentais mais procuradas pelos recrutadores em 2025.",
+    date: "2026-02-18",
+    author: "Equipe MozVita",
+    readTime: "6 min",
+    category: "Dicas de Carreira",
+    image: "/blog/soft-skills-moz.jpg",
+    featured: true,
+    metaDescription: "Saiba quais são as soft skills mais valorizadas em Moçambique e como desenvolvê-las.",
+    content: `
+      <!-- Conteúdo migrado de SoftSkillsMoz.tsx seria inserido aqui -->
+      <p>O mercado de trabalho mudou. Hoje, as empresas contratam pelo currículo técnico (Hard Skills), mas demitem pelo comportamento (Soft Skills). Em Moçambique, num mercado saturado de licenciados, quem tem boas competências comportamentais destaca-se.</p>
+      <!-- ... (restante do conteúdo simplificado para este exemplo) -->
+    `
+  },
+  {
+    id: 13,
+    slug: "linkedin-mocambique",
+    title: "LinkedIn Moçambique: Como Ser Recrutado Sem Enviar CV",
+    excerpt: "Transforme seu perfil do LinkedIn em um ímã de recrutadores. Dicas de foto, título e networking estratégico.",
+    date: "2026-02-18",
+    author: "Equipe MozVita",
+    readTime: "9 min",
+    category: "Dicas de Carreira",
+    image: "/blog/linkedin-moz.jpg",
+    featured: true,
+    metaDescription: "Guia completo para usar o LinkedIn em Moçambique e conseguir emprego.",
+    content: `
+      <!-- Conteúdo migrado -->
+      <p>O LinkedIn não é apenas um CV online. É sua reputação digital 24 horas por dia. Em Moçambique, recrutadores de grandes empresas (banca, petróleos, telecomunicações) usam a plataforma diariamente para caçar talentos.</p>
+    `
+  },
+  // Mais artigos existentes seriam adicionados aqui...
+];

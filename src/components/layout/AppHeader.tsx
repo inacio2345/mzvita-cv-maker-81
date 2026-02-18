@@ -47,13 +47,8 @@ const AppHeader = ({
           {getBackButtonText()}
         </Button>}
 
-        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-          <img
-            src="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
-            alt="MozVita Logo"
-            className="h-10 w-auto object-contain"
-          />
-        </div>
+        {/* Área do logo removida conforme solicitação */}
+        <div></div>
 
         {/* Spacer para equilibrar o layout quando há botão de voltar */}
         {shouldShowBackButton && <div className="w-[100px]"></div>}

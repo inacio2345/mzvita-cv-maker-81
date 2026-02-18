@@ -11,10 +11,10 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/serviceWorker.js')
       .then((registration) => {
-        console.log('PWA: Service Worker registered successfully:', registration.scope);
+        // Service Worker registered successfully
       })
       .catch((error) => {
-        console.log('PWA: Service Worker registration failed:', error);
+        console.error('PWA: Service Worker registration failed:', error);
       });
   });
 }

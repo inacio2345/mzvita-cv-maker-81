@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { cvTemplates } from '@/data/cvTemplates';
 import {
   ArrowLeft, Settings2, Download, Eye, Sparkles, PenLine
 } from 'lucide-react';
@@ -19,9 +20,9 @@ const CreateCV = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const templateData = location.state?.templateData;
-  const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
+  /* Removed duplicate declarations */
 
-  const [mobileView, setMobileView] = useState<'editor' | 'preview'>('editor');
+  const [mobileView, setMobileView] = useState<'editor' | 'preview'>('preview');
   const {
     cvData,
     updateCVData,
@@ -31,23 +32,65 @@ const CreateCV = () => {
     layoutConfig
   } = useCVData(templateData);
 
+  // Persistence Logic
+  // Persistence Logic
+  // The 'activeTemplate' state initialization below handles recovery from localStorage correctly.
+  // We don't need these useEffects anymore.
+
+  // Initialize selectedTemplate with priority: location.state -> localStorage -> default
+  const [activeTemplate, setActiveTemplate] = useState(() => {
+    if (location.state?.selectedTemplate) return location.state.selectedTemplate;
+
+    const savedId = localStorage.getItem('mz_selected_template_id');
+    if (savedId) {
+      const found = cvTemplates.find(t => t.id === savedId);
+      if (found) return found;
+    }
+    return getDefaultTemplate();
+  });
+
+  // Load saved CV Data on mount if available and no fresh template data passed
+  useEffect(() => {
+    if (!location.state?.templateData) {
+      const savedData = localStorage.getItem('mz_cv_data');
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          updateCVData(parsed);
+        } catch (e) {
+          console.error("Failed to load saved CV data", e);
+        }
+      }
+    }
+  }, []);
+
+  // Save Template ID and CV Data when they change
+  useEffect(() => {
+    if (activeTemplate?.id) {
+      localStorage.setItem('mz_selected_template_id', activeTemplate.id);
+    }
+    if (cvData) {
+      localStorage.setItem('mz_cv_data', JSON.stringify(cvData));
+    }
+  }, [activeTemplate, cvData]);
+
   const goToPreview = () => {
     navigate('/preview', {
       state: {
         cvData,
-        selectedTemplate: selectedTemplate,
+        selectedTemplate: activeTemplate,
         userPhoto: cvData.personalData?.photo
       }
     });
   };
 
   useEffect(() => {
-    if (!selectedTemplate && !location.state?.fromExamples) {
+    if (!activeTemplate && !location.state?.fromExamples) {
       navigate('/exemplos');
     }
-  }, [selectedTemplate, location.state, navigate]);
+  }, [activeTemplate, location.state, navigate]);
 
-  if (!selectedTemplate && !location.state?.fromExamples) {
+  if (!activeTemplate && !location.state?.fromExamples) {
     return null;
   }
 
@@ -117,8 +160,8 @@ const CreateCV = () => {
                   // We can show a feedback message or just rely on the automatic preview.
                 }}
                 isDirty={false}
-                colors={cvData.colorPalette || selectedTemplate?.colorPalette}
-                fonts={cvData.fonts || selectedTemplate?.fonts}
+                colors={cvData.colorPalette || activeTemplate?.colorPalette}
+                fonts={cvData.fonts || activeTemplate?.fonts}
                 onUpdateStyle={(type, value) => {
                   if (type === 'colors') {
                     updateCVData({ colorPalette: value });
@@ -134,7 +177,7 @@ const CreateCV = () => {
                 </h4>
                 <p className="text-xs sm:text-sm text-emerald-700">
                   {isMobile
-                    ? 'Toque em "Preview" abaixo para ver e editar o CV diretamente clicando nos textos!'
+                    ? 'Você está no modo de edição visual. Toque nos textos para editar!'
                     : 'Você pode clicar em qualquer texto do currículo ao lado para editá-lo diretamente!'
                   }
                 </p>
@@ -164,7 +207,7 @@ const CreateCV = () => {
           )}>
             <CVLayoutRenderer
               data={cvData}
-              template={selectedTemplate}
+              template={activeTemplate}
               layoutConfig={layoutConfig}
               isAdvancedMode={true}
               onDataChange={updateCVData}
@@ -187,8 +230,8 @@ const CreateCV = () => {
                   : "text-slate-500"
               )}
             >
-              <PenLine className="w-5 h-5" />
-              <span className="text-xs">Editor</span>
+              <Settings2 className="w-5 h-5" />
+              <span className="text-xs">Dados</span>
             </button>
             <div className="w-px bg-slate-200" />
             <button
@@ -200,8 +243,8 @@ const CreateCV = () => {
                   : "text-slate-500"
               )}
             >
-              <Eye className="w-5 h-5" />
-              <span className="text-xs">Preview</span>
+              <PenLine className="w-5 h-5" />
+              <span className="text-xs">Editar</span>
             </button>
             <div className="w-px bg-slate-200" />
             <button

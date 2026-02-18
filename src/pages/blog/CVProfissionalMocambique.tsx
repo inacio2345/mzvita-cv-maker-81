@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const CVProfissionalMocambique = () => {
@@ -37,7 +38,7 @@ const CVProfissionalMocambique = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Educação e Qualificações em Moçambique</h2>
       <p className="mb-4 text-gray-700">
-        Mencione sua formação académica detalhando a instituição (Ex: UEM, UP, ISCTEM). Se você é um recém-licenciado, destaque o tema do seu trabalho de culminação de curso se ele for relevante para a vaga. Veja também nosso <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">guia para currículos de primeiro emprego</a>.
+        Mencione sua formação académica detalhando a instituição (Ex: UEM, UP, ISCTEM). Se você é um recém-licenciado, destaque o tema do seu trabalho de culminação de curso se ele for relevante para a vaga. Veja também nosso <Link to="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">guia para currículos de primeiro emprego</Link>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Competências Digitais e Idiomas (O Diferencial)</h2>
@@ -50,12 +51,12 @@ const CVProfissionalMocambique = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Documentos Oficiais</h3>
       <p className="mb-4 text-gray-700">
-        Muitas vezes, a candidatura exige mais do que apenas o currículo. Certifique-se de saber <a href="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar os seus documentos</a> para diferentes editais.
+        Muitas vezes, a candidatura exige mais do que apenas o currículo. Certifique-se de saber <Link to="/blog/adaptar-cv-por-area" className="text-blue-600 hover:text-blue-800 underline">como adaptar os seus documentos</Link> para diferentes editais.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. O Debate da Foto no CV</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Embora em alguns países a foto seja desaconselhada, em Moçambique muitos recrutadores ainda a preferem para criar uma conexão visual e profissionalismo. Se decidir usar, garanta que seja uma foto de rosto, com fundo neutro e vestimenta formal. Saiba mais detalhes no nosso artigo sobre <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">foto no currículo moçambicano</a>.
+        Embora em alguns países a foto seja desaconselhada, em Moçambique muitos recrutadores ainda a preferem para criar uma conexão visual e profissionalismo. Se decidir usar, garanta que seja uma foto de rosto, com fundo neutro e vestimenta formal. Saiba mais detalhes no nosso artigo sobre <Link to="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">foto no currículo moçambicano</Link>.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: Próximos Passos</h2>
@@ -74,21 +75,21 @@ const CVProfissionalMocambique = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Evite estes 5 Erros Fatais no seu CV
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Pequenos deslizes que podem custar a sua vaga de emprego em Moçambique.</p>
           </li>
           <li>
-            <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Regras do Currículo para 2026
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Saiba o que mudou nas tendências de contratação digital e automação (ATS).</p>
           </li>
           <li>
-            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Hub Central: Tudo sobre CV Moçambique
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Acesse modelos, exemplos por profissão e dicas de design atualizadas.</p>
           </li>
         </ul>
@@ -120,9 +121,9 @@ const CVProfissionalMocambique = () => {
   ];
 
   const relatedPosts = [
-    "A importância da foto no currículo moçambicano",
-    "5 erros comuns que você deve evitar no seu CV",
-    "Primeiro emprego: como montar um CV sem experiência"
+    { title: "A importância da foto no currículo moçambicano", slug: "foto-no-curriculo" },
+    { title: "5 erros comuns que você deve evitar no seu CV", slug: "erros-comuns" },
+    { title: "Primeiro emprego: como montar um CV sem experiência", slug: "cv-sem-experiencia" }
   ];
 
   return (
@@ -136,6 +137,7 @@ const CVProfissionalMocambique = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      slug="cv-profissional-mocambique"
       featuredImage="/blog/cv-profissional.jpg"
       contentImages={[
         "/lovable-uploads/d0958b45-cda0-4796-aac4-a03ccebea308.png"

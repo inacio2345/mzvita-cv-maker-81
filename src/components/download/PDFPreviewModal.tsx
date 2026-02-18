@@ -28,7 +28,7 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData, selectedTemplate }: PDFPrevi
   const generatePreview = async () => {
     setIsGenerating(true);
     try {
-      console.log('Gerando preview com template:', selectedTemplate);
+      // Gerando preview com template: selectedTemplate
       const preview = await generatePDFPreview(cvData, selectedTemplate);
       setPreviewUrl(preview);
     } catch (error) {
@@ -45,7 +45,7 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData, selectedTemplate }: PDFPrevi
 
   const handleDownload = async () => {
     try {
-      console.log('Baixando PDF do preview com template:', selectedTemplate);
+      // Baixando PDF do preview com template: selectedTemplate
       await generateProfessionalCV(cvData, selectedTemplate);
       toast({
         title: "Download concluído!",
@@ -79,7 +79,7 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData, selectedTemplate }: PDFPrevi
             </Button>
           </DialogTitle>
         </DialogHeader>
-        
+
         <div className="flex-1 flex flex-col">
           {isGenerating ? (
             <div className="flex-1 flex items-center justify-center">
@@ -101,7 +101,7 @@ const PDFPreviewModal = ({ isOpen, onClose, cvData, selectedTemplate }: PDFPrevi
               <p className="text-gray-500">Não foi possível carregar a visualização</p>
             </div>
           )}
-          
+
           <div className="flex justify-end gap-3 mt-4 pt-4 border-t">
             <Button variant="outline" onClick={onClose}>
               Cancelar

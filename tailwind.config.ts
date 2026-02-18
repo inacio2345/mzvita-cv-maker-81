@@ -65,7 +65,7 @@ export default {
 				},
 				google: {
 					blue: '#4285f4',
-					red: '#ea4335', 
+					red: '#ea4335',
 					yellow: '#fbbc04',
 					green: '#34a853'
 				}
@@ -120,5 +120,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;

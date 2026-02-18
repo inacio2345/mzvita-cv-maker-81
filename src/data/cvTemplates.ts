@@ -294,66 +294,7 @@ export const cvTemplates: CVTemplate[] = [
     },
     previewImage: "/lovable-uploads/template-04.jpg"
   },
-  {
-    id: "cv-sidebar-dark",
-    nome: "Sidebar Escura",
-    layout: "left-sidebar-dark",
-    foto_posicao: "sidebar-circular-grande",
-    paleta: "azul_escuro_preto",
-    secoes: ["foto", "contacto", "idiomas", "habilidades", "perfil", "experiencia", "formacao"],
-    colorPalette: {
-      primary: "#1E3A5F",
-      secondary: "#000000",
-      accent: "#4A90E2",
-      background: "#FFFFFF",
-      text: "#FFFFFF"
-    },
-    fonts: {
-      primary: "Roboto",
-      headings: "Roboto"
-    },
-    layoutConfig: {
-      type: "left-sidebar-dark",
-      sections: ["foto", "contacto", "idiomas", "habilidades", "perfil", "experiencia", "formacao"],
-      columns: {
-        left: ["foto", "contacto", "idiomas", "habilidades"],
-        right: ["perfil", "experiencia", "formacao"]
-      }
-    },
-    dados: {
-      personalData: {
-        fullName: "Nome Completo",
-        profession: "Sua Profissão",
-        email: "email@exemplo.com",
-        phone: "+258 84 000 0000",
-        address: "Cidade, Moçambique"
-      },
-      about: "Descrição profissional resumida.",
-      experience: [
-        {
-          position: "Cargo",
-          company: "Empresa",
-          startDate: "2020",
-          endDate: "Presente",
-          current: true,
-          description: "Descrição das responsabilidades."
-        }
-      ],
-      education: [
-        {
-          degree: "Grau Acadêmico",
-          institution: "Universidade",
-          startYear: "2016",
-          endYear: "2020"
-        }
-      ],
-      skills: {
-        technical: ["Habilidade 1", "Habilidade 2", "Habilidade 3"],
-        languages: ["Português", "Inglês"]
-      }
-    },
-    previewImage: "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
-  }
+
 ];
 
 export const getTemplateById = (id: string): CVTemplate | undefined => {

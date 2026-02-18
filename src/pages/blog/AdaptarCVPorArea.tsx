@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
 
 const AdaptarCVPorArea = () => {
@@ -27,7 +28,7 @@ const AdaptarCVPorArea = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Dicas de Ouro:</h3>
       <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-        <li><strong>Foto Profissional:</strong> É quase obrigatória nestes setores. Veja nossas dicas de <a href="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">foto no currículo</a>.</li>
+        <li><strong>Foto Profissional:</strong> É quase obrigatória nestes setores. Veja nossas dicas de <Link to="/blog/foto-no-curriculo" className="text-blue-600 hover:text-blue-800 underline">foto no currículo</Link>.</li>
         <li><strong>Foco em Resultados Numerários:</strong> "Aumentei a carteira de clientes em 15%" soa muito melhor do que "atendi clientes".</li>
         <li><strong>Domínio de Office (Excel):</strong> Fundamental para analistas e gestores.</li>
       </ul>
@@ -49,12 +50,12 @@ const AdaptarCVPorArea = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">O que Destacar:</h3>
       <p className="mb-4 text-gray-700">
-        Liste claramente seus diplomas e registos profissionais. Se você está em busca do <a href="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">primeiro emprego na saúde</a>, destaque seus estágios curriculares e horas de prática em hospitais.
+        Liste claramente seus diplomas e registos profissionais. Se você está em busca do <Link to="/blog/cv-sem-experiencia" className="text-blue-600 hover:text-blue-800 underline">primeiro emprego na saúde</Link>, destaque seus estágios curriculares e horas de prática em hospitais.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">5. A Importância das Palavras-Chave por Setor</h2>
       <p className="mb-4 text-gray-700">
-        Para que o seu <strong>cv moçambique</strong> passe pelos filtros automáticos (ATS) que serão comuns no <a href="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">mercado de 2026</a>, use termos técnicos do setor.
+        Para que o seu <strong>cv moçambique</strong> passe pelos filtros automáticos (ATS) que serão comuns no <Link to="/blog/guia-cv-2026" className="text-blue-600 hover:text-blue-800 underline">mercado de 2026</Link>, use termos técnicos do setor.
       </p>
       <ul className="list-disc pl-6 mb-6 text-gray-700 space-y-2">
         <li><strong>Logística:</strong> "Supply Chain", "Gestão de Frota", "Incoterms".</li>
@@ -64,7 +65,7 @@ const AdaptarCVPorArea = () => {
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">Conclusão: O Diferencial está nos Detalhes</h2>
       <p className="mb-6 text-gray-700 leading-relaxed">
-        Não existe um "currículo perfeito" universal, mas existe o currículo certo para a vaga certa. Adaptar o seu <strong>cv moçambique</strong> exige tempo, mas o retorno em Convites para Entrevistas compensa cada minuto investido. Evite os <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</a> e foque na especificidade da sua área.
+        Não existe um "currículo perfeito" universal, mas existe o currículo certo para a vaga certa. Adaptar o seu <strong>cv moçambique</strong> exige tempo, mas o retorno em Convites para Entrevistas compensa cada minuto investido. Evite os <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline">erros comuns</Link> e foque na especificidade da sua área.
       </p>
 
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg mb-8">
@@ -78,21 +79,21 @@ const AdaptarCVPorArea = () => {
       <div className="bg-blue-50 p-6 rounded-lg mb-6">
         <ul className="space-y-4 text-gray-700">
           <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Guia: Como criar um CV Profissional em Moçambique
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">A fundação necessária para qualquer área profissional.</p>
           </li>
           <li>
-            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               5 Erros que Devem ser Evitados Custem o que Custar
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Proteja a sua imagem profissional de falhas básicas.</p>
           </li>
           <li>
-            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <Link to="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Explorar Modelos de CV Moçambique Grátis
-            </a>
+            </Link>
             <p className="text-sm text-gray-600">Templates otimizados para diversos setores do mercado nacional.</p>
           </li>
         </ul>
@@ -124,9 +125,9 @@ const AdaptarCVPorArea = () => {
   ];
 
   const relatedPosts = [
-    "Como criar um CV profissional em Moçambique",
-    "5 erros comuns que você deve evitar no seu CV",
-    "Tendências do mercado de trabalho em Moçambique 2024"
+    { title: "Como criar um CV profissional em Moçambique", slug: "cv-profissional-mocambique" },
+    { title: "5 erros comuns que você deve evitar no seu CV", slug: "erros-comuns" },
+    { title: "Tendências do mercado de trabalho em Moçambique 2024", slug: "tendencias-mercado-2024" }
   ];
 
   return (
@@ -140,6 +141,7 @@ const AdaptarCVPorArea = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
+      slug="adaptar-cv-por-area"
       featuredImage="/blog/adaptar-cv.jpg"
       contentImages={[
         "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"

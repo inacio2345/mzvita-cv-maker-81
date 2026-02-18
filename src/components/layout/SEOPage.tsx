@@ -1,6 +1,5 @@
 import React from 'react';
 import AppHeader from '@/components/layout/AppHeader';
-import Footer from '@/components/ui/footer';
 import SEO from '@/components/SEO';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import { Button } from '@/components/ui/button';
@@ -80,7 +79,7 @@ const SEOPage = ({
                 </div>
             </main>
 
-            <Footer />
+
 
             {/* Floating CTA for long content */}
             <div className="fixed bottom-6 right-6 z-50">

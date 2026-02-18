@@ -8,6 +8,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import AppHeader from '@/components/layout/AppHeader';
 
 import { Badge } from '@/components/ui/badge';
+import { blogPosts } from '@/data/blogPosts';
 
 const Blog = () => {
   const isMobile = useIsMobile();
@@ -15,176 +16,8 @@ const Blog = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const blogPosts = [
-    {
-      id: 12,
-      title: "As 5 Competências (Soft Skills) que Garantem Emprego",
-      excerpt: "Inteligência emocional, comunicação e adaptabilidade: saiba quais são as habilidades comportamentais mais procuradas pelos recrutadores em 2025.",
-      date: "2026-02-18",
-      author: "Equipe MozVita",
-      readTime: "6 min",
-      category: "Dicas de Carreira",
-      route: "/blog/soft-skills-mocambique",
-      image: "/blog/soft-skills-moz.jpg",
-      featured: true
-    },
-    {
-      id: 13,
-      title: "LinkedIn Moçambique: Como Ser Recrutado Sem Enviar CV",
-      excerpt: "Transforme seu perfil do LinkedIn em um ímã de recrutadores. Dicas de foto, título e networking estratégico.",
-      date: "2026-02-18",
-      author: "Equipe MozVita",
-      readTime: "9 min",
-      category: "Dicas de Carreira",
-      route: "/blog/linkedin-mocambique",
-      image: "/blog/linkedin-moz.jpg",
-      featured: true
-    },
-    {
-      id: 14,
-      title: "Carta de Apresentação Irresistível: Modelo para Moçambique",
-      excerpt: "Aprenda a escrever uma carta de apresentação que convence recrutadores. Modelos prontos e erros a evitar.",
-      date: "2026-02-18",
-      author: "Equipe MozVita",
-      readTime: "5 min",
-      category: "Dicas de CV",
-      route: "/blog/carta-apresentacao-guia",
-      image: "/blog/carta-apresentacao-guia.jpg",
-      featured: false
-    },
-    {
-      id: 7,
-      title: "Como fazer CV em Moçambique em 2026: Novas Regras",
-      excerpt: "Guia atualizado para o mercado de trabalho moçambicano em 2026. Saiba o que mudou e como destacar o seu perfil.",
-      date: "2026-02-14",
-      author: "Equipe MozVita",
-      readTime: "10 min",
-      category: "Dicas de CV",
-      route: "/blog/guia-cv-2026",
-      image: "/blog/guia-cv-2026.jpg",
-      featured: true
-    },
-    {
-      id: 8,
-      title: "CV para Motorista em Moçambique: Guia Prático",
-      excerpt: "Aprenda a criar um currículo de motorista profissional para empresas de logística e transporte em Moçambique.",
-      date: "2026-02-14",
-      author: "Equipe MozVita",
-      readTime: "6 min",
-      category: "Setores",
-      route: "/blog/cv-motorista-mocambique",
-      image: "/blog/cv-motorista.jpg",
-      featured: false
-    },
-    {
-      id: 1,
-      title: "Como criar um CV profissional em Moçambique",
-      excerpt: "Guia completo para criar um currículo profissional adaptado ao mercado de trabalho moçambicano. Dicas, estrutura e exemplos práticos.",
-      date: "2024-06-07",
-      author: "Equipe MozVita",
-      readTime: "8 min",
-      category: "Dicas de CV",
-      route: "/blog/cv-profissional-mocambique",
-      image: "/blog/cv-profissional.jpg",
-      featured: true
-    },
-    {
-      id: 2,
-      title: "5 erros comuns que você deve evitar no seu CV",
-      excerpt: "Descubra os principais erros que podem prejudicar seu currículo e como evitá-los para aumentar suas chances no mercado de trabalho.",
-      date: "2024-06-06",
-      author: "Equipe MozVita",
-      readTime: "6 min",
-      category: "Dicas de CV",
-      route: "/blog/erros-comuns",
-      image: "/blog/erros-comuns.jpg",
-      featured: false
-    },
-    {
-      id: 3,
-      title: "Primeiro emprego: como montar um CV sem experiência",
-      excerpt: "Guia completo para criar um currículo atrativo mesmo sem experiência profissional. Dicas específicas para conseguir o primeiro emprego.",
-      date: "2024-06-05",
-      author: "Equipe MozVita",
-      readTime: "7 min",
-      category: "Primeiro Emprego",
-      route: "/blog/cv-sem-experiencia",
-      image: "/blog/primeiro-emprego.jpg",
-      featured: false
-    },
-    {
-      id: 4,
-      title: "Tendências do mercado de trabalho em Moçambique 2024",
-      excerpt: "Análise completa das profissões em alta, competências mais valorizadas e oportunidades emergentes no mercado moçambicano.",
-      date: "2024-06-04",
-      author: "Equipe MozVita",
-      readTime: "9 min",
-      category: "Mercado de Trabalho",
-      route: "/blog/tendencias-mercado-2024",
-      image: "/blog/tendencias-2024.jpg",
-      featured: true
-    },
-    {
-      id: 5,
-      title: "Como adaptar seu CV para diferentes áreas profissionais",
-      excerpt: "Aprenda a personalizar seu currículo para destacar as competências específicas de cada profissão e aumentar suas chances.",
-      date: "2024-06-03",
-      author: "Equipe MozVita",
-      readTime: "6 min",
-      category: "Dicas de CV",
-      route: "/blog/adaptar-cv-por-area",
-      image: "/blog/adaptar-cv.jpg",
-      featured: false
-    },
-    {
-      id: 6,
-      title: "A importância da foto no currículo moçambicano",
-      excerpt: "Entenda quando e como incluir uma foto profissional no seu CV para causar boa impressão e se destacar no mercado.",
-      date: "2024-06-02",
-      author: "Equipe MozVita",
-      readTime: "4 min",
-      category: "Dicas de CV",
-      route: "/blog/foto-no-curriculo",
-      image: "/blog/foto-curriculo.jpg",
-      featured: false
-    },
-    {
-      id: 9,
-      title: "Vagas em Tete e Cabo Delgado: Como preparar seu CV",
-      excerpt: "Guia completo para conseguir emprego nos megaprojetos de gás e mineração. Dicas de CV, perfis procurados e onde achar vagas.",
-      date: "2026-02-18",
-      author: "Equipe MozVita",
-      readTime: "7 min",
-      category: "Setores",
-      route: "/blog/vagas-tete-cabo-delgado",
-      image: "/blog/vagas-tete-cabo-delgado.jpg",
-      featured: true
-    },
-    {
-      id: 10,
-      title: "Entrevista de Emprego em Moçambique: Guia Definitivo",
-      excerpt: "Saiba como se comportar, o que vestir e como responder às perguntas mais difíceis nas entrevistas de emprego em Moçambique.",
-      date: "2026-02-17",
-      author: "Equipe MozVita",
-      readTime: "8 min",
-      category: "Dicas de Carreira",
-      route: "/blog/entrevista-emprego-mocambique",
-      image: "/blog/entrevista-emprego.jpg",
-      featured: false
-    },
-    {
-      id: 11,
-      title: "Empreendedorismo Digital em Moçambique: Começar do Zero",
-      excerpt: "Ideias de renda extra, freelancing e ferramentas essenciais para iniciar seu negócio digital em Moçambique.",
-      date: "2026-02-16",
-      author: "Equipe MozVita",
-      readTime: "6 min",
-      category: "Empreendedorismo",
-      route: "/blog/empreendedorismo-digital",
-      image: "/blog/empreendedorismo-digital.jpg",
-      featured: false
-    }
-  ];
+  // Importação dos posts do arquivo de dados centralizado
+
 
   const categories = [
     "Todos",
@@ -201,9 +34,9 @@ const Blog = () => {
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
-  });
+  }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const featuredPosts = blogPosts.filter(post => post.featured);
+  const featuredPosts = blogPosts.filter(post => post.featured).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const regularPosts = filteredPosts.filter(post => !post.featured);
 
   const handlePostClick = (route: string) => {
@@ -216,17 +49,14 @@ const Blog = () => {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          {/* Header do Blog */}
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-4">
-              <BookOpen className="w-8 h-8 text-google-blue mr-3" />
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-                Blog MozVita
-              </h1>
-            </div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-              Dicas, guias e insights para ajudar você a criar o CV perfeito e
-              conseguir o emprego dos seus sonhos em Moçambique.
+          {/* Header do Blog Modernizado */}
+          <div className="text-center mb-16 relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-google-blue rounded-full opacity-20"></div>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight mt-8">
+              Blog MzVita
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+              Dicas de especialistas, guias de carreira e tudo o que você precisa para conquistar o mercado de trabalho em Moçambique.
             </p>
           </div>
 
@@ -303,7 +133,7 @@ const Blog = () => {
                       <Card
                         key={post.id}
                         className="bg-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden group"
-                        onClick={() => handlePostClick(post.route)}
+                        onClick={() => handlePostClick(post.route || `/blog/${post.slug}`)}
                       >
                         <div className="flex flex-col md:flex-row h-full">
                           <div className="md:w-2/5 relative overflow-hidden h-64 md:h-auto bg-gray-100 flex items-center justify-center">
@@ -362,7 +192,7 @@ const Blog = () => {
                     <Card
                       key={post.id}
                       className="bg-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer h-full flex flex-col group overflow-hidden rounded-xl border border-gray-100"
-                      onClick={() => handlePostClick(post.route)}
+                      onClick={() => handlePostClick(post.route || `/blog/${post.slug}`)}
                     >
                       {post.image && (
                         <div className="h-48 w-full overflow-hidden relative">
