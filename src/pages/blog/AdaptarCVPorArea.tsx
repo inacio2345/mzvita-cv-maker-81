@@ -38,9 +38,9 @@ const AdaptarCVPorArea = () => {
       </p>
       <h3 className="text-xl font-semibold text-gray-900 mb-3">Elementos Cruciais:</h3>
       <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-         <li><strong>Experiência de Trabalho Voluntário:</strong> Demonstra alinhamento com a missão da ONG.</li>
-         <li><strong>Conhecimento de Línguas Locais:</strong> Um diferencial enorme para projetos comunitários.</li>
-         <li><strong>Gestão de Monitoria e Avaliação (M&A):</strong> Uma competência técnica muito requisitada.</li>
+        <li><strong>Experiência de Trabalho Voluntário:</strong> Demonstra alinhamento com a missão da ONG.</li>
+        <li><strong>Conhecimento de Línguas Locais:</strong> Um diferencial enorme para projetos comunitários.</li>
+        <li><strong>Gestão de Monitoria e Avaliação (M&A):</strong> Uma competência técnica muito requisitada.</li>
       </ul>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-4">4. CV para a Área da Educação e Saúde Pública</h2>
@@ -70,7 +70,7 @@ const AdaptarCVPorArea = () => {
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r-lg mb-8">
         <h3 className="text-lg font-bold text-yellow-800 mb-2 italic">Dica Rápida do Especialista:</h3>
         <p className="text-yellow-900">
-            "Tenha um 'CV Master' com todas as suas informações e dele crie versões simplificadas e focadas para cada candidatura. A personalização é a chave para o sucesso no <strong>cv moçambique</strong>."
+          "Tenha um 'CV Master' com todas as suas informações e dele crie versões simplificadas e focadas para cada candidatura. A personalização é a chave para o sucesso no <strong>cv moçambique</strong>."
         </p>
       </div>
 
@@ -90,7 +90,7 @@ const AdaptarCVPorArea = () => {
             <p className="text-sm text-gray-600">Proteja a sua imagem profissional de falhas básicas.</p>
           </li>
           <li>
-             <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
+            <a href="/cv-mocambique" className="text-blue-600 hover:text-blue-800 underline font-bold text-lg">
               Explorar Modelos de CV Moçambique Grátis
             </a>
             <p className="text-sm text-gray-600">Templates otimizados para diversos setores do mercado nacional.</p>
@@ -98,78 +98,54 @@ const AdaptarCVPorArea = () => {
         </ul>
       </div>
     </div>
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">📚 Artigos Relacionados</h2>
-      <div className="bg-blue-50 p-6 rounded-lg mb-6">
-        <ul className="space-y-3 text-gray-700">
-          <li>
-            <a href="/blog/cv-profissional-mocambique" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Como criar um CV profissional em Moçambique
-            </a>
-            <p className="text-sm text-gray-600 mt-1">Base sólida para construir um currículo eficaz no mercado moçambicano.</p>
-          </li>
-          <li>
-            <a href="/blog/erros-comuns" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              5 erros comuns que você deve evitar no seu CV
-            </a>
-            <p className="text-sm text-gray-600 mt-1">Principais erros que podem prejudicar sua candidatura.</p>
-          </li>
-          <li>
-            <a href="/blog/tendencias-mercado-2024" className="text-blue-600 hover:text-blue-800 underline font-medium">
-              Tendências do mercado de trabalho em Moçambique 2024
-            </a>
-            <p className="text-sm text-gray-600 mt-1">Profissões em alta e competências mais valorizadas.</p>
-          </li>
-        </ul>
-      </div>
-    </div >
   );
 
-const faqs = [
-  {
-    question: "Como identificar as competências mais importantes para cada área?",
-    answer: "Analise anúncios de emprego da área, pesquise perfis profissionais no LinkedIn, consulte sites especializados e converse com profissionais da área para entender quais competências são mais valorizadas."
-  },
-  {
-    question: "Devo ter um CV diferente para cada área profissional?",
-    answer: "Sim, idealmente deve ter versões adaptadas do seu CV para cada área ou tipo de posição. Isso permite destacar as experiências e competências mais relevantes para cada contexto."
-  },
-  {
-    question: "Como destacar competências transferíveis entre áreas?",
-    answer: "Identifique competências como liderança, comunicação, resolução de problemas e trabalho em equipa que são valiosas em qualquer área. Apresente exemplos concretos de como aplicou essas competências."
-  },
-  {
-    question: "É possível mudar de área profissional com o mesmo CV?",
-    answer: "É possível, mas não recomendado. Para mudança de área, é crucial adaptar o CV para destacar competências transferíveis e demonstrar interesse genuíno e conhecimento sobre a nova área."
-  },
-  {
-    question: "Como pesquisar as exigências específicas de cada área?",
-    answer: "Use sites de emprego, LinkedIn, associações profissionais, relatórios do mercado de trabalho e converse com profissionais da área para entender as expectativas e requisitos específicos."
-  }
-];
+  const faqs = [
+    {
+      question: "Como identificar as competências mais importantes para cada área?",
+      answer: "Analise anúncios de emprego da área, pesquise perfis profissionais no LinkedIn, consulte sites especializados e converse com profissionais da área para entender quais competências são mais valorizadas."
+    },
+    {
+      question: "Devo ter um CV diferente para cada área profissional?",
+      answer: "Sim, idealmente deve ter versões adaptadas do seu CV para cada área ou tipo de posição. Isso permite destacar as experiências e competências mais relevantes para cada contexto."
+    },
+    {
+      question: "Como destacar competências transferíveis entre áreas?",
+      answer: "Identifique competências como liderança, comunicação, resolução de problemas e trabalho em equipa que são valiosas em qualquer área. Apresente exemplos concretos de como aplicou essas competências."
+    },
+    {
+      question: "É possível mudar de área profissional com o mesmo CV?",
+      answer: "É possível, mas não recomendado. Para mudança de área, é crucial adaptar o CV para destacar competências transferíveis e demonstrar interesse genuíno e conhecimento sobre a nova área."
+    },
+    {
+      question: "Como pesquisar as exigências específicas de cada área?",
+      answer: "Use sites de emprego, LinkedIn, associações profissionais, relatórios do mercado de trabalho e converse com profissionais da área para entender as expectativas e requisitos específicos."
+    }
+  ];
 
-const relatedPosts = [
-  "Como criar um CV profissional em Moçambique",
-  "5 erros comuns que você deve evitar no seu CV",
-  "Tendências do mercado de trabalho em Moçambique 2024"
-];
+  const relatedPosts = [
+    "Como criar um CV profissional em Moçambique",
+    "5 erros comuns que você deve evitar no seu CV",
+    "Tendências do mercado de trabalho em Moçambique 2024"
+  ];
 
-return (
-  <BlogPost
-    title="Como adaptar seu CV para diferentes áreas profissionais"
-    metaDescription="Aprenda a personalizar seu currículo para destacar as competências específicas de cada profissão e aumentar suas chances no mercado de trabalho."
-    author="Equipe MozVita"
-    date="2024-06-03"
-    readTime="6 min"
-    category="Dicas de CV"
-    content={content}
-    faqs={faqs}
-    relatedPosts={relatedPosts}
-    featuredImage="/lovable-uploads/0caa2974-247d-4390-863a-2988db8f9d7a.png"
-    contentImages={[
-      "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
-    ]}
-  />
-);
+  return (
+    <BlogPost
+      title="Como adaptar seu CV para diferentes áreas profissionais"
+      metaDescription="Aprenda a personalizar seu currículo para destacar as competências específicas de cada profissão e aumentar suas chances no mercado de trabalho."
+      author="Equipe MozVita"
+      date="2024-06-03"
+      readTime="6 min"
+      category="Dicas de CV"
+      content={content}
+      faqs={faqs}
+      relatedPosts={relatedPosts}
+      featuredImage="/lovable-uploads/0caa2974-247d-4390-863a-2988db8f9d7a.png"
+      contentImages={[
+        "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
+      ]}
+    />
+  );
 };
 
 export default AdaptarCVPorArea;

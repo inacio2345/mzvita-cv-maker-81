@@ -9,6 +9,7 @@ import AppHeader from '@/components/layout/AppHeader';
 import Footer from '@/components/ui/footer';
 import AdSpace from '@/components/ads/AdSpace';
 import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
+import SEO from '@/components/SEO';
 
 interface FAQ {
   question: string;
@@ -113,6 +114,12 @@ const BlogPost = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <SEO
+        title={`${title} | MozVita Blog`}
+        description={metaDescription}
+        ogImage={featuredImage}
+        ogType="article"
+      />
       <AppHeader title="Blog MozVita" />
 
       <div className="container mx-auto px-4 py-8">
