@@ -28,7 +28,11 @@ const MobileNav = () => {
           <div className="flex flex-col h-full">
             {/* Header */}
             <div className="flex items-center justify-between pb-4 border-b">
-              <span className="text-lg font-bold text-slate-800">Menu</span>
+              <img
+                src="/logo.png"
+                alt="MozVita Logo"
+                className="h-10 w-auto object-contain"
+              />
             </div>
 
             {/* Navigation Links */}

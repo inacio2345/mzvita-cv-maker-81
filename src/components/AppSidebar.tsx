@@ -93,13 +93,9 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="px-4 py-3">
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
-              alt="MozVita Logo"
-              className="h-10 w-auto object-contain"
-            />
-          </Link>
+          <div className="px-4 py-3">
+            {/* Logo removido para evitar duplicidade com o Header */}
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -172,9 +168,9 @@ export function AppSidebar() {
       <SidebarFooter>
         <div className="px-4 py-4 border-t border-sidebar-border/50">
           <img
-            src="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
+            src="/logo.png"
             alt="MozVita Logo"
-            className="h-6 w-auto opacity-70 grayscale hover:grayscale-0 transition-all"
+            className="h-8 w-auto opacity-70 grayscale hover:grayscale-0 transition-all"
           />
           <span className="text-[10px] mt-2 block text-sidebar-foreground/50 italic">© 2024 MozVita</span>
         </div>

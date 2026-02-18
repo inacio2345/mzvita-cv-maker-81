@@ -85,9 +85,9 @@ const Footer = () => {
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center space-x-2 mb-4 justify-center sm:justify-start">
               <img
-                src="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
+                src="/logo.png"
                 alt="MozVita Logo"
-                className="h-12 w-auto object-contain"
+                className="h-24 w-auto object-contain"
               />
             </Link>
             <p className="text-gray-400 text-sm sm:text-base text-center sm:text-left max-w-xs mx-auto sm:mx-0">

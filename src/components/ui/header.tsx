@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import MobileNav from '@/components/ui/mobile-nav';
@@ -30,6 +30,13 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
+            <Link to="/" className="flex items-center gap-2 mr-4 lg:mr-6">
+              <img
+                src="/logo.png"
+                alt="MozVita Logo"
+                className="h-20 w-auto object-contain"
+              />
+            </Link>
             {/* Desktop Navigation */}
             {!isMobile && (
               <nav className="hidden lg:flex items-center space-x-6">
