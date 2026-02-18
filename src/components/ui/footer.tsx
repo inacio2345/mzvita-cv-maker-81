@@ -84,10 +84,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center space-x-2 mb-4 justify-center sm:justify-start">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-google-blue to-google-green rounded-lg flex items-center justify-center">
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-              </div>
-              <span className="text-lg sm:text-xl font-bold">MzVita CV</span>
+              <img
+                src="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
+                alt="MozVita Logo"
+                className="h-12 w-auto object-contain"
+              />
             </Link>
             <p className="text-gray-400 text-sm sm:text-base text-center sm:text-left max-w-xs mx-auto sm:mx-0">
               A melhor plataforma para criar CVs profissionais em Moçambique.

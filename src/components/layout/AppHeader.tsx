@@ -40,22 +40,25 @@ const AppHeader = ({
     return <ArrowLeft className="w-4 h-4" />;
   };
   return <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          {shouldShowBackButton && <Button variant="outline" onClick={handleBackClick} className="flex items-center gap-2">
-              {getBackButtonIcon()}
-              {getBackButtonText()}
-            </Button>}
-          
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-            
-            
-          </div>
-          
-          {/* Spacer para equilibrar o layout quando há botão de voltar */}
-          {shouldShowBackButton && <div className="w-[100px]"></div>}
+    <div className="max-w-4xl mx-auto">
+      <div className="flex items-center justify-between mb-6">
+        {shouldShowBackButton && <Button variant="outline" onClick={handleBackClick} className="flex items-center gap-2">
+          {getBackButtonIcon()}
+          {getBackButtonText()}
+        </Button>}
+
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
+          <img
+            src="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
+            alt="MozVita Logo"
+            className="h-10 w-auto object-contain"
+          />
         </div>
+
+        {/* Spacer para equilibrar o layout quando há botão de voltar */}
+        {shouldShowBackButton && <div className="w-[100px]"></div>}
       </div>
-    </div>;
+    </div>
+  </div>;
 };
 export default AppHeader;
