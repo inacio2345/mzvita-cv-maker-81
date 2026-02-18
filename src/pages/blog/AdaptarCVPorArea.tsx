@@ -140,7 +140,7 @@ const AdaptarCVPorArea = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
-      featuredImage="/lovable-uploads/0caa2974-247d-4390-863a-2988db8f9d7a.png"
+      featuredImage="/blog/adaptar-cv.jpg"
       contentImages={[
         "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
       ]}

@@ -47,6 +47,12 @@ import ExemplosCVMocambique from "./pages/seo/ExemplosCVMocambique";
 import CVEmInglesMocambique from "./pages/seo/CVEmInglesMocambique";
 import GuiaCV2026 from "./pages/blog/GuiaCV2026";
 import CVMotoristaMocambique from "./pages/blog/CVMotoristaMocambique";
+import VagasTeteCaboDelgado from "./pages/blog/VagasTeteCaboDelgado";
+import EntrevistaEmpregoMoz from "./pages/blog/EntrevistaEmpregoMoz";
+import EmpreendedorismoDigital from "./pages/blog/EmpreendedorismoDigital";
+import CartaApresentacaoGuia from "./pages/blog/CartaApresentacaoGuia";
+import SoftSkillsMoz from "./pages/blog/SoftSkillsMoz";
+import LinkedinMoz from "./pages/blog/LinkedinMoz";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +89,12 @@ const App = () => (
                       <Route path="/blog/foto-no-curriculo" element={<FotoNoCurriculo />} />
                       <Route path="/blog/guia-cv-2026" element={<GuiaCV2026 />} />
                       <Route path="/blog/cv-motorista-mocambique" element={<CVMotoristaMocambique />} />
+                      <Route path="/blog/vagas-tete-cabo-delgado" element={<VagasTeteCaboDelgado />} />
+                      <Route path="/blog/entrevista-emprego-mocambique" element={<EntrevistaEmpregoMoz />} />
+                      <Route path="/blog/empreendedorismo-digital" element={<EmpreendedorismoDigital />} />
+                      <Route path="/blog/carta-apresentacao-guia" element={<CartaApresentacaoGuia />} />
+                      <Route path="/blog/soft-skills-mocambique" element={<SoftSkillsMoz />} />
+                      <Route path="/blog/linkedin-mocambique" element={<LinkedinMoz />} />
                       <Route path="/carta-apresentacao" element={<CartaApresentacao />} />
                       <Route path="/carta-pedido-estagio" element={<CartaPedidoEstagio />} />
                       <Route path="/carta-requisicao" element={<CartaRequisicao />} />

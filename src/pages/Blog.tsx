@@ -17,6 +17,42 @@ const Blog = () => {
 
   const blogPosts = [
     {
+      id: 12,
+      title: "As 5 Competências (Soft Skills) que Garantem Emprego",
+      excerpt: "Inteligência emocional, comunicação e adaptabilidade: saiba quais são as habilidades comportamentais mais procuradas pelos recrutadores em 2025.",
+      date: "2026-02-18",
+      author: "Equipe MozVita",
+      readTime: "6 min",
+      category: "Dicas de Carreira",
+      route: "/blog/soft-skills-mocambique",
+      image: "/blog/soft-skills-moz.jpg",
+      featured: true
+    },
+    {
+      id: 13,
+      title: "LinkedIn Moçambique: Como Ser Recrutado Sem Enviar CV",
+      excerpt: "Transforme seu perfil do LinkedIn em um ímã de recrutadores. Dicas de foto, título e networking estratégico.",
+      date: "2026-02-18",
+      author: "Equipe MozVita",
+      readTime: "9 min",
+      category: "Dicas de Carreira",
+      route: "/blog/linkedin-mocambique",
+      image: "/blog/linkedin-moz.jpg",
+      featured: true
+    },
+    {
+      id: 14,
+      title: "Carta de Apresentação Irresistível: Modelo para Moçambique",
+      excerpt: "Aprenda a escrever uma carta de apresentação que convence recrutadores. Modelos prontos e erros a evitar.",
+      date: "2026-02-18",
+      author: "Equipe MozVita",
+      readTime: "5 min",
+      category: "Dicas de CV",
+      route: "/blog/carta-apresentacao-guia",
+      image: "/blog/carta-apresentacao-guia.jpg",
+      featured: false
+    },
+    {
       id: 7,
       title: "Como fazer CV em Moçambique em 2026: Novas Regras",
       excerpt: "Guia atualizado para o mercado de trabalho moçambicano em 2026. Saiba o que mudou e como destacar o seu perfil.",
@@ -25,6 +61,7 @@ const Blog = () => {
       readTime: "10 min",
       category: "Dicas de CV",
       route: "/blog/guia-cv-2026",
+      image: "/blog/guia-cv-2026.jpg",
       featured: true
     },
     {
@@ -36,6 +73,7 @@ const Blog = () => {
       readTime: "6 min",
       category: "Setores",
       route: "/blog/cv-motorista-mocambique",
+      image: "/blog/cv-motorista.jpg",
       featured: false
     },
     {
@@ -47,6 +85,7 @@ const Blog = () => {
       readTime: "8 min",
       category: "Dicas de CV",
       route: "/blog/cv-profissional-mocambique",
+      image: "/blog/cv-profissional.jpg",
       featured: true
     },
     {
@@ -58,6 +97,7 @@ const Blog = () => {
       readTime: "6 min",
       category: "Dicas de CV",
       route: "/blog/erros-comuns",
+      image: "/blog/erros-comuns.jpg",
       featured: false
     },
     {
@@ -69,6 +109,7 @@ const Blog = () => {
       readTime: "7 min",
       category: "Primeiro Emprego",
       route: "/blog/cv-sem-experiencia",
+      image: "/blog/primeiro-emprego.jpg",
       featured: false
     },
     {
@@ -80,6 +121,7 @@ const Blog = () => {
       readTime: "9 min",
       category: "Mercado de Trabalho",
       route: "/blog/tendencias-mercado-2024",
+      image: "/blog/tendencias-2024.jpg",
       featured: true
     },
     {
@@ -91,6 +133,7 @@ const Blog = () => {
       readTime: "6 min",
       category: "Dicas de CV",
       route: "/blog/adaptar-cv-por-area",
+      image: "/blog/adaptar-cv.jpg",
       featured: false
     },
     {
@@ -102,6 +145,43 @@ const Blog = () => {
       readTime: "4 min",
       category: "Dicas de CV",
       route: "/blog/foto-no-curriculo",
+      image: "/blog/foto-curriculo.jpg",
+      featured: false
+    },
+    {
+      id: 9,
+      title: "Vagas em Tete e Cabo Delgado: Como preparar seu CV",
+      excerpt: "Guia completo para conseguir emprego nos megaprojetos de gás e mineração. Dicas de CV, perfis procurados e onde achar vagas.",
+      date: "2026-02-18",
+      author: "Equipe MozVita",
+      readTime: "7 min",
+      category: "Setores",
+      route: "/blog/vagas-tete-cabo-delgado",
+      image: "/blog/vagas-tete-cabo-delgado.jpg",
+      featured: true
+    },
+    {
+      id: 10,
+      title: "Entrevista de Emprego em Moçambique: Guia Definitivo",
+      excerpt: "Saiba como se comportar, o que vestir e como responder às perguntas mais difíceis nas entrevistas de emprego em Moçambique.",
+      date: "2026-02-17",
+      author: "Equipe MozVita",
+      readTime: "8 min",
+      category: "Dicas de Carreira",
+      route: "/blog/entrevista-emprego-mocambique",
+      image: "/blog/entrevista-emprego.jpg",
+      featured: false
+    },
+    {
+      id: 11,
+      title: "Empreendedorismo Digital em Moçambique: Começar do Zero",
+      excerpt: "Ideias de renda extra, freelancing e ferramentas essenciais para iniciar seu negócio digital em Moçambique.",
+      date: "2026-02-16",
+      author: "Equipe MozVita",
+      readTime: "6 min",
+      category: "Empreendedorismo",
+      route: "/blog/empreendedorismo-digital",
+      image: "/blog/empreendedorismo-digital.jpg",
       featured: false
     }
   ];
@@ -110,7 +190,10 @@ const Blog = () => {
     "Todos",
     "Dicas de CV",
     "Primeiro Emprego",
-    "Mercado de Trabalho"
+    "Mercado de Trabalho",
+    "Setores",
+    "Empreendedorismo",
+    "Dicas de Carreira"
   ];
 
   const filteredPosts = blogPosts.filter(post => {
@@ -222,11 +305,17 @@ const Blog = () => {
                         className="bg-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden group"
                         onClick={() => handlePostClick(post.route)}
                       >
-                        <div className="flex flex-col md:flex-row">
-                          <div className="md:w-2/5 bg-gray-100 flex items-center justify-center p-8 bg-gradient-to-br from-blue-50 to-white">
-                            <BookOpen className="w-16 h-16 text-google-blue/20" />
+                        <div className="flex flex-col md:flex-row h-full">
+                          <div className="md:w-2/5 relative overflow-hidden h-64 md:h-auto bg-gray-100 flex items-center justify-center">
+                            {post.image ? (
+                              <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                            ) : (
+                              <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-blue-50 to-white">
+                                <BookOpen className="w-16 h-16 text-google-blue/20" />
+                              </div>
+                            )}
                           </div>
-                          <div className="md:w-3/5 p-6">
+                          <div className="md:w-3/5 p-6 flex flex-col justify-center">
                             <div className="flex items-center gap-2 mb-3">
                               <Badge className="bg-google-blue">{post.category}</Badge>
                               <span className="text-xs text-gray-400">{post.readTime} leitura</span>
@@ -272,9 +361,19 @@ const Blog = () => {
                   {(searchTerm !== '' || selectedCategory !== 'Todos' ? filteredPosts : regularPosts).map((post) => (
                     <Card
                       key={post.id}
-                      className="bg-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer h-full flex flex-col group"
+                      className="bg-white shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer h-full flex flex-col group overflow-hidden rounded-xl border border-gray-100"
                       onClick={() => handlePostClick(post.route)}
                     >
+                      {post.image && (
+                        <div className="h-48 w-full overflow-hidden relative">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                      )}
+
                       <CardHeader className="pb-4">
                         <div className="flex items-center justify-between mb-3">
                           <Badge variant="outline" className="border-blue-100 text-google-blue text-[10px] uppercase tracking-wider">

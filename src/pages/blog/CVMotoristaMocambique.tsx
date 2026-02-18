@@ -118,7 +118,7 @@ const CVMotoristaMocambique = () => {
             content={content}
             faqs={faqs}
             relatedPosts={relatedPosts}
-            featuredImage="/lovable-uploads/2739ea15-d91d-40ba-87be-257a0701970b.png"
+            featuredImage="/blog/cv-motorista.jpg"
         />
     );
 };

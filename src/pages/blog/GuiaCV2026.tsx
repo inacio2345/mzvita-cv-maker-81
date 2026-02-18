@@ -88,7 +88,7 @@ const GuiaCV2026 = () => {
             category="Blog"
             content={content}
             faqs={faqs}
-            featuredImage="/lovable-uploads/792b9048-62e9-4cb9-9295-34848dacbae0.png"
+            featuredImage="/blog/guia-cv-2026.jpg"
         />
     );
 };

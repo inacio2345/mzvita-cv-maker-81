@@ -136,7 +136,7 @@ const CVProfissionalMocambique = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
-      featuredImage="/lovable-uploads/792b9048-62e9-4cb9-9295-34848dacbae0.png"
+      featuredImage="/blog/cv-profissional.jpg"
       contentImages={[
         "/lovable-uploads/d0958b45-cda0-4796-aac4-a03ccebea308.png"
       ]}

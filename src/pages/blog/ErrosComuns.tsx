@@ -132,7 +132,7 @@ const ErrosComuns = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
-      featuredImage="/lovable-uploads/cb561e9e-6d11-4241-9b97-f66a85aaf2a6.png"
+      featuredImage="/blog/erros-comuns.jpg"
       contentImages={[
         "/lovable-uploads/56a2ffff-f1a3-4796-9a7b-7c15ec8816a0.png"
       ]}

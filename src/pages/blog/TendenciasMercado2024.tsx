@@ -156,7 +156,7 @@ const TendenciasMercado2024 = () => {
       content={content}
       faqs={faqs}
       relatedPosts={relatedPosts}
-      featuredImage="/lovable-uploads/8c649b67-6396-4226-8797-9a91353dcfeb.png"
+      featuredImage="/blog/tendencias-2024.jpg"
       contentImages={[
         "/lovable-uploads/df21168d-47b5-45a5-b304-135446a8553a.png"
       ]}
