@@ -9,6 +9,7 @@ const urlsToCache = [
 
 // Install event - cache resources
 self.addEventListener('install', event => {
+  self.skipWaiting(); // Force new SW to take over immediately
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -45,13 +46,13 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
-      return Promise.all(
         cacheNames.map(cacheName => {
           console.log('PWA: Deleting old cache', cacheName);
           return caches.delete(cacheName);
         })
       );
-      );
-})
+    }).then(() => {
+      return self.clients.claim(); // Take control of all clients immediately
+    })
   );
 });
