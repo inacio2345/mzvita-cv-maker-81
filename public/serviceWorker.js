@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mozvita-cv-v1.0.0';
+const CACHE_NAME = 'mozvita-cv-v1.0.1-force-refresh';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
@@ -45,13 +45,13 @@ self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
+      return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('PWA: Deleting old cache', cacheName);
-            return caches.delete(cacheName);
-          }
+          console.log('PWA: Deleting old cache', cacheName);
+          return caches.delete(cacheName);
         })
       );
-    })
+      );
+})
   );
 });
