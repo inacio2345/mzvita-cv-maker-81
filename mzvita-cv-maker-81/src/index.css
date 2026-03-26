@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700;800&family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@400;700;900&family=Nunito:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
+  /* Prevent horizontal scroll and ensure responsive behavior */
+  .container {
+    max-width: 1400px !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media (min-width: 640px) {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Section spacing improvements */
+  section {
+    @apply py-12 md:py-20 lg:py-24;
+  }
+
+  /* Optimize images for better performance */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Optimize iframe responsiveness */
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* CV Section styling for advanced mode */
+.cv-section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.cv-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Visual A4 Page Break Indicator for Screen */
+@media screen {
+  .cv-a4-preview {
+    background-image: linear-gradient(to bottom, transparent calc(297mm - 1px), #94a3b8 calc(297mm - 1px), #94a3b8 297mm);
+    background-size: 100% 297mm;
+    background-repeat: repeat-y;
+  }
+}
+
+/* Print styles for A4 */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  body {
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .cv-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .cv-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  /* Hide controls in print */
+  .print\\:hidden {
+    display: none !important;
+  }
+}
+
+/* Premium Navigation Effects */
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+@keyframes premium-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(14, 116, 144, 0.4);
+    transform: scale(1);
+  }
+
+  70% {
+    box-shadow: 0 0 0 15px rgba(14, 116, 144, 0);
+    transform: scale(1.05);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(14, 116, 144, 0);
+    transform: scale(1);
+  }
+}
+
+.nav-button-premium {
+  @apply relative overflow-hidden transition-all duration-300 hover:text-google-blue;
+}
+
+.nav-button-premium::after {
+  content: '';
+  @apply absolute bottom-1 left-1/2 w-0 h-0.5 bg-google-blue transition-all duration-300 -translate-x-1/2;
+}
+
+.nav-button-premium:hover::after {
+  @apply w-2/3;
+}
+
+.btn-shine-sweep {
+  @apply relative overflow-hidden;
+}
+
+.btn-shine-sweep::before {
+  content: '';
+  @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent z-10;
+  transition: none;
+}
+
+.btn-shine-sweep:hover::before {
+  animation: shine-sweep 0.8s ease-in-out;
+}
+
+.animate-premium-pulse {
+  animation: premium-pulse 2s infinite;
+}
+
+.dropdown-item-premium {
+  @apply flex items-center gap-2 p-3 rounded-xl transition-all duration-200 hover:bg-slate-50 border border-transparent hover:border-slate-100;
+}
+
+/* Hide Lovable Elements */
+a[href*="lovable.dev"],
+iframe[src*="lovable.dev"],
+div[style*="Edit with Lovable"],
+.lovable-badge {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}
