@@ -19,6 +19,7 @@ const PLAN_DESCRIPTIONS = {
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 }
 
 serve(async (req) => {
@@ -37,7 +38,6 @@ serve(async (req) => {
     const description = PLAN_DESCRIPTIONS[plan_type]
     const reference = `MZVT${Date.now()}${user_id.replace(/-/g, '').substring(0, 8)}`
 
-    // 1. Criar pagamento no PaySuite
     const response = await fetch(PAYSUITE_API_URL, {
       method: "POST",
       headers: {
@@ -58,11 +58,10 @@ serve(async (req) => {
     const result = await response.json()
 
     if (result.status !== "success") {
-      console.error("Erro no PaySuite:", result)
-      throw new Error("Falha ao iniciar pagamento no PaySuite")
+      console.error("Erro no PaySuite:", JSON.stringify(result))
+      throw new Error(result.message || "Falha ao iniciar pagamento no PaySuite")
     }
 
-    // 2. Registrar no banco de dados como Pendente
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -93,6 +92,7 @@ serve(async (req) => {
     )
 
   } catch (error) {
+    console.error("Erro geral:", error.message)
     return new Response(
       JSON.stringify({ error: error.message }),
       { 
