@@ -1,0 +1,142 @@
+
+import React, { useEffect } from 'react';
+import { FileText } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import AdSpace from '@/components/ads/AdSpace';
+import { useLocation } from 'react-router-dom';
+
+const Footer = () => {
+  const location = useLocation();
+
+  // List of pages where ads should not be shown
+  const excludedPages = [
+    '/preview',
+    '/criar-cv'
+  ];
+
+  // Check if the current page should show the ad
+  const shouldShowAds = !excludedPages.includes(location.pathname);
+
+  // Load Adsterra script when component mounts and ad should be shown
+  useEffect(() => {
+    if (shouldShowAds) {
+      // Remove existing script if it exists
+      const existingScript = document.querySelector('script[src*="61eba68a47e0ac2b98ec3fed6c320ba9"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
+
+      // Create and append new script
+      const script = document.createElement('script');
+      script.async = true;
+      script.setAttribute('data-cfasync', 'false');
+      script.src = '//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js';
+
+      // Add script to the end of body
+      document.body.appendChild(script);
+
+      return () => {
+        // Cleanup script when component unmounts
+        const scriptToRemove = document.querySelector('script[src*="61eba68a47e0ac2b98ec3fed6c320ba9"]');
+        if (scriptToRemove && document.body.contains(scriptToRemove)) {
+          document.body.removeChild(scriptToRemove);
+        }
+      };
+    }
+  }, [shouldShowAds]);
+
+  const footerAdScript = `
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '544871108327156f752c8856d6a40dc6',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/544871108327156f752c8856d6a40dc6/invoke.js"></script>
+  `;
+
+  return (
+    <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
+      {/* Adsterra ad - Posicionado no final do footer */}
+      {shouldShowAds && (
+        <div className="adsterra-footer-native w-full mx-auto mt-6 mb-4 overflow-hidden" style={{ display: 'block', minHeight: '100px' }}>
+          <div
+            id="container-61eba68a47e0ac2b98ec3fed6c320ba9"
+            className="flex justify-center items-center w-full max-w-full overflow-hidden"
+            style={{
+              display: 'block',
+              minHeight: '100px',
+              margin: '0 auto',
+              textAlign: 'center',
+              visibility: 'visible',
+              overflow: 'hidden',
+              zIndex: 1000,
+              maxWidth: '100%'
+            }}
+          ></div>
+        </div>
+      )}
+
+      <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-1">
+            <Link to="/" className="flex items-center space-x-2 mb-4 justify-center sm:justify-start">
+              <img
+                src="/logo.png"
+                alt="MozVita Logo"
+                className="h-24 w-auto object-contain"
+              />
+            </Link>
+            <p className="text-gray-400 text-sm sm:text-base text-center sm:text-left max-w-xs mx-auto sm:mx-0">
+              A melhor plataforma para criar CVs profissionais em Moçambique.
+            </p>
+          </div>
+          <div className="text-center sm:text-left">
+            <h4 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">Produto</h4>
+            <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
+              <li><Link to="/como-funciona" className="hover:text-white transition-colors">Como funciona</Link></li>
+              <li><Link to="/exemplos" className="hover:text-white transition-colors">Modelos</Link></li>
+              <li><Link to="/sobre-nos" className="hover:text-white transition-colors">Sobre Nós</Link></li>
+              <li><Link to="/criar-cv" className="hover:text-white transition-colors">Criar CV</Link></li>
+            </ul>
+          </div>
+          <div className="text-center sm:text-left">
+            <h4 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">Suporte</h4>
+            <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
+              <li><Link to="/contato" className="hover:text-white transition-colors">Central de Ajuda</Link></li>
+              <li><Link to="/contato" className="hover:text-white transition-colors">Contato</Link></li>
+              <li>
+                <a
+                  href="https://api.whatsapp.com/send?phone=258841524822&text=Ol%C3%A1%2C%20tenho%20interesse%20nos%20seus%20servi%C3%A7os.%20Pode%20me%20dar%20mais%20informa%C3%A7%C3%B5es%3F"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors block"
+                >
+                  WhatsApp
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div className="text-center sm:text-left">
+            <h4 className="font-semibold mb-3 sm:mb-4 text-base sm:text-lg">Legal</h4>
+            <ul className="space-y-2 text-gray-400 text-sm sm:text-base">
+              <li><Link to="/termos-de-uso" className="hover:text-white transition-colors">Termos de Uso</Link></li>
+              <li><Link to="/politica-de-privacidade" className="hover:text-white transition-colors">Privacidade</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-gray-800 mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-gray-400 text-xs sm:text-sm md:text-base">
+          <p>&copy; 2024 MzVita CV. Todos os direitos reservados.</p>
+          <p className="mt-2 text-[10px] sm:text-xs opacity-70">
+            Desenvolvido por <a href="https://www.lgtecserv.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline decoration-google-blue/30 underline-offset-4">LG TecServ</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
