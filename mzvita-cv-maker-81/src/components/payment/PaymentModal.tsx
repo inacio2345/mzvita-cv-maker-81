@@ -241,9 +241,15 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
                             </>
                         )}
                     </Button>
-                    <div className="flex items-center justify-center gap-4 mt-2 opacity-60 grayscale hover:grayscale-0 transition-all">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/M-Pesa_Logo.svg/512px-M-Pesa_Logo.svg.png" alt="M-Pesa" className="h-6 object-contain" />
-                        <img src="https://seeklogo.com/images/E/emola-logo-3B5D34B8FA-seeklogo.com.png" alt="E-Mola" className="h-6 object-contain" />
+                    <div className="flex items-center justify-center gap-4 mt-2 opacity-70 hover:opacity-100 transition-all">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-50 border border-red-200 rounded-full text-xs font-bold text-red-600">
+                          <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+                          M-Pesa
+                        </span>
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-50 border border-orange-200 rounded-full text-xs font-bold text-orange-600">
+                          <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
+                          E-Mola
+                        </span>
                     </div>
                     <p className="text-[10px] text-center text-slate-400 font-medium max-w-xs mx-auto">
                         Pagamento processado de forma criptografada pelo PaySuite. 
