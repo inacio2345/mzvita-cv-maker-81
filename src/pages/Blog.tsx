@@ -133,7 +133,7 @@ const Blog = () => {
                       <Card
                         key={post.id}
                         className="bg-white shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden group"
-                        onClick={() => handlePostClick(post.route || `/blog/${post.slug}`)}
+                        onClick={() => handlePostClick(`/blog/${post.slug}`)}
                       >
                         <div className="flex flex-col md:flex-row h-full">
                           <div className="md:w-2/5 relative overflow-hidden h-64 md:h-auto bg-gray-100 flex items-center justify-center">
