@@ -87,30 +87,24 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
         if (!selectedPlan) return;
         setIsProcessing(true);
         try {
-            // No futuro, podemos chamar a Edge Function aqui e receber a checkout_url
-            // Por enquanto, simulamos a chamada no hook
-            const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-paysuite-payment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
-                },
-                body: JSON.stringify({
+            const { supabase } = await import('@/integrations/supabase/client');
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            const response = await supabase.functions.invoke('create-paysuite-payment', {
+                body: {
                     plan_type: selectedPlan,
-                    user_id: (await (await import('@/lib/supabase')).supabase.auth.getUser()).data.user?.id,
+                    user_id: user?.id,
                     return_url: window.location.origin + '/dashboard?payment=success'
-                })
+                }
             });
 
-            const result = await response.json();
+            if (response.error) throw response.error;
+            const result = response.data;
             
             if (result.checkout_url) {
-                // Em vez de redirecionar o window, salvamos para o iframe
+                setPaysuiteId(result.paysuite_id);
                 setCheckoutUrl(result.checkout_url);
-                // Extrair ID do PaySuite da URL ou do retorno se disponível
-                // A resposta da nossa function deveria conter o ID. Vamos ajustar a function.
-                // Por agora, assumimos que o polling vai funcionar se tivermos o ID.
-                setPaysuiteId(result.paysuite_id || result.checkout_url.split('/').pop());
+                window.open(result.checkout_url, '_blank');
             } else {
                 throw new Error("Erro ao gerar link de pagamento");
             }
@@ -129,28 +123,32 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
     if (checkoutUrl) {
         return (
             <Dialog open={isOpen} onOpenChange={() => {}}>
-                <DialogContent className="sm:max-w-none w-screen h-screen p-0 m-0 border-none rounded-none overflow-hidden bg-white z-[9999]">
-                    <div className="relative w-full h-full flex flex-col">
-                        <div className="flex items-center justify-between p-4 border-b bg-white">
-                            <div className="flex items-center gap-2">
-                                <Loader2 className="w-4 h-4 text-google-blue animate-spin" />
-                                <span className="text-sm font-medium animate-pulse text-slate-600">Aguardando confirmação do pagamento...</span>
-                            </div>
-                            <Button 
-                                variant="ghost" 
-                                size="sm" 
-                                onClick={() => setCheckoutUrl(null)}
-                                className="hover:bg-red-50 hover:text-red-500"
+                <DialogContent className="sm:max-w-md">
+                    <div className="flex flex-col items-center gap-6 py-8 text-center">
+                        <Loader2 className="w-12 h-12 text-primary animate-spin" />
+                        <div>
+                            <h3 className="text-lg font-bold text-foreground mb-2">Aguardando pagamento...</h3>
+                            <p className="text-sm text-muted-foreground">
+                                Complete o pagamento na aba que foi aberta. Esta janela será atualizada automaticamente.
+                            </p>
+                        </div>
+                        <div className="flex gap-3 w-full">
+                            <Button
+                                variant="outline"
+                                className="flex-1"
+                                onClick={() => window.open(checkoutUrl, '_blank')}
                             >
-                                <X className="w-5 h-5 mr-2" />
+                                Reabrir Checkout
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                className="flex-1 hover:bg-destructive/10 hover:text-destructive"
+                                onClick={() => { setCheckoutUrl(null); setPaysuiteId(null); }}
+                            >
+                                <X className="w-4 h-4 mr-2" />
                                 Cancelar
                             </Button>
                         </div>
-                        <iframe 
-                            src={checkoutUrl} 
-                            className="flex-1 w-full h-full border-none"
-                            title="PaySuite Checkout"
-                        />
                     </div>
                 </DialogContent>
             </Dialog>
