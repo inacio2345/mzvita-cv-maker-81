@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          paysuite_id: string | null
+          plan_type: string
+          reference: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          paysuite_id?: string | null
+          plan_type: string
+          reference: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          paysuite_id?: string | null
+          plan_type?: string
+          reference?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       saved_cvs: {
         Row: {
           created_at: string
@@ -56,10 +92,15 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
+          cv_limit: number | null
+          cv_used: number | null
           email: string | null
           full_name: string | null
           id: string
+          is_premium: boolean | null
+          plan_type: string | null
           preferred_language: string | null
+          subscription_expires_at: string | null
           theme: string | null
           total_downloads: number | null
           updated_at: string
@@ -67,10 +108,15 @@ export type Database = {
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          cv_limit?: number | null
+          cv_used?: number | null
           email?: string | null
           full_name?: string | null
           id: string
+          is_premium?: boolean | null
+          plan_type?: string | null
           preferred_language?: string | null
+          subscription_expires_at?: string | null
           theme?: string | null
           total_downloads?: number | null
           updated_at?: string
@@ -78,10 +124,15 @@ export type Database = {
         Update: {
           avatar_url?: string | null
           created_at?: string
+          cv_limit?: number | null
+          cv_used?: number | null
           email?: string | null
           full_name?: string | null
           id?: string
+          is_premium?: boolean | null
+          plan_type?: string | null
           preferred_language?: string | null
+          subscription_expires_at?: string | null
           theme?: string | null
           total_downloads?: number | null
           updated_at?: string
