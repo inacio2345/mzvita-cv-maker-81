@@ -27,7 +27,7 @@ interface BlogPostProps {
   relatedPosts?: (string | { title: string; slug: string })[];
   featuredImage?: string;
   contentImages?: string[];
-  slug: string;
+  slug?: string;
 }
 
 const BlogPost = ({
