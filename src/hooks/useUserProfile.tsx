@@ -8,6 +8,7 @@ import { SecureDbService } from '@/services/secureDbService';
 export interface UserProfile {
   id: string;
   nome_completo: string;
+  full_name?: string;
   email: string;
   foto_perfil_url?: string;
   profissao?: string;

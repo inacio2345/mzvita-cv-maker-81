@@ -78,7 +78,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }: AuthModalProps) => {
         title: "🎉 Autenticação Concluída!",
         description: "Bem-vindo ao MozVita CV. Estamos prontos para criar o seu futuro profissional!",
       });
-      onAuthSuccess?.();
+      onAuthSuccess?.('');
       onClose();
     } catch (error: any) {
       toast({

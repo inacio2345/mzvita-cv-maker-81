@@ -23,7 +23,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
 
     // Polling para verificar se o pagamento foi concluído
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: ReturnType<typeof setInterval>;
 
         if (checkoutUrl && paysuiteId) {
             interval = setInterval(async () => {

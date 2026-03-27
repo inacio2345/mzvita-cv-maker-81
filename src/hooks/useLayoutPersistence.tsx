@@ -7,7 +7,7 @@ const STORAGE_KEY_PREFIX = 'cv_layout_config_';
 export const useLayoutPersistence = (cvId?: string) => {
   const [layoutConfig, setLayoutConfig] = useState<LayoutConfig>(getDefaultLayoutConfig());
   const [isDirty, setIsDirty] = useState(false);
-  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Generate storage key
   const getStorageKey = useCallback(() => {

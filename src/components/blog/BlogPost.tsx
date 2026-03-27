@@ -24,7 +24,7 @@ interface BlogPostProps {
   category: string;
   content: React.ReactNode;
   faqs: FAQ[];
-  relatedPosts?: { title: string; slug: string }[];
+  relatedPosts?: (string | { title: string; slug: string })[];
   featuredImage?: string;
   contentImages?: string[];
   slug: string;

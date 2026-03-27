@@ -55,7 +55,7 @@ interface AdvancedCVEditorProps {
   fonts?: FontConfig;
   onReorderSections: (newOrder: string[]) => void;
   onToggleVisibility: (sectionId: string) => void;
-  onUpdateStyle: (type: 'colors' | 'fonts' | 'spacing', value: any) => void;
+  onUpdateStyle: (type: 'colors' | 'fonts' | 'spacing' | 'sectionTitles', value: any) => void;
   onReset: () => void;
   onSave: () => void;
   isDirty?: boolean;
