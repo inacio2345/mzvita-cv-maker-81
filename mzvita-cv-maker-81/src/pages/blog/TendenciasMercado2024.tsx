@@ -160,10 +160,11 @@ const TendenciasMercado2024 = () => {
       slug="tendencias-mercado-2024"
       featuredImage="/blog/tendencias-2024.jpg"
       contentImages={[
-        "/lovable-uploads/df21168d-47b5-45a5-b304-135446a8553a.png"
+        "/uploads/df21168d-47b5-45a5-b304-135446a8553a.png"
       ]}
     />
   );
 };
 
 export default TendenciasMercado2024;
+

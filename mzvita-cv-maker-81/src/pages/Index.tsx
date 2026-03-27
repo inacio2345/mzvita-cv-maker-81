@@ -177,7 +177,7 @@ const Index = () => {
                 className="relative z-10 bg-white p-4 rounded-2xl shadow-2xl border border-slate-100 rotate-2"
               >
                 <img
-                  src="/lovable-uploads/hero-woman.jpg"
+                  src="/uploads/hero-woman.jpg"
                   alt="MozVita CV - Criar Currículo Profissional em Moçambique"
                   className="rounded-lg w-full h-auto object-cover shadow-xl"
                 />
@@ -546,3 +546,4 @@ const IndexContainer = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default Index;
+

@@ -20,7 +20,7 @@ const Exemplos = () => {
       templateId: "cv-classico-elegante",
       title: "Clássico Elegante",
       description: "Design elegante com layout de coluna única e foto no topo. Ideal para profissões formais.",
-      image: "/lovable-uploads/template-01.jpg",
+      image: "/uploads/template-01.jpg",
       rating: 5,
       downloads: 2100,
       category: "Administração",
@@ -31,7 +31,7 @@ const Exemplos = () => {
       templateId: "cv-sidebar-professional",
       title: "Sidebar Profissional",
       description: "Sidebar lateral com foto grande e layout moderno. Perfeito para destacar expertise.",
-      image: "/lovable-uploads/template-02.jpg",
+      image: "/uploads/template-02.jpg",
       rating: 5,
       downloads: 1850,
       category: "Design",
@@ -42,7 +42,7 @@ const Exemplos = () => {
       templateId: "cv-diagonal-modern",
       title: "Diagonal Moderno",
       description: "Design com elementos diagonais únicos. Ideal para quem busca algo diferente.",
-      image: "/lovable-uploads/template-03.jpg",
+      image: "/uploads/template-03.jpg",
       rating: 5,
       downloads: 1620,
       category: "Engenharia",
@@ -53,7 +53,7 @@ const Exemplos = () => {
       templateId: "cv-minimalist-clean",
       title: "Minimalista Limpo",
       description: "Layout minimalista em preto e branco. Foco total no conteúdo.",
-      image: "/lovable-uploads/template-04.jpg",
+      image: "/uploads/template-04.jpg",
       rating: 5,
       downloads: 1980,
       category: "Saúde",
@@ -297,3 +297,4 @@ const Exemplos = () => {
 };
 
 export default Exemplos;
+

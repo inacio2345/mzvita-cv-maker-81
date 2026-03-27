@@ -285,16 +285,4 @@
 .dropdown-item-premium {
   @apply flex items-center gap-2 p-3 rounded-xl transition-all duration-200 hover:bg-slate-50 border border-transparent hover:border-slate-100;
 }
-
-/* Hide Lovable Elements */
-a[href*="lovable.dev"],
-iframe[src*="lovable.dev"],
-div[style*="Edit with Lovable"],
-.lovable-badge {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  position: absolute !important;
-  z-index: -9999 !important;
-}
+

@@ -140,10 +140,11 @@ const CVProfissionalMocambique = () => {
       slug="cv-profissional-mocambique"
       featuredImage="/blog/cv-profissional.jpg"
       contentImages={[
-        "/lovable-uploads/d0958b45-cda0-4796-aac4-a03ccebea308.png"
+        "/uploads/d0958b45-cda0-4796-aac4-a03ccebea308.png"
       ]}
     />
   );
 };
 
 export default CVProfissionalMocambique;
+

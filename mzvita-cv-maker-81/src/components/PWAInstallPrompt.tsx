@@ -19,14 +19,18 @@ const PWAInstallPrompt: React.FC = () => {
     const handleBeforeInstallPrompt = (e: Event) => {
       // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
+      
+      console.log('PWA: beforeinstallprompt event fired');
+      
       // Stash the event so it can be triggered later
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      // Show install prompt
+      
+      // Show install prompt only if not already installed
       setShowInstallPrompt(true);
     };
 
     const handleAppInstalled = () => {
-      // PWA: App was installed
+      console.log('PWA: App was installed');
       setShowInstallPrompt(false);
       setDeferredPrompt(null);
     };

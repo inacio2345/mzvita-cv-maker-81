@@ -136,10 +136,11 @@ const ErrosComuns = () => {
       slug="erros-comuns"
       featuredImage="/blog/erros-comuns.jpg"
       contentImages={[
-        "/lovable-uploads/56a2ffff-f1a3-4796-9a7b-7c15ec8816a0.png"
+        "/uploads/56a2ffff-f1a3-4796-9a7b-7c15ec8816a0.png"
       ]}
     />
   );
 };
 
 export default ErrosComuns;
+

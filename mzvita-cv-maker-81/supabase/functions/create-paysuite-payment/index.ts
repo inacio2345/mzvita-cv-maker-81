@@ -35,7 +35,7 @@ serve(async (req) => {
 
     const amount = PLAN_PRICES[plan_type]
     const description = PLAN_DESCRIPTIONS[plan_type]
-    const reference = `MZVT-${Date.now()}-${user_id.substring(0, 8)}`
+    const reference = `MZVT${Date.now()}${user_id.replace(/-/g, '').substring(0, 8)}`
 
     // 1. Criar pagamento no PaySuite
     const response = await fetch(PAYSUITE_API_URL, {
@@ -49,7 +49,7 @@ serve(async (req) => {
         amount: amount.toFixed(2),
         reference: reference,
         description: description,
-        method: 'mpesa', // Forçar mpesa para agilizar no iframe
+        // Sem forçar método: o utilizador escolhe M-Pesa, E-Mola ou Cartão no checkout
         return_url: return_url || "https://mozvita.online/dashboard",
         callback_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/paysuite-webhook`
       })

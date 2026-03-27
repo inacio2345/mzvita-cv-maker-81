@@ -1,10 +1,10 @@
-const CACHE_NAME = 'mozvita-cv-v1.0.4-revert-lovable';
+const CACHE_NAME = 'mozvita-cv-v1.0.5';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
   '/static/css/main.css',
   '/manifest.json',
-  '/lovable-uploads/9ba5a3fa-d7f6-4670-8925-292038ef7b22.png'
+  '/uploads/9ba5a3fa-d7f6-4670-8925-292038ef7b22.png'
 ];
 
 // Install event - cache resources

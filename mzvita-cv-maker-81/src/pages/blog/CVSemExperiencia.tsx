@@ -132,10 +132,11 @@ const CVSemExperiencia = () => {
       slug="cv-sem-experiencia"
       featuredImage="/blog/primeiro-emprego.jpg"
       contentImages={[
-        "/lovable-uploads/7b168937-52b9-4d8c-93e7-dd138aa37786.png"
+        "/uploads/7b168937-52b9-4d8c-93e7-dd138aa37786.png"
       ]}
     />
   );
 };
 
 export default CVSemExperiencia;
+

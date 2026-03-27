@@ -144,10 +144,11 @@ const AdaptarCVPorArea = () => {
       slug="adaptar-cv-por-area"
       featuredImage="/blog/adaptar-cv.jpg"
       contentImages={[
-        "/lovable-uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
+        "/uploads/f8d66348-9619-4757-bc26-31916b80be24.png"
       ]}
     />
   );
 };
 
 export default AdaptarCVPorArea;
+

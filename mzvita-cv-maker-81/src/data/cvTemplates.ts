@@ -105,7 +105,7 @@ export const cvTemplates: CVTemplate[] = [
         }
       ]
     },
-    previewImage: "/lovable-uploads/template-01.jpg"
+    previewImage: "/uploads/template-01.jpg"
   },
   {
     id: "cv-sidebar-professional",
@@ -173,7 +173,7 @@ export const cvTemplates: CVTemplate[] = [
         }
       ]
     },
-    previewImage: "/lovable-uploads/template-02.jpg"
+    previewImage: "/uploads/template-02.jpg"
   },
   {
     id: "cv-diagonal-modern",
@@ -236,7 +236,7 @@ export const cvTemplates: CVTemplate[] = [
         }
       ]
     },
-    previewImage: "/lovable-uploads/template-03.jpg"
+    previewImage: "/uploads/template-03.jpg"
   },
   {
     id: "cv-minimalist-clean",
@@ -292,7 +292,7 @@ export const cvTemplates: CVTemplate[] = [
         languages: ["Português", "Inglês"]
       }
     },
-    previewImage: "/lovable-uploads/template-04.jpg"
+    previewImage: "/uploads/template-04.jpg"
   },
 
 ];
@@ -309,3 +309,4 @@ export const getRandomTemplates = (count: number = 4): CVTemplate[] => {
 export const getDefaultTemplate = (): CVTemplate => {
   return cvTemplates[0];
 };
+
