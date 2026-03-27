@@ -24,10 +24,10 @@ interface BlogPostProps {
   category: string;
   content: React.ReactNode;
   faqs: FAQ[];
-  relatedPosts?: { title: string; slug: string }[];
+  relatedPosts?: (string | { title: string; slug: string })[];
   featuredImage?: string;
   contentImages?: string[];
-  slug: string;
+  slug?: string;
 }
 
 const BlogPost = ({
@@ -364,17 +364,21 @@ const BlogPost = ({
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {relatedPosts.map((post, index) => (
-                    <li key={index}>
-                      <a
-                        href={`/blog/${post.slug}`}
-                        className="text-blue-600 hover:text-blue-800 font-medium hover:underline block py-1"
-                        title={post.title}
-                      >
-                        {post.title}
-                      </a>
-                    </li>
-                  ))}
+                  {relatedPosts.map((post, index) => {
+                    const title = typeof post === 'string' ? post : post.title;
+                    const slug = typeof post === 'string' ? post.toLowerCase().replace(/[^a-z0-9]+/g, '-') : post.slug;
+                    return (
+                      <li key={index}>
+                        <a
+                          href={`/blog/${slug}`}
+                          className="text-blue-600 hover:text-blue-800 font-medium hover:underline block py-1"
+                          title={title}
+                        >
+                          {title}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </CardContent>
             </Card>
