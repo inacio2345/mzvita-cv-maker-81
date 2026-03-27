@@ -1,75 +1,31 @@
 
 
-# Fix Payment System: Create Missing Database Tables and Columns
+# Fix: CSRF Token Mismatch on PaySuite Checkout
 
 ## Problem
 
-The payment flow fails with a 400 error because:
-1. The `payments` table does not exist in the database — the edge function log confirms: *"Could not find the table 'public.payments'"*
-2. The `user_profiles` table is missing subscription-related columns (`plan_type`, `cv_limit`, `cv_used`, `subscription_expires_at`, `is_premium`)
+The "CSRF token mismatch" (HTTP 419) error occurs because PaySuite's checkout page is loaded inside an **iframe** in the PaymentModal. PaySuite uses CSRF cookies that cannot be set/read in a cross-origin iframe context (browsers block third-party cookies by default). This is a security restriction — not a bug in our code or API keys.
 
-The PaySuite API call itself likely succeeds, but the edge function crashes when trying to insert the payment record into a non-existent table, returning a 400 to the frontend.
+The screenshot confirms: the checkout page loads, but when the user clicks "Pagar com M-Pesa", PaySuite's server rejects the request because the CSRF cookie is missing.
 
-## Plan
+## Solution
 
-### Step 1 — Create the `payments` table
+**Open the PaySuite checkout URL in a new browser tab** instead of embedding it in an iframe. This allows PaySuite's cookies to work normally.
 
-Database migration to create:
+### Changes to `src/components/payment/PaymentModal.tsx`
 
-```sql
-CREATE TABLE public.payments (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  paysuite_id TEXT,
-  amount NUMERIC(10,2) NOT NULL,
-  reference TEXT NOT NULL,
-  plan_type TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending',
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+1. After receiving `checkout_url` from the edge function, call `window.open(checkoutUrl, '_blank')` instead of setting it for an iframe.
+2. Show a "waiting for confirmation" UI in the modal (not an iframe) with the polling logic still active to detect when payment completes.
+3. Remove the iframe-based checkout view entirely.
 
-ALTER TABLE public.payments ENABLE ROW LEVEL SECURITY;
+The updated flow:
+- User selects plan → clicks Pay → edge function returns `checkout_url`
+- `window.open()` opens PaySuite checkout in a new tab
+- Modal shows a "waiting" state with a spinner and instructions
+- Polling continues checking payment status every 3 seconds
+- When paid, modal closes and shows success toast
 
--- Users can view their own payments
-CREATE POLICY "Users can view own payments"
-  ON public.payments FOR SELECT
-  TO authenticated
-  USING (auth.uid() = user_id);
+### PWA Banner Warning
 
--- Only service role (edge functions) inserts/updates payments
--- No insert/update policy for authenticated users needed
-```
-
-### Step 2 — Add subscription columns to `user_profiles`
-
-```sql
-ALTER TABLE public.user_profiles
-  ADD COLUMN IF NOT EXISTS plan_type TEXT DEFAULT 'free',
-  ADD COLUMN IF NOT EXISTS cv_limit INTEGER DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS cv_used INTEGER DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS subscription_expires_at TIMESTAMPTZ,
-  ADD COLUMN IF NOT EXISTS is_premium BOOLEAN DEFAULT false;
-```
-
-### Step 3 — Update CORS headers on the edge function
-
-The current CORS headers are missing some headers that the Supabase JS client sends. Update `create-paysuite-payment/index.ts` to include the full set and redeploy:
-
-```
-'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version'
-```
-
-### Step 4 — Redeploy edge functions
-
-Redeploy both `create-paysuite-payment` and `paysuite-webhook` to pick up any cached changes.
-
----
-
-## Technical Details
-
-- The `payments` table uses RLS with a SELECT policy for authenticated users. Inserts are done via the service role key in edge functions, which bypasses RLS.
-- The `user_profiles` columns match what the webhook handler expects when activating plans (`plan_type`, `cv_limit`, `is_premium`, `subscription_expires_at`).
-- The `amount` field sent to PaySuite as `amount.toFixed(2)` produces a string like `"25.00"` — this matches the PaySuite docs which show `"amount": "100.50"` as a string.
-- The PWA `beforeinstallprompt` console warning is unrelated to payments and harmless.
+The `beforeinstallprompt` console message is a harmless browser warning about PWA install prompts — completely unrelated to payments. No action needed.
 
