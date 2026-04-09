@@ -113,14 +113,22 @@ const AdRotator = () => {
         {/* Barra de Progresso dos 4 segundos */}
         <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-[80%] h-[2px] bg-slate-800 rounded-full overflow-hidden opacity-50">
           <div 
-            className="h-full bg-slate-400 transition-all duration-[4000ms] ease-linear"
+            key={currentIndex}
+            className="h-full bg-white/40"
             style={{ 
-              width: `${(currentIndex === 0 || currentIndex === 1) ? '100%' : '0%'}`,
-              key: currentIndex // Isto força o reset da animação a cada troca
+              animation: 'progress 4s linear forward'
             }}
           />
         </div>
       </div>
+      
+      {/* Estilo local para a animação da barra */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes progress {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+      `}} />
     </div>
   );
 };

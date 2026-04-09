@@ -179,18 +179,11 @@ const AdsterraAdWithSubscription = () => {
 };
 
 const TopAdRotatorWithSubscription = () => {
-  const { isPremiumActive } = useSubscription();
   const location = useLocation();
-  
-  // List of pages where ads should not be shown
-  const excludedPages = [
-    '/preview',
-    '/criar-cv'
-  ];
-  
+  const excludedPages = ['/preview', '/criar-cv'];
   const shouldShowAds = !excludedPages.includes(location.pathname);
 
-  if (isPremiumActive || !shouldShowAds) return null;
+  if (!shouldShowAds) return null;
   return <AdRotator />;
 };
 
