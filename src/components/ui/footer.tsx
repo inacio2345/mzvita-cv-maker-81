@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import AdSpace from '@/components/ads/AdSpace';
+import AdRotator from '@/components/ads/AdRotator';
 import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
@@ -34,7 +34,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
-      {/* Adsterra ad removed due to 404 net::ERR_ABORTED */}
+      {shouldShowAds && <AdRotator />}
 
       <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">

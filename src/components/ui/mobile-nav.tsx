@@ -39,24 +39,27 @@ const MobileNav = () => {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const NavItem = ({ 
+  const NavItem = React.forwardRef(({ 
     icon: Icon, 
     label, 
     path, 
     onClick, 
-    active 
+    active,
+    ...props 
   }: { 
     icon: any, 
     label: string, 
     path?: string, 
     onClick?: () => void,
     active?: boolean 
-  }) => (
+  }, ref: any) => (
     <button 
+      ref={ref}
       onClick={onClick || (() => path && handleNavigation(path))}
       className={`flex flex-col items-center justify-center gap-1 min-w-[64px] transition-all duration-300 ${
         active ? 'text-google-blue scale-110' : 'text-slate-400'
       }`}
+      {...props}
     >
       <div className={`p-2 rounded-xl ${active ? 'bg-google-blue/10' : ''}`}>
         <Icon className={`w-6 h-6 ${active ? 'stroke-[2.5px]' : 'stroke-[2px]'}`} />
@@ -65,7 +68,9 @@ const MobileNav = () => {
         {label}
       </span>
     </button>
-  );
+  ));
+
+  NavItem.displayName = 'NavItem';
 
   return (
     <div className="lg:hidden">
