@@ -12,7 +12,6 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
-import AdsterraBodyAd from "@/components/ads/AdsterraBodyAd";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import CookieBanner from "@/components/CookieBanner";
 import MobileNav from "@/components/ui/mobile-nav";
@@ -81,10 +80,7 @@ const App = () => {
                     <Routes>
                       <Route path="*" element={<ConditionalHeader />} />
                     </Routes>
-
-                    {/* Anúncio Adsterra - Logo após o header (Ocultar para usuários Premium) */}
-                    <AdsterraAdWithSubscription />
-
+                    
                     <div className="flex flex-1 flex-col gap-4 sm:gap-6 md:gap-8 p-2 sm:p-4 md:p-6 overflow-x-hidden max-w-full">
                       <Routes>
                         <Route path="/" element={<Index />} />
