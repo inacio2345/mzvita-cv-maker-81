@@ -40,18 +40,18 @@ const AdRotator = () => {
         {/* Slot Clever */}
         <div 
           ref={cleverRef} 
-          id="clever-slot"
-          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 transform ${
-            currentIndex === 0 ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-90 -translate-x-10 pointer-events-none'
+          id="clever-ad-container"
+          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
+            currentIndex === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
         />
         
         {/* Slot Adsterra */}
         <div 
           ref={adsterraRef} 
-          id="adsterra-slot"
-          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 transform ${
-            currentIndex === 1 ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-90 translate-x-10 pointer-events-none'
+          id="container-3ab88cc45aad291af06779a7141d0c78"
+          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
+            currentIndex === 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
         />
 

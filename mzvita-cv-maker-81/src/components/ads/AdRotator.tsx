@@ -36,12 +36,16 @@ const AdRotator = () => {
       <div className="relative w-full max-w-[728px] min-h-[90px] bg-slate-50/50 rounded-lg shadow-sm border border-slate-100 overflow-visible">
         <div 
           ref={cleverRef} 
+          id="clever-ad-container"
           className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
             currentIndex === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
         />
+        
+        {/* Slot Adsterra */}
         <div 
           ref={adsterraRef} 
+          id="container-3ab88cc45aad291af06779a7141d0c78"
           className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
             currentIndex === 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
