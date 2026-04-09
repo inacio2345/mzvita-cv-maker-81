@@ -49,7 +49,7 @@ serve(async (req) => {
         amount: amount.toFixed(2),
         reference: reference,
         description: description,
-        method: 'mpesa',
+        // method: 'mpesa', // Removido para permitir M-Pesa, E-Mola e Cartões
         return_url: return_url || "https://mozvita.online/dashboard",
         callback_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/paysuite-webhook`
       })
