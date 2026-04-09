@@ -12,7 +12,6 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
-import AdRotator from "@/components/ads/AdRotator";
 import AdsterraBodyAd from "@/components/ads/AdsterraBodyAd";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import CookieBanner from "@/components/CookieBanner";
@@ -83,9 +82,6 @@ const App = () => {
                       <Route path="*" element={<ConditionalHeader />} />
                     </Routes>
                     
-                    {/* Rotação Clever + Adsterra no TOPO */}
-                    <TopAdRotatorWithSubscription />
-
                     {/* Outros anúncios do sistema */}
                     <AdsterraAdWithSubscription />
 
@@ -176,15 +172,6 @@ const AdsterraAdWithSubscription = () => {
 
   if (isPremiumActive) return null;
   return <AdsterraBodyAd />;
-};
-
-const TopAdRotatorWithSubscription = () => {
-  const location = useLocation();
-  const excludedPages = ['/preview', '/criar-cv'];
-  const shouldShowAds = !excludedPages.includes(location.pathname);
-
-  if (!shouldShowAds) return null;
-  return <AdRotator />;
 };
 
 export default App;

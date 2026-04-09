@@ -12,12 +12,18 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { Badge } from '@/components/ui/badge';
 import { User, ChevronDown, FileText, Mail, PenTool, LogOut, Award, Briefcase, GraduationCap, Heart, Sparkles, Crown, Zap } from 'lucide-react';
+import AdRotator from '@/components/ads/AdRotator';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { user } = useAuth();
   const { isPremiumActive, profile } = useSubscription();
+  const location = useLocation();
+
+  const excludedPages = ['/preview', '/criar-cv'];
+  const shouldShowAds = !excludedPages.includes(location.pathname);
 
   const officialLetters = [
     { title: "Carta de Apresentação", url: "/carta-apresentacao", icon: PenTool },
@@ -31,6 +37,7 @@ const Header = () => {
 
   return (
     <header className="bg-white/95 backdrop-blur-md shadow-sm border-b sticky top-0 z-50 transition-all duration-300">
+      {shouldShowAds && !isPremiumActive && <AdRotator />}
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
