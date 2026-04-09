@@ -66,7 +66,7 @@ const AdRotator = () => {
     // --- Rotation Logic ---
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
-    }, 4000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [isPremiumActive]);
@@ -90,7 +90,7 @@ const AdRotator = () => {
       </div>
 
       {/* Container Principal do Anúncio */}
-      <div className="relative w-full max-w-[320px] h-[50px] shadow-[0_15px_40px_-15px_rgba(0,0,0,0.4)] rounded-xl overflow-visible bg-slate-800/20 backdrop-blur-md border border-white/5 flex justify-center items-center group">
+      <div className="relative w-full max-w-[728px] min-h-[90px] shadow-sm rounded-xl overflow-visible bg-slate-100/50 flex justify-center items-center">
         
         {/* Slot Clever */}
         <div 
@@ -114,9 +114,9 @@ const AdRotator = () => {
         <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-[80%] h-[2px] bg-slate-800 rounded-full overflow-hidden opacity-50">
           <div 
             key={currentIndex}
-            className="h-full bg-white/40"
+            className="h-full bg-google-blue/40"
             style={{ 
-              animation: 'progress 4s linear forward'
+              animation: 'progress 6s linear forward'
             }}
           />
         </div>

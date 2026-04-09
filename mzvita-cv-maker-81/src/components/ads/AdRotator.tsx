@@ -61,7 +61,7 @@ const AdRotator = () => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
-    }, 4000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, []);
@@ -81,7 +81,7 @@ const AdRotator = () => {
         </div>
       </div>
 
-      <div className="relative w-full max-w-[320px] h-[50px] bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
+      <div className="relative w-full max-w-[728px] min-h-[90px] bg-slate-50/50 rounded-lg shadow-sm border border-slate-100 overflow-visible">
         <div 
           ref={cleverRef} 
           className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
@@ -98,7 +98,7 @@ const AdRotator = () => {
           <div 
             key={currentIndex}
             className="h-full bg-google-blue/30"
-            style={{ animation: 'progress 4s linear forward' }}
+            style={{ animation: 'progress 6s linear forward' }}
           />
         </div>
       </div>
