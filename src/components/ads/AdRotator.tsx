@@ -74,28 +74,52 @@ const AdRotator = () => {
   if (isPremiumActive) return null;
 
   return (
-    <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[90px] pb-8 pt-4 z-[130] bg-transparent">
-      <div className="text-[10px] uppercase tracking-[0.3em] text-slate-400 mb-3 font-black opacity-40 select-none">
-        Publicidade MozVita
+    <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[120px] pb-10 pt-4 z-[130] bg-transparent">
+      {/* Header com indicador de rotação */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${currentIndex === 0 ? 'text-blue-500 scale-110' : 'text-slate-500 opacity-30'}`}>
+          Clever
+        </div>
+        <div className="flex gap-1.5 px-2">
+          <div className={`w-2 h-2 rounded-full transition-all duration-500 ${currentIndex === 0 ? 'bg-blue-500 scale-125 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-slate-700'}`} />
+          <div className={`w-2 h-2 rounded-full transition-all duration-500 ${currentIndex === 1 ? 'bg-orange-500 scale-125 shadow-[0_0_10px_rgba(249,115,22,0.5)]' : 'bg-slate-700'}`} />
+        </div>
+        <div className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${currentIndex === 1 ? 'text-orange-500 scale-110' : 'text-slate-500 opacity-30'}`}>
+          Adsterra
+        </div>
       </div>
-      <div className="relative w-full max-w-[320px] h-[50px] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.2)] rounded-lg overflow-hidden bg-white/5 backdrop-blur-sm border border-white/5 flex justify-center items-center">
-        {/* Clever Ad Slot */}
+
+      {/* Container Principal do Anúncio */}
+      <div className="relative w-full max-w-[320px] h-[50px] shadow-[0_15px_40px_-15px_rgba(0,0,0,0.4)] rounded-xl overflow-visible bg-slate-800/20 backdrop-blur-md border border-white/5 flex justify-center items-center group">
+        
+        {/* Slot Clever */}
         <div 
           ref={cleverRef} 
           id="clever-slot"
-          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-700 transform ${
-            currentIndex === 0 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2 pointer-events-none'
+          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 transform ${
+            currentIndex === 0 ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-90 -translate-x-10 pointer-events-none'
           }`}
         />
         
-        {/* Adsterra Ad Slot */}
+        {/* Slot Adsterra */}
         <div 
           ref={adsterraRef} 
           id="adsterra-slot"
-          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-700 transform ${
-            currentIndex === 1 ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2 pointer-events-none'
+          className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 transform ${
+            currentIndex === 1 ? 'opacity-100 scale-100 translate-x-0' : 'opacity-0 scale-90 translate-x-10 pointer-events-none'
           }`}
         />
+
+        {/* Barra de Progresso dos 4 segundos */}
+        <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-[80%] h-[2px] bg-slate-800 rounded-full overflow-hidden opacity-50">
+          <div 
+            className="h-full bg-slate-400 transition-all duration-[4000ms] ease-linear"
+            style={{ 
+              width: `${(currentIndex === 0 || currentIndex === 1) ? '100%' : '0%'}`,
+              key: currentIndex // Isto força o reset da animação a cada troca
+            }}
+          />
+        </div>
       </div>
     </div>
   );

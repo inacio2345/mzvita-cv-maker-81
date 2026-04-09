@@ -12,6 +12,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
+import AdRotator from "@/components/ads/AdRotator";
 import AdsterraBodyAd from "@/components/ads/AdsterraBodyAd";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import CookieBanner from "@/components/CookieBanner";
@@ -81,8 +82,11 @@ const App = () => {
                     <Routes>
                       <Route path="*" element={<ConditionalHeader />} />
                     </Routes>
+                    
+                    {/* Rotação Clever + Adsterra no TOPO */}
+                    <TopAdRotatorWithSubscription />
 
-                    {/* Anúncio Adsterra - Logo após o header (Ocultar para usuários Premium) */}
+                    {/* Outros anúncios do sistema */}
                     <AdsterraAdWithSubscription />
 
                     <div className="flex flex-1 flex-col gap-4 sm:gap-6 md:gap-8 p-2 sm:p-4 md:p-6 overflow-x-hidden max-w-full">
@@ -172,6 +176,22 @@ const AdsterraAdWithSubscription = () => {
 
   if (isPremiumActive) return null;
   return <AdsterraBodyAd />;
+};
+
+const TopAdRotatorWithSubscription = () => {
+  const { isPremiumActive } = useSubscription();
+  const location = useLocation();
+  
+  // List of pages where ads should not be shown
+  const excludedPages = [
+    '/preview',
+    '/criar-cv'
+  ];
+  
+  const shouldShowAds = !excludedPages.includes(location.pathname);
+
+  if (isPremiumActive || !shouldShowAds) return null;
+  return <AdRotator />;
 };
 
 export default App;
