@@ -109,69 +109,8 @@ const BlogPost = ({
   };
 
   // ... (Ads scripts omitted for brevity, keeping existing) ...
-  const blogInlineAdScript = `
-    <!-- Adsterra script removed due to 404 -->
-  `;
-
-  // Script para anúncio no final do blog
-  const blogEndAdScript = `
-    <!-- Adsterra script removed due to 404 -->
-  `;
-
-  // Função para inserir anúncios no conteúdo
-  const insertAdsIntoContent = (content: React.ReactNode) => {
-    if (React.isValidElement(content) && content.props.children) {
-      const children = React.Children.toArray(content.props.children);
-      const newChildren: React.ReactNode[] = [];
-      const totalElements = children.length;
-      const middleIndex = Math.floor(totalElements / 2);
-
-      let topAdInserted = false;
-      let middleAdInserted = false;
-
-      children.forEach((child, index) => {
-        newChildren.push(child);
-
-        // 1. Anúncio no Topo (após o primeiro parágrafo)
-        if (!topAdInserted && React.isValidElement(child) &&
-          (child.type === 'p' || (child.props && child.props.className && child.props.className.includes('mb-6')))) {
-          newChildren.push(
-            <div key="blog-top-ad-container" className="my-8">
-              <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2 text-center">Anúncio</p>
-              <AdSpace
-                id="blog-inline-ad"
-                type="blog-inline"
-                scriptCode={blogInlineAdScript}
-              />
-              <AdsterraMobileBanner />
-            </div>
-          );
-          topAdInserted = true;
-        }
-
-        // 2. Anúncio no Meio (aproximadamente 50% do conteúdo, se tiver elementos suficientes)
-        if (topAdInserted && !middleAdInserted && index === middleIndex && totalElements > 6) {
-          newChildren.push(
-            <div key="blog-middle-ad-container" className="my-8">
-              <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2 text-center">Anúncio</p>
-              <AdSpace
-                id="blog-middle-ad"
-                type="blog-inline"
-                scriptCode={blogInlineAdScript}
-              />
-              <AdsterraMobileBanner />
-            </div>
-          );
-          middleAdInserted = true;
-        }
-      });
-
-      return React.cloneElement(content, content.props, newChildren);
-    }
-    return content;
-  };
-
-  const enhancedContent = insertAdsIntoContent(content);
+  // Legacy ad injection logic removed to prevent conflicts
+  const enhancedContent = content;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -282,31 +221,7 @@ const BlogPost = ({
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-strong:text-gray-900">
                 {enhancedContent}
-
-                {/* Imagens do conteúdo */}
-                {contentImages.length > 0 && (
-                  <div className="my-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {contentImages.map((image, index) => (
-                        <div key={index} className="rounded-lg overflow-hidden shadow-md">
-                          <img
-                            src={image}
-                            alt={`Ilustração visual para o tópico ${index + 1} do artigo ${title}`}
-                            className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Anúncio no final do artigo */}
-                <AdSpace
-                  id="blog-end-ad"
-                  type="blog-end"
-                  className="my-8"
-                  scriptCode={blogEndAdScript}
-                />
+                {/* Legacy ad slot removed */}
               </div>
             </CardContent>
           </Card>

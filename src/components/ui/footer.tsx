@@ -1,37 +1,12 @@
 
-import React, { useEffect } from 'react';
-import { FileText } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const location = useLocation();
-
-  // List of pages where ads should not be shown
-  const excludedPages = [
-    '/preview',
-    '/criar-cv'
-  ];
-
-  // Check if the current page should show the ad
-  const shouldShowAds = !excludedPages.includes(location.pathname);
-
-  // Adsterra script removed due to 404 net::ERR_ABORTED
-
-  const footerAdScript = `
-    <script type="text/javascript">
-      atOptions = {
-        'key' : '544871108327156f752c8856d6a40dc6',
-        'format' : 'iframe',
-        'height' : 50,
-        'width' : 320,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/544871108327156f752c8856d6a40dc6/invoke.js"></script>
-  `;
-
+  
+  // Legacy scripts removed for clean state
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
       <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
