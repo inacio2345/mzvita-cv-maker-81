@@ -110,14 +110,12 @@ const BlogPost = ({
 
   // ... (Ads scripts omitted for brevity, keeping existing) ...
   const blogInlineAdScript = `
-    <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
-    <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9"></div>
+    <!-- Adsterra script removed due to 404 -->
   `;
 
   // Script para anúncio no final do blog
   const blogEndAdScript = `
-    <script async="async" data-cfasync="false" src="//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js"></script>
-    <div id="container-61eba68a47e0ac2b98ec3fed6c320ba9"></div>
+    <!-- Adsterra script removed due to 404 -->
   `;
 
   // Função para inserir anúncios no conteúdo

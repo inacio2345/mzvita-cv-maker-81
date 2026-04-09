@@ -17,33 +17,7 @@ const Footer = () => {
   // Check if the current page should show the ad
   const shouldShowAds = !excludedPages.includes(location.pathname);
 
-  // Load Adsterra script when component mounts and ad should be shown
-  useEffect(() => {
-    if (shouldShowAds) {
-      // Remove existing script if it exists
-      const existingScript = document.querySelector('script[src*="61eba68a47e0ac2b98ec3fed6c320ba9"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-
-      // Create and append new script
-      const script = document.createElement('script');
-      script.async = true;
-      script.setAttribute('data-cfasync', 'false');
-      script.src = '//pl26870458.profitableratecpm.com/61eba68a47e0ac2b98ec3fed6c320ba9/invoke.js';
-
-      // Add script to the end of body
-      document.body.appendChild(script);
-
-      return () => {
-        // Cleanup script when component unmounts
-        const scriptToRemove = document.querySelector('script[src*="61eba68a47e0ac2b98ec3fed6c320ba9"]');
-        if (scriptToRemove && document.body.contains(scriptToRemove)) {
-          document.body.removeChild(scriptToRemove);
-        }
-      };
-    }
-  }, [shouldShowAds]);
+  // Adsterra script removed due to 404 net::ERR_ABORTED
 
   const footerAdScript = `
     <script type="text/javascript">
@@ -60,25 +34,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
-      {/* Adsterra ad - Posicionado no final do footer */}
-      {shouldShowAds && (
-        <div className="adsterra-footer-native w-full mx-auto mt-6 mb-4 overflow-hidden" style={{ display: 'block', minHeight: '100px' }}>
-          <div
-            id="container-61eba68a47e0ac2b98ec3fed6c320ba9"
-            className="flex justify-center items-center w-full max-w-full overflow-hidden"
-            style={{
-              display: 'block',
-              minHeight: '100px',
-              margin: '0 auto',
-              textAlign: 'center',
-              visibility: 'visible',
-              overflow: 'hidden',
-              zIndex: 1000,
-              maxWidth: '100%'
-            }}
-          ></div>
-        </div>
-      )}
+      {/* Adsterra ad removed due to 404 net::ERR_ABORTED */}
 
       <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
