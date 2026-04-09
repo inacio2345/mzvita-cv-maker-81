@@ -37,7 +37,7 @@ const Header = () => {
 
   return (
     <header className="bg-white/95 backdrop-blur-md shadow-sm border-b sticky top-0 z-50 transition-all duration-300">
-      {shouldShowAds && !isPremiumActive && <AdRotator />}
+      <AdRotator />
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

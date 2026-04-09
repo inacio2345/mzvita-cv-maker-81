@@ -71,7 +71,7 @@ const AdRotator = () => {
     return () => clearInterval(interval);
   }, [isPremiumActive]);
 
-  if (isPremiumActive) return null;
+  // No checks for diagnostics
 
   return (
     <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[120px] pb-10 pt-4 z-[130] bg-transparent">
