@@ -9,6 +9,7 @@ const AdRotator = () => {
   const { isPremiumActive } = useSubscription();
 
   useEffect(() => {
+    console.log("AD_ROTATOR_NESTED_ACTIVE");
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
     }, 6000);
