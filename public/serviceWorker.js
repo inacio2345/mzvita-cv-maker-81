@@ -1,10 +1,9 @@
-const CACHE_NAME = 'mozvita-cv-v1.0.4-revert-lovable';
+const CACHE_NAME = 'mozvita-cv-v2.0.0';
 const urlsToCache = [
   '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
+  '/index.html',
   '/manifest.json',
-  '/lovable-uploads/9ba5a3fa-d7f6-4670-8925-292038ef7b22.png'
+  '/logo.png'
 ];
 
 // Install event - cache resources
@@ -13,32 +12,24 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('PWA: Cache opened');
-        return cache.addAll(urlsToCache);
-      })
-      .catch(error => {
-        console.log('PWA: Cache failed', error);
+        console.log('PWA: Cache v2.0.0 opened');
+        // Usamos um método mais resiliente que não falha se um dos URLs falhar
+        return Promise.allSettled(
+          urlsToCache.map(url => cache.add(url))
+        );
       })
   );
 });
 
-// Fetch event - serve cached content when offline
+// Fetch event - serve cached content or network
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Return cached version or fetch from network
         if (response) {
           return response;
         }
-        return fetch(event.request).catch(() => {
-          // If both cache and network fail, return a fallback page
-          if (event.request.destination === 'document') {
-            return caches.match('/');
-          }
-          // Return a standard offline response for other assets or 404
-          return new Response('Offline', { status: 404, statusText: 'Not Found' });
-        });
+        return fetch(event.request);
       })
   );
 });
@@ -49,12 +40,14 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          console.log('PWA: Deleting old cache', cacheName);
-          return caches.delete(cacheName);
+          if (cacheName !== CACHE_NAME) {
+            console.log('PWA: Deleting old cache', cacheName);
+            return caches.delete(cacheName);
+          }
         })
       );
     }).then(() => {
-      return self.clients.claim(); // Take control of all clients immediately
+      return self.clients.claim(); // Take control immediately
     })
   );
 });
