@@ -1,23 +1,66 @@
 
 import React, { useEffect, useState, useRef } from 'react';
-import { useSubscription } from '@/hooks/useSubscription';
 
 const AdRotator = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const cleverRef = useRef<HTMLDivElement>(null);
   const adsterraRef = useRef<HTMLDivElement>(null);
-  const { isPremiumActive } = useSubscription();
+  
+  // LOG DE DIAGNÓSTICO (Fora do effect para garantir visibilidade)
+  console.log("AD_ROTATOR_ROOT_LEVEL_5_ACTIVE");
 
   useEffect(() => {
-    console.log("AD_ROTATOR_ROOT_ACTIVE");
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
     }, 6000);
 
+    // INJEÇÃO BLINDADA - CLEVER
+    const injectClever = () => {
+      if (document.getElementById('CleverCoreLoader101963')) return;
+      
+      const script = document.createElement('script');
+      script.id = 'CleverCoreLoader101963';
+      script.src = 'https://scripts.cleverwebserver.com/e33df5c988bded1f653fd89a591de8db.js';
+      script.async = true;
+      script.type = 'text/javascript';
+      script.setAttribute('data-target', window.name || '');
+      
+      document.head.appendChild(script);
+    };
+
+    // INJEÇÃO BLINDADA - ADSTERRA (Meme Coin)
+    const injectAdsterra = () => {
+      const container = document.getElementById('container-3ab88cc45aad291af06779a7141d0c78');
+      if (container && !container.innerHTML.includes('invoke.js')) {
+        const scriptConfig = document.createElement('script');
+        scriptConfig.type = 'text/javascript';
+        scriptConfig.innerHTML = `
+          atOptions = {
+            'key' : '3ab88cc45aad291af06779a7141d0c78',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        `;
+        
+        const scriptInvoke = document.createElement('script');
+        scriptInvoke.type = 'text/javascript';
+        scriptInvoke.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
+        
+        container.appendChild(scriptConfig);
+        container.appendChild(scriptInvoke);
+      }
+    };
+
+    // Executar injeções com ligeiro atraso para garantir que o DOM está pronto
+    setTimeout(() => {
+      injectClever();
+      injectAdsterra();
+    }, 1500);
+
     return () => clearInterval(interval);
   }, []);
-
-  // No checks for diagnostics
 
   return (
     <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[120px] pb-10 pt-4 z-[130] bg-transparent">
@@ -56,19 +99,18 @@ const AdRotator = () => {
           }`}
         />
 
-        {/* Barra de Progresso dos 4 segundos */}
+        {/* Barra de Progresso */}
         <div className="absolute bottom-[-8px] left-1/2 -translate-x-1/2 w-[80%] h-[2px] bg-slate-800 rounded-full overflow-hidden opacity-50">
           <div 
             key={currentIndex}
             className="h-full bg-google-blue/40"
             style={{ 
-              animation: 'progress 6s linear forward'
+              animation: 'progress 6s linear forwards'
             }}
           />
         </div>
       </div>
       
-      {/* Estilo local para a animação da barra */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes progress {
           0% { width: 0%; }
