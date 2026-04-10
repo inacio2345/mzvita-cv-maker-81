@@ -6,15 +6,15 @@ const AdRotator = () => {
   const cleverRef = useRef<HTMLDivElement>(null);
   const adsterraRef = useRef<HTMLDivElement>(null);
   
-  // LOG DE DIAGNÓSTICO FINAL (v2.0.0)
-  console.log("AD_ROTATOR_ROOT_v2_ACTIVE");
+  // LOG DE DIAGNÓSTICO (V2.1.0 - Targeting FIX)
+  console.log("AD_ROTATOR_ROOT_v2_1_ACTIVE");
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
     }, 6000);
 
-    // INJEÇÃO NO HEAD - CLEVER (Formato PushDown exige estar no topo)
+    // INJEÇÃO NO HEAD - CLEVER (Targeting FIX)
     const injectCleverHead = () => {
       if (document.getElementById('CleverCoreLoader101963')) return;
       
@@ -23,9 +23,11 @@ const AdRotator = () => {
       script.src = 'https://scripts.cleverwebserver.com/e33df5c988bded1f653fd89a591de8db.js';
       script.async = true;
       script.type = 'text/javascript';
-      script.setAttribute('data-target', window.name || '');
       
-      // Inserir antes do primeiro script encontrado no head
+      // CONFIGURAÇÃO DE TARGET PARA RESOLVER "Tracker ID not found"
+      script.setAttribute('data-target', 'clever-ad-container');
+      script.setAttribute('data-callback', 'put-your-callback-function-here');
+      
       const firstScript = document.head.getElementsByTagName('script')[0];
       if (firstScript) {
         firstScript.parentNode?.insertBefore(script, firstScript);
@@ -34,7 +36,7 @@ const AdRotator = () => {
       }
     };
 
-    // INJEÇÃO NO CONTENTOR - ADSTERRA (Meme Coin)
+    // INJEÇÃO NO CONTENTOR - ADSTERRA
     const injectAdsterra = () => {
       const container = document.getElementById('container-3ab88cc45aad291af06779a7141d0c78');
       if (container && !container.innerHTML.includes('invoke.js')) {
@@ -62,7 +64,7 @@ const AdRotator = () => {
     setTimeout(() => {
       injectCleverHead();
       injectAdsterra();
-    }, 1500);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -72,38 +74,39 @@ const AdRotator = () => {
       {/* Header com indicador de rotação */}
       <div className="flex items-center gap-3 mb-4">
         <div className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${currentIndex === 0 ? 'text-blue-500 scale-110' : 'text-slate-500 opacity-20'}`}>
-          Anúncio 1
+          Ad 1
         </div>
         <div className="flex gap-1.5 px-2">
           <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${currentIndex === 0 ? 'bg-blue-500 scale-125' : 'bg-slate-300'}`} />
           <div className={`w-1.5 h-1.5 rounded-full transition-all duration-500 ${currentIndex === 1 ? 'bg-orange-500 scale-125' : 'bg-slate-300'}`} />
         </div>
         <div className={`text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 ${currentIndex === 1 ? 'text-orange-500 scale-110' : 'text-slate-500 opacity-20'}`}>
-          Anúncio 2
+          Ad 2
         </div>
       </div>
 
-      {/* Container Principal do Anúncio - Medidas fixas para Mobile */}
+      {/* Container Principal do Anúncio */}
       <div className="relative w-full max-w-[728px] min-w-[320px] min-h-[90px] shadow-sm rounded-xl overflow-visible bg-slate-100/30 flex justify-center items-center mx-auto">
         
-        {/* Slot Ads (ID fixo Clever exigido pelo script interno) */}
+        {/* Slot Clever - Adicionados atributos de identificação direta */}
         <div 
           ref={cleverRef} 
           id="clever-ad-container"
+          data-clever-id="101963"
           className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
             currentIndex === 0 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
-          style={{ minHeight: '90px' }}
+          style={{ minHeight: '90px', display: 'flex' }}
         />
         
-        {/* Slot Ads (ID fixo Adsterra exigido pelo script interno) */}
+        {/* Slot Adsterra */}
         <div 
           ref={adsterraRef} 
           id="container-3ab88cc45aad291af06779a7141d0c78"
           className={`absolute inset-0 w-full h-full flex justify-center items-center transition-all duration-1000 ${
             currentIndex === 1 ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           }`}
-          style={{ minHeight: '90px' }}
+          style={{ minHeight: '90px', display: 'flex' }}
         />
 
         {/* Barra de Progresso */}
