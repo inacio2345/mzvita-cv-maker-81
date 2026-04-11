@@ -5,11 +5,10 @@ const AdRotator = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const adsterraRef = useRef<HTMLDivElement>(null);
   
-  // LOG DE DIAGNÓSTICO (V3.0.0 - CLEAN STATE)
-  console.log("AD_ROTATOR_CLEAN_STATE_ACTIVE");
+  // LOG DE DIAGNÓSTICO PROFUNDO
+  console.log("AD_ROTATOR_VISIBILITY_TEST_ACTIVE");
 
   useEffect(() => {
-    // Apenas Adsterra ativo nesta fase de limpeza
     const injectAdsterra = () => {
       const container = document.getElementById('container-3ab88cc45aad291af06779a7141d0c78');
       if (container && !container.innerHTML.includes('invoke.js')) {
@@ -31,38 +30,29 @@ const AdRotator = () => {
         
         container.appendChild(scriptConfig);
         container.appendChild(scriptInvoke);
+        console.log("ADSTERRA_SCRIPTS_APPENDED");
       }
     };
 
-    setTimeout(injectAdsterra, 2000);
-
-    // Rotação desativada temporariamente por haver apenas 1 rede
+    const timer = setTimeout(injectAdsterra, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[140px] pb-12 pt-4 z-[130] bg-transparent">
-      {/* Header com indicador de estado */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-500 scale-110">
-          Publicidade MozVita
-        </div>
-      </div>
-
-      {/* Container Principal do Anúncio */}
-      <div className="relative w-full max-w-[728px] min-w-[320px] min-h-[90px] shadow-sm rounded-xl overflow-visible bg-slate-100/30 flex justify-center items-center mx-auto">
+    <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[120px] pb-8 pt-4 z-[9999] bg-transparent">
+      {/* Texto de diagnóstico para o utilizador */}
+      <span className="text-[8px] text-gray-300 mb-1">Zona de Adsterra (Se vir isto e não o anúncio, verifique o AdBlock)</span>
+      
+      {/* Container com Borda de Teste (Remover depois de confirmar) */}
+      <div className="relative w-full max-w-[728px] min-w-[320px] min-h-[90px] border-2 border-dashed border-red-500/30 flex justify-center items-center mx-auto">
         
-        {/* Slot Adsterra Único */}
+        {/* Slot Adsterra */}
         <div 
           ref={adsterraRef} 
           id="container-3ab88cc45aad291af06779a7141d0c78"
-          className="w-full h-full flex justify-center items-center opacity-100 scale-100"
+          className="w-full h-full flex justify-center items-center"
           style={{ minHeight: '90px', display: 'flex' }}
         />
-
-        {/* Barra de Progresso (Estática) */}
-        <div className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 w-[60%] h-[2px] bg-slate-200 rounded-full overflow-hidden">
-          <div className="h-full bg-orange-500/30 w-full" />
-        </div>
       </div>
     </div>
   );

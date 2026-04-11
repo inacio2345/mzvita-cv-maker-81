@@ -7,7 +7,6 @@ const Footer = () => {
   const location = useLocation();
   
   useEffect(() => {
-    // 1. Injeção Adsterra (Banner de Rodapé)
     const injectFooterAdsterra = () => {
       const container = document.getElementById('container-544871108327156f752c8856d6a40dc6');
       if (container && !container.innerHTML.includes('invoke.js')) {
@@ -29,41 +28,26 @@ const Footer = () => {
         
         container.appendChild(scriptConfig);
         container.appendChild(scriptInvoke);
+        console.log("ADSTERRA_FOOTER_APPENDED_NESTED");
       }
     };
 
-    // 2. Injeção OFICIAL Clever (Conforme instruções: "Antes do </body>")
-    const injectOfficialClever = () => {
-      if (document.getElementById('CleverCoreLoader101963_nested')) return;
-
-      const script = document.createElement('script');
-      script.id = 'CleverCoreLoader101963_nested';
-      script.src = 'https://scripts.cleverwebserver.com/e33df5c988bded1f653fd89a591de8db.js';
-      script.async = true;
-      script.type = 'text/javascript';
-      
-      script.setAttribute('data-target', window.name || '');
-      script.setAttribute('data-callback', 'put-your-callback-function-here');
-      script.setAttribute('data-callback-url-click', 'put-your-click-macro-here');
-      script.setAttribute('data-callback-url-view', 'put-your-view-macro-here');
-
-      document.body.appendChild(script);
-      console.log("CLEVER_OFFICIAL_LOADED_FOOTER_NESTED");
-    };
-
-    setTimeout(() => {
-      injectFooterAdsterra();
-      injectOfficialClever();
-    }, 3000);
+    setTimeout(injectFooterAdsterra, 2500);
   }, []);
 
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
       <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
         
-        {/* Adsterra Footer Banner */}
-        <div className="w-full flex justify-center mb-10 overflow-hidden min-h-[60px]">
-          <div id="container-544871108327156f752c8856d6a40dc6" className="flex justify-center items-center w-full" />
+        {/* Espaço de Publicidade do Rodapé con Teste de Visibilidade */}
+        <div className="w-full flex flex-col items-center mb-10 overflow-hidden">
+          <span className="text-[8px] text-gray-500 mb-1">Zona Adsterra Rodapé (Nested) - Verifique AdBlock</span>
+          <div 
+            id="container-544871108327156f752c8856d6a40dc6"
+            className="flex justify-center items-center w-full min-h-[60px] border-2 border-dashed border-red-500/80 rounded-lg py-2 shadow-[0_0_10px_rgba(239,68,68,0.3)]"
+          >
+            {/* O anúncio será injetado aqui */}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
