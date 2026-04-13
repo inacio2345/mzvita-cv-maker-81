@@ -1,53 +1,51 @@
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
+
+declare global {
+  interface Window {
+    atOptions?: any;
+  }
+}
 
 const AdRotator = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const adsterraRef = useRef<HTMLDivElement>(null);
   
-  // LOG DE DIAGNÓSTICO PROFUNDO
-  console.log("AD_ROTATOR_VISIBILITY_TEST_NESTED_ACTIVE");
-
   useEffect(() => {
     const injectAdsterra = () => {
       const container = document.getElementById('container-3ab88cc45aad291af06779a7141d0c78');
-      if (container && !container.innerHTML.includes('invoke.js')) {
-        const scriptConfig = document.createElement('script');
-        scriptConfig.type = 'text/javascript';
-        scriptConfig.innerHTML = `
-          atOptions = {
-            'key' : '3ab88cc45aad291af06779a7141d0c78',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-          };
-        `;
+      
+      if (container && container.innerHTML === '') {
+        // Injeção Global Blindada para a Adsterra encontrar as chaves
+        window.atOptions = {
+          'key' : '3ab88cc45aad291af06779a7141d0c78',
+          'format' : 'iframe',
+          'height' : 90,
+          'width' : 728,
+          'params' : {}
+        };
         
-        const scriptInvoke = document.createElement('script');
-        scriptInvoke.type = 'text/javascript';
-        scriptInvoke.src = '//www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
+        script.async = true;
         
-        container.appendChild(scriptConfig);
-        container.appendChild(scriptInvoke);
-        console.log("ADSTERRA_SCRIPTS_APPENDED_NESTED");
+        container.appendChild(script);
+        console.log("ADSTERRA_ENGINE_STARTED_TOP_NESTED");
       }
     };
 
-    const timer = setTimeout(injectAdsterra, 2000);
-    return () => clearTimeout(timer);
+    const timeout = setTimeout(injectAdsterra, 500);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
-    <div className="w-full flex flex-col justify-center items-center overflow-visible min-h-[120px] pb-8 pt-4 z-[9999] bg-transparent">
-      <span className="text-[8px] text-gray-300 mb-1">Zona de Adsterra (Nested) - Verifique AdBlock</span>
-      
-      <div className="relative w-full max-w-[728px] min-w-[320px] min-h-[90px] border-2 border-dashed border-red-500/30 flex justify-center items-center mx-auto">
+    <div className="w-full flex justify-center items-center overflow-hidden min-h-[90px] py-4 bg-transparent">
+      <div className="relative w-full max-w-[728px] min-w-[320px] min-h-[90px] flex justify-center items-center mx-auto">
         <div 
           ref={adsterraRef} 
           id="container-3ab88cc45aad291af06779a7141d0c78"
           className="w-full h-full flex justify-center items-center"
-          style={{ minHeight: '90px', display: 'flex' }}
+          style={{ minHeight: '90px' }}
         />
       </div>
     </div>

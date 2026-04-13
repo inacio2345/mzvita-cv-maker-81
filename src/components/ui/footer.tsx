@@ -3,50 +3,54 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
+declare global {
+  interface Window {
+    atOptions?: any;
+  }
+}
+
 const Footer = () => {
   const location = useLocation();
   
   useEffect(() => {
+    // MÉTODO EXPERT: Injeção Global para Rodapé
     const injectFooterAdsterra = () => {
       const container = document.getElementById('container-544871108327156f752c8856d6a40dc6');
-      if (container && !container.innerHTML.includes('invoke.js')) {
-        const scriptConfig = document.createElement('script');
-        scriptConfig.type = 'text/javascript';
-        scriptConfig.innerHTML = `
-          atOptions = {
-            'key' : '544871108327156f752c8856d6a40dc6',
-            'format' : 'iframe',
-            'height' : 50,
-            'width' : 320,
-            'params' : {}
-          };
-        `;
+      
+      if (container && container.innerHTML === '') {
+        window.atOptions = {
+          'key' : '544871108327156f752c8856d6a40dc6',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
         
-        const scriptInvoke = document.createElement('script');
-        scriptInvoke.type = 'text/javascript';
-        scriptInvoke.src = '//www.highperformanceformat.com/544871108327156f752c8856d6a40dc6/invoke.js';
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://www.highperformanceformat.com/544871108327156f752c8856d6a40dc6/invoke.js';
+        script.async = true;
         
-        container.appendChild(scriptConfig);
-        container.appendChild(scriptInvoke);
-        console.log("ADSTERRA_FOOTER_APPENDED");
+        container.appendChild(script);
+        console.log("ADSTERRA_ENGINE_STARTED_FOOTER");
       }
     };
 
-    setTimeout(injectFooterAdsterra, 2500);
+    const timeout = setTimeout(injectFooterAdsterra, 1000);
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
     <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
       <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
         
-        {/* Espaço de Publicidade do Rodapé con Teste de Visibilidade */}
-        <div className="w-full flex flex-col items-center mb-10 overflow-hidden">
-          <span className="text-[8px] text-gray-500 mb-1">Zona Adsterra Rodapé - Verifique AdBlock</span>
+        {/* Espaço de Publicidade do Rodapé (Experto) */}
+        <div className="w-full flex justify-center mb-10 overflow-hidden min-h-[60px]">
           <div 
             id="container-544871108327156f752c8856d6a40dc6"
-            className="flex justify-center items-center w-full min-h-[60px] border-2 border-dashed border-red-500/80 rounded-lg py-2 shadow-[0_0_10px_rgba(239,68,68,0.3)]"
+            className="flex justify-center items-center w-full min-h-[50px] bg-transparent"
           >
-            {/* O anúncio será injetado aqui */}
+            {/* O motor Adsterra injetará o iframe aqui */}
           </div>
         </div>
 
