@@ -1,59 +1,27 @@
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-
-declare global {
-  interface Window {
-    atOptions?: any;
-  }
-}
+import AdsterraIframe from '../ads/AdsterraIframe';
 
 const Footer = () => {
-  const location = useLocation();
-  
-  useEffect(() => {
-    // MÉTODO EXPERT: Injeção Global para Rodapé
-    const injectFooterAdsterra = () => {
-      const container = document.getElementById('container-544871108327156f752c8856d6a40dc6');
-      
-      if (container && container.innerHTML === '') {
-        window.atOptions = {
-          'key' : '3ab88cc45aad291af06779a7141d0c78',
-          'format' : 'iframe',
-          'height' : 90,
-          'width' : 728,
-          'params' : {}
-        };
-        
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
-        script.async = true;
-        
-        container.appendChild(script);
-        console.log("ADSTERRA_ENGINE_STARTED_FOOTER");
-      }
-    };
-
-    const timeout = setTimeout(injectFooterAdsterra, 200);
-    return () => clearTimeout(timeout);
-  }, []);
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
   return (
-    <footer className="bg-gray-900 text-white py-6 sm:py-8 md:py-12 overflow-x-hidden">
-      <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
-        
-        {/* Espaço de Publicidade do Rodapé (Experto) */}
-        <div className="w-full flex flex-col items-center mb-10 overflow-hidden">
-          <span className="text-[8px] font-bold text-gray-600 uppercase tracking-[0.2em] mb-3">Conteúdo Patrocinado</span>
-          <div className="relative w-full max-w-[728px] overflow-hidden rounded-xl border border-gray-800 bg-black/20 backdrop-blur-sm p-1">
-            <div 
-              id="container-3ab88cc45aad291af06779a7141d0c78"
-              className="flex justify-center items-center w-full bg-transparent min-h-[90px]"
-            >
-              {/* O motor Adsterra injetará o iframe aqui */}
-            </div>
+    <footer className="bg-slate-900 text-white py-12 border-t border-slate-800">
+      <div className="container mx-auto px-4">
+        {/* Native Banner / Sponsored Content Section */}
+        <div className="mb-12">
+          <div className="flex items-center gap-2 mb-6">
+            <span className="h-px bg-slate-800 flex-1"></span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Conteúdo Patrocinado</span>
+            <span className="h-px bg-slate-800 flex-1"></span>
+          </div>
+          <div className="min-h-[250px] w-full bg-slate-800/30 rounded-2xl border border-slate-800/50 p-4 transition-all hover:border-slate-700/50">
+            <AdsterraIframe 
+              adKey="3ab88cc45aad291af06779a7141d0c78"
+              format="js"
+              width="100%"
+              height={isMobile ? 500 : 250}
+            />
           </div>
         </div>
 
