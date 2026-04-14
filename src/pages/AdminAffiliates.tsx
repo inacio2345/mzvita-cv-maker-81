@@ -643,6 +643,7 @@ const AdminAffiliates = () => {
               ))
             )}
           </div>
+        </div>
         )}
       </div>
     </div>

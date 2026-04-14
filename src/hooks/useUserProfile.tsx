@@ -46,10 +46,11 @@ export const useUserProfile = () => {
     }
 
     try {
-      // RLS policies will automatically filter to user's profile
+      // Explicitamente procuramos pelo ID porque Admin agora pode ler todos os perfis
       const { data, error } = await supabase
         .from('user_profiles')
         .select('*')
+        .eq('id', user.id)
         .maybeSingle();
 
       if (error) throw error;
