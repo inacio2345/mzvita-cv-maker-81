@@ -5,9 +5,10 @@ import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { cvTemplates } from '@/data/cvTemplates';
 import {
-  ArrowLeft, Settings2, Download, Eye, Sparkles, PenLine, Plus, Minus
+  ArrowLeft, Settings2, Download, Eye, Sparkles, PenLine, Plus, Minus, Save
 } from 'lucide-react';
 import { useCVData } from '@/hooks/useCVData';
+import { useSavedCVs } from '@/hooks/useSavedCVs';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
 import AdvancedCVEditor from '@/components/cv/AdvancedCVEditor';
 import { getDefaultTemplate } from '@/data/cvTemplates';
@@ -33,6 +34,8 @@ const CreateCV = () => {
     resetLayoutConfig,
     layoutConfig
   } = useCVData(templateData);
+
+  const { saveCV, updateCV, loading: isSavingCV } = useSavedCVs();
 
   // Calculate scale for mobile preview
   useEffect(() => {
@@ -61,11 +64,6 @@ const CreateCV = () => {
 
   const finalScale = isMobile ? cvScale * userZoom : 0.8;
 
-  // Persistence Logic
-  // Persistence Logic
-  // The 'activeTemplate' state initialization below handles recovery from localStorage correctly.
-  // We don't need these useEffects anymore.
-
   // Initialize selectedTemplate with priority: location.state -> localStorage -> default
   const [activeTemplate, setActiveTemplate] = useState(() => {
     if (location.state?.selectedTemplate) return location.state.selectedTemplate;
@@ -80,7 +78,7 @@ const CreateCV = () => {
 
   // Load saved CV Data on mount if available and no fresh template data passed
   useEffect(() => {
-    if (!location.state?.templateData) {
+    if (!location.state?.templateData && !location.state?.cvData) {
       const savedData = localStorage.getItem('mz_cv_data');
       if (savedData) {
         try {
@@ -90,6 +88,8 @@ const CreateCV = () => {
           console.error("Failed to load saved CV data", e);
         }
       }
+    } else if (location.state?.cvData) {
+      updateCVData(location.state.cvData);
     }
   }, []);
 
@@ -103,12 +103,28 @@ const CreateCV = () => {
     }
   }, [activeTemplate, cvData]);
 
+  const handleSaveCV = async () => {
+    const title = cvData?.personalData?.fullName ? `CV de ${cvData.personalData.fullName}` : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
+    const cvId = location.state?.cvId;
+
+    if (cvId) {
+      await updateCV(cvId, title, cvData);
+    } else {
+      const data = await saveCV(title, activeTemplate?.id || 'cv03', cvData);
+      if (data) {
+        // Atualizar estado de rota para garantir que próximos saves atualizarão o mesmo ID
+        navigate('/criar-cv', { replace: true, state: { ...location.state, cvId: data.id, cvData, selectedTemplate: activeTemplate } });
+      }
+    }
+  };
+
   const goToPreview = () => {
     navigate('/preview', {
       state: {
         cvData,
         selectedTemplate: activeTemplate,
-        userPhoto: cvData.personalData?.photo
+        userPhoto: cvData.personalData?.photo,
+        cvId: location.state?.cvId
       }
     });
   };
@@ -147,6 +163,20 @@ const CreateCV = () => {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleSaveCV}
+            disabled={isSavingCV}
+            className="text-google-blue border-google-blue/30 bg-blue-50 hover:bg-blue-100 p-2 sm:px-4"
+          >
+            {isSavingCV ? (
+              <div className="w-4 h-4 mr-0 sm:mr-2 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+            ) : (
+              <Save className="w-4 h-4 sm:mr-2" />
+            )}
+            <span className="hidden sm:inline">Salvar</span>
+          </Button>
 
           <Button
             size="sm"
@@ -154,7 +184,8 @@ const CreateCV = () => {
             onClick={goToPreview}
           >
             <Download className="w-4 h-4 mr-2" />
-            Baixar CV
+            <span className="hidden sm:inline">Baixar CV</span>
+            <span className="sm:hidden">Baixar</span>
           </Button>
         </div>
       </header>
@@ -177,7 +208,7 @@ const CreateCV = () => {
                 onReorderSections={reorderSections}
                 onToggleVisibility={toggleSectionVisibility}
                 onReset={resetLayoutConfig}
-                onSave={() => {}}
+                onSave={handleSaveCV}
                 isDirty={false}
                 colors={cvData.colorPalette || activeTemplate?.colorPalette}
                 fonts={cvData.fonts || activeTemplate?.fonts}

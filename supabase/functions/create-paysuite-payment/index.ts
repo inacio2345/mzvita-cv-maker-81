@@ -28,7 +28,7 @@ serve(async (req) => {
   }
 
   try {
-    const { plan_type, user_id, return_url } = await req.json()
+    const { plan_type, user_id, affiliate_code, return_url } = await req.json()
 
     if (!PLAN_PRICES[plan_type]) {
       throw new Error("Plano inválido")
@@ -71,6 +71,7 @@ serve(async (req) => {
       .from("payments")
       .insert({
         user_id,
+        affiliate_code: affiliate_code || null,
         paysuite_id: result.data.id,
         amount,
         reference,

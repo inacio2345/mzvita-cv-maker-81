@@ -3,6 +3,7 @@ import { useUserProfile } from './useUserProfile';
 import { supabase } from '@/lib/supabase';
 import { useToast } from './use-toast';
 import { useAuth } from './useAuth';
+import { getReferralCode } from '@/utils/referralTracking';
 
 export const useSubscription = () => {
   const { profile, loadProfile } = useUserProfile();
@@ -47,11 +48,14 @@ export const useSubscription = () => {
       return;
     }
 
+    const affiliateCode = getReferralCode();
+
     try {
       const response = await supabase.functions.invoke('create-paysuite-payment', {
         body: {
           plan_type: planType,
           user_id: finalUserId,
+          affiliate_code: affiliateCode,
           return_url: window.location.origin + '/pagamento-sucesso'
         }
       });

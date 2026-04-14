@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft, Download, Edit, FileText, Layers, ClipboardList, Plus, Minus, Eye } from 'lucide-react';
+import { ArrowLeft, Download, Edit, FileText, Layers, ClipboardList, Plus, Minus, Eye, Save } from 'lucide-react';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
 import AdvancedCVEditor from '@/components/cv/AdvancedCVEditor';
 import { getDefaultTemplate } from '@/data/cvTemplates';
@@ -12,6 +12,7 @@ import MobileNav from '@/components/ui/mobile-nav';
 import DownloadOptions from '@/components/download/DownloadOptions';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useLayoutPersistence } from '@/hooks/useLayoutPersistence';
+import { useSavedCVs } from '@/hooks/useSavedCVs';
 import { cn } from '@/lib/utils';
 
 const Preview = () => {
@@ -38,6 +39,21 @@ const Preview = () => {
 
   const [cvScale, setCvScale] = useState(1);
   const [userZoom, setUserZoom] = useState(1);
+  const { saveCV, updateCV, loading: isSavingCV } = useSavedCVs();
+
+  const handleSaveCV = async () => {
+    const title = cvData?.personalData?.fullName ? `CV de ${cvData.personalData.fullName}` : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
+    
+    if (cvId) {
+      await updateCV(cvId, title, { ...cvData, layoutConfig });
+    } else {
+      const data = await saveCV(title, selectedTemplate?.id || 'cv03', { ...cvData, layoutConfig });
+      if (data) {
+        // Atualizar estado da rota silenciosamente para não criar múltiplos registos na base de dados
+        navigate('/preview', { replace: true, state: { ...location.state, cvId: data.id } });
+      }
+    }
+  };
 
   // Calculate scale for mobile preview
   useEffect(() => {
@@ -100,7 +116,21 @@ const Preview = () => {
             {/* Desktop Actions */}
             {!isMobile && (
               <div className="flex gap-2">
-                {/* Mode Toggle */}
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={handleSaveCV}
+                  disabled={isSavingCV}
+                  className="text-google-blue border-google-blue/30 bg-blue-50 hover:bg-blue-100 p-2 sm:px-4"
+                >
+                  {isSavingCV ? (
+                    <div className="w-4 h-4 mr-0 sm:mr-2 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <Save className="w-4 h-4 sm:mr-2" />
+                  )}
+                  <span className="hidden sm:inline">Salvar Rascunho</span>
+                </Button>
+
                 <Button
                   onClick={() => setShowDownloadOptions(true)}
                   className="bg-google-green hover:bg-green-600 text-white flex items-center px-8"
@@ -109,7 +139,6 @@ const Preview = () => {
                   <Download className="w-4 h-4 mr-2" />
                   Baixar Agora
                 </Button>
-
               </div>
             )}
 
@@ -125,8 +154,22 @@ const Preview = () => {
           {isMobile && (
             <div className="flex gap-2 mt-2">
               <Button
+                variant="outline"
+                onClick={handleSaveCV}
+                disabled={isSavingCV}
+                className="flex-1 bg-white border-slate-200 text-slate-700 hover:text-google-blue hover:bg-blue-50 flex items-center justify-center py-6 text-sm font-bold"
+                size="sm"
+              >
+                {isSavingCV ? (
+                  <div className="w-5 h-5 mr-0 sm:mr-2 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  <Save className="w-5 h-5 mr-2 text-google-blue" />
+                )}
+                <span className="sr-only">Salvar</span>
+              </Button>
+              <Button
                 onClick={() => setShowDownloadOptions(true)}
-                className="flex-1 bg-google-green hover:bg-green-600 text-white flex items-center justify-center py-6 text-sm font-bold"
+                className="flex-[3] bg-google-green hover:bg-green-600 text-white flex items-center justify-center py-6 text-sm font-bold"
                 size="sm"
               >
                 <Download className="w-5 h-5 mr-2" />

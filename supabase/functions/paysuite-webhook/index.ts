@@ -57,7 +57,7 @@ serve(async (req) => {
       // 2. Buscar o pagamento e o usuario
       const { data: payment, error: pError } = await supabase
         .from("payments")
-        .select("user_id, plan_type, status")
+        .select("id, user_id, plan_type, status, amount, affiliate_code")
         .eq("paysuite_id", paysuite_id)
         .single()
 
@@ -139,6 +139,44 @@ serve(async (req) => {
       if (upError) throw upError
       
       console.log(`Plano ${payment.plan_type} ativado para o usuario ${payment.user_id}`)
+
+      // 5. Atribuir comissão se houver afiliado
+      if (payment.affiliate_code) {
+        // Encontrar o afiliado dono do código
+        const { data: affiliate } = await supabase
+          .from("affiliates")
+          .select("id, commission_rate")
+          .eq("code", payment.affiliate_code)
+          .single()
+
+        if (affiliate) {
+          const defaultRate = 0.30;
+          const commissionRate = affiliate.commission_rate ? Number(affiliate.commission_rate) / 100 : defaultRate;
+          const commissionAmount = Number(payment.amount) * commissionRate;
+          // Available in 7 days
+          const availableAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+
+          const { error: commError } = await supabase
+            .from("commissions")
+            .insert({
+              affiliate_id: affiliate.id,
+              payment_id: payment.id,
+              referred_user_id: payment.user_id,
+              payment_amount: payment.amount,
+              commission_rate: commissionRate * 100, // Armazenando em % se for caso
+              commission_amount: commissionAmount,
+              status: "pending",
+              available_at: availableAt,
+              created_at: now.toISOString()
+            });
+            
+          if (commError) {
+             console.error("Erro ao inserir comissao:", commError);
+          } else {
+             console.log("Comissao de", commissionAmount, "atribuida ao afiliado", affiliate.id);
+          }
+        }
+      }
     }
 
     return new Response("Webhook processado", { status: 200 })

@@ -39,15 +39,29 @@ interface AdminPayout {
   affiliates?: { name: string; phone: string; code: string };
 }
 
+interface AdminPayment {
+  id: string;
+  user_id: string;
+  amount: number;
+  plan_type: string;
+  status: string;
+  affiliate_code: string | null;
+  created_at?: string;
+  updated_at: string;
+  buyer_email?: string;
+  affiliate_name?: string;
+}
+
 const AdminAffiliates = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<'pending' | 'approved' | 'payouts'>('pending');
+  const [tab, setTab] = useState<'pending' | 'approved' | 'payouts' | 'sales'>('pending');
   const [affiliates, setAffiliates] = useState<AdminAffiliate[]>([]);
   const [payouts, setPayouts] = useState<AdminPayout[]>([]);
+  const [payments, setPayments] = useState<AdminPayment[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [processing, setProcessing] = useState<string | null>(null);
 
@@ -93,6 +107,32 @@ const AdminAffiliates = () => {
       .order('requested_at', { ascending: false });
 
     setPayouts(allPayouts || []);
+
+    // Carregar vendas
+    const { data: allPayments } = await supabase
+      .from('payments')
+      .select('*')
+      .order('updated_at', { ascending: false });
+
+    if (allPayments) {
+       const userIds = [...new Set(allPayments.map(p => p.user_id))];
+       const { data: profiles } = await supabase
+         .from('user_profiles')
+         .select('id, email')
+         .in('id', userIds);
+       
+       const profileMap = (profiles || []).reduce((acc: Record<string, string>, p: any) => ({ ...acc, [p.id]: p.email }), {});
+
+       const enrichedPayments = allPayments.map(p => {
+         const aff = (allAffiliates || []).find(a => a.code === p.affiliate_code);
+         return {
+           ...p,
+           buyer_email: profileMap[p.user_id] || 'Desconhecido',
+           affiliate_name: aff ? aff.name : null
+         };
+       });
+       setPayments(enrichedPayments);
+    }
   };
 
   const updateAffiliateStatus = async (affiliateId: string, newStatus: 'approved' | 'rejected') => {
@@ -162,6 +202,76 @@ const AdminAffiliates = () => {
         description: error.message,
         variant: 'destructive'
       });
+    } finally {
+      setProcessing(null);
+    }
+  };
+
+  const processManualPayment = async (payment: AdminPayment) => {
+    if (!confirm('Aprovar este pagamento manual? O cliente receberá os créditos e o afiliado receberá comissão se aplicável.')) return;
+    
+    setProcessing(payment.id);
+    try {
+      const { error: pError } = await supabase
+        .from('payments')
+        .update({ status: 'paid', updated_at: new Date().toISOString() })
+        .eq('id', payment.id);
+        
+      if (pError) throw pError;
+      
+      const now = new Date();
+      const { data: currentProfile } = await supabase
+        .from('user_profiles')
+        .select('cv_limit, subscription_expires_at, plan_type')
+        .eq('id', payment.user_id)
+        .single();
+        
+      let newLimit = (currentProfile?.cv_limit || 0);
+      let is_premium = true;
+      let newPlanType = payment.plan_type;
+      
+      if (payment.plan_type === 'single') {
+         newLimit += 1;
+         is_premium = currentProfile?.plan_type === 'monthly' || currentProfile?.plan_type === 'annual';
+         newPlanType = currentProfile?.plan_type || 'single';
+      } else if (payment.plan_type === 'monthly') {
+         newLimit += 10;
+      }
+      
+      await supabase
+        .from('user_profiles')
+        .update({
+          plan_type: newPlanType,
+          cv_limit: newLimit,
+          is_premium: is_premium
+        })
+        .eq('id', payment.user_id);
+        
+      if (payment.affiliate_code) {
+        const affiliate = affiliates.find(a => a.code === payment.affiliate_code);
+        if (affiliate) {
+          const commissionRate = affiliate.commission_rate ? Number(affiliate.commission_rate) / 100 : 0.30;
+          const commissionAmount = Number(payment.amount) * commissionRate;
+          const availableAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+          
+          await supabase.from('commissions').insert({
+            affiliate_id: affiliate.id,
+            payment_id: payment.id,
+            referred_user_id: payment.user_id,
+            payment_amount: payment.amount,
+            commission_rate: commissionRate * 100,
+            commission_amount: commissionAmount,
+            status: 'pending',
+            available_at: availableAt,
+            created_at: now.toISOString()
+          });
+        }
+      }
+      
+      toast({ title: 'Venda aprovada com sucesso!' });
+      await loadData();
+    } catch (error: any) {
+      toast({ title: 'Erro ao aprovar', description: error.message, variant: 'destructive' });
     } finally {
       setProcessing(null);
     }
@@ -259,7 +369,8 @@ const AdminAffiliates = () => {
           {[
             { key: 'pending', label: 'Candidaturas', count: pendingAffiliates.length },
             { key: 'approved', label: 'Ativos', count: approvedAffiliates.length },
-            { key: 'payouts', label: 'Pagamentos', count: pendingPayouts.length },
+            { key: 'payouts', label: 'Pag. Afiliados', count: pendingPayouts.length },
+            { key: 'sales', label: 'Vendas', count: payments.length },
           ].map(t => (
             <button
               key={t.key}
@@ -426,6 +537,68 @@ const AdminAffiliates = () => {
                           </Button>
                         )}
                       </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </div>
+        )}
+        {/* Tab Content: Vendas Globais */}
+        {tab === 'sales' && (
+          <div className="space-y-3">
+            {payments.length === 0 ? (
+              <div className="text-center py-12 text-slate-400">
+                <DollarSign className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                <p className="font-bold">Nenhuma venda registada.</p>
+              </div>
+            ) : (
+              payments.map(p => (
+                <Card key={p.id} className="border-none shadow-md rounded-2xl overflow-hidden group hover:shadow-lg transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                      
+                      <div className="w-full md:w-auto">
+                        <p className="font-bold text-slate-900 truncate max-w-[280px] md:max-w-md">{p.buyer_email}</p>
+                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                          <Badge variant="outline" className="text-[10px] font-bold uppercase bg-slate-50">
+                            Plano: {p.plan_type}
+                          </Badge>
+                          {p.affiliate_code && (
+                            <Badge className="bg-emerald-50 text-emerald-600 border-none text-[10px] uppercase font-bold flex items-center gap-1">
+                              Ref: {p.affiliate_code} {p.affiliate_name ? `(${p.affiliate_name})` : ''}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-mono mt-1">ID: {p.id}</p>
+                      </div>
+
+                      <div className="flex w-full md:w-auto items-center justify-between md:justify-end gap-4 shrink-0">
+                        <div className="text-right">
+                          <p className="text-xl font-black text-slate-800">{Number(p.amount).toFixed(2)} MZN</p>
+                          <p className="text-[10px] uppercase font-bold text-slate-400">
+                            {new Date(p.updated_at).toLocaleDateString('pt-MZ')}
+                          </p>
+                        </div>
+
+                        {p.status === 'pending' ? (
+                          <Button 
+                            onClick={() => processManualPayment(p)}
+                            disabled={processing === p.id}
+                            size="sm"
+                            className="bg-blue-600 w-full md:w-auto hover:bg-blue-700 text-white rounded-xl font-bold transition-all"
+                          >
+                            {processing === p.id ? 'A processar...' : 'Aprovar Venda'}
+                          </Button>
+                        ) : (
+                          <div className="bg-emerald-50 px-3 py-1.5 border border-emerald-100 rounded-lg text-center flex-1 md:flex-initial">
+                            <p className="text-xs font-black text-emerald-600 uppercase flex items-center justify-center gap-1">
+                              <CheckCircle2 className="w-3 h-3" /> Pago
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      
                     </div>
                   </CardContent>
                 </Card>

@@ -3,17 +3,27 @@ import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useAffiliate } from '@/hooks/useAffiliate';
+import { useSavedCVs } from '@/hooks/useSavedCVs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { User, Mail, CreditCard, LogOut, Crown, Zap, CheckCircle2, Users, Clock, Shield } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { User, Mail, CreditCard, LogOut, Crown, Zap, CheckCircle2, Users, Clock, Shield, Download, Edit, Trash2, CalendarDays } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import DownloadOptions from '@/components/download/DownloadOptions';
+import { getDefaultTemplate } from '@/data/cvTemplates';
 
 const Profile = () => {
   const { user, signOut } = useAuth();
   const { profile, isPremiumActive, currentCredits } = useSubscription();
   const { affiliateProfile, isApproved, isPending, isRejected } = useAffiliate();
+  const { savedCVs, deleteCV, loading: loadingCVs } = useSavedCVs();
+  const [searchParams] = useSearchParams();
+  const viewCvs = searchParams.get('view') === 'cvs';
   const navigate = useNavigate();
+  
+  const [showSavedCvs, setShowSavedCvs] = React.useState(viewCvs || false);
+  const [showDownloadOptions, setShowDownloadOptions] = React.useState(false);
+  const [downloadData, setDownloadData] = React.useState<{cvData: any, selectedTemplate: any} | null>(null);
 
   const handleSignOut = async () => {
     await signOut();
@@ -109,14 +119,65 @@ const Profile = () => {
 
         {/* Action List */}
         <div className="space-y-3">
+          
           <Button 
-            variant="outline" 
+            variant={showSavedCvs ? "secondary" : "outline"} 
             className="w-full justify-start h-14 rounded-2xl border-slate-100 hover:bg-white text-slate-700 font-bold px-5"
-            onClick={() => navigate('/criar-cv')}
+            onClick={() => setShowSavedCvs(!showSavedCvs)}
           >
             <FileText className="w-5 h-5 mr-3 text-google-blue" />
-            Meus Currículos
+            Meus Currículos Salvos
+            <Badge className="ml-auto bg-blue-50 text-google-blue">{savedCVs.length}</Badge>
           </Button>
+
+          {showSavedCvs && (
+             <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 space-y-4 animate-in slide-in-from-top-2 duration-200">
+               <div className="flex items-center justify-between">
+                 <h3 className="font-bold text-slate-700 text-sm">Seus Documentos ({savedCVs.length})</h3>
+                 <Button onClick={() => navigate('/criar-cv')} size="sm" className="h-8 text-xs bg-slate-900 text-white rounded-lg">Criar Novo</Button>
+               </div>
+               
+               {loadingCVs ? (
+                 <div className="flex justify-center p-4"><div className="w-6 h-6 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div></div>
+               ) : savedCVs.length === 0 ? (
+                 <div className="text-center p-6 bg-white rounded-xl border border-dashed border-slate-200">
+                    <FileText className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+                    <p className="text-sm font-medium text-slate-500">Nenhum currículo salvo</p>
+                    <p className="text-xs text-slate-400">Crie seu primeiro currículo para vê-lo aqui.</p>
+                 </div>
+               ) : (
+                 <div className="space-y-3">
+                   {savedCVs.map((cv) => (
+                     <div key={cv.id} className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div className="flex-1">
+                          <h4 className="font-bold text-slate-800 text-sm">{cv.title}</h4>
+                          <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500 font-medium">
+                            <span className="flex items-center"><CalendarDays className="w-3 h-3 mr-1"/> {new Date(cv.updated_at).toLocaleDateString()}</span>
+                            <span>•</span>
+                            <span>Template: {cv.template_name === 'default' ? 'Padrão' : cv.template_name}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Button size="icon" variant="outline" className="h-8 w-8 text-slate-600 hover:text-google-blue rounded-lg"
+                            onClick={() => navigate('/criar-cv', { state: { cvData: cv.cv_data, cvId: cv.id, selectedTemplate: { id: cv.template_name || 'cv03' } } })}
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button size="sm" className="h-8 bg-google-green hover:bg-green-600 text-white rounded-lg text-xs tracking-wide"
+                            onClick={() => {
+                                setDownloadData({ cvData: cv.cv_data, selectedTemplate: { id: cv.template_name || 'cv03' } });
+                                setShowDownloadOptions(true);
+                            }}
+                          >
+                            <Download className="w-3.5 h-3.5 mr-1.5" /> Baixar
+                          </Button>
+                        </div>
+                     </div>
+                   ))}
+                 </div>
+               )}
+             </div>
+          )}
 
           {/* Affiliate Section */}
           {isApproved ? (
@@ -179,6 +240,16 @@ const Profile = () => {
           MozVita CV • Versão 2.5.0
         </p>
       </div>
+
+      {showDownloadOptions && downloadData && (
+        <DownloadOptions
+          isOpen={showDownloadOptions}
+          onClose={() => setShowDownloadOptions(false)}
+          cvData={downloadData.cvData}
+          selectedTemplate={downloadData.selectedTemplate}
+          cvTitle={downloadData.cvData?.personalData?.fullName || "Meu CV Salvo"}
+        />
+      )}
     </div>
   );
 };

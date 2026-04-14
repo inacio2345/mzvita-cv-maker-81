@@ -7,6 +7,8 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useSavedCVs } from '@/hooks/useSavedCVs';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import DownloadOptions from '@/components/download/DownloadOptions';
+import { getDefaultTemplate } from '@/data/cvTemplates';
 
 const PagamentoSucesso = () => {
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ const PagamentoSucesso = () => {
   const { saveCV } = useSavedCVs();
   const [hasSaved, setHasSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showDownloadOptions, setShowDownloadOptions] = useState(false);
+  const [downloadData, setDownloadData] = useState<{cvData: any, selectedTemplate: any} | null>(null);
 
   // Ao montar: refrescar subscrição e salvar CV automaticamente
   useEffect(() => {
@@ -149,7 +153,19 @@ const PagamentoSucesso = () => {
             {/* Botões de Acção */}
             <div className="space-y-3">
               <Button
-                onClick={() => navigate('/preview')}
+                onClick={() => {
+                  const savedCvData = localStorage.getItem('mz_cv_data');
+                  const savedTemplateId = localStorage.getItem('mz_selected_template_id');
+                  if (savedCvData) {
+                    setDownloadData({
+                      cvData: JSON.parse(savedCvData),
+                      selectedTemplate: savedTemplateId ? { id: savedTemplateId } : getDefaultTemplate()
+                    });
+                    setShowDownloadOptions(true);
+                  } else {
+                    navigate('/criar-cv'); // Fallback if no data
+                  }
+                }}
                 className="w-full h-14 text-base font-bold bg-google-green hover:bg-green-600 text-white rounded-xl shadow-lg shadow-green-200/50 transition-all hover:shadow-xl"
               >
                 <Download className="w-5 h-5 mr-2" />
@@ -167,7 +183,7 @@ const PagamentoSucesso = () => {
 
               <Button
                 variant="ghost"
-                onClick={() => navigate('/perfil')}
+                onClick={() => navigate('/perfil?view=cvs')}
                 className="w-full h-10 text-xs font-medium text-slate-500 hover:text-google-blue rounded-xl"
               >
                 Ver Meus CVs Salvos
@@ -189,6 +205,16 @@ const PagamentoSucesso = () => {
           .
         </p>
       </div>
+
+      {showDownloadOptions && downloadData && (
+        <DownloadOptions
+          isOpen={showDownloadOptions}
+          onClose={() => setShowDownloadOptions(false)}
+          cvData={downloadData.cvData}
+          selectedTemplate={downloadData.selectedTemplate}
+          cvTitle={downloadData.cvData?.personalData?.fullName || "Meu CV"}
+        />
+      )}
     </div>
   );
 };
