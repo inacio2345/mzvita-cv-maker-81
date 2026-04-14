@@ -546,13 +546,51 @@ const AdminAffiliates = () => {
         )}
         {/* Tab Content: Vendas Globais */}
         {tab === 'sales' && (
-          <div className="space-y-3">
-            {payments.length === 0 ? (
-              <div className="text-center py-12 text-slate-400">
-                <DollarSign className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                <p className="font-bold">Nenhuma venda registada.</p>
-              </div>
-            ) : (
+          <div className="space-y-6">
+            
+            {/* Dashboard Financeiro */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card className="border-none shadow-md rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+                <CardContent className="p-4 md:p-6">
+                  <p className="text-blue-100 text-sm font-bold uppercase tracking-wider mb-1">Receita Total Bruta</p>
+                  <p className="text-3xl md:text-4xl font-black">
+                    {payments.filter(p => p.status === 'paid').reduce((sum, p) => sum + Number(p.amount), 0).toFixed(2)} <span className="text-xl">MZN</span>
+                  </p>
+                  <p className="text-blue-100 opacity-80 text-xs mt-2 font-medium">Vendas concluídas</p>
+                </CardContent>
+              </Card>
+              <Card className="border-none shadow-md rounded-2xl">
+                <CardContent className="p-4 md:p-6">
+                  <p className="text-slate-400 text-sm font-bold uppercase tracking-wider mb-1">Este Mês</p>
+                  <p className="text-2xl md:text-3xl font-black text-slate-800">
+                    {payments.filter(p => p.status === 'paid' && new Date(p.updated_at).getMonth() === new Date().getMonth()).reduce((sum, p) => sum + Number(p.amount), 0).toFixed(2)} MZN
+                  </p>
+                  <p className="text-slate-400 text-xs mt-2 font-medium">
+                    {payments.filter(p => p.status === 'paid' && new Date(p.updated_at).getMonth() === new Date().getMonth()).length} pagamentos no mês atual
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border-none shadow-md rounded-2xl">
+                <CardContent className="p-4 md:p-6">
+                  <p className="text-emerald-500 text-sm font-bold uppercase tracking-wider mb-1">Vendas Pendentes</p>
+                  <p className="text-2xl md:text-3xl font-black text-emerald-600">
+                    {payments.filter(p => p.status === 'pending').length} aguardando
+                  </p>
+                  <p className="text-slate-400 text-xs mt-2 font-medium">
+                    M-Pesa direto ou abandonos
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="text-lg font-black text-slate-800 mb-2">Registo de Transações</h3>
+              {payments.length === 0 ? (
+                <div className="text-center py-12 text-slate-400">
+                  <DollarSign className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                  <p className="font-bold">Nenhuma venda registada.</p>
+                </div>
+              ) : (
               payments.map(p => (
                 <Card key={p.id} className="border-none shadow-md rounded-2xl overflow-hidden group hover:shadow-lg transition-shadow">
                   <CardContent className="p-4">
