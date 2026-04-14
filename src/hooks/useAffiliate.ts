@@ -134,13 +134,25 @@ export const useAffiliate = () => {
     }
 
     try {
-      const response = await supabase.functions.invoke('apply-affiliate', {
+      const { data: responseData, error } = await supabase.functions.invoke('apply-affiliate', {
         body: data
       });
 
-      if (response.error) {
-        const errorData = response.error;
-        throw new Error(typeof errorData === 'string' ? errorData : 'Erro ao candidatar-se');
+      if (error) {
+        // supabase functions.invoke wraps HTTP errors in FunctionsHttpError
+        let message = 'Erro ao candidatar-se';
+        try {
+          // Try to parse error body if it's a FunctionsHttpError
+          if (error.context && typeof error.context.json === 'function') {
+            const errorBody = await error.context.json();
+            message = errorBody?.error || message;
+          } else if (error.message) {
+            message = error.message;
+          }
+        } catch (_) {
+          // fallback
+        }
+        throw new Error(message);
       }
 
       toast({

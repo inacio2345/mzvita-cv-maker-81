@@ -65,18 +65,18 @@ const Afiliado = () => {
             Simples, transparente e sem limites.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <div className="text-3xl font-black text-yellow-300 mb-1">15 MT</div>
-              <div className="text-sm text-emerald-100">por CV Avulso (50 MT)</div>
+          <div className="grid grid-cols-3 gap-3 md:gap-6 max-w-3xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-6 border border-white/20">
+              <div className="text-xl md:text-3xl font-black text-yellow-300 mb-1">15 MT</div>
+              <div className="text-[10px] md:text-sm text-emerald-100">por CV Avulso</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <div className="text-3xl font-black text-yellow-300 mb-1">60 MT</div>
-              <div className="text-sm text-emerald-100">por Plano Mensal (200 MT)</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-6 border border-white/20">
+              <div className="text-xl md:text-3xl font-black text-yellow-300 mb-1">60 MT</div>
+              <div className="text-[10px] md:text-sm text-emerald-100">por Mensal</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <div className="text-3xl font-black text-yellow-300 mb-1">387 MT</div>
-              <div className="text-sm text-emerald-100">por Plano Anual (1.290 MT)</div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-3 md:p-6 border border-white/20">
+              <div className="text-xl md:text-3xl font-black text-yellow-300 mb-1">387 MT</div>
+              <div className="text-[10px] md:text-sm text-emerald-100">por Anual</div>
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@ const Afiliado = () => {
       <div className="max-w-5xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-black text-center text-slate-900 mb-12">Como funciona?</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {[
             { icon: <Send className="w-8 h-8" />, title: "Candidate-se", desc: "Preencha o formulário abaixo e aguarde a aprovação." },
             { icon: <Link2 className="w-8 h-8" />, title: "Receba seu link", desc: "Após aprovação, receba um link único de indicação." },

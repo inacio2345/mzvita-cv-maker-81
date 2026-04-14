@@ -205,12 +205,12 @@ const AdminAffiliates = () => {
         
         {/* Header */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 shrink-0 bg-slate-900 rounded-xl flex items-center justify-center">
             <Shield className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <h1 className="text-2xl font-black text-slate-900">Admin — Afiliados</h1>
-            <p className="text-sm text-slate-400">Gerir candidaturas, afiliados e pagamentos</p>
+          <div className="min-w-0">
+            <h1 className="text-xl md:text-2xl font-black text-slate-900 truncate">Admin — Afiliados</h1>
+            <p className="text-xs md:text-sm text-slate-400">Gerir candidaturas, afiliados e pagamentos</p>
           </div>
         </div>
 
@@ -255,16 +255,16 @@ const AdminAffiliates = () => {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 border-b border-slate-200 pb-0">
+        <div className="flex gap-1 border-b border-slate-200 pb-0 overflow-x-auto scrollbar-hide -mx-4 px-4">
           {[
             { key: 'pending', label: 'Candidaturas', count: pendingAffiliates.length },
-            { key: 'approved', label: 'Afiliados Ativos', count: approvedAffiliates.length },
+            { key: 'approved', label: 'Ativos', count: approvedAffiliates.length },
             { key: 'payouts', label: 'Pagamentos', count: pendingPayouts.length },
           ].map(t => (
             <button
               key={t.key}
               onClick={() => setTab(t.key as typeof tab)}
-              className={`px-4 py-3 text-sm font-bold border-b-2 transition-colors ${
+              className={`px-3 md:px-4 py-3 text-xs md:text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
                 tab === t.key 
                   ? 'border-emerald-500 text-emerald-600' 
                   : 'border-transparent text-slate-400 hover:text-slate-600'
@@ -272,7 +272,7 @@ const AdminAffiliates = () => {
             >
               {t.label}
               {t.count > 0 && (
-                <span className="ml-2 bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">
+                <span className="ml-1.5 bg-slate-100 text-slate-600 text-[10px] px-1.5 py-0.5 rounded-full">
                   {t.count}
                 </span>
               )}
@@ -396,12 +396,12 @@ const AdminAffiliates = () => {
               payouts.map(payout => (
                 <Card key={payout.id} className="border-none shadow-md rounded-2xl">
                   <CardContent className="p-4">
-                    <div className="flex justify-between items-center">
-                      <div>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                      <div className="min-w-0">
                         <p className="font-bold text-slate-900">
                           {Number(payout.total_amount).toFixed(0)} MZN
                         </p>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-slate-400 truncate">
                           {(payout as any).affiliates?.name || '—'} •{' '}
                           {(payout as any).affiliates?.phone || '—'}
                         </p>
@@ -410,14 +410,14 @@ const AdminAffiliates = () => {
                           {payout.payment_reference && ` • Ref: ${payout.payment_reference}`}
                         </p>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Badge className={`font-bold ${payoutStatusColors[payout.status]}`}>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Badge className={`font-bold text-[10px] ${payoutStatusColors[payout.status]}`}>
                           {payoutStatusLabels[payout.status]}
                         </Badge>
                         {(payout.status === 'requested' || payout.status === 'processing') && (
                           <Button
                             size="sm"
-                            className="bg-emerald-600 hover:bg-emerald-700 rounded-xl font-bold"
+                            className="bg-emerald-600 hover:bg-emerald-700 rounded-xl font-bold text-xs"
                             onClick={() => processPayoutAdmin(payout.id)}
                             disabled={processing === payout.id}
                           >

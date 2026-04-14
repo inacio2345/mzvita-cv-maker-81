@@ -18,7 +18,8 @@ import {
   ChevronRight,
   BookOpen,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  DollarSign
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -181,7 +182,7 @@ const MobileNav = () => {
                     {/* Explore Section */}
                     <div>
                       <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">Explorar</h3>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-3 gap-3">
                         <button 
                           className="flex flex-col items-center justify-center h-28 gap-2 rounded-3xl bg-blue-50/50 border border-blue-100"
                           onClick={() => handleNavigation('/blog')}
@@ -195,6 +196,13 @@ const MobileNav = () => {
                         >
                           <MessageCircle className="w-6 h-6 text-google-red" />
                           <span className="font-bold text-xs uppercase text-google-red">Contato</span>
+                        </button>
+                        <button 
+                          className="flex flex-col items-center justify-center h-28 gap-2 rounded-3xl bg-emerald-50/50 border border-emerald-100"
+                          onClick={() => handleNavigation('/afiliado')}
+                        >
+                          <DollarSign className="w-6 h-6 text-emerald-600" />
+                          <span className="font-bold text-[10px] uppercase text-emerald-600">Afiliados</span>
                         </button>
                       </div>
                     </div>

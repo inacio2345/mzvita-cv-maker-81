@@ -201,15 +201,18 @@ export function AppSidebar() {
           </div>
         ) : user ? (
           <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-google-blue/10 flex items-center justify-center border border-google-blue/20">
-                <User className="w-5 h-5 text-google-blue" />
+            <div 
+              onClick={() => navigate('/perfil')}
+              className="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-slate-100 cursor-pointer transition-colors group"
+            >
+              <div className="w-10 h-10 rounded-full bg-google-blue/10 flex items-center justify-center border border-google-blue/20 group-hover:bg-google-blue group-hover:border-google-blue transition-colors">
+                <User className="w-5 h-5 text-google-blue group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-bold text-slate-900 truncate">
+                <p className="text-sm font-bold text-slate-900 truncate group-hover:text-google-blue transition-colors">
                   {profile?.full_name || user.email?.split('@')[0]}
                 </p>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 mt-0.5">
                   <Badge variant={isPremiumActive ? "default" : "secondary"} className={isPremiumActive ? "bg-google-green text-white text-[9px] px-1.5 py-0" : "text-[9px] px-1.5 py-0"}>
                     {isPremiumActive ? "PRO ACTIVE" : "FREE PLAN"}
                   </Badge>
@@ -221,15 +224,27 @@ export function AppSidebar() {
                 </div>
               </div>
             </div>
-            <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={handleSignOut}
-                className="w-full justify-start text-slate-500 hover:text-red-500 hover:bg-red-50 h-8"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              <span className="text-xs font-semibold">Sair da Conta</span>
-            </Button>
+            
+            <div className="flex flex-col gap-1 pt-2 border-t border-slate-100">
+              <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => navigate('/perfil')}
+                  className="w-full justify-start text-google-blue hover:text-blue-700 hover:bg-blue-50 h-8"
+              >
+                <User className="w-4 h-4 mr-2" />
+                <span className="text-xs font-semibold">Meu Perfil</span>
+              </Button>
+              <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="w-full justify-start text-slate-500 hover:text-red-500 hover:bg-red-50 h-8"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                <span className="text-xs font-semibold">Sair da Conta</span>
+              </Button>
+            </div>
           </div>
         ) : (
           <Button 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { User, ChevronDown, FileText, Mail, PenTool, LogOut, Award, Briefcase, GraduationCap, Heart, Sparkles, Crown, Zap } from 'lucide-react';
 import AdRotator from '@/components/ads/AdRotator';
 import { useLocation } from 'react-router-dom';
+import { supabase } from '@/lib/supabase';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -24,6 +25,32 @@ const Header = () => {
 
   const excludedPages = ['/preview', '/criar-cv'];
   const shouldShowAds = !excludedPages.includes(location.pathname);
+
+  // Secret admin access: tap logo 5 times
+  const tapCountRef = useRef(0);
+  const tapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleLogoTap = useCallback(async () => {
+    tapCountRef.current += 1;
+    
+    if (tapTimerRef.current) clearTimeout(tapTimerRef.current);
+    tapTimerRef.current = setTimeout(() => { tapCountRef.current = 0; }, 2000);
+
+    if (tapCountRef.current >= 5) {
+      tapCountRef.current = 0;
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.is_admin) {
+        navigate('/admin/afiliados');
+      }
+    }
+  }, [user, navigate]);
 
   const officialLetters = [
     { title: "Carta de Apresentação", url: "/carta-apresentacao", icon: PenTool },
@@ -41,36 +68,46 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2 mr-4 lg:mr-6">
+            <div 
+              className="flex items-center gap-2 mr-4 lg:mr-6 cursor-pointer select-none" 
+              onClick={(e) => {
+                handleLogoTap();
+                // Only navigate home on single tap after brief delay
+                if (tapCountRef.current <= 1) {
+                  navigate('/');
+                }
+              }}
+            >
               <img
                 src="/logo.png"
                 alt="MozVita Logo"
                 className="h-20 w-auto object-contain"
               />
-            </Link>
+            </div>
             
-            {/* Mobile Profile & Plan Badge - Added in Header */}
-            {isMobile && user && (
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={() => navigate('/perfil')}
-                  className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 hover:text-google-blue hover:bg-google-blue/5 transition-all active:scale-95"
-                >
-                  <User className="w-5 h-5" />
-                </button>
-                <Badge 
-                  variant={isPremiumActive ? "default" : "secondary"}
-                  className={`flex items-center gap-1 rounded-full px-3 py-1 font-black text-[10px] uppercase tracking-wider h-8 ${
-                    isPremiumActive 
-                      ? "bg-google-green text-white shadow-lg shadow-green-100" 
-                      : "bg-slate-50 text-slate-500 border-slate-100"
-                  }`}
-                  onClick={() => navigate('/perfil')}
-                >
-                  {isPremiumActive ? <Crown className="w-3 h-3" /> : <Zap className="w-3 h-3 text-google-blue" />}
-                  {isPremiumActive ? "PRO" : "FREE"}
-                </Badge>
-              </div>
+            {/* Profile Button - always visible when logged in */}
+            {user && (
+              <button 
+                onClick={() => navigate('/perfil')}
+                className="flex items-center gap-2 px-3 py-2 rounded-full border border-slate-100 hover:border-google-blue/30 hover:bg-google-blue/5 transition-all active:scale-95 group"
+              >
+                <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-google-blue/10 transition-colors">
+                  <User className="w-4 h-4 text-slate-400 group-hover:text-google-blue" />
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className="text-[11px] font-bold text-slate-600 group-hover:text-google-blue leading-tight">Meu Perfil</span>
+                  <Badge 
+                    variant={isPremiumActive ? "default" : "secondary"}
+                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0 h-3.5 pointer-events-none ${
+                      isPremiumActive 
+                        ? "bg-google-green text-white" 
+                        : "bg-slate-50 text-slate-400 border-slate-200"
+                    }`}
+                  >
+                    {isPremiumActive ? "PRO" : "FREE"}
+                  </Badge>
+                </div>
+              </button>
             )}
 
             {/* Desktop Navigation */}
@@ -132,7 +169,7 @@ const Header = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             <Button
               onClick={() => navigate('/exemplos')}
               className="bg-google-blue hover:bg-blue-600 text-white font-black px-8 py-6 rounded-full shadow-lg hover:shadow-blue-200/50 transition-all hover:scale-105 active:scale-95 animate-premium-pulse"

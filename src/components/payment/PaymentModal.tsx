@@ -124,6 +124,10 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
         return (
             <Dialog open={isOpen} onOpenChange={() => {}}>
                 <DialogContent className="sm:max-w-md">
+                    <DialogHeader className="sr-only">
+                        <DialogTitle>Pagamento em processamento</DialogTitle>
+                        <DialogDescription>Aguarde enquanto processamos o seu pagamento</DialogDescription>
+                    </DialogHeader>
                     <div className="flex flex-col items-center gap-6 py-8 text-center">
                         <Loader2 className="w-12 h-12 text-primary animate-spin" />
                         <div>
