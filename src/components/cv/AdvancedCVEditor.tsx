@@ -329,33 +329,52 @@ const AdvancedCVEditor = ({
 
           <Separator />
 
-          {/* Espaçamento */}
+          <Separator />
+
+          {/* Espaçamento e Escala */}
           <div className="space-y-4">
             <div className="flex items-center justify-between border-b pb-2">
               <h4 className="font-semibold text-sm text-slate-900">Configurações de Layout</h4>
-              <Badge variant="outline" className="text-[10px]">Em breve</Badge>
+              <Badge variant="secondary" className="text-[10px] bg-google-blue/10 text-google-blue border-google-blue/20">Ativo</Badge>
             </div>
 
-            <div className="space-y-4 opacity-50 pointer-events-none filter grayscale">
+            <div className="space-y-6 pt-2">
               <div className="space-y-3">
-                <div className="flex justify-between">
-                  <Label className="text-xs">Margens</Label>
-                  <span className="text-xs text-slate-500">Padrão</span>
+                <div className="flex justify-between items-center">
+                  <Label className="text-xs font-bold text-slate-700">Tamanho Global do Texto</Label>
+                  <span className="text-[10px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
+                    {Math.round((layoutConfig.spacing?.fontSize || 1) * 100)}%
+                  </span>
                 </div>
-                <Slider defaultValue={[50]} max={100} step={1} />
+                <Slider 
+                  value={[ (layoutConfig.spacing?.fontSize || 1) * 100 ]} 
+                  min={70} 
+                  max={130} 
+                  step={1}
+                  onValueChange={(vals) => onUpdateStyle('spacing', { ...layoutConfig.spacing, fontSize: vals[0] / 100 })}
+                />
+                <p className="text-[10px] text-slate-400">Ajuste a densidade do texto para caber mais ou menos informação.</p>
               </div>
 
               <div className="space-y-3">
-                <div className="flex justify-between">
-                  <Label className="text-xs">Espaçamento entre seções</Label>
-                  <span className="text-xs text-slate-500">Médio</span>
+                <div className="flex justify-between items-center">
+                  <Label className="text-xs font-bold text-slate-700">Espaçamento entre Secções</Label>
+                  <span className="text-[10px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
+                    {layoutConfig.spacing?.sectionSpacing || 'Padrão'}
+                  </span>
                 </div>
-                <Slider defaultValue={[50]} max={100} step={1} />
+                <Slider 
+                  value={[ layoutConfig.spacing?.sectionSpacing === 'compact' ? 0 : layoutConfig.spacing?.sectionSpacing === 'wide' ? 100 : 50 ]} 
+                  max={100} 
+                  step={50}
+                  onValueChange={(vals) => {
+                    const mode = vals[0] === 0 ? 'compact' : vals[0] === 100 ? 'wide' : 'normal';
+                    onUpdateStyle('spacing', { ...layoutConfig.spacing, sectionSpacing: mode });
+                  }}
+                />
+                <p className="text-[10px] text-slate-400 text-center">Compacto • Normal • Amplo</p>
               </div>
             </div>
-            <p className="text-[10px] text-center text-slate-400">
-              Controles de espaçamento estarão disponíveis na próxima atualização.
-            </p>
           </div>
 
         </TabsContent>

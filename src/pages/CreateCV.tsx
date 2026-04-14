@@ -59,7 +59,7 @@ const CreateCV = () => {
   const handleZoomOut = () => setUserZoom(prev => Math.max(prev - 0.1, 0.5));
   const resetZoom = () => setUserZoom(1);
 
-  const finalScale = isMobile ? cvScale * userZoom : 0.85;
+  const finalScale = isMobile ? cvScale * userZoom : 0.8;
 
   // Persistence Logic
   // Persistence Logic
@@ -147,21 +147,14 @@ const CreateCV = () => {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button
-            variant="outline"
-            size="sm"
-            className="hidden sm:flex"
-            onClick={goToPreview}
-          >
-            <Eye className="w-4 h-4 mr-2" /> Visualizar
-          </Button>
+
           <Button
             size="sm"
-            className="bg-google-blue hover:bg-blue-600"
+            className="bg-google-blue hover:bg-blue-600 px-6 font-bold"
             onClick={goToPreview}
           >
-            <Download className="w-4 h-4" />
-            <span className="hidden sm:inline ml-2 text-white">Pronto / Baixar CV</span>
+            <Download className="w-4 h-4 mr-2" />
+            Baixar CV
           </Button>
         </div>
       </header>
@@ -259,9 +252,9 @@ const CreateCV = () => {
             className="bg-transparent origin-top transition-transform duration-300 rounded-[2px] transform-gpu overflow-visible relative"
             style={{
               width: "794px", 
-              transform: `scale(${isMobile ? finalScale : (window.innerWidth > 1200 ? 1 : 0.85)})`,
+              transform: `scale(${isMobile ? finalScale : 0.8})`,
               minHeight: "1122px", 
-              marginBottom: isMobile ? `-${(1 - finalScale) * 1122}px` : "200px", 
+              marginBottom: isMobile ? `-${(1 - finalScale) * 1122}px` : `-${(1 - 0.8) * 1122}px`, 
               willChange: "transform",
               backfaceVisibility: "hidden"
             }}
@@ -323,8 +316,8 @@ const CreateCV = () => {
               className="flex-[1.2] flex flex-col items-center justify-center py-2 gap-1.5 text-white"
             >
               <div className="bg-google-blue p-3 rounded-2xl shadow-lg shadow-blue-200 active:scale-95 transition-transform flex items-center justify-center w-full max-w-[110px]">
-                <Eye className="w-5 h-5 mr-2" />
-                <span className="text-[11px] font-bold uppercase tracking-tight">Ver Final</span>
+                <Download className="w-5 h-5 mr-2" />
+                <span className="text-[11px] font-bold uppercase tracking-tight">Baixar CV</span>
               </div>
             </button>
           </div>

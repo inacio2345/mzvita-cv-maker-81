@@ -76,35 +76,61 @@ serve(async (req) => {
         .update({ status: "paid", updated_at: new Date().toISOString() })
         .eq("paysuite_id", paysuite_id)
 
-      // 4. Aplicar benefícios do Plano
+      // 4. Aplicar benefícios do Plano com ACUMULAÇÃO (Stacking)
       const now = new Date()
+      
+      // Buscar perfil actual do utilizador
+      const { data: currentProfile } = await supabase
+        .from("user_profiles")
+        .select("cv_limit, cv_used, subscription_expires_at, plan_type")
+        .eq("id", payment.user_id)
+        .single()
+
+      const currentLimit = currentProfile?.cv_limit || 0
+      const currentExpiry = currentProfile?.subscription_expires_at 
+        ? new Date(currentProfile.subscription_expires_at) 
+        : null
+
+      let newLimit = currentLimit
       let expires_at = null
-      let cv_limit = 0
       let is_premium = true
+      let newPlanType = payment.plan_type
 
       if (payment.plan_type === 'single') {
-          // Apenas adiciona 1 crédito ao que o usuário já tem
-          const { data: profile } = await supabase
-            .from("user_profiles")
-            .select("cv_limit")
-            .eq("id", payment.user_id)
-            .single()
-            
-          cv_limit = (profile?.cv_limit || 0) + 1
-          is_premium = false // Plano avulso não dá status premium (sem anúncios) permanentemente
+          // Avulso: apenas adiciona +1 crédito ao saldo existente
+          newLimit = currentLimit + 1
+          is_premium = currentProfile?.plan_type === 'monthly' || currentProfile?.plan_type === 'annual'
+          // Manter o plan_type anterior se for superior
+          if (currentProfile?.plan_type === 'monthly' || currentProfile?.plan_type === 'annual') {
+            newPlanType = currentProfile.plan_type
+          }
+          // Manter a data de expiração existente
+          expires_at = currentExpiry
       } else if (payment.plan_type === 'monthly') {
-          cv_limit = 10
-          expires_at = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+          // Mensal: acumular +10 créditos ao saldo existente
+          newLimit = currentLimit + 10
+          // Se o plano ainda está activo, somar +30 dias à data de expiração actual
+          if (currentExpiry && currentExpiry > now) {
+            expires_at = new Date(currentExpiry.getTime() + 30 * 24 * 60 * 60 * 1000)
+          } else {
+            // Se expirou ou é novo, contar +30 dias a partir de hoje
+            expires_at = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+          }
       } else if (payment.plan_type === 'annual') {
-          cv_limit = 999999 // Sem limites práticos
-          expires_at = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000)
+          // Anual: sem limites práticos
+          newLimit = 999999
+          if (currentExpiry && currentExpiry > now) {
+            expires_at = new Date(currentExpiry.getTime() + 365 * 24 * 60 * 60 * 1000)
+          } else {
+            expires_at = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000)
+          }
       }
 
       const { error: upError } = await supabase
         .from("user_profiles")
         .update({
-          plan_type: payment.plan_type,
-          cv_limit: cv_limit,
+          plan_type: newPlanType,
+          cv_limit: newLimit,
           subscription_expires_at: expires_at ? expires_at.toISOString() : null,
           is_premium: is_premium
         })

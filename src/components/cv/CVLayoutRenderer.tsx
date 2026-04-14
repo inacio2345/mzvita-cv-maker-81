@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Mail, Phone, MapPin, Globe, Calendar, Award, Briefcase, GraduationCap, User, Star, Languages, Wrench, Camera } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,7 +22,7 @@ import {
 } from '@dnd-kit/sortable';
 import SortableItem from './SortableItem';
 import FloatingToolbar from './FloatingToolbar';
-import { useState, useCallback } from 'react';
+
 
 interface CVLayoutRendererProps {
   data: any;
@@ -144,14 +144,30 @@ const CVLayoutRenderer = ({
   };
 
   const isSectionHidden = (sectionId: string) => {
+    // Foto agora é obrigatória conforme pedido do utilizador, a menos que explicitamente removida em modo avançado
+    if (sectionId === 'photo') {
+      const isHidden = activeLayoutConfig.hiddenSections?.includes(sectionId) || false;
+      return isHidden && !isAdvancedMode;
+    }
     return activeLayoutConfig.hiddenSections?.includes(sectionId) || false;
   };
 
   const getElementStyle = (id: string, defaultStyle: React.CSSProperties = {}) => {
     const customStyle = data.elementStyles?.[id] || {};
+    const textScale = activeLayoutConfig.spacing?.fontSize || 1;
+    
+    // Aplicar escala de texto se houver fontSize definido no estilo original ou customizado
+    const combinedStyle = { ...defaultStyle, ...customStyle };
+    if (combinedStyle.fontSize && typeof combinedStyle.fontSize === 'number') {
+      combinedStyle.fontSize = combinedStyle.fontSize * textScale;
+    } else if (combinedStyle.fontSize && typeof combinedStyle.fontSize === 'string' && combinedStyle.fontSize.includes('px')) {
+      const size = parseFloat(combinedStyle.fontSize);
+      combinedStyle.fontSize = `${size * textScale}px`;
+    }
+
     return {
-      ...defaultStyle,
-      ...customStyle
+      ...combinedStyle,
+      lineHeight: '1.6', // Respiro de sofisticação
     };
   };
 
@@ -234,31 +250,35 @@ const CVLayoutRenderer = ({
 
   // MODELO 1: Profissional Clássico - Cabeçalho centralizado + duas colunas
   const renderProfissionalClassico = () => (
-    <div className={`min-h-full ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
-      {/* Cabeçalho centralizado */}
-      <div className="text-center py-2 sm:py-6 border-b-2" style={getElementStyle('header-container', { borderColor: colors.primary })}>
-        <h1 className="text-2xl sm:text-4xl font-bold mb-0.5" style={getElementStyle('header-name', { color: colors.primary, fontFamily: fonts.headings })}>
-          <InlineEdit
-            value={data.personalData?.fullName || 'SEU NOME'}
-            onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })}
-            isAdvancedMode={isAdvancedMode}
-            className="text-center"
-            onClick={(e) => handleElementClick(e, 'text', 'header-name', getElementStyle('header-name', { color: colors.primary, fontFamily: fonts.headings }))}
-            style={getElementStyle('header-name')}
-            as="span"
-          />
-        </h1>
-        <p className={`${isMobile ? 'text-lg' : 'text-xl'} text-gray-600 font-medium`} style={getElementStyle('header-profession', { color: '#4b5563' })}>
-          <InlineEdit
-            value={data.personalData?.profession || 'Sua Profissão'}
-            onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })}
-            isAdvancedMode={isAdvancedMode}
-            className="text-center"
-            onClick={(e) => handleElementClick(e, 'text', 'header-profession', getElementStyle('header-profession', { color: '#4b5563' }))}
-            style={getElementStyle('header-profession')}
-            as="span"
-          />
-        </p>
+    <div className={`min-h-full ${className} flex flex-col`} style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
+      {/* Cabeçalho centralizado com FOTO OBRIGATÓRIA */}
+      <div className="flex flex-col items-center py-6 sm:py-8 border-b-2 gap-4" style={getElementStyle('header-container', { borderColor: colors.primary })}>
+        {renderUserPhoto('circular', 'w-32 h-32')}
+        
+        <div className="text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-1" style={getElementStyle('header-name', { color: colors.primary, fontFamily: fonts.headings })}>
+            <InlineEdit
+              value={data.personalData?.fullName || 'SEU NOME'}
+              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })}
+              isAdvancedMode={isAdvancedMode}
+              className="text-center"
+              onClick={(e) => handleElementClick(e, 'text', 'header-name', getElementStyle('header-name', { color: colors.primary, fontFamily: fonts.headings }))}
+              style={getElementStyle('header-name')}
+              as="span"
+            />
+          </h1>
+          <p className="text-xl text-gray-600 font-medium" style={getElementStyle('header-profession', { color: '#4b5563' })}>
+            <InlineEdit
+              value={data.personalData?.profession || 'Sua Profissão'}
+              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })}
+              isAdvancedMode={isAdvancedMode}
+              className="text-center"
+              onClick={(e) => handleElementClick(e, 'text', 'header-profession', getElementStyle('header-profession', { color: '#4b5563' }))}
+              style={getElementStyle('header-profession')}
+              as="span"
+            />
+          </p>
+        </div>
       </div>
 
       <div className="flex gap-2 p-2 relative">
@@ -707,207 +727,87 @@ const CVLayoutRenderer = ({
     </div >
   );
 
-  // MODELO 2: Barra Lateral Esquerda
+  // MODELO 2: Barra Lateral Esquerda - Visual Moderno
   const renderBarraLateralEsquerda = () => (
-    <div className="flex min-h-full" style={{ fontFamily: fonts.primary }}>
-      {/* Sidebar Esquerda */}
-      <div
-        className="w-1/3 p-6 text-white transition-all duration-300"
-        style={getElementStyle('sidebar-left-v2', { backgroundColor: colors.primary })}
-        onClick={(e) => handleElementClick(e, 'container', 'sidebar-left-v2', getElementStyle('sidebar-left-v2', { backgroundColor: colors.primary }))}
-      >
-        {/* Foto e Info Básica */}
-        <div className="text-center mb-6">
-          <div className="mx-auto" style={{ width: 'fit-content' }}>
-            {renderUserPhoto('circular', isMobile ? 'w-24 h-24' : 'w-32 h-32') || (
-              <div className={`${isMobile ? 'w-24 h-24' : 'w-32 h-32'} rounded-full bg-white bg-opacity-20 border-4 border-white flex items-center justify-center`}>
-                <User className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'} text-white`} />
-              </div>
-            )}
+    <div className={`flex min-h-full ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
+      {/* Sidebar - FOTO OBRIGATÓRIA NO TOPO */}
+      <div className="w-[260px] p-8 shrink-0 flex flex-col gap-8 transition-all duration-300" style={getElementStyle('sidebar-left-v2', { backgroundColor: colors.primary, color: '#ffffff' })}>
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative group">
+            {renderUserPhoto('circular', 'w-40 h-40 border-4 border-white/20 shadow-lg')}
           </div>
-          <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold mt-4 mb-2`} style={getElementStyle('header-name-v2')}>
-            <InlineEdit
-              value={data.personalData?.fullName || 'SEU NOME'}
-              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })}
-              isAdvancedMode={isAdvancedMode}
-              onClick={(e) => handleElementClick(e, 'text', 'header-name-v2', getElementStyle('header-name-v2'))}
-              style={getElementStyle('header-name-v2')}
-              as="span"
-              className="text-white"
-            />
-          </h1>
-          <p className={`${isMobile ? 'text-base' : 'text-lg'} opacity-90`} style={getElementStyle('header-title-v2')}>
-            <InlineEdit
-              value={data.personalData?.profession || 'Sua Profissão'}
-              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })}
-              isAdvancedMode={isAdvancedMode}
-              onClick={(e) => handleElementClick(e, 'text', 'header-title-v2', getElementStyle('header-title-v2'))}
-              style={getElementStyle('header-title-v2')}
-              as="span"
-              className="text-white"
-            />
-          </p>
+          
+          <div className="text-center">
+            <h1 className="text-2xl font-bold uppercase tracking-wider leading-tight" style={getElementStyle('header-name-v2', { color: '#ffffff', fontFamily: fonts.headings })}>
+              <InlineEdit 
+                value={data.personalData?.fullName || 'SEU NOME'} 
+                onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })} 
+                isAdvancedMode={isAdvancedMode} 
+                className="text-white"
+                as="span" 
+              />
+            </h1>
+            <p className="text-sm opacity-80 mt-2 font-medium tracking-wide" style={getElementStyle('header-title-v2')}>
+              <InlineEdit 
+                value={data.personalData?.profession || 'Sua Profissão'} 
+                onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })} 
+                isAdvancedMode={isAdvancedMode} 
+                className="text-white"
+                as="span" 
+              />
+            </p>
+          </div>
         </div>
 
         {/* Contacto com ícones */}
-        <div className="mb-6 cv-section">
-          <h3 className="text-lg font-bold mb-3 border-b-2 pb-2" style={{ borderColor: colors.accent }}>
-            <InlineEdit
-              value={getSectionTitle('contact', 'CONTACTO')}
-              onSave={(val) => updateSectionTitle('contact', val)}
-              isAdvancedMode={isAdvancedMode}
-              className="text-white"
-            />
+        <div className="cv-section">
+          <h3 className="text-xs font-black mb-4 uppercase tracking-[0.2em] border-b border-white/20 pb-2">
+            <InlineEdit value={getSectionTitle('contact', 'CONTACTO')} onSave={(val) => updateSectionTitle('contact', val)} isAdvancedMode={isAdvancedMode} className="text-white" />
           </h3>
-          <div className="space-y-3">
-            <div className="flex items-center" style={getElementStyle('contact-phone')}>
-              <Phone className="w-4 h-4 mr-3" />
-              <InlineEdit
-                value={data.personalData?.phone || ''}
-                onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, phone: val } })}
-                isAdvancedMode={isAdvancedMode}
-                placeholder="Seu telefone"
-                onClick={(e) => handleElementClick(e, 'text', 'contact-phone', getElementStyle('contact-phone'))}
-                style={getElementStyle('contact-phone')}
-                className="text-sm text-white hover:text-white"
-              />
+          <div className="space-y-4">
+            <div className="flex items-start gap-3" style={getElementStyle('contact-phone')}>
+              <Phone className="w-4 h-4 mt-0.5 opacity-70" />
+              <InlineEdit value={data.personalData?.phone || ''} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, phone: val } })} isAdvancedMode={isAdvancedMode} placeholder="Telefone" className="text-xs text-white" />
             </div>
-            <div className="flex items-center" style={getElementStyle('contact-email')}>
-              <Mail className="w-4 h-4 mr-3" />
-              <InlineEdit
-                value={data.personalData?.email || ''}
-                onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, email: val } })}
-                isAdvancedMode={isAdvancedMode}
-                placeholder="Seu email"
-                onClick={(e) => handleElementClick(e, 'text', 'contact-email', getElementStyle('contact-email'))}
-                style={getElementStyle('contact-email')}
-                className="text-sm break-all text-white hover:text-white"
-              />
+            <div className="flex items-start gap-3" style={getElementStyle('contact-email')}>
+              <Mail className="w-4 h-4 mt-0.5 opacity-70" />
+              <InlineEdit value={data.personalData?.email || ''} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, email: val } })} isAdvancedMode={isAdvancedMode} placeholder="Email" className="text-xs text-white break-all" />
             </div>
-            <div className="flex items-center" style={getElementStyle('contact-address')}>
-              <MapPin className="w-4 h-4 mr-3" />
-              <InlineEdit
-                value={data.personalData?.address || ''}
-                onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, address: val } })}
-                isAdvancedMode={isAdvancedMode}
-                placeholder="Seu endereço"
-                onClick={(e) => handleElementClick(e, 'text', 'contact-address', getElementStyle('contact-address'))}
-                style={getElementStyle('contact-address')}
-                className="text-sm text-white hover:text-white"
-              />
+            <div className="flex items-start gap-3" style={getElementStyle('contact-address')}>
+              <MapPin className="w-4 h-4 mt-0.5 opacity-70" />
+              <InlineEdit value={data.personalData?.address || ''} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, address: val } })} isAdvancedMode={isAdvancedMode} placeholder="Endereço" className="text-xs text-white" />
             </div>
           </div>
         </div>
 
-        {/* Habilidades */}
+        {/* Habilidades - Estilo Moderno na Sidebar */}
         {(data.skills?.technical?.length > 0 || isAdvancedMode) && (
-          <div className="mb-6 cv-section">
-            <h3 className="text-lg font-bold mb-3 border-b-2 pb-2" style={{ borderColor: colors.accent }}>
-              <InlineEdit
-                value={getSectionTitle('skills', 'HABILIDADES')}
-                onSave={(val) => updateSectionTitle('skills', val)}
-                isAdvancedMode={isAdvancedMode}
-                className="text-white"
-              />
+          <div className="cv-section">
+            <h3 className="text-xs font-black mb-4 uppercase tracking-[0.2em] border-b border-white/20 pb-2">
+              <InlineEdit value={getSectionTitle('skills', 'HABILIDADES')} onSave={(val) => updateSectionTitle('skills', val)} isAdvancedMode={isAdvancedMode} className="text-white" />
             </h3>
-            <div className="space-y-2">
+            <div className="flex flex-wrap gap-2">
               {data.skills?.technical?.map((skill: string, index: number) => (
-                <div key={index} className="flex items-center group">
-                  <Wrench className="w-3 h-3 mr-2" />
-                  <InlineEdit
-                    value={skill}
+                <div key={index} className="px-2 py-1 bg-white/10 rounded text-[10px] font-medium border border-white/5">
+                  <InlineEdit 
+                    value={skill} 
                     onSave={(val) => {
                       const newSkills = [...data.skills.technical];
                       newSkills[index] = val;
                       onDataChange?.({ ...data, skills: { ...data.skills, technical: newSkills } });
-                    }}
-                    isAdvancedMode={isAdvancedMode}
-                    className="text-sm flex-1 text-white hover:text-white"
+                    }} 
+                    isAdvancedMode={isAdvancedMode} 
+                    className="text-white"
                   />
-                  {isAdvancedMode && (
-                    <button
-                      onClick={() => {
-                        const newSkills = data.skills.technical.filter((_: any, i: number) => i !== index);
-                        onDataChange?.({ ...data, skills: { ...data.skills, technical: newSkills } });
-                      }}
-                      className="opacity-0 group-hover:opacity-100 text-red-300 ml-2"
-                    >
-                      ×
-                    </button>
-                  )}
                 </div>
               ))}
-              {isAdvancedMode && (
-                <button
-                  onClick={() => {
-                    const newSkills = [...(data.skills?.technical || []), "Nova Habilidade"];
-                    onDataChange?.({ ...data, skills: { ...data.skills, technical: newSkills } });
-                  }}
-                  className="text-xs text-blue-200 hover:text-white mt-2 flex items-center font-medium"
-                >
-                  + Adicionar Habilidade
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Idiomas */}
-        {(data.skills?.languages?.length > 0 || isAdvancedMode) && (
-          <div>
-            <h3 className="text-lg font-bold mb-3 border-b-2 pb-2" style={{ borderColor: colors.accent }}>
-              <InlineEdit
-                value={getSectionTitle('languages', 'IDIOMAS')}
-                onSave={(val) => updateSectionTitle('languages', val)}
-                isAdvancedMode={isAdvancedMode}
-                className="text-white"
-              />
-            </h3>
-            <div className="space-y-2">
-              {data.skills?.languages?.map((language: string, index: number) => (
-                <div key={index} className="flex items-center group">
-                  <Languages className="w-3 h-3 mr-2" />
-                  <InlineEdit
-                    value={language}
-                    onSave={(val) => {
-                      const newLangs = [...data.skills.languages];
-                      newLangs[index] = val;
-                      onDataChange?.({ ...data, skills: { ...data.skills, languages: newLangs } });
-                    }}
-                    isAdvancedMode={isAdvancedMode}
-                    className="text-sm flex-1 text-white hover:text-white"
-                  />
-                  {isAdvancedMode && (
-                    <button
-                      onClick={() => {
-                        const newLangs = data.skills.languages.filter((_: any, i: number) => i !== index);
-                        onDataChange?.({ ...data, skills: { ...data.skills, languages: newLangs } });
-                      }}
-                      className="opacity-0 group-hover:opacity-100 text-red-300 ml-2"
-                    >
-                      ×
-                    </button>
-                  )}
-                </div>
-              ))}
-              {isAdvancedMode && (
-                <button
-                  onClick={() => {
-                    const newLangs = [...(data.skills?.languages || []), "Novo Idioma"];
-                    onDataChange?.({ ...data, skills: { ...data.skills, languages: newLangs } });
-                  }}
-                  className="text-xs text-blue-200 hover:text-white mt-2 flex items-center font-medium"
-                >
-                  + Adicionar Idioma
-                </button>
-              )}
             </div>
           </div>
         )}
       </div>
 
-      {/* Conteúdo Principal */}
-      <div className="flex-1 p-4" style={{ backgroundColor: '#ffffff' }}>
+      {/* Conteúdo Principal - Branco com Respiro */}
+      <div className="flex-1 p-10 bg-white shadow-inner">
         {/* Perfil */}
         {data.about && (
           <div className="mb-8 cv-section">
@@ -1158,57 +1058,45 @@ const CVLayoutRenderer = ({
     </div>
   );
 
-  // MODELO 3: Layout Simples com Destaques
+  // MODELO 3: Layout Simples com Destaques - Visual VIP Minimalista
   const renderLayoutSimplesDestaques = () => (
-    <div className="min-h-full p-1 sm:p-4" style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
-      {/* Nome e título no topo */}
-      <div className="text-center mb-4 pb-2 border-b-2" style={{ borderColor: colors.primary }}>
-        <h1 className={`${isMobile ? 'text-3xl' : 'text-4xl'} font-bold mb-2`} style={{ color: colors.primary }}>
-          <InlineEdit
-            value={data.personalData?.fullName || 'SEU NOME'}
-            onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })}
-            isAdvancedMode={isAdvancedMode}
-            as="span"
-          />
-        </h1>
-        <p className={`${isMobile ? 'text-lg' : 'text-xl'} text-gray-600 mb-4`}>
-          <InlineEdit
-            value={data.personalData?.profession || 'Sua Profissão'}
-            onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })}
-            isAdvancedMode={isAdvancedMode}
-            as="span"
-          />
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-          <div className="flex items-center">
-            <Mail className="w-4 h-4 mr-2" />
+    <div className="min-h-full p-12" style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
+      {/* Header VIP de Alto Impacto */}
+      <div className="flex items-center gap-12 mb-10 pb-10 border-b-4" style={getElementStyle('header-container-v3', { borderColor: colors.primary })}>
+        <div className="shrink-0 flex items-center justify-center">
+          {renderUserPhoto('square', 'w-48 h-48 shadow-2xl border-8 border-slate-50 rounded-lg')}
+        </div>
+        
+        <div className="flex-1">
+          <h1 className="text-5xl font-black mb-2 tracking-tight uppercase" style={getElementStyle('header-name-v3', { color: colors.primary, fontFamily: fonts.headings })}>
             <InlineEdit
-              value={data.personalData?.email || ''}
-              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, email: val } })}
+              value={data.personalData?.fullName || 'SEU NOME'}
+              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })}
               isAdvancedMode={isAdvancedMode}
-              placeholder="Seu email"
-              className="text-sm break-all"
+              as="span"
             />
-          </div>
-          <div className="flex items-center">
-            <Phone className="w-4 h-4 mr-2" />
+          </h1>
+          <p className="text-2xl text-gray-400 font-light mb-8 tracking-widest uppercase">
             <InlineEdit
-              value={data.personalData?.phone || ''}
-              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, phone: val } })}
+              value={data.personalData?.profession || 'Sua Profissão'}
+              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })}
               isAdvancedMode={isAdvancedMode}
-              placeholder="Seu telefone"
-              className="text-sm"
+              as="span"
             />
-          </div>
-          <div className="flex items-center">
-            <MapPin className="w-4 h-4 mr-2" />
-            <InlineEdit
-              value={data.personalData?.address || ''}
-              onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, address: val } })}
-              isAdvancedMode={isAdvancedMode}
-              placeholder="Seu endereço"
-              className="text-sm"
-            />
+          </p>
+          <div className="grid grid-cols-2 gap-x-8 gap-y-3 text-xs text-gray-500 font-bold uppercase tracking-widest leading-none">
+            <div className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-slate-300" />
+              <InlineEdit value={data.personalData?.email || ''} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, email: val } })} isAdvancedMode={isAdvancedMode} placeholder="email" className="break-all" />
+            </div>
+            <div className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-slate-300" />
+              <InlineEdit value={data.personalData?.phone || ''} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, phone: val } })} isAdvancedMode={isAdvancedMode} placeholder="telefone" />
+            </div>
+            <div className="flex items-center gap-2 col-span-2">
+              <MapPin className="w-4 h-4 text-slate-300" />
+              <InlineEdit value={data.personalData?.address || ''} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, address: val } })} isAdvancedMode={isAdvancedMode} placeholder="endereço" />
+            </div>
           </div>
         </div>
       </div>
@@ -1567,23 +1455,19 @@ const CVLayoutRenderer = ({
     </div>
   );
 
-  // MODELO 4: Sidebar com Timeline (Diagonal Moderno)
+  // MODELO 4: Diagonal Moderno - Criativo Profissional
   const renderCriativoProfissional = () => (
-    <div className="flex min-h-full" style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
-      {/* Sidebar Esquerda */}
-      <div className="w-1/3 p-6" style={{ backgroundColor: '#f0f4f8' }}>
-        <div className="text-center mb-6">
-          <div className="mx-auto" style={{ width: 'fit-content' }}>
-            {renderUserPhoto('circular', isMobile ? 'w-24 h-24' : 'w-32 h-32') || (
-              <div className={`${isMobile ? 'w-24 h-24' : 'w-32 h-32'} rounded-full bg-white border-4 flex items-center justify-center`} style={{ borderColor: colors.primary }}>
-                <User className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'}`} style={{ color: colors.primary }} />
-              </div>
-            )}
+    <div className={`flex min-h-full ${className}`} style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
+      {/* Sidebar Esquerda Criativa */}
+      <div className="w-[280px] p-8 shrink-0 flex flex-col gap-10" style={{ backgroundColor: '#f8fafc', borderRight: '1px solid #e2e8f0' }}>
+        <div className="text-center">
+          <div className="relative inline-block">
+            {renderUserPhoto('circular', 'w-40 h-40 border-4 border-white shadow-xl')}
           </div>
-          <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold mt-4 mb-1`} style={{ color: colors.primary, fontFamily: fonts.headings }}>
+          <h1 className="text-2xl font-black mt-6 mb-1 tracking-tight" style={{ color: colors.primary, fontFamily: fonts.headings }}>
             <InlineEdit value={data.personalData?.fullName || 'SEU NOME'} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })} isAdvancedMode={isAdvancedMode} as="span" />
           </h1>
-          <p className="text-gray-500 text-sm italic">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400">
             <InlineEdit value={data.personalData?.profession || 'Sua Profissão'} onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })} isAdvancedMode={isAdvancedMode} as="span" />
           </p>
         </div>
@@ -1747,59 +1631,49 @@ const CVLayoutRenderer = ({
     </div>
   );
 
-  // MODELO 5: Sidebar Escura (Dark blue header, black sidebar, white main)
+  // MODELO 5: Sidebar Escura (Dark Header + Black Sidebar)
   const renderSidebarEscura = () => (
     <div className={`min-h-full ${className} flex flex-col`} style={{ fontFamily: fonts.primary, backgroundColor: '#ffffff' }}>
-      {/* Header Superior Azul */}
+      {/* Header Superior Azul / Primário */}
       <div 
-        className="relative h-28 sm:h-32 flex items-center shrink-0 transition-all duration-300" 
+        className="relative h-40 flex items-center shrink-0 transition-all duration-300" 
         style={getElementStyle('header-container-v5', { backgroundColor: colors.primary })}
-        onClick={(e) => handleElementClick(e, 'container', 'header-container-v5', getElementStyle('header-container-v5', { backgroundColor: colors.primary }))}
       >
         <div 
-          className="absolute left-0 top-0 bottom-0 w-[30%] sm:w-[35%] transition-all duration-300" 
+          className="absolute left-0 top-0 bottom-0 w-[240px] transition-all duration-300" 
           style={getElementStyle('sidebar-bg-v5', { backgroundColor: '#000000' })}
         ></div>
-        <div className="ml-[35%] sm:ml-[40%] text-white pr-4 relative z-10">
-          <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold uppercase tracking-wider mb-1`} style={getElementStyle('header-name-v5', { fontFamily: fonts.headings })}>
+        <div className="ml-[280px] text-white pr-8 relative z-10">
+          <h1 className="text-4xl font-black uppercase tracking-[0.1em] mb-1" style={getElementStyle('header-name-v5', { fontFamily: fonts.headings })}>
             <InlineEdit 
               value={data.personalData?.fullName || 'SEU NOME'} 
               onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, fullName: val } })} 
               isAdvancedMode={isAdvancedMode} 
-              onClick={(e) => handleElementClick(e, 'text', 'header-name-v5', getElementStyle('header-name-v5'))}
-              style={getElementStyle('header-name-v5')}
+              className="text-white"
               as="span" 
-              className="text-white" 
             />
           </h1>
-          <p className="text-sm sm:text-base opacity-90 font-medium" style={getElementStyle('header-title-v5')}>
+          <p className="text-lg opacity-80 font-bold tracking-widest uppercase" style={getElementStyle('header-title-v5')}>
             <InlineEdit 
               value={data.personalData?.profession || 'Sua Profissão'} 
               onSave={(val) => onDataChange?.({ ...data, personalData: { ...data.personalData, profession: val } })} 
               isAdvancedMode={isAdvancedMode} 
-              onClick={(e) => handleElementClick(e, 'text', 'header-title-v5', getElementStyle('header-title-v5'))}
-              style={getElementStyle('header-title-v5')}
+              className="text-white"
               as="span" 
-              className="text-white" 
             />
           </p>
         </div>
       </div>
 
       <div className="flex flex-1 overflow-visible">
-        {/* Sidebar Preta */}
+        {/* Sidebar Negra */}
         <div 
-          className="w-[30%] sm:w-[35%] text-white p-4 sm:p-6 pt-12 sm:pt-16 relative shrink-0 transition-all duration-300"
+          className="w-[240px] text-white p-8 pt-20 relative shrink-0 transition-all duration-300"
           style={getElementStyle('sidebar-bg-v5', { backgroundColor: '#000000' })}
-          onClick={(e) => handleElementClick(e, 'container', 'sidebar-bg-v5', getElementStyle('sidebar-bg-v5', { backgroundColor: '#000000' }))}
         >
-          {/* Foto que sobrepõe o header */}
-          <div className="absolute -top-16 sm:-top-20 left-1/2 -translate-x-1/2 z-10" style={{ width: 'fit-content' }}>
-            {renderUserPhoto('circular', isMobile ? 'w-28 h-28' : 'w-36 h-36') || (
-              <div className={`${isMobile ? 'w-28 h-28' : 'w-36 h-36'} rounded-full border-4 border-white bg-slate-800 flex items-center justify-center`}>
-                <User className={`${isMobile ? 'w-14 h-14' : 'w-18 h-18'} text-white opacity-40`} />
-              </div>
-            )}
+          {/* Foto que sobrepõe o header - POSIÇÃO VIP */}
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 z-20">
+            {renderUserPhoto('circular', 'w-44 h-44 border-8 border-white shadow-2xl')}
           </div>
 
           <div className="space-y-6 sm:space-y-8 mt-4 sm:mt-6">
@@ -1992,67 +1866,67 @@ const CVLayoutRenderer = ({
     }
   };
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [scaleFactor, setScaleFactor] = useState(1);
+
+  // Lógica de Escala A4 Pro para Mobile e Desktop
+  useEffect(() => {
+    const calculateScale = () => {
+      if (!containerRef.current) return;
+      const parentWidth = containerRef.current.parentElement?.clientWidth || window.innerWidth;
+      const a4WidthPx = 794; // Largura aproximada de 210mm a 96dpi (pode ser ajustada para 800)
+      
+      if (parentWidth < a4WidthPx + 40) {
+        setScaleFactor(parentWidth / (a4WidthPx + 40));
+      } else {
+        setScaleFactor(1);
+      }
+    };
+
+    calculateScale();
+    window.addEventListener('resize', calculateScale);
+    return () => window.removeEventListener('resize', calculateScale);
+  }, []);
+
   return (
     <div 
-      className="bg-transparent w-full h-full relative transition-colors duration-300 min-h-[1123px] overflow-visible pb-20"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          handleElementClick(e, 'container', 'cv-main-container', getElementStyle('cv-main-container', { backgroundColor: '#ffffff' }));
-        }
-      }}
+      ref={containerRef}
+      className="bg-transparent w-full relative flex justify-center items-start overflow-visible py-10 print:p-0 print:m-0"
     >
-      {/* Camada de Papel (Paper Layer) - Renderiza as folhas físicas atras do conteúdo para sombra */}
-      {!isMobile && isAdvancedMode && [0, 1, 2, 3].map((page) => (
-        <div 
-          key={page}
-          className="absolute left-0 right-0 bg-white shadow-[0_15px_60px_rgba(0,0,0,0.15)] border border-slate-100/50 rounded-[1px] pointer-events-none z-[1]"
-          style={{ 
-            top: `${page * (1122 + 40)}px`, 
-            height: '1122px',
-            width: '100%'
-          }}
-        />
-      ))}
+      {/* Contentor de Escala Proporcional - O SEGREDO DO A4 NO MOBILE */}
+      <div 
+        className="relative origin-top transition-transform duration-300 shadow-2xl print:shadow-none print:scale-100 bg-white"
+        style={{ 
+          width: '794px', // 210mm a 96dpi
+          minHeight: '1123px', // 297mm a 96dpi
+          transform: `scale(${scaleFactor})`,
+          marginBottom: `calc((1123px * ${scaleFactor}) - 1123px)` // Ajuste para o fluxo de layout
+        }}
+      >
+        {/* CORTE FÍSICO DE PÁGINA A4 COM SOMBRAS - VISÃO SUPER PROFISSIONAL */}
+        {[1, 2, 3, 4].map((page) => (
+          <div 
+            key={page}
+            className="absolute -left-[20px] -right-[20px] z-[100] h-[32px] bg-slate-50 pointer-events-none flex items-center justify-center"
+            style={{ 
+              top: `${page * 1123 - 16}px`,
+              boxShadow: 'inset 0 4px 6px -1px rgba(0,0,0,0.05), inset 0 -4px 6px -1px rgba(0,0,0,0.05)'
+            }}
+          >
+            {isAdvancedMode && (
+              <div className="px-3 py-[2px] bg-white text-slate-400 text-[9px] font-bold uppercase rounded border border-slate-200 shadow-sm tracking-[0.2em] relative z-10 pointer-events-auto">
+                Fim da Página {page}
+              </div>
+            )}
+          </div>
+        ))}
 
-      {/* Camada de Conteúdo - O Template flutua sobre as folhas */}
-      <div className="relative z-[10] pointer-events-auto">
-        {renderTemplate()}
+        {/* Camada de Conteúdo */}
+        <div className="relative z-[10] w-full min-h-full">
+          {renderTemplate()}
+        </div>
       </div>
 
-      {/* GUILHOTINA VISUAL (Z-INDEX MÁXIMO) - Divisores que cortam TUDO por cima */}
-      {!isMobile && isAdvancedMode && [1, 2, 3].map((page) => (
-        <div 
-          key={page}
-          className="absolute -left-[10%] -right-[10%] h-[40px] bg-slate-50/95 border-y border-slate-200/50 z-[999] pointer-events-none flex items-center justify-center shadow-[inset_0_4px_10px_rgba(0,0,0,0.03)]"
-          style={{ top: `${page * 1122 + (page - 1) * 40}px` }}
-        >
-           <div className="px-5 py-1.5 bg-google-blue rounded-full shadow-lg shadow-blue-200 flex items-center gap-2 border border-white/20">
-              <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">
-                LIMITE DA PÁGINA {page} (A4)
-              </span>
-           </div>
-           
-           {/* Linhas Laterais de Extensão para visual "Canva" */}
-           <div className="absolute left-0 w-20 h-[1px] bg-slate-200"></div>
-           <div className="absolute right-0 w-20 h-[1px] bg-slate-200"></div>
-        </div>
-      ))}
-      
-      {/* HUD de Orientação de Página (Lateral) */}
-      {!isMobile && isAdvancedMode && [1, 2, 3, 4].map((page) => (
-        <div 
-          key={page}
-          className="absolute -right-32 pointer-events-none opacity-60 flex flex-col items-center gap-2"
-          style={{ top: `${(page - 1) * (1122 + 40) + 100}px` }}
-        >
-           <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-center font-black text-google-blue text-sm">
-              {page}
-           </div>
-           <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest vertical-text">Página</span>
-        </div>
-      ))}
-      
       {activeToolbar && (
         <FloatingToolbar 
           position={activeToolbar.position}

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -46,6 +46,29 @@ export const CartaAutomatica = () => {
   const [font, setFont] = useState('Times New Roman'); // New state
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const { toast } = useToast();
+  
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scaleFactor, setScaleFactor] = useState(1);
+
+  useEffect(() => {
+    const calculateScale = () => {
+      if (!containerRef.current) return;
+      const parentWidth = containerRef.current.parentElement?.clientWidth || window.innerWidth;
+      const a4WidthPx = 794; 
+      
+      if (parentWidth < a4WidthPx + 40) {
+        setScaleFactor(parentWidth / (a4WidthPx + 40));
+      } else {
+        setScaleFactor(1);
+      }
+    };
+
+    if (showPreview) {
+      calculateScale();
+      window.addEventListener('resize', calculateScale);
+      return () => window.removeEventListener('resize', calculateScale);
+    }
+  }, [showPreview]);
 
   const handleInputChange = (field: keyof CartaAutomaticaData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -173,8 +196,8 @@ export const CartaAutomatica = () => {
           </Label>
         </div>
 
-        <div className="w-full overflow-x-auto pb-8">
-          <div className="carta-preview bg-white mx-auto shadow-lg" style={{
+        <div className="w-full overflow-hidden pb-8 flex justify-center bg-slate-100/50 rounded-xl p-4 md:p-8">
+          <div ref={containerRef} className="carta-preview bg-white shadow-2xl origin-top transition-transform duration-300" style={{
             width: '794px',
             minHeight: '1123px',
             fontFamily: font + ', serif', // Dynamic font
@@ -182,7 +205,9 @@ export const CartaAutomatica = () => {
             lineHeight: '1.5',
             color: '#000000',
             padding: '76px', // 2cm margins = 76px
-            position: 'relative'
+            position: 'relative',
+            transform: `scale(${scaleFactor})`,
+            marginBottom: `calc((1123px * ${scaleFactor}) - 1123px)`
           }}>
             {/* Header */}
             <div className="mb-6">

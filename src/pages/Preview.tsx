@@ -19,7 +19,7 @@ const Preview = () => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
-  const [editorMode, setEditorMode] = useState<'simple' | 'advanced'>('simple');
+
 
   const cvData = location.state?.cvData || {};
   const selectedTemplate = location.state?.selectedTemplate || getDefaultTemplate();
@@ -64,7 +64,7 @@ const Preview = () => {
   const handleZoomOut = () => setUserZoom(prev => Math.max(prev - 0.1, 0.5));
   const resetZoom = () => setUserZoom(1);
 
-  const finalScale = isMobile ? cvScale * userZoom : 1;
+  const finalScale = isMobile ? cvScale * userZoom : 0.8;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -101,55 +101,15 @@ const Preview = () => {
             {!isMobile && (
               <div className="flex gap-2">
                 {/* Mode Toggle */}
-                <div className="flex rounded-lg border overflow-hidden mr-2">
-                  <Button
-                    variant={editorMode === 'simple' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setEditorMode('simple')}
-                    className={cn(
-                      "rounded-none border-0",
-                      editorMode === 'simple' && "bg-primary text-primary-foreground"
-                    )}
-                  >
-                    <ClipboardList className="w-4 h-4 mr-1" />
-                    Simples
-                  </Button>
-                  <Button
-                    variant={editorMode === 'advanced' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setEditorMode('advanced')}
-                    className={cn(
-                      "rounded-none border-0",
-                      editorMode === 'advanced' && "bg-primary text-primary-foreground"
-                    )}
-                  >
-                    <Layers className="w-4 h-4 mr-1" />
-                    Avançado
-                  </Button>
-                </div>
-
-                <Button
-                  variant="outline"
-                  onClick={() => navigate('/criar-cv', {
-                    state: {
-                      templateData: cvData,
-                      selectedTemplate: selectedTemplate
-                    }
-                  })}
-                  className="flex items-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
-                  size="sm"
-                >
-                  <Edit className="w-4 h-4 mr-2" />
-                  Editar
-                </Button>
                 <Button
                   onClick={() => setShowDownloadOptions(true)}
-                  className="bg-google-green hover:bg-green-600 text-white flex items-center"
+                  className="bg-google-green hover:bg-green-600 text-white flex items-center px-8"
                   size="sm"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Baixar
+                  Baixar Agora
                 </Button>
+
               </div>
             )}
 
@@ -159,62 +119,18 @@ const Preview = () => {
             )}
           </div>
 
-          {/* Mobile Mode Toggle */}
-          {isMobile && (
-            <div className="flex gap-2 mt-3 pt-3 border-t border-gray-200">
-              <div className="flex rounded-lg border overflow-hidden flex-1">
-                <Button
-                  variant={editorMode === 'simple' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setEditorMode('simple')}
-                  className={cn(
-                    "flex-1 rounded-none border-0 text-xs",
-                    editorMode === 'simple' && "bg-primary text-primary-foreground"
-                  )}
-                >
-                  <ClipboardList className="w-3 h-3 mr-1" />
-                  Simples
-                </Button>
-                <Button
-                  variant={editorMode === 'advanced' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setEditorMode('advanced')}
-                  className={cn(
-                    "flex-1 rounded-none border-0 text-xs",
-                    editorMode === 'advanced' && "bg-primary text-primary-foreground"
-                  )}
-                >
-                  <Layers className="w-3 h-3 mr-1" />
-                  Avançado
-                </Button>
-              </div>
-            </div>
-          )}
+
 
           {/* Mobile Actions Row */}
           {isMobile && (
             <div className="flex gap-2 mt-2">
               <Button
-                variant="outline"
-                onClick={() => navigate('/criar-cv', {
-                  state: {
-                    templateData: cvData,
-                    selectedTemplate: selectedTemplate
-                  }
-                })}
-                className="flex-1 flex items-center justify-center border-google-blue text-google-blue hover:bg-google-blue hover:text-white"
-                size="sm"
-              >
-                <Edit className="w-4 h-4 mr-1" />
-                Editar
-              </Button>
-              <Button
                 onClick={() => setShowDownloadOptions(true)}
-                className="flex-1 bg-google-green hover:bg-green-600 text-white flex items-center justify-center"
+                className="flex-1 bg-google-green hover:bg-green-600 text-white flex items-center justify-center py-6 text-sm font-bold"
                 size="sm"
               >
-                <Download className="w-4 h-4 mr-1" />
-                Baixar
+                <Download className="w-5 h-5 mr-2" />
+                Baixar Agora
               </Button>
             </div>
           )}
@@ -255,28 +171,8 @@ const Preview = () => {
             </Button>
           </div>
         )}
-        <div className={cn(
-          "max-w-5xl mx-auto w-full flex justify-center",
-          editorMode === 'advanced' && !isMobile && "grid grid-cols-[300px_1fr] gap-8"
-        )}>
 
-          {/* Advanced Editor Panel */}
-          {editorMode === 'advanced' && (
-            <div className={cn(isMobile && "mb-8")}>
-              <AdvancedCVEditor
-                layoutConfig={layoutConfig}
-                onReorderSections={reorderSections}
-                onToggleVisibility={toggleSectionVisibility}
-                onReset={resetLayout}
-                onSave={forceSave}
-                isDirty={isDirty}
-                colors={cvData?.colorPalette}
-                fonts={cvData?.fonts}
-                onUpdateStyle={() => {}} // Simple view, no style editing from preview
-              />
-            </div>
-          )}
-
+        <div className="max-w-5xl mx-auto w-full flex justify-center">
           {/* A4 Preview Card */}
           <div 
             className="bg-white shadow-[0_30px_60px_rgba(0,0,0,0.2)] origin-top transition-transform duration-300 rounded-[2px] print:shadow-none print:border-none overflow-hidden transform-gpu"
@@ -298,7 +194,7 @@ const Preview = () => {
               userPhoto={userPhoto}
               className="w-full h-full"
               layoutConfig={layoutConfig}
-              isAdvancedMode={editorMode === 'advanced'}
+              isAdvancedMode={true}
               isMobile={false} // Force desktop layout for A4 preservation
             />
           </div>

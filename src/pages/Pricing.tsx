@@ -89,9 +89,9 @@ const Pricing = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-slate-50 py-20 px-4">
-            <div className="max-w-7xl mx-auto text-center mb-16">
-                <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+        <div className="min-h-screen bg-slate-50 py-10 md:py-20 px-4 overflow-x-hidden">
+            <div className="max-w-7xl mx-auto text-center mb-10 md:mb-16">
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-4 md:mb-6 tracking-tight">
                     Invista na sua <span className="text-google-blue">Carreira</span>
                 </h1>
                 <p className="text-xl text-slate-600 max-w-2xl mx-auto">
@@ -104,8 +104,8 @@ const Pricing = () => {
                     <Card 
                         key={plan.id} 
                         className={cn(
-                            "relative overflow-hidden transition-all duration-500 hover:scale-[1.03] hover:shadow-2xl border-2",
-                            plan.recommended ? "border-google-green shadow-xl scale-[1.05] z-10" : "border-slate-100",
+                            "relative overflow-hidden transition-all duration-500 md:hover:scale-[1.03] hover:shadow-2xl border-2 max-w-md mx-auto w-full md:max-w-none",
+                            plan.recommended ? "border-google-green shadow-xl md:scale-[1.05] z-10" : "border-slate-100",
                         )}
                     >
                         {plan.recommended && (

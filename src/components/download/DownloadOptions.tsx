@@ -176,82 +176,77 @@ const DownloadOptions = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center justify-between">
-              <span>Opções de Download</span>
-              <Button variant="ghost" size="sm" onClick={onClose}>
-                <X className="w-4 h-4" />
+        <DialogContent className="sm:max-w-[420px] p-0 overflow-hidden border-0 shadow-2xl rounded-2xl">
+          <div className="px-6 pt-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+                  <Download className="w-5 h-5 transition-transform group-hover:scale-110" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 leading-tight">Descarregar CV</h3>
+                  <p className="text-xs text-slate-500">Escolha o seu formato ideal</p>
+                </div>
+              </div>
+              <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full h-8 w-8 hover:bg-slate-100">
+                <X className="w-4 h-4 text-slate-400" />
               </Button>
-            </DialogTitle>
-          </DialogHeader>
+            </div>
+          </div>
 
-          <div className="space-y-4">
-            {documentType === 'cv' && (
-                <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setShowPreview(true)}>
-                <CardContent className="p-4">
-                    <div className="flex items-center space-x-3">
-                    <Eye className="w-8 h-8 text-blue-600" />
-                    <div>
-                        <h3 className="font-semibold">Visualizar Documento</h3>
-                        <p className="text-sm text-gray-500">Ver como ficará o PDF final</p>
-                    </div>
-                    </div>
-                </CardContent>
-                </Card>
-            )}
-
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => startDownloadWithGate(downloadProfessionalPDF)}>
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <FileText className="w-8 h-8 text-red-600" />
-                  <div>
-                    <h3 className="font-semibold">{documentType === 'cv' ? 'PDF Profissional' : 'Baixar como PDF'}</h3>
-                    <p className="text-sm text-gray-500">Formato otimizado e limpo</p>
-                  </div>
+          <div className="px-6 pb-6 space-y-3">
+            <div 
+              className="group cursor-pointer bg-slate-50 hover:bg-white p-3.5 rounded-2xl border border-slate-100 hover:border-emerald-200 hover:shadow-xl hover:shadow-emerald-500/5 transition-all duration-300"
+              onClick={() => startDownloadWithGate(downloadProfessionalPDF)}
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm group-hover:shadow-md transition-all">
+                  <FileText className="w-6 h-6 text-red-500" />
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex-1">
+                  <h4 className="font-bold text-slate-900 text-sm">PDF Profissional</h4>
+                  <p className="text-[11px] text-slate-500">Formato original recomendado</p>
+                </div>
+              </div>
+            </div>
 
             {documentType === 'cv' && (
-                <>
-                    <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => startDownloadWithGate(downloadAsPNG)}>
-                    <CardContent className="p-4">
-                        <div className="flex items-center space-x-3">
-                        <FileImage className="w-8 h-8 text-green-600" />
-                        <div>
-                            <h3 className="font-semibold">Baixar como PNG</h3>
-                            <p className="text-sm text-gray-500">Imagem de alta qualidade</p>
-                        </div>
-                        </div>
-                    </CardContent>
-                    </Card>
-
-                    <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => startDownloadWithGate(downloadAsJPG)}>
-                    <CardContent className="p-4">
-                        <div className="flex items-center space-x-3">
-                        <FileImage className="w-8 h-8 text-orange-600" />
-                        <div>
-                            <h3 className="font-semibold">Baixar como JPG</h3>
-                            <p className="text-sm text-gray-500">Imagem compactada</p>
-                        </div>
-                        </div>
-                    </CardContent>
-                    </Card>
-                </>
-            )}
-
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={handleShare}>
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-3">
-                  <Share2 className="w-8 h-8 text-purple-600" />
-                  <div>
-                    <h3 className="font-semibold">Compartilhar</h3>
-                    <p className="text-sm text-gray-500">Enviar link do documento</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div 
+                  className="group cursor-pointer bg-slate-50 hover:bg-white p-3 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300"
+                  onClick={() => startDownloadWithGate(downloadAsPNG)}
+                >
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm group-hover:shadow-md transition-all">
+                      <FileImage className="w-5 h-5 text-blue-500" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-[11px]">Imagem PNG</h4>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+
+                <div 
+                  className="group cursor-pointer bg-slate-50 hover:bg-white p-3 rounded-2xl border border-slate-100 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-300"
+                  onClick={() => startDownloadWithGate(downloadAsJPG)}
+                >
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center border border-slate-100 shadow-sm group-hover:shadow-md transition-all">
+                      <FileImage className="w-5 h-5 text-orange-500" />
+                    </div>
+                    <h4 className="font-bold text-slate-900 text-[11px]">Imagem JPG</h4>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div 
+              className="group cursor-pointer bg-white p-3 rounded-2xl border border-dashed border-slate-200 hover:border-purple-300 hover:bg-purple-50 transition-all text-center"
+              onClick={handleShare}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <Share2 className="w-4 h-4 text-purple-600" />
+                <span className="text-sm font-semibold text-purple-700">Partilhar Link</span>
+              </div>
+            </div>
           </div>
 
           {/* Interstitial Gate Overlay */}

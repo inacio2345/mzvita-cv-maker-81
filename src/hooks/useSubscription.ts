@@ -12,10 +12,8 @@ export const useSubscription = () => {
   const isPremiumActive = () => {
     if (!profile) return false;
     
-    // Plano Anual e Mensal dão status premium
-    if (profile.plan_type === 'annual') return true;
-    
-    if (profile.plan_type === 'monthly') {
+    // Tanto Mensal como Anual precisam de verificação de expiração
+    if (profile.plan_type === 'monthly' || profile.plan_type === 'annual') {
       const expiry = profile.subscription_expires_at ? new Date(profile.subscription_expires_at) : null;
       return expiry ? expiry > new Date() : false;
     }
@@ -27,15 +25,13 @@ export const useSubscription = () => {
 
   const canDownload = () => {
     if (!profile) return false;
-    if (profile.plan_type === 'annual') return true;
     
-    // Verificar validade para plano mensal
-    if (profile.plan_type === 'monthly') {
-      const expiry = profile.subscription_expires_at ? new Date(profile.subscription_expires_at) : null;
-      if (!expiry || expiry < new Date()) return false;
-    }
-
-    // Verificar créditos (incluindo plano 'single')
+    // Se for premium (mensal/anual) e estiver activo, pode baixar
+    if (isPremiumActive()) return true;
+    
+    // Caso contrário (plano free ou expirado), verificar se tem créditos avulsos (single)
+    // Nota: Mesmo que o plano mensal expire, os créditos 'single' acumulados podem permanecer se a lógica de negócio assim o desejar.
+    // Na nossa implementação actual, cv_limit é o saldo total.
     return (profile.cv_limit || 0) > (profile.cv_used || 0);
   };
 
@@ -56,7 +52,7 @@ export const useSubscription = () => {
         body: {
           plan_type: planType,
           user_id: finalUserId,
-          return_url: window.location.origin + '/dashboard?payment=success'
+          return_url: window.location.origin + '/pagamento-sucesso'
         }
       });
 

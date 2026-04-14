@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -34,6 +34,29 @@ export const CartaPersonalizada = () => {
   const [showWatermark, setShowWatermark] = useState(true);
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const { toast } = useToast();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scaleFactor, setScaleFactor] = useState(1);
+
+  useEffect(() => {
+    const calculateScale = () => {
+      if (!containerRef.current) return;
+      const parentWidth = containerRef.current.parentElement?.clientWidth || window.innerWidth;
+      const a4WidthPx = 794; 
+      
+      if (parentWidth < a4WidthPx + 40) {
+        setScaleFactor(parentWidth / (a4WidthPx + 40));
+      } else {
+        setScaleFactor(1);
+      }
+    };
+
+    if (showPreview) {
+      calculateScale();
+      window.addEventListener('resize', calculateScale);
+      return () => window.removeEventListener('resize', calculateScale);
+    }
+  }, [showPreview]);
 
   const handleInputChange = (field: keyof CartaData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -131,8 +154,8 @@ export const CartaPersonalizada = () => {
           </Label>
         </div>
 
-        <div className="w-full overflow-x-auto pb-8">
-          <div className="carta-preview bg-white mx-auto shadow-lg" style={{
+        <div className="w-full overflow-hidden pb-8 flex justify-center bg-slate-100/50 rounded-xl p-4 md:p-8">
+          <div ref={containerRef} className="carta-preview bg-white shadow-2xl origin-top transition-transform duration-300" style={{
             width: '794px',
             minHeight: '1123px',
             fontFamily: 'Times New Roman, serif',
@@ -140,7 +163,9 @@ export const CartaPersonalizada = () => {
             lineHeight: '1.5',
             color: '#000000',
             padding: '76px', // 2cm margins = 76px
-            position: 'relative'
+            position: 'relative',
+            transform: `scale(${scaleFactor})`,
+            marginBottom: `calc((1123px * ${scaleFactor}) - 1123px)`
           }}>
             {/* Header */}
             <div className="mb-6">
@@ -350,14 +375,29 @@ export const CartaPersonalizada = () => {
 
         <div>
           <Label htmlFor="textoPersonalizado">Texto da Carta *</Label>
-          <div className="flex gap-2 mb-2 overflow-x-auto pb-2">
-            <Button variant="outline" size="sm" onClick={() => addPhrase("Prezados, venho por meio desta candidatar-me à vaga...")}>
+          <div className="flex gap-2 mb-3 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide sm:scrollbar-default touch-pan-x">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-shrink-0 border-slate-200 hover:border-google-blue hover:text-google-blue whitespace-nowrap rounded-full px-5 h-9 font-medium shadow-sm active:scale-95 transition-all"
+              onClick={() => addPhrase("Prezados, venho por meio desta candidatar-me à vaga...")}
+            >
               + Início Formal
             </Button>
-            <Button variant="outline" size="sm" onClick={() => addPhrase("Gostaria de demonstrar meu grande interesse na oportunidade...")}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-shrink-0 border-slate-200 hover:border-google-blue hover:text-google-blue whitespace-nowrap rounded-full px-5 h-9 font-medium shadow-sm active:scale-95 transition-all"
+              onClick={() => addPhrase("Gostaria de demonstrar meu grande interesse na oportunidade...")}
+            >
               + Início Entusiasmado
             </Button>
-            <Button variant="outline" size="sm" onClick={() => addPhrase("Estou à disposição para uma entrevista...")}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex-shrink-0 border-slate-200 hover:border-google-blue hover:text-google-blue whitespace-nowrap rounded-full px-5 h-9 font-medium shadow-sm active:scale-95 transition-all"
+              onClick={() => addPhrase("Estou à disposição para uma entrevista...")}
+            >
               + Fechamento
             </Button>
           </div>

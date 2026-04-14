@@ -94,7 +94,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
                 body: {
                     plan_type: selectedPlan,
                     user_id: user?.id,
-                    return_url: window.location.origin + '/dashboard?payment=success'
+                    return_url: window.location.origin + '/pagamento-sucesso'
                 }
             });
 
@@ -239,15 +239,15 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
                             </>
                         )}
                     </Button>
-                    <div className="flex items-center justify-center gap-4 mt-2 opacity-70 hover:opacity-100 transition-all">
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-50 border border-red-200 rounded-full text-xs font-bold text-red-600">
-                          <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-                          M-Pesa
-                        </span>
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-50 border border-orange-200 rounded-full text-xs font-bold text-orange-600">
-                          <span className="w-2 h-2 bg-orange-500 rounded-full"></span>
-                          E-Mola
-                        </span>
+                    <div className="grid grid-cols-2 gap-3 mt-2">
+                        <div className="flex items-center justify-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl">
+                          <span className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(239,68,68,0.5)]"></span>
+                          <span className="text-xs font-black text-red-700 uppercase tracking-tighter">M-Pesa</span>
+                        </div>
+                        <div className="flex items-center justify-center gap-2 p-3 bg-orange-50 border border-orange-100 rounded-xl">
+                          <span className="w-2.5 h-2.5 bg-orange-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(249,115,22,0.5)]"></span>
+                          <span className="text-xs font-black text-orange-700 uppercase tracking-tighter">E-Mola</span>
+                        </div>
                     </div>
                     <p className="text-[10px] text-center text-slate-400 font-medium max-w-xs mx-auto">
                         Pagamento processado de forma criptografada pelo PaySuite. 

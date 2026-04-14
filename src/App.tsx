@@ -57,6 +57,7 @@ import CartaApresentacaoGuia from "./pages/blog/CartaApresentacaoGuia";
 import SoftSkillsMoz from "./pages/blog/SoftSkillsMoz";
 import LinkedinMoz from "./pages/blog/LinkedinMoz";
 import Pricing from "./pages/Pricing";
+import PagamentoSucesso from "./pages/PagamentoSucesso";
 import { useSubscription } from "@/hooks/useSubscription";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 
@@ -72,7 +73,7 @@ const App = () => {
           <TooltipProvider>
             <Toaster />
             <Sonner />
-            <BrowserRouter>
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <SidebarProvider defaultOpen={!isMobile}>
                 <div className="min-h-screen flex w-full overflow-x-hidden">
                   {!isMobile && <AppSidebar />}
@@ -127,6 +128,7 @@ const App = () => {
                         <Route path="/cv-em-ingles-mocambique" element={<CVEmInglesMocambique />} />
                         <Route path="/perfil" element={<AuthGuard><Profile /></AuthGuard>} />
                         <Route path="/precos" element={<Pricing />} />
+                        <Route path="/pagamento-sucesso" element={<AuthGuard><PagamentoSucesso /></AuthGuard>} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </div>

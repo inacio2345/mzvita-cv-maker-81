@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Download, Eye, Star, X } from 'lucide-react';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cvTemplates } from '@/data/cvTemplates';
 
 const Exemplos = () => {
@@ -220,6 +220,9 @@ const Exemplos = () => {
                 <X className="w-4 h-4" />
               </Button>
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Detalhes do modelo de currículo {selectedExample?.title}
+            </DialogDescription>
           </DialogHeader>
           {selectedExample && (
             <div className="space-y-6">

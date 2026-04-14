@@ -143,14 +143,14 @@ const Index = () => {
                     Criar meu CV Agora
                   </Button>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-slate-200 text-slate-700 hover:bg-slate-50 px-8 h-14 w-full sm:w-auto text-lg rounded-xl"
+                    className="border-slate-300 text-slate-800 hover:bg-slate-100 px-8 h-14 w-full sm:w-auto text-lg rounded-xl font-semibold transition-all shadow-sm"
                     onClick={() => handleProtectedAction('/exemplos')}
                   >
-                    Ver Modelos
+                    Ver Modelos de CV
                   </Button>
                 </motion.div>
               </div>
@@ -515,10 +515,10 @@ const Index = () => {
             </Button>
             <Button
               size="lg"
-              variant="outline"
-              className="border-white/30 text-white hover:bg-white/10 px-12 h-16 text-xl rounded-2xl"
+              className="bg-green-600 hover:bg-green-700 text-white px-12 h-16 text-xl rounded-2xl font-bold transition-all shadow-xl"
               onClick={() => navigate('/comunidade')}
             >
+              <MessageCircle className="mr-2 h-6 w-6" />
               Comunidade WhatsApp
             </Button>
           </div>

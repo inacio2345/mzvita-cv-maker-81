@@ -19,16 +19,16 @@ const Footer = () => {
       
       if (container && container.innerHTML === '') {
         window.atOptions = {
-          'key' : '544871108327156f752c8856d6a40dc6',
+          'key' : '3ab88cc45aad291af06779a7141d0c78',
           'format' : 'iframe',
-          'height' : 50,
-          'width' : 320,
+          'height' : 90,
+          'width' : 728,
           'params' : {}
         };
         
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'https://www.highperformanceformat.com/544871108327156f752c8856d6a40dc6/invoke.js';
+        script.src = 'https://www.highperformanceformat.com/3ab88cc45aad291af06779a7141d0c78/invoke.js';
         script.async = true;
         
         container.appendChild(script);
@@ -36,7 +36,7 @@ const Footer = () => {
       }
     };
 
-    const timeout = setTimeout(injectFooterAdsterra, 1000);
+    const timeout = setTimeout(injectFooterAdsterra, 200);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -45,12 +45,15 @@ const Footer = () => {
       <div className="container mx-auto px-4 overflow-x-hidden max-w-full">
         
         {/* Espaço de Publicidade do Rodapé (Experto) */}
-        <div className="w-full flex justify-center mb-10 overflow-hidden min-h-[60px]">
-          <div 
-            id="container-544871108327156f752c8856d6a40dc6"
-            className="flex justify-center items-center w-full min-h-[50px] bg-transparent"
-          >
-            {/* O motor Adsterra injetará o iframe aqui */}
+        <div className="w-full flex flex-col items-center mb-10 overflow-hidden">
+          <span className="text-[8px] font-bold text-gray-600 uppercase tracking-[0.2em] mb-3">Conteúdo Patrocinado</span>
+          <div className="relative w-full max-w-[728px] overflow-hidden rounded-xl border border-gray-800 bg-black/20 backdrop-blur-sm p-1">
+            <div 
+              id="container-3ab88cc45aad291af06779a7141d0c78"
+              className="flex justify-center items-center w-full bg-transparent min-h-[90px]"
+            >
+              {/* O motor Adsterra injetará o iframe aqui */}
+            </div>
           </div>
         </div>
 
