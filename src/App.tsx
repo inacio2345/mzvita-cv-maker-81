@@ -165,11 +165,5 @@ const ConditionalFooter = () => {
   return <Footer />;
 };
 
-const AdsterraAdWithSubscription = () => {
-  const { isPremiumActive } = useSubscription();
-
-  if (isPremiumActive) return null;
-  return <AdsterraBodyAd />;
-};
-
+// Removido componente de anúncio legado que causava erro de build
 export default App;
