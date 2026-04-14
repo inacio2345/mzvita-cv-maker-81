@@ -5,7 +5,7 @@ const PAYSUITE_API_URL = "https://paysuite.tech/api/v1/payments"
 const PAYSUITE_API_TOKEN = Deno.env.get("pymentmozvita") || Deno.env.get("PAYSUITE_API_TOKEN")
 
 const PLAN_PRICES = {
-  single: 25.00,
+  single: 50.00,
   monthly: 200.00,
   annual: 1290.00
 }

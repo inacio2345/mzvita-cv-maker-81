@@ -58,6 +58,10 @@ import SoftSkillsMoz from "./pages/blog/SoftSkillsMoz";
 import LinkedinMoz from "./pages/blog/LinkedinMoz";
 import Pricing from "./pages/Pricing";
 import PagamentoSucesso from "./pages/PagamentoSucesso";
+import Afiliado from "./pages/Afiliado";
+import AffiliateDashboard from "./pages/AffiliateDashboard";
+import AdminAffiliates from "./pages/AdminAffiliates";
+import ReferralTracker from "@/components/ReferralTracker";
 import { useSubscription } from "@/hooks/useSubscription";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 
@@ -74,6 +78,7 @@ const App = () => {
             <Toaster />
             <Sonner />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <ReferralTracker />
               <SidebarProvider defaultOpen={!isMobile}>
                 <div className="min-h-screen flex w-full overflow-x-hidden">
                   {!isMobile && <AppSidebar />}
@@ -127,6 +132,9 @@ const App = () => {
                         <Route path="/exemplos-cv-mocambique" element={<ExemplosCVMocambique />} />
                         <Route path="/cv-em-ingles-mocambique" element={<CVEmInglesMocambique />} />
                         <Route path="/perfil" element={<AuthGuard><Profile /></AuthGuard>} />
+                        <Route path="/perfil/afiliado" element={<AuthGuard><AffiliateDashboard /></AuthGuard>} />
+                        <Route path="/afiliado" element={<Afiliado />} />
+                        <Route path="/admin/afiliados" element={<AuthGuard><AdminAffiliates /></AuthGuard>} />
                         <Route path="/precos" element={<Pricing />} />
                         <Route path="/pagamento-sucesso" element={<AuthGuard><PagamentoSucesso /></AuthGuard>} />
                         <Route path="*" element={<NotFound />} />

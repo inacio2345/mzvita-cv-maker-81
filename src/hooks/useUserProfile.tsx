@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { SecureDbService } from '@/services/secureDbService';
+import { getReferralCode, clearReferralCode } from '@/utils/referralTracking';
 
 export interface UserProfile {
   id: string;
@@ -55,6 +56,8 @@ export const useUserProfile = () => {
       
       if (!data) {
         // Se não existe perfil, criar um novo
+        const referralCode = getReferralCode();
+        
         const newProfile = {
           id: user.id,
           email: user.email || '',
@@ -72,7 +75,8 @@ export const useUserProfile = () => {
           plan_type: 'free',
           cv_limit: 0,
           cv_used: 0,
-          is_premium: false
+          is_premium: false,
+          ...(referralCode ? { referred_by: referralCode } : {})
         };
 
         const { data: createdProfile, error: createError } = await supabase
@@ -83,6 +87,11 @@ export const useUserProfile = () => {
 
         if (createError) throw createError;
         setProfile(createdProfile);
+        
+        // Limpar referral tracking após gravar com sucesso
+        if (referralCode) {
+          clearReferralCode();
+        }
       } else {
         setProfile(data);
       }

@@ -2,21 +2,26 @@
 import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useAffiliate } from '@/hooks/useAffiliate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { User, Mail, CreditCard, LogOut, Crown, Zap, CheckCircle2 } from 'lucide-react';
+import { User, Mail, CreditCard, LogOut, Crown, Zap, CheckCircle2, Users, Clock, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const { user, signOut } = useAuth();
   const { profile, isPremiumActive, currentCredits } = useSubscription();
+  const { affiliateProfile, isApproved, isPending, isRejected } = useAffiliate();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
   };
+
+  // Check admin
+  const isAdmin = (profile as any)?.is_admin === true;
 
   if (!user) return null;
 
@@ -112,6 +117,54 @@ const Profile = () => {
             <FileText className="w-5 h-5 mr-3 text-google-blue" />
             Meus Currículos
           </Button>
+
+          {/* Affiliate Section */}
+          {isApproved ? (
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-14 rounded-2xl border-emerald-100 hover:bg-emerald-50 text-emerald-700 font-bold px-5"
+              onClick={() => navigate('/perfil/afiliado')}
+            >
+              <Users className="w-5 h-5 mr-3 text-emerald-500" />
+              Dashboard de Afiliado
+              <CheckCircle2 className="w-4 h-4 ml-auto text-emerald-500" />
+            </Button>
+          ) : isPending ? (
+            <div className="flex items-center gap-3 p-4 bg-amber-50 rounded-2xl border border-amber-100">
+              <Clock className="w-5 h-5 text-amber-500" />
+              <div>
+                <p className="text-sm font-bold text-amber-800">Candidatura em análise</p>
+                <p className="text-xs text-amber-600">Aguardando aprovação do programa de afiliados</p>
+              </div>
+            </div>
+          ) : isRejected ? (
+            <div className="flex items-center gap-3 p-4 bg-red-50 rounded-2xl border border-red-100">
+              <p className="text-sm text-red-600">Candidatura não aprovada</p>
+            </div>
+          ) : (
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-14 rounded-2xl border-slate-100 hover:bg-emerald-50 text-slate-700 font-bold px-5"
+              onClick={() => navigate('/afiliado')}
+            >
+              <Users className="w-5 h-5 mr-3 text-emerald-500" />
+              Tornar-se Afiliado
+              <Badge className="ml-auto bg-emerald-100 text-emerald-700 text-[10px]">30%</Badge>
+            </Button>
+          )}
+
+          {/* Admin Section */}
+          {isAdmin && (
+            <Button 
+              variant="outline" 
+              className="w-full justify-start h-14 rounded-2xl border-slate-200 hover:bg-slate-100 text-slate-700 font-bold px-5"
+              onClick={() => navigate('/admin/afiliados')}
+            >
+              <Shield className="w-5 h-5 mr-3 text-slate-500" />
+              Painel Admin
+            </Button>
+          )}
+
           <Button 
             variant="ghost" 
             className="w-full justify-start h-14 rounded-2xl text-red-500 hover:text-red-600 hover:bg-red-50 font-bold px-5"
@@ -123,7 +176,7 @@ const Profile = () => {
         </div>
 
         <p className="text-center text-xs text-slate-400 font-medium pt-4">
-          MozVita CV • Versão 2.4.0
+          MozVita CV • Versão 2.5.0
         </p>
       </div>
     </div>
