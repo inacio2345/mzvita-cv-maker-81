@@ -53,6 +53,11 @@ const PagamentoSucesso = () => {
           // Limpar a flag após um tempo ou quando sair da página (opcional)
         } catch (e) {
           console.error('Erro ao salvar CV automaticamente:', e);
+          toast({
+            title: "Erro ao salvar CV",
+            description: "Ocorreu um problema ao salvar o seu currículo na nuvem. Por favor, tente salvá-lo manualmente no editor.",
+            variant: "destructive"
+          });
         }
       }
       setIsLoading(false);

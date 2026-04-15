@@ -57,7 +57,7 @@ serve(async (req) => {
       // 2. Buscar o pagamento e o usuario
       const { data: payment, error: pError } = await supabase
         .from("payments")
-        .select("id, user_id, plan_type, status, amount, affiliate_code, affiliate_id")
+        .select("id, user_id, plan_type, status, amount, affiliate_code, affiliate_id, cv_id")
         .eq("paysuite_id", paysuite_id)
         .single()
 
@@ -97,8 +97,13 @@ serve(async (req) => {
       let newPlanType = payment.plan_type
 
       if (payment.plan_type === 'single') {
-          // Avulso: apenas adiciona +1 crédito ao saldo existente
-          newLimit = currentLimit + 1
+          // Se o pagamento JÁ está vinculado a um CV específico (Pay-per-CV),
+          // não adicionamos crédito genérico no cv_limit para evitar benefício duplo.
+          // O acesso será garantido pela verificação do cvId na tabela de pagamentos.
+          if (!payment.cv_id) {
+            newLimit = currentLimit + 1
+          }
+          
           is_premium = currentProfile?.plan_type === 'monthly' || currentProfile?.plan_type === 'annual'
           // Manter o plan_type anterior se for superior
           if (currentProfile?.plan_type === 'monthly' || currentProfile?.plan_type === 'annual') {

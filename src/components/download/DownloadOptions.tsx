@@ -14,6 +14,7 @@ import PaymentModal from '@/components/payment/PaymentModal';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useAuth } from '@/hooks/useAuth';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
+import { SecureDbService } from '@/services/secureDbService';
 
 interface DownloadOptionsProps {
   isOpen: boolean;
@@ -105,6 +106,16 @@ const DownloadOptions = ({
     // Trigger download after 5 seconds
     setTimeout(async () => {
       await downloadFn();
+      
+      // Consume credit if using global credits (not premium, not pre-paid)
+      try {
+        await SecureDbService.incrementDownloadsSecurely();
+        // Refresh local profile to update credit count in UI
+        refreshSubscription();
+      } catch (error) {
+        console.error("Erro ao debitar crédito:", error);
+      }
+      
       setIsPreparing(false);
     }, 5500);
   };
