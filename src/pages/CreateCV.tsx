@@ -35,6 +35,9 @@ const CreateCV = () => {
     layoutConfig
   } = useCVData(templateData);
 
+  const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'error' | null>(null);
+  const [lastSavedJson, setLastSavedJson] = useState<string>('');
+
   const { saveCV, updateCV, loading: isSavingCV } = useSavedCVs();
 
   // Calculate scale for mobile preview
@@ -103,6 +106,37 @@ const CreateCV = () => {
     }
   }, [activeTemplate, cvData]);
 
+  // Real-time Auto-save Logic
+  useEffect(() => {
+    const cvId = location.state?.cvId;
+    if (!cvId || !cvData) return;
+
+    // Check if data actually changed since last save to avoid redundant API calls
+    const currentJson = JSON.stringify(cvData);
+    if (currentJson === lastSavedJson) return;
+
+    const timer = setTimeout(async () => {
+      setAutoSaveStatus('saving');
+      try {
+        const title = cvData?.personalData?.fullName 
+          ? `CV de ${cvData.personalData.fullName}` 
+          : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
+          
+        await updateCV(cvId, title, cvData);
+        setLastSavedJson(currentJson);
+        setAutoSaveStatus('saved');
+        
+        // Clear "saved" status after 3 seconds
+        setTimeout(() => setAutoSaveStatus(null), 3000);
+      } catch (error) {
+        console.error("Auto-save failed", error);
+        setAutoSaveStatus('error');
+      }
+    }, 3000); // 3 seconds debounce
+
+    return () => clearTimeout(timer);
+  }, [cvData, location.state?.cvId, updateCV, lastSavedJson]);
+
   const handleSaveCV = async () => {
     const title = cvData?.personalData?.fullName ? `CV de ${cvData.personalData.fullName}` : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
     const cvId = location.state?.cvId;
@@ -162,21 +196,35 @@ const CreateCV = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={handleSaveCV}
-            disabled={isSavingCV}
-            className="text-google-blue border-google-blue/30 bg-blue-50 hover:bg-blue-100 p-2 sm:px-4"
-          >
-            {isSavingCV ? (
-              <div className="w-4 h-4 mr-0 sm:mr-2 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              <Save className="w-4 h-4 sm:mr-2" />
+          <div className="flex flex-col items-end">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={handleSaveCV}
+              disabled={isSavingCV}
+              className="text-google-blue border-google-blue/30 bg-blue-50 hover:bg-blue-100 p-2 sm:px-4 h-9"
+            >
+              {isSavingCV ? (
+                <div className="w-4 h-4 mr-0 sm:mr-2 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Save className="w-4 h-4 sm:mr-2" />
+              )}
+              <span className="hidden sm:inline">Salvar</span>
+            </Button>
+            
+            {autoSaveStatus && (
+              <span className={cn(
+                "text-[10px] font-medium absolute -bottom-4 right-0 px-1 transition-all duration-300",
+                autoSaveStatus === 'saving' && "text-blue-500 animate-pulse",
+                autoSaveStatus === 'saved' && "text-emerald-500",
+                autoSaveStatus === 'error' && "text-red-500"
+              )}>
+                {autoSaveStatus === 'saving' && "A guardar alterações..."}
+                {autoSaveStatus === 'saved' && "Alterações guardadas"}
+                {autoSaveStatus === 'error' && "Erro ao guardar"}
+              </span>
             )}
-            <span className="hidden sm:inline">Salvar</span>
-          </Button>
+          </div>
 
           <Button
             size="sm"

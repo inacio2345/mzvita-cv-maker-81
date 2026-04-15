@@ -11,6 +11,8 @@ import PDFPreviewModal from './PDFPreviewModal';
 import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
 import PaymentModal from '@/components/payment/PaymentModal';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useAuth } from '@/hooks/useAuth';
+import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
 
 interface DownloadOptionsProps {
   isOpen: boolean;
@@ -39,9 +41,16 @@ const DownloadOptions = ({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [pendingAction, setPendingAction] = useState<(() => Promise<void>) | null>(null);
 
-  const { canDownload, isPremiumActive } = useSubscription();
+  const { canDownload, isPremiumActive, profile } = useSubscription();
+  const { user } = useAuth();
 
   const startDownloadWithGate = (downloadFn: () => Promise<void>) => {
+    // Admin bypass: Skip payment modal and ads/countdown
+    if (profile?.is_admin) {
+      downloadFn();
+      return;
+    }
+
     if (!canDownload) {
       setPendingAction(() => downloadFn);
       setShowPaymentModal(true);
@@ -305,6 +314,21 @@ const DownloadOptions = ({
         onClose={() => setShowPaymentModal(false)}
         onSuccess={handlePaymentSuccess}
       />
+
+      {/* Invisible Renderer for background PDF capture (Fixes Download Mismatch on Profile Page) */}
+      {isOpen && cvData && (
+        <div 
+          className="fixed pointer-events-none opacity-0" 
+          style={{ left: '-5000px', top: '0', width: '210mm' }}
+          aria-hidden="true"
+        >
+          <CVLayoutRenderer 
+            data={cvData} 
+            template={selectedTemplate} 
+            className="cv-content" // This is searched by htmlToPdfConverter
+          />
+        </div>
+      )}
     </>
   );
 };

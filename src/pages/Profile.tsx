@@ -159,13 +159,25 @@ const Profile = () => {
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <Button size="icon" variant="outline" className="h-8 w-8 text-slate-600 hover:text-google-blue rounded-lg"
-                            onClick={() => navigate('/criar-cv', { state: { cvData: cv.cv_data, cvId: cv.id, selectedTemplate: { id: cv.template_name || 'cv03' } } })}
+                            onClick={() => {
+                              const templateId = cv.template_name === 'cv01' ? 'cv-classico-elegante' : 
+                                               cv.template_name === 'cv02' ? 'cv-sidebar-professional' :
+                                               cv.template_name === 'cv03' ? 'cv-minimalist-clean' :
+                                               cv.template_name === 'cv04' ? 'cv-diagonal-modern' :
+                                               cv.template_name || 'cv-classico-elegante';
+                              navigate('/criar-cv', { state: { cvData: cv.cv_data, cvId: cv.id, selectedTemplate: { id: templateId } } });
+                            }}
                           >
                             <Edit className="w-4 h-4" />
                           </Button>
                           <Button size="sm" className="h-8 bg-google-green hover:bg-green-600 text-white rounded-lg text-xs tracking-wide"
                             onClick={() => {
-                                setDownloadData({ cvData: cv.cv_data, selectedTemplate: { id: cv.template_name || 'cv03' } });
+                                const templateId = cv.template_name === 'cv01' ? 'cv-classico-elegante' : 
+                                                 cv.template_name === 'cv02' ? 'cv-sidebar-professional' :
+                                                 cv.template_name === 'cv03' ? 'cv-minimalist-clean' :
+                                                 cv.template_name === 'cv04' ? 'cv-diagonal-modern' :
+                                                 cv.template_name || 'cv-classico-elegante';
+                                setDownloadData({ cvData: cv.cv_data, selectedTemplate: { id: templateId } });
                                 setShowDownloadOptions(true);
                             }}
                           >

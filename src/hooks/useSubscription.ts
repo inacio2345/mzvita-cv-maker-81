@@ -13,6 +13,9 @@ export const useSubscription = () => {
   const isPremiumActive = () => {
     if (!profile) return false;
     
+    // Admin tem acesso ilimitado sempre
+    if (profile.is_admin) return true;
+    
     // Tanto Mensal como Anual precisam de verificação de expiração
     if (profile.plan_type === 'monthly' || profile.plan_type === 'annual') {
       const expiry = profile.subscription_expires_at ? new Date(profile.subscription_expires_at) : null;
@@ -26,6 +29,9 @@ export const useSubscription = () => {
 
   const canDownload = () => {
     if (!profile) return false;
+    
+    // Admin pode baixar sempre
+    if (profile.is_admin) return true;
     
     // Se for premium (mensal/anual) e estiver activo, pode baixar
     if (isPremiumActive()) return true;
