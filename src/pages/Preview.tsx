@@ -45,7 +45,7 @@ const Preview = () => {
     const title = cvData?.personalData?.fullName ? `CV de ${cvData.personalData.fullName}` : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
     
     if (cvId) {
-      await updateCV(cvId, title, { ...cvData, layoutConfig });
+      await updateCV(cvId, title, selectedTemplate?.id || 'cv03', { ...cvData, layoutConfig });
     } else {
       const data = await saveCV(title, selectedTemplate?.id || 'cv03', { ...cvData, layoutConfig });
       if (data) {
@@ -263,6 +263,7 @@ const Preview = () => {
           layoutConfig: layoutConfig
         }}
         selectedTemplate={selectedTemplate}
+        cvId={cvId}
       />
 
       {/* Clean Print Styles - Only CV content */}

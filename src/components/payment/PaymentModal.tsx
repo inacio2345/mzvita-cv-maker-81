@@ -7,13 +7,16 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 
+import { getReferralCode } from '@/utils/referralTracking';
+
 interface PaymentModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess?: () => void;
+    cvId?: string;
 }
 
-const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
+const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) => {
     const { initiatePayment, checkPaymentStatus, refreshSubscription } = useSubscription();
     const [selectedPlan, setSelectedPlan] = useState<'single' | 'monthly' | 'annual' | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -94,7 +97,9 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
                 body: {
                     plan_type: selectedPlan,
                     user_id: user?.id,
-                    return_url: window.location.origin + '/pagamento-sucesso'
+                    return_url: window.location.origin + '/pagamento-sucesso',
+                    cv_id: cvId,
+                    affiliate_code: getReferralCode()
                 }
             });
 

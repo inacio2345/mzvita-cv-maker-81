@@ -28,7 +28,7 @@ serve(async (req) => {
   }
 
   try {
-    const { plan_type, user_id, affiliate_code, return_url } = await req.json()
+    const { plan_type, user_id, affiliate_code, return_url, cv_id, affiliate_id } = await req.json()
 
     if (!PLAN_PRICES[plan_type]) {
       throw new Error("Plano inválido")
@@ -49,7 +49,6 @@ serve(async (req) => {
         amount: amount.toFixed(2),
         reference: reference,
         description: description,
-        // method: 'mpesa', // Removido para permitir M-Pesa, E-Mola e Cartões
         return_url: return_url || "https://mozvita.online/dashboard",
         callback_url: `${Deno.env.get("SUPABASE_URL")}/functions/v1/paysuite-webhook`
       })
@@ -67,16 +66,40 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     )
 
+    let cvVersion = null;
+    let snapshotData = null;
+
+    if (cv_id) {
+      const { data: cv } = await supabase
+        .from('saved_cvs')
+        .select('current_version, cv_data, template_name')
+        .eq('id', cv_id)
+        .single();
+        
+      if (cv) {
+        cvVersion = cv.current_version;
+        // The snapshot includes cv_data and what template was used.
+        snapshotData = {
+          cv_data: cv.cv_data,
+          template_name: cv.template_name
+        };
+      }
+    }
+
     const { error: dbError } = await supabase
       .from("payments")
       .insert({
         user_id,
         affiliate_code: affiliate_code || null,
+        affiliate_id: affiliate_id || null,
         paysuite_id: result.data.id,
         amount,
         reference,
         plan_type,
-        status: "pending"
+        status: "pending",
+        cv_id: cv_id || null,
+        cv_version: cvVersion,
+        snapshot_data: snapshotData
       })
 
     if (dbError) throw dbError

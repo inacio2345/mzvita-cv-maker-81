@@ -57,7 +57,7 @@ serve(async (req) => {
       // 2. Buscar o pagamento e o usuario
       const { data: payment, error: pError } = await supabase
         .from("payments")
-        .select("id, user_id, plan_type, status, amount, affiliate_code")
+        .select("id, user_id, plan_type, status, amount, affiliate_code, affiliate_id")
         .eq("paysuite_id", paysuite_id)
         .single()
 
@@ -140,40 +140,50 @@ serve(async (req) => {
       
       console.log(`Plano ${payment.plan_type} ativado para o usuario ${payment.user_id}`)
 
-      // 5. Atribuir comissão se houver afiliado
-      if (payment.affiliate_code) {
-        // Encontrar o afiliado dono do código
-        const { data: affiliate } = await supabase
-          .from("affiliates")
-          .select("id, commission_rate")
-          .eq("code", payment.affiliate_code)
-          .single()
+      // 5. Atribuir comissão se houver afiliado (Nova Tabela affiliate_commissions)
+      if (payment.affiliate_id || payment.affiliate_code) {
+        let affiliateId = payment.affiliate_id;
+        let commRate = 0.30;
 
-        if (affiliate) {
-          const defaultRate = 0.30;
-          const commissionRate = affiliate.commission_rate ? Number(affiliate.commission_rate) / 100 : defaultRate;
-          const commissionAmount = Number(payment.amount) * commissionRate;
-          // Available in 7 days
-          const availableAt = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+        // Se não tivermos o ID mas tivermos o código, procuramos o afiliado
+        if (!affiliateId && payment.affiliate_code) {
+          const { data: affData } = await supabase
+            .from("affiliates")
+            .select("id, commission_rate")
+            .eq("code", payment.affiliate_code)
+            .single();
+          
+          if (affData) {
+            affiliateId = affData.id;
+            commRate = affData.commission_rate ? Number(affData.commission_rate) / 100 : 0.30;
+          }
+        } else if (affiliateId) {
+          const { data: affData } = await supabase
+            .from("affiliates")
+            .select("commission_rate")
+            .eq("id", affiliateId)
+            .single();
+          if (affData) {
+            commRate = affData.commission_rate ? Number(affData.commission_rate) / 100 : 0.30;
+          }
+        }
+
+        if (affiliateId) {
+          const commissionAmount = Number(payment.amount) * commRate;
 
           const { error: commError } = await supabase
-            .from("commissions")
+            .from("affiliate_commissions")
             .insert({
-              affiliate_id: affiliate.id,
+              affiliate_id: affiliateId,
               payment_id: payment.id,
-              referred_user_id: payment.user_id,
-              payment_amount: payment.amount,
-              commission_rate: commissionRate * 100, // Armazenando em % se for caso
-              commission_amount: commissionAmount,
-              status: "pending",
-              available_at: availableAt,
-              created_at: now.toISOString()
+              amount: commissionAmount,
+              status: "pending"
             });
             
           if (commError) {
-             console.error("Erro ao inserir comissao:", commError);
+             console.error("Erro ao inserir comissao na nova tabela:", commError);
           } else {
-             console.log("Comissao de", commissionAmount, "atribuida ao afiliado", affiliate.id);
+             console.log("Comissao de", commissionAmount, "registada para o afiliado", affiliateId);
           }
         }
       }

@@ -94,6 +94,34 @@ export const useSubscription = () => {
     return data?.status || 'pending';
   };
 
+  const checkCVPaid = async (cvId: string) => {
+    if (!cvId) return { paid: false };
+    try {
+      const { data: cv, error: cvErr } = await supabase
+        .from('saved_cvs')
+        .select('current_version')
+        .eq('id', cvId)
+        .single();
+      if (cvErr || !cv) return { paid: false };
+
+      const { data: pay, error: payErr } = await supabase
+        .from('payments')
+        .select('status, pdf_url')
+        .eq('cv_id', cvId)
+        .eq('cv_version', cv.current_version)
+        .eq('status', 'paid')
+        .maybeSingle();
+      
+      return { 
+        paid: !!pay, 
+        pdfUrl: pay?.pdf_url || null,
+        version: cv.current_version 
+      };
+    } catch {
+      return { paid: false };
+    }
+  };
+
   return {
     profile,
     isPremiumActive: isPremiumActive(),
@@ -101,6 +129,7 @@ export const useSubscription = () => {
     canDownload: canDownload(),
     initiatePayment,
     checkPaymentStatus,
+    checkCVPaid,
     refreshSubscription: loadProfile
   };
 };

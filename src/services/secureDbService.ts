@@ -48,7 +48,7 @@ export class SecureDbService {
     return data;
   }
 
-  static async updateCVSecurely(cvId: string, title: string, cvData: CVData) {
+  static async updateCVSecurely(cvId: string, title: string, templateName: string, cvData: CVData) {
     const userId = await this.getUserId();
     if (!userId) {
       throw new Error('Authentication required');
@@ -67,13 +67,33 @@ export class SecureDbService {
 
     const sanitizedData = sanitizeObject(cvData);
     const sanitizedTitle = title.slice(0, 100).trim();
+    const sanitizedTemplateName = templateName.slice(0, 50).trim();
+
+    // Fetch existing CV to check for changes and increment version
+    const { data: existingCV } = await supabase
+      .from('saved_cvs')
+      .select('cv_data, template_name, current_version')
+      .eq('id', cvId)
+      .eq('user_id', userId)
+      .single();
+
+    let newVersion = existingCV?.current_version || 1;
+    if (existingCV) {
+      const dataChanged = JSON.stringify(existingCV.cv_data) !== JSON.stringify(sanitizedData);
+      const templateChanged = existingCV.template_name !== sanitizedTemplateName;
+      if (dataChanged || templateChanged) {
+        newVersion++;
+      }
+    }
 
     // The RLS policy will ensure only the owner can update
     const { data, error } = await supabase
       .from('saved_cvs')
       .update({
         title: sanitizedTitle,
+        template_name: sanitizedTemplateName,
         cv_data: sanitizedData,
+        current_version: newVersion,
       })
       .eq('id', cvId)
       .eq('user_id', userId) // Extra security check
@@ -153,6 +173,42 @@ export class SecureDbService {
       user_uuid: userId
     });
 
-    if (error) throw error;
+  static async uploadCVSnapshot(cvId: string, version: number, pdfBlob: Blob) {
+    const userId = await this.getUserId();
+    if (!userId) return null;
+
+    const fileName = `${userId}/${cvId}_v${version}_${Date.now()}.pdf`;
+
+    try {
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('cv_snapshots')
+        .upload(fileName, pdfBlob, {
+          contentType: 'application/pdf',
+          upsert: true
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('cv_snapshots')
+        .getPublicUrl(fileName);
+
+      const publicUrl = data.publicUrl;
+
+      // Vincular esta URL ao pagamento correspondente
+      const { error: patchError } = await supabase
+        .from('payments')
+        .update({ pdf_url: publicUrl })
+        .eq('cv_id', cvId)
+        .eq('cv_version', version)
+        .eq('status', 'paid');
+
+      if (patchError) console.error("Erro ao vincular PDF ao pagamento:", patchError);
+
+      return publicUrl;
+    } catch (error) {
+      console.error("Erro no upload do snapshot:", error);
+      return null;
+    }
   }
 }

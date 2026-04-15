@@ -37,8 +37,26 @@ const CreateCV = () => {
 
   const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'error' | null>(null);
   const [lastSavedJson, setLastSavedJson] = useState<string>('');
+  const [isVersionPaid, setIsVersionPaid] = useState<boolean>(false);
+  const [isCheckingPayment, setIsCheckingPayment] = useState(false);
+  const [currentDbVersion, setCurrentDbVersion] = useState<number>(1);
 
   const { saveCV, updateCV, loading: isSavingCV } = useSavedCVs();
+  const { checkCVPaid } = useSubscription();
+
+  const cvId = location.state?.cvId;
+
+  // Check if current version is paid
+  useEffect(() => {
+    if (cvId) {
+      setIsCheckingPayment(true);
+      checkCVPaid(cvId).then(res => {
+        setIsVersionPaid(res.paid);
+        if (res.version) setCurrentDbVersion(res.version);
+        setIsCheckingPayment(false);
+      });
+    }
+  }, [cvId, lastSavedJson, checkCVPaid]);
 
   // Calculate scale for mobile preview
   useEffect(() => {
@@ -122,7 +140,7 @@ const CreateCV = () => {
           ? `CV de ${cvData.personalData.fullName}` 
           : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
           
-        await updateCV(cvId, title, cvData);
+        await updateCV(cvId, title, activeTemplate?.id || 'cv03', cvData);
         setLastSavedJson(currentJson);
         setAutoSaveStatus('saved');
         
@@ -142,7 +160,7 @@ const CreateCV = () => {
     const cvId = location.state?.cvId;
 
     if (cvId) {
-      await updateCV(cvId, title, cvData);
+      await updateCV(cvId, title, activeTemplate?.id || 'cv03', cvData);
     } else {
       const data = await saveCV(title, activeTemplate?.id || 'cv03', cvData);
       if (data) {
@@ -188,10 +206,31 @@ const CreateCV = () => {
           {!isMobile && (
             <>
               <div className="h-6 w-px bg-slate-200" />
-              <h2 className="font-bold flex items-center gap-2">
-                <Settings2 className="w-5 h-5 text-google-blue" />
-                Editor de CV Profissional
-              </h2>
+              <div className="flex flex-col">
+                <h2 className="font-bold flex items-center gap-2 text-slate-800">
+                  <Settings2 className="w-4 h-4 text-google-blue" />
+                  Editor Profissional
+                </h2>
+                {cvId && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
+                      v{currentDbVersion}
+                    </span>
+                    {isCheckingPayment ? (
+                      <div className="w-2 h-2 rounded-full bg-slate-200 animate-pulse" />
+                    ) : (
+                      <span className={cn(
+                        "text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider",
+                        isVersionPaid 
+                          ? "bg-emerald-100 text-emerald-700 border border-emerald-200" 
+                          : "bg-amber-100 text-amber-700 border border-amber-200"
+                      )}>
+                        {isVersionPaid ? "✓ Paga" : "⚡ Edição"}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>

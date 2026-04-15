@@ -78,11 +78,11 @@ export const useSavedCVs = () => {
     }
   };
 
-  const updateCV = async (id: string, title: string, cvData: any) => {
+  const updateCV = async (id: string, title: string, templateName: string, cvData: any) => {
     if (!user) return null;
 
     try {
-      const data = await SecureDbService.updateCVSecurely(id, title, cvData);
+      const data = await SecureDbService.updateCVSecurely(id, title, templateName, cvData);
 
       setSavedCVs(prev => 
         prev.map(cv => cv.id === id ? data : cv)

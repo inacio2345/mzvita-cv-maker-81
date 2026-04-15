@@ -23,6 +23,7 @@ interface DownloadOptionsProps {
   selectedTemplate?: any;
   documentType?: 'cv' | 'letter';
   onCustomDownload?: () => Promise<void>;
+  cvId?: string;
 }
 
 const DownloadOptions = ({ 
@@ -32,7 +33,8 @@ const DownloadOptions = ({
   cvData, 
   selectedTemplate,
   documentType = 'cv',
-  onCustomDownload
+  onCustomDownload,
+  cvId
 }: DownloadOptionsProps) => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -43,24 +45,43 @@ const DownloadOptions = ({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [pendingAction, setPendingAction] = useState<(() => Promise<void>) | null>(null);
 
-  const { canDownload, isPremiumActive, profile } = useSubscription();
+  const [isVersionPaid, setIsVersionPaid] = useState<boolean>(false);
+  const [paidPdfUrl, setPaidPdfUrl] = useState<string | null>(null);
+  const [isCheckingPayment, setIsCheckingPayment] = useState(false);
+
+  const { canDownload, isPremiumActive, profile, checkCVPaid } = useSubscription();
   const { user } = useAuth();
 
-  const startDownloadWithGate = (downloadFn: () => Promise<void>) => {
+  React.useEffect(() => {
+    if (isOpen && cvId) {
+      setIsCheckingPayment(true);
+      checkCVPaid(cvId).then(res => {
+        setIsVersionPaid(res.paid);
+        setPaidPdfUrl(res.pdfUrl || null);
+        setIsCheckingPayment(false);
+      });
+    } else {
+      setIsVersionPaid(false);
+      setPaidPdfUrl(null);
+      setIsCheckingPayment(false);
+    }
+  }, [isOpen, cvId]);
+
+  const startDownloadWithGate = async (downloadFn: () => Promise<void>) => {
     // Admin bypass: Skip payment modal and ads/countdown
     if (profile?.is_admin) {
       downloadFn();
       return;
     }
 
-    if (!canDownload) {
+    if (!canDownload && !isVersionPaid) {
       setPendingAction(() => downloadFn);
       setShowPaymentModal(true);
       return;
     }
 
-    // Skip countdown and ads for Premium users (Monthly/Annual)
-    if (isPremiumActive) {
+    // Skip countdown and ads for Premium users (Monthly/Annual) or if specifically paid
+    if (isPremiumActive || isVersionPaid) {
       downloadFn();
       return;
     }
@@ -138,12 +159,20 @@ const DownloadOptions = ({
       return;
     }
 
+    // Fast Download Logic: If a stored PDF exists for this paid version, use it!
+    if (paidPdfUrl) {
+      window.open(paidPdfUrl, '_blank');
+      onClose();
+      return;
+    }
+
     // Navigate to the dedicated print page for pixel-perfect PDF generation
     onClose();
     navigate('/imprimir', {
       state: {
         cvData,
-        selectedTemplate
+        selectedTemplate,
+        cvId 
       }
     });
   };
@@ -190,6 +219,19 @@ const DownloadOptions = ({
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 leading-tight">Descarregar CV</h3>
                   <p className="text-xs text-slate-500">Escolha o seu formato ideal</p>
+                  {isOpen && !isCheckingPayment && cvId && (
+                    <div className="mt-2">
+                       {profile?.is_admin || isPremiumActive || isVersionPaid ? (
+                        <span className="inline-block bg-emerald-100/80 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">
+                          ✓ Acesso Gratuito Integrado
+                        </span>
+                      ) : (
+                        <span className="inline-block bg-amber-100/80 text-amber-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-200">
+                          ⚠️ Edição Recente (Requer Crédito)
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
               <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full h-8 w-8 hover:bg-slate-100">
@@ -308,6 +350,7 @@ const DownloadOptions = ({
         isOpen={showPaymentModal}
         onClose={() => setShowPaymentModal(false)}
         onSuccess={handlePaymentSuccess}
+        cvId={cvId}
       />
 
       {/* Invisible Renderer for background PDF capture (Fixes Download Mismatch on Profile Page) */}
