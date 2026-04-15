@@ -1,1 +1,4 @@
 project_id = "ojwhrtwfqjshimkpupnz"
+
+[functions.create-paysuite-payment]
+verify_jwt = false

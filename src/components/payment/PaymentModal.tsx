@@ -103,6 +103,9 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
             console.log("Iniciando pagamento para:", currentUser.id, "Plano:", selectedPlan);
 
             const { data: result, error: invError } = await supabase.functions.invoke('create-paysuite-payment', {
+                headers: {
+                    Authorization: `Bearer ${session.access_token}`
+                },
                 body: {
                     plan_type: selectedPlan,
                     user_id: currentUser.id,
@@ -112,7 +115,10 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
                 }
             });
 
-            if (invError) throw invError;
+            if (invError) {
+                console.error("Erro na invocação da função:", invError);
+                throw invError;
+            }
             
             if (result.checkout_url) {
                 setPaysuiteId(result.paysuite_id);
