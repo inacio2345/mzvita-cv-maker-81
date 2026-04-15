@@ -52,8 +52,8 @@ const CVLayoutRenderer = ({
   } | null>(null);
 
   const isMobile = useIsMobile();
-  const colors = data.colorPalette || template.colorPalette;
-  const fonts = data.fonts || template.fonts || { primary: 'Inter', headings: 'Poppins' };
+  const colors = data?.colorPalette || template?.colorPalette || { primary: '#4285F4', secondary: '#34A853', accent: '#FBBC05' };
+  const fonts = data?.fonts || template?.fonts || { primary: 'Inter', headings: 'Poppins' };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

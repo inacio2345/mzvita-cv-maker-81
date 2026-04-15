@@ -8,7 +8,8 @@ import { useSavedCVs } from '@/hooks/useSavedCVs';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
 import DownloadOptions from '@/components/download/DownloadOptions';
-import { getDefaultTemplate } from '@/data/cvTemplates';
+import { getDefaultTemplate, cvTemplates } from '@/data/cvTemplates';
+import { useToast } from '@/hooks/use-toast';
 
 const PagamentoSucesso = () => {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ const PagamentoSucesso = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const [downloadData, setDownloadData] = useState<{cvData: any, selectedTemplate: any} | null>(null);
+
+  const { toast } = useToast();
+  const [retryCount, setRetryCount] = useState(0);
 
   // Ao montar: refrescar subscrição e salvar CV automaticamente
   useEffect(() => {
@@ -52,7 +56,23 @@ const PagamentoSucesso = () => {
     };
 
     processPayment();
-  }, []);
+
+    // Polling para detectar ativação do plano (webhook delay)
+    const interval = setInterval(async () => {
+      if (profile?.plan_type === 'free' || !isPremiumActive) {
+        console.log("Polling: Verificando ativação do plano...");
+        await refreshSubscription();
+        setRetryCount(prev => prev + 1);
+      }
+    }, 4000); // Cada 4 segundos
+
+    // Parar polling após 15 revisões (1 minuto) ou quando plano ativar
+    if (retryCount > 15 || (profile && profile.plan_type !== 'free')) {
+      clearInterval(interval);
+    }
+
+    return () => clearInterval(interval);
+  }, [profile?.plan_type, retryCount]);
 
   const getPlanLabel = () => {
     if (!profile) return '';
@@ -157,13 +177,19 @@ const PagamentoSucesso = () => {
                   const savedCvData = localStorage.getItem('mz_cv_data');
                   const savedTemplateId = localStorage.getItem('mz_selected_template_id');
                   if (savedCvData) {
+                    const template = cvTemplates.find(t => t.id === savedTemplateId) || getDefaultTemplate();
                     setDownloadData({
                       cvData: JSON.parse(savedCvData),
-                      selectedTemplate: savedTemplateId ? { id: savedTemplateId } : getDefaultTemplate()
+                      selectedTemplate: template
                     });
                     setShowDownloadOptions(true);
                   } else {
-                    navigate('/criar-cv'); // Fallback if no data
+                    toast({
+                      title: "Dados não encontrados",
+                      description: "Não conseguimos localizar o seu currículo localmente. Por favor, vá ao Editor.",
+                      variant: "destructive"
+                    });
+                    navigate('/criar-cv');
                   }
                 }}
                 className="w-full h-14 text-base font-bold bg-google-green hover:bg-green-600 text-white rounded-xl shadow-lg shadow-green-200/50 transition-all hover:shadow-xl"
