@@ -100,6 +100,9 @@ const CreateCV = () => {
 
   // Load saved CV Data on mount if available and no fresh template data passed
   useEffect(() => {
+    // Limpar flags de pagamentos anteriores para permitir novos fluxos
+    localStorage.removeItem('mz_payment_saved_flag');
+
     if (!location.state?.templateData && !location.state?.cvData) {
       const savedData = localStorage.getItem('mz_cv_data');
       if (savedData) {

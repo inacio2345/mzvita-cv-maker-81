@@ -24,55 +24,68 @@ const PagamentoSucesso = () => {
   const { toast } = useToast();
   const [retryCount, setRetryCount] = useState(0);
 
-  // Ao montar: refrescar subscrição e salvar CV automaticamente
+  // 1. Efeito para salvar o CV apenas UMA vez ao carregar a página (à prova de refresh)
   useEffect(() => {
-    const processPayment = async () => {
-      try {
-        // 1. Refrescar dados da subscrição do servidor
-        await refreshSubscription();
-
-        // 2. Tentar salvar o CV do localStorage na nuvem
-        const savedCvData = localStorage.getItem('mz_cv_data');
-        const savedTemplateId = localStorage.getItem('mz_selected_template_id');
-
-        if (savedCvData && !hasSaved) {
-          try {
-            const cvData = JSON.parse(savedCvData);
-            const title = cvData?.personalData?.fullName
-              ? `CV de ${cvData.personalData.fullName}`
-              : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
-
-            await saveCV(title, savedTemplateId || 'default', cvData);
-            setHasSaved(true);
-          } catch (e) {
-            console.error('Erro ao salvar CV automaticamente:', e);
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao processar pagamento:', error);
-      } finally {
+    const saveCnonce = async () => {
+      // Verificar se já salvamos nesta sessão para evitar duplicados no refresh
+      const sessionSaved = localStorage.getItem('mz_payment_saved_flag');
+      if (hasSaved || sessionSaved === 'true') {
         setIsLoading(false);
+        return;
       }
+      
+      const savedCvData = localStorage.getItem('mz_cv_data');
+      const savedTemplateId = localStorage.getItem('mz_selected_template_id');
+
+      if (savedCvData) {
+        try {
+          const cvData = JSON.parse(savedCvData);
+          const title = cvData?.personalData?.fullName
+            ? `Meu CV Profissional - ${cvData.personalData.fullName}`
+            : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
+
+          await saveCV(title, savedTemplateId || 'default', cvData);
+          setHasSaved(true);
+          // Marcar como salvo no localStorage para bloquear duplicados se o user der refresh
+          localStorage.setItem('mz_payment_saved_flag', 'true');
+          console.log("CV salvo automaticamente com sucesso.");
+          
+          // Limpar a flag após um tempo ou quando sair da página (opcional)
+        } catch (e) {
+          console.error('Erro ao salvar CV automaticamente:', e);
+        }
+      }
+      setIsLoading(false);
     };
 
-    processPayment();
+    saveCnonce();
 
-    // Polling para detectar ativação do plano (webhook delay)
+    // Limpar flag ao desmontar para permitir futuros pagamentos de outros CVs
+    return () => {
+      // Nota: Não limpamos aqui para garantir que o refresh não dispare. 
+      // A flag será limpa naturalmente quando o user iniciar um novo fluxo de criação.
+    };
+  }, []);
+
+  // 2. Efeito para Polling de Subscrição (Atualizar status do pagamento)
+  useEffect(() => {
+    if (!user) return;
+
+    // Se o plano já ativou, não precisamos de polling
+    if (profile && profile.plan_type !== 'free') return;
+
     const interval = setInterval(async () => {
-      if (profile?.plan_type === 'free' || !isPremiumActive) {
-        console.log("Polling: Verificando ativação do plano...");
+      if (retryCount < 15) {
+        console.log(`Polling (${retryCount + 1}/15): Verificando ativação do plano...`);
         await refreshSubscription();
         setRetryCount(prev => prev + 1);
+      } else {
+        clearInterval(interval);
       }
-    }, 4000); // Cada 4 segundos
-
-    // Parar polling após 15 revisões (1 minuto) ou quando plano ativar
-    if (retryCount > 15 || (profile && profile.plan_type !== 'free')) {
-      clearInterval(interval);
-    }
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [profile?.plan_type, retryCount]);
+  }, [user, profile?.plan_type, retryCount]);
 
   const getPlanLabel = () => {
     if (!profile) return '';

@@ -27,18 +27,29 @@ export const useSubscription = () => {
 
   const currentCredits = profile?.cv_limit ? Math.max(0, profile.cv_limit - (profile.cv_used || 0)) : 0;
 
-  const canDownload = () => {
+  const canDownload = async (cvId?: string) => {
     if (!profile) return false;
     
     // Admin pode baixar sempre
     if (profile.is_admin) return true;
     
-    // Se for premium (mensal/anual) e estiver activo, pode baixar
+    // Se for premium (mensal/anual) e estiver activo, pode baixar qualquer CV
     if (isPremiumActive()) return true;
     
-    // Caso contrário (plano free ou expirado), verificar se tem créditos avulsos (single)
-    // Nota: Mesmo que o plano mensal expire, os créditos 'single' acumulados podem permanecer se a lógica de negócio assim o desejar.
-    // Na nossa implementação actual, cv_limit é o saldo total.
+    // Se tivermos um ID de CV, verificar se este CV específico foi pago
+    if (cvId) {
+      const { data: pay } = await supabase
+        .from('payments')
+        .select('id')
+        .eq('cv_id', cvId)
+        .eq('status', 'paid')
+        .limit(1)
+        .maybeSingle();
+      
+      if (pay) return true;
+    }
+
+    // Fallback: Verificar se tem créditos avulsos genéricos (caso o cv_id não tenha sido vinculado no pagamento)
     return (profile.cv_limit || 0) > (profile.cv_used || 0);
   };
 
@@ -126,7 +137,7 @@ export const useSubscription = () => {
     profile,
     isPremiumActive: isPremiumActive(),
     currentCredits,
-    canDownload: canDownload(),
+    canDownload,
     initiatePayment,
     checkPaymentStatus,
     checkCVPaid,

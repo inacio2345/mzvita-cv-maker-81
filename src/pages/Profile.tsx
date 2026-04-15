@@ -23,7 +23,7 @@ const Profile = () => {
   
   const [showSavedCvs, setShowSavedCvs] = React.useState(viewCvs || false);
   const [showDownloadOptions, setShowDownloadOptions] = React.useState(false);
-  const [downloadData, setDownloadData] = React.useState<{cvData: any, selectedTemplate: any} | null>(null);
+  const [downloadData, setDownloadData] = React.useState<{cvData: any, selectedTemplate: any, cvId?: string} | null>(null);
 
   const handleSignOut = async () => {
     await signOut();
@@ -177,7 +177,11 @@ const Profile = () => {
                                                  cv.template_name === 'cv03' ? 'cv-minimalist-clean' :
                                                  cv.template_name === 'cv04' ? 'cv-diagonal-modern' :
                                                  cv.template_name || 'cv-classico-elegante';
-                                setDownloadData({ cvData: cv.cv_data, selectedTemplate: { id: templateId } });
+                                setDownloadData({ 
+                                  cvData: cv.cv_data, 
+                                  selectedTemplate: { id: templateId },
+                                  cvId: cv.id 
+                                });
                                 setShowDownloadOptions(true);
                             }}
                           >
@@ -260,6 +264,7 @@ const Profile = () => {
           cvData={downloadData.cvData}
           selectedTemplate={downloadData.selectedTemplate}
           cvTitle={downloadData.cvData?.personalData?.fullName || "Meu CV Salvo"}
+          cvId={downloadData.cvId}
         />
       )}
     </div>

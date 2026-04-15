@@ -74,7 +74,9 @@ const DownloadOptions = ({
       return;
     }
 
-    if (!canDownload && !isVersionPaid) {
+    const hasAccess = await canDownload(cvId);
+
+    if (!hasAccess && !isVersionPaid) {
       setPendingAction(() => downloadFn);
       setShowPaymentModal(true);
       return;

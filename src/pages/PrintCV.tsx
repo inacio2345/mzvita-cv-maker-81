@@ -27,29 +27,36 @@ const PrintCV = () => {
 
   // Security: Wait for profile to load, then check permissions
   useEffect(() => {
-    if (!cvData) {
-      navigate(-1);
-      return;
-    }
+    const checkAccess = async () => {
+      if (!cvData) {
+        navigate(-1);
+        return;
+      }
 
-    // Still loading profile → wait
-    if (profileLoading) return;
+      // Still loading profile → wait
+      if (profileLoading) return;
 
-    // Admin always allowed
-    if (profile?.is_admin) {
-      setReady(true);
-      return;
-    }
+      // Admin always allowed
+      if (profile?.is_admin) {
+        setReady(true);
+        return;
+      }
 
-    // Has credits or premium → allowed
-    if (canDownload) {
-      setReady(true);
-      return;
-    }
+      const cvId = location.state?.cvId;
+      const hasAccess = await canDownload(cvId);
 
-    // No permission → show payment popup
-    setShowPayment(true);
-  }, [cvData, canDownload, profile, profileLoading, navigate]);
+      // Has credits or premium or specifically paid for this CV → allowed
+      if (hasAccess) {
+        setReady(true);
+        return;
+      }
+
+      // No permission → show payment popup
+      setShowPayment(true);
+    };
+
+    checkAccess();
+  }, [cvData, canDownload, profile, profileLoading, navigate, location.state?.cvId]);
 
   // Auto-trigger print once the CV is rendered
   useEffect(() => {
