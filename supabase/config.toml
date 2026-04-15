@@ -2,3 +2,6 @@ project_id = "ojwhrtwfqjshimkpupnz"
 
 [functions.create-paysuite-payment]
 verify_jwt = false
+
+[functions.paysuite-webhook]
+verify_jwt = false
