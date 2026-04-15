@@ -56,7 +56,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess }: PaymentModalProps) => {
         {
             id: 'single' as const,
             name: 'Plano Avulso',
-            price: '25,00 MT',
+            price: '50,00 MT',
             description: 'Perfeito para um único uso',
             icon: <Zap className="w-5 h-5 text-blue-500" />,
             features: ['1 Download de CV ou Carta', 'Alta Resolução', 'Acesso Vitalício ao item'],
