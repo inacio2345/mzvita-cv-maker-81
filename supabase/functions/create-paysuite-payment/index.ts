@@ -28,15 +28,29 @@ serve(async (req) => {
   }
 
   try {
-    const { plan_type, user_id, affiliate_code, return_url, cv_id, affiliate_id } = await req.json()
+    const body = await req.json().catch(() => ({}));
+    const { plan_type, user_id, affiliate_code, return_url, cv_id, affiliate_id } = body;
 
-    if (!PLAN_PRICES[plan_type]) {
-      throw new Error("Plano inválido")
+    if (!user_id) {
+      return new Response(
+        JSON.stringify({ error: "ID de usuário obrigatório" }),
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    if (!plan_type || !PLAN_PRICES[plan_type]) {
+      return new Response(
+        JSON.stringify({ error: "Plano inválido ou ausente" }),
+        { status: 400, headers: corsHeaders }
+      );
     }
 
     const amount = PLAN_PRICES[plan_type]
     const description = PLAN_DESCRIPTIONS[plan_type]
-    const reference = `MZVT${Date.now()}${user_id.replace(/-/g, '').substring(0, 8)}`
+    
+    // Formatação segura da referência
+    const userPart = String(user_id).replace(/-/g, '').substring(0, 8);
+    const reference = `MZVT${Date.now()}${userPart}`
 
     const response = await fetch(PAYSUITE_API_URL, {
       method: "POST",

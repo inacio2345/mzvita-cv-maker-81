@@ -89,11 +89,30 @@ export const useUserProfile = () => {
         if (createError) throw createError;
         setProfile(createdProfile);
         
-        // Limpar referral tracking após gravar com sucesso
-        if (referralCode) {
+        // Limpar referral tracking apenas após sucesso
+        if (referralCode && createdProfile) {
           clearReferralCode();
         }
       } else {
+        // Perfil já existe, mas vamos verificar se podemos associar um afiliado agora (first-touch persistente)
+        const referralCodeSelection = getReferralCode();
+        
+        if (referralCodeSelection && !data.referred_by) {
+          console.log("Associando afiliado a perfil existente...");
+          const { data: updatedProfile, error: updateError } = await supabase
+            .from('user_profiles')
+            .update({ referred_by: referralCodeSelection })
+            .eq('id', user.id)
+            .select()
+            .single();
+            
+          if (!updateError && updatedProfile) {
+            setProfile(updatedProfile);
+            clearReferralCode();
+            return;
+          }
+        }
+        
         setProfile(data);
       }
     } catch (error) {

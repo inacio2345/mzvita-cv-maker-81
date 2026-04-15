@@ -91,20 +91,28 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
         setIsProcessing(true);
         try {
             const { supabase } = await import('@/integrations/supabase/client');
-            const { data: { user } } = await supabase.auth.getUser();
             
-            const response = await supabase.functions.invoke('create-paysuite-payment', {
+            // Refrescar sessão e obter ID de forma segura para evitar 401
+            const { data: { session }, error: authError } = await supabase.auth.getSession();
+            const currentUser = session?.user;
+
+            if (authError || !currentUser) {
+                throw new Error("Sessão expirada. Por favor, faça login novamente.");
+            }
+            
+            console.log("Iniciando pagamento para:", currentUser.id, "Plano:", selectedPlan);
+
+            const { data: result, error: invError } = await supabase.functions.invoke('create-paysuite-payment', {
                 body: {
                     plan_type: selectedPlan,
-                    user_id: user?.id,
+                    user_id: currentUser.id,
                     return_url: window.location.origin + '/pagamento-sucesso',
-                    cv_id: cvId,
+                    cv_id: cvId || null,
                     affiliate_code: getReferralCode()
                 }
             });
 
-            if (response.error) throw response.error;
-            const result = response.data;
+            if (invError) throw invError;
             
             if (result.checkout_url) {
                 setPaysuiteId(result.paysuite_id);

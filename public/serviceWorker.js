@@ -23,7 +23,18 @@ self.addEventListener('install', event => {
 
 // Fetch event - serve cached content or network
 self.addEventListener('fetch', event => {
-  // 1. Para HTML e navegação, usar sempre Network First (para não carregar index.html desatualizado com hashes antigos)
+  // 1. IGNORAR: Rotas que devem ir sempre para a Rede (Dinâmicas, API, Preview)
+  const url = new URL(event.request.url);
+  if (
+    url.pathname.includes('/preview') || 
+    url.pathname.includes('/functions/v1/') ||
+    url.hostname.includes('supabase.co') ||
+    event.request.method !== 'GET'
+  ) {
+    return; // Deixa o browser lidar com a requisição normalmente
+  }
+
+  // 2. Para HTML e navegação, usar sempre Network First (para não carregar index.html desatualizado com hashes antigos)
   if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(event.request).catch(() => caches.match(event.request).then(res => res || caches.match('/index.html')))
