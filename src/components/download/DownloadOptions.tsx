@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -34,6 +35,7 @@ const DownloadOptions = ({
   onCustomDownload
 }: DownloadOptionsProps) => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [showPreview, setShowPreview] = useState(false);
   const [isPreparing, setIsPreparing] = useState(false);
 
@@ -136,21 +138,14 @@ const DownloadOptions = ({
       return;
     }
 
-    try {
-      await generateProfessionalCV(cvData, selectedTemplate);
-      toast({
-        title: "Download concluído!",
-        description: "Seu documento profissional foi baixado como PDF.",
-      });
-      onClose();
-    } catch (error) {
-      console.error('Erro ao gerar PDF:', error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível gerar o PDF.",
-        variant: "destructive"
-      });
-    }
+    // Navigate to the dedicated print page for pixel-perfect PDF generation
+    onClose();
+    navigate('/imprimir', {
+      state: {
+        cvData,
+        selectedTemplate
+      }
+    });
   };
 
   const handleShare = () => {

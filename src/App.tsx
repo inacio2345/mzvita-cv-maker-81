@@ -61,6 +61,7 @@ import PagamentoSucesso from "./pages/PagamentoSucesso";
 import Afiliado from "./pages/Afiliado";
 import AffiliateDashboard from "./pages/AffiliateDashboard";
 import AdminAffiliates from "./pages/AdminAffiliates";
+import PrintCV from "./pages/PrintCV";
 import ReferralTracker from "@/components/ReferralTracker";
 import { useSubscription } from "@/hooks/useSubscription";
 import { AuthGuard } from "@/components/auth/AuthGuard";
@@ -84,6 +85,7 @@ const App = () => {
                   {!isMobile && <AppSidebar />}
                   <SidebarInset className="overflow-x-hidden w-full">
                     <Routes>
+                      <Route path="/imprimir" element={null} />
                       <Route path="*" element={<ConditionalHeader />} />
                     </Routes>
 
@@ -137,15 +139,20 @@ const App = () => {
                         <Route path="/admin/afiliados" element={<AuthGuard><AdminAffiliates /></AuthGuard>} />
                         <Route path="/precos" element={<Pricing />} />
                         <Route path="/pagamento-sucesso" element={<AuthGuard><PagamentoSucesso /></AuthGuard>} />
+                        <Route path="/imprimir" element={<AuthGuard><PrintCV /></AuthGuard>} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </div>
                     <Routes>
+                      <Route path="/imprimir" element={null} />
                       <Route path="*" element={<ConditionalFooter />} />
                     </Routes>
                     <PWAInstallPrompt />
                     <CookieBanner />
-                    {isMobile && <MobileNav />}
+                    <Routes>
+                      <Route path="/imprimir" element={null} />
+                      <Route path="*" element={isMobile ? <MobileNav /> : null} />
+                    </Routes>
                   </SidebarInset>
                 </div>
               </SidebarProvider>
@@ -159,17 +166,17 @@ const App = () => {
 
 const ConditionalHeader = () => {
   const location = useLocation();
-  const isCreatorPage = location.pathname === '/criar-cv';
+  const isHiddenPage = location.pathname === '/criar-cv' || location.pathname === '/imprimir';
 
-  if (isCreatorPage) return null;
+  if (isHiddenPage) return null;
   return <Header />;
 };
 
 const ConditionalFooter = () => {
   const location = useLocation();
-  const isCreatorPage = location.pathname === '/criar-cv';
+  const isHiddenPage = location.pathname === '/criar-cv' || location.pathname === '/imprimir';
 
-  if (isCreatorPage) return null;
+  if (isHiddenPage) return null;
   return <Footer />;
 };
 

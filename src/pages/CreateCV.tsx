@@ -196,7 +196,8 @@ const CreateCV = () => {
           )}
         </div>
 
-          <div className="flex flex-col items-end">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex flex-col items-end relative">
             <Button
               size="sm"
               variant="ghost"
@@ -214,14 +215,14 @@ const CreateCV = () => {
             
             {autoSaveStatus && (
               <span className={cn(
-                "text-[10px] font-medium absolute -bottom-4 right-0 px-1 transition-all duration-300",
+                "text-[10px] font-medium absolute -bottom-4 right-0 px-1 transition-all duration-300 whitespace-nowrap",
                 autoSaveStatus === 'saving' && "text-blue-500 animate-pulse",
                 autoSaveStatus === 'saved' && "text-emerald-500",
                 autoSaveStatus === 'error' && "text-red-500"
               )}>
-                {autoSaveStatus === 'saving' && "A guardar alterações..."}
-                {autoSaveStatus === 'saved' && "Alterações guardadas"}
-                {autoSaveStatus === 'error' && "Erro ao guardar"}
+                {autoSaveStatus === 'saving' && "A guardar..."}
+                {autoSaveStatus === 'saved' && "Guardado ✓"}
+                {autoSaveStatus === 'error' && "Erro"}
               </span>
             )}
           </div>
