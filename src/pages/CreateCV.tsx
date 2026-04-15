@@ -15,6 +15,7 @@ import { getDefaultTemplate } from '@/data/cvTemplates';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSubscription } from '@/hooks/useSubscription';
 
 const CreateCV = () => {
   const navigate = useNavigate();
