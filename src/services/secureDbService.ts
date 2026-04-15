@@ -173,6 +173,9 @@ export class SecureDbService {
       user_uuid: userId
     });
 
+    if (error) throw error;
+  }
+
   static async uploadCVSnapshot(cvId: string, version: number, pdfBlob: Blob) {
     const userId = await this.getUserId();
     if (!userId) return null;
