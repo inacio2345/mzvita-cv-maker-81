@@ -24,7 +24,7 @@ const PrintCV = () => {
   // Security: Block access without valid data or permission
   useEffect(() => {
     if (!cvData) {
-      navigate('/perfil', { replace: true });
+      navigate('/precos', { replace: true });
       return;
     }
 
@@ -35,7 +35,7 @@ const PrintCV = () => {
     }
 
     if (!canDownload) {
-      navigate('/perfil', { replace: true });
+      navigate('/precos', { replace: true });
       return;
     }
 
