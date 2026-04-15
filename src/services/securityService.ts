@@ -14,14 +14,16 @@ export const personalDataSchema = z.object({
 });
 
 export const cvDataSchema = z.object({
-  personalData: personalDataSchema,
-  about: z.string().max(2000),
-  education: z.array(z.any()).max(20),
-  experience: z.array(z.any()).max(20),
-  skills: z.array(z.any()).max(50),
-  references: z.array(z.any()).max(10),
-  colorPalette: z.any(),
-});
+  personalData: z.any().optional(),
+  about: z.string().max(5000).optional().default(''),
+  education: z.array(z.any()).max(20).optional().default([]),
+  experience: z.array(z.any()).max(20).optional().default([]),
+  skills: z.any().optional(), // Can be array or object { technical, languages }
+  references: z.array(z.any()).max(10).optional().default([]),
+  colorPalette: z.any().optional(),
+  fonts: z.any().optional(),
+  sectionTitles: z.any().optional(),
+}).passthrough(); // Allow extra fields like customization data
 
 export const userProfileSchema = z.object({
   nome_completo: z.string().min(1).max(100).optional(),

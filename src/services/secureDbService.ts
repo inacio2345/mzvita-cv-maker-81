@@ -55,7 +55,7 @@ export class SecureDbService {
     }
 
     // Rate limiting
-    if (!checkRateLimit(`update_cv_${userId}`, 10, 60000)) {
+    if (!checkRateLimit(`update_cv_${userId}`, 30, 60000)) {
       throw new Error('Too many requests. Please wait before trying again.');
     }
 

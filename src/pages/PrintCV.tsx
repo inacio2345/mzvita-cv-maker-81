@@ -27,7 +27,6 @@ const PrintCV = () => {
 
   // Security: Wait for profile to load, then check permissions
   useEffect(() => {
-    // No CV data at all → go back
     if (!cvData) {
       navigate(-1);
       return;
@@ -58,7 +57,7 @@ const PrintCV = () => {
 
     const timer = setTimeout(() => {
       window.print();
-    }, 1200);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [ready]);
@@ -68,25 +67,57 @@ const PrintCV = () => {
     setReady(true);
   };
 
-  // Loading state (waiting for profile)
+  // Handle responsive scaling for the preview
+  const [scale, setScale] = useState(1);
+  useEffect(() => {
+    const handleResize = () => {
+      const containerWidth = window.innerWidth - 32; // padding
+      if (containerWidth < 794) {
+        setScale(containerWidth / 794);
+      } else {
+        setScale(1);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Loading state
   if (!ready && !showPayment) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600 font-medium">A preparar o seu documento...</p>
+          <p className="text-slate-600 font-medium text-sm sm:text-base">A preparar o seu documento...</p>
         </div>
       </div>
     );
   }
 
-  // Payment required state → show popup over a blurred preview
+  // Payment required state
   if (showPayment && !ready) {
     return (
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-        <div className="text-center p-8">
-          <h2 className="text-xl font-bold text-slate-800 mb-2">Pagamento Necessário</h2>
-          <p className="text-slate-600 mb-4">Efetue o pagamento para descarregar o seu CV.</p>
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 sm:p-6">
+        <div className="text-center p-8 bg-white rounded-2xl shadow-xl max-w-sm w-full no-print">
+          <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl" role="img" aria-label="lock">🔒</span>
+          </div>
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Download Bloqueado</h2>
+          <p className="text-slate-500 mb-6 text-sm">Este modelo requer um plano ativo ou crédito de download para ser descarregado.</p>
+          <button 
+            onClick={() => navigate('/precos')}
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors mb-4"
+          >
+            Ver Planos & Créditos
+          </button>
+          <button 
+            onClick={() => navigate(-1)}
+            className="w-full py-2 text-slate-400 text-xs hover:text-slate-600 font-medium"
+          >
+            Voltar ao Editor
+          </button>
         </div>
         <PaymentModal
           isOpen={true}
@@ -103,7 +134,8 @@ const PrintCV = () => {
         @media print {
           header, footer, nav, aside, 
           .sidebar, .mobile-nav, .no-print,
-          [data-radix-popper-content-wrapper] {
+          [data-radix-popper-content-wrapper],
+          .print-toolbar {
             display: none !important;
           }
           @page {
@@ -116,14 +148,40 @@ const PrintCV = () => {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
             color-adjust: exact !important;
+            background: white !important;
+            height: auto !important;
+            min-height: 0 !important;
+          }
+          .print-cv-wrapper {
+            padding: 0 !important;
+            background: white !important;
+            display: block !important;
+            overflow: visible !important;
+            height: auto !important;
+            min-height: 0 !important;
           }
           .print-cv-container {
             width: 210mm !important;
-            min-height: 297mm !important;
+            height: auto !important;
+            min-height: 297mm !important; /* Keep 1 page minimum for aesthetics, but allowed to grow */
             margin: 0 !important;
             padding: 0 !important;
             box-shadow: none !important;
             border: none !important;
+            transform: none !important;
+            background: white !important;
+            display: block !important;
+            overflow: visible !important;
+          }
+          /* Prevent extra blank page at the end */
+          html, body {
+            overflow: visible !important;
+            height: auto !important;
+          }
+          /* Ensure sections don't break in ugly ways if possible */
+          .cv-section-item {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
           * {
             -webkit-print-color-adjust: exact !important;
@@ -132,71 +190,49 @@ const PrintCV = () => {
         }
         @media screen {
           .print-cv-container {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 20px auto;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-          }
-          .print-back-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            font-size: 14px;
-          }
-          .print-back-btn:hover {
-            background: #2563eb;
-          }
-          .print-download-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            font-size: 14px;
-          }
-          .print-download-btn:hover {
-            background: #059669;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
           }
         }
       `}</style>
 
-      <button 
-        className="print-back-btn no-print" 
-        onClick={() => navigate(-1)}
-      >
-        ← Voltar
-      </button>
-      <button 
-        className="print-download-btn no-print" 
-        onClick={() => window.print()}
-      >
-        📄 Salvar como PDF
-      </button>
+      {/* Floating toolbar - responsive and hidden when printing */}
+      <div className="print-toolbar no-print fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b shadow-sm">
+        <div className="max-w-[800px] mx-auto flex items-center justify-between px-4 py-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-medium text-xs sm:text-sm transition-colors"
+          >
+            ← Voltar
+          </button>
+          
+          <h1 className="text-sm font-bold text-slate-800 hidden xs:block">Baixar Documento</h1>
 
-      <div className="print-cv-container">
-        <CVLayoutRenderer
-          data={cvData}
-          template={resolvedTemplate}
-          className="cv-content"
-          isAdvancedMode={false}
-        />
+          <button
+            onClick={() => window.print()}
+            className="flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-bold text-xs sm:text-sm transition-colors shadow-md shadow-emerald-500/10"
+          >
+            📄 Guardar PDF
+          </button>
+        </div>
+      </div>
+
+      {/* CV container - responsive scaling for mobile */}
+      <div className="print-cv-wrapper pt-20 pb-12 px-4 bg-slate-50 min-h-screen flex justify-center items-start overflow-x-hidden">
+        <div
+          className="print-cv-container bg-white origin-top transition-transform duration-200"
+          style={{
+            width: '794px',
+            minHeight: '297mm',
+            transform: `scale(${scale})`,
+          }}
+        >
+          <CVLayoutRenderer
+            data={cvData}
+            template={resolvedTemplate}
+            className="cv-content"
+            isAdvancedMode={false}
+          />
+        </div>
       </div>
     </>
   );
