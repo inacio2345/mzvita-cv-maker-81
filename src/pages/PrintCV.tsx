@@ -3,30 +3,38 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useUserProfile } from '@/hooks/useUserProfile';
 import { cvTemplates, getTemplateById } from '@/data/cvTemplates';
+import PaymentModal from '@/components/payment/PaymentModal';
 
 const PrintCV = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { canDownload, profile } = useSubscription();
+  const { loading: profileLoading } = useUserProfile();
   const [ready, setReady] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   const cvData = location.state?.cvData;
   const selectedTemplate = location.state?.selectedTemplate;
 
   // Resolve the full template object from the ID
   const resolvedTemplate = (() => {
-    if (selectedTemplate?.colorPalette) return selectedTemplate; // Already full object
+    if (selectedTemplate?.colorPalette) return selectedTemplate;
     const id = selectedTemplate?.id || 'cv-classico-elegante';
     return getTemplateById(id) || cvTemplates[0];
   })();
 
-  // Security: Block access without valid data or permission
+  // Security: Wait for profile to load, then check permissions
   useEffect(() => {
+    // No CV data at all → go back
     if (!cvData) {
-      navigate('/precos', { replace: true });
+      navigate(-1);
       return;
     }
+
+    // Still loading profile → wait
+    if (profileLoading) return;
 
     // Admin always allowed
     if (profile?.is_admin) {
@@ -34,19 +42,20 @@ const PrintCV = () => {
       return;
     }
 
-    if (!canDownload) {
-      navigate('/precos', { replace: true });
+    // Has credits or premium → allowed
+    if (canDownload) {
+      setReady(true);
       return;
     }
 
-    setReady(true);
-  }, [cvData, canDownload, profile, navigate]);
+    // No permission → show payment popup
+    setShowPayment(true);
+  }, [cvData, canDownload, profile, profileLoading, navigate]);
 
   // Auto-trigger print once the CV is rendered
   useEffect(() => {
     if (!ready) return;
 
-    // Give the browser time to fully render the CV (fonts, images, layout)
     const timer = setTimeout(() => {
       window.print();
     }, 1200);
@@ -54,7 +63,13 @@ const PrintCV = () => {
     return () => clearTimeout(timer);
   }, [ready]);
 
-  if (!ready || !cvData) {
+  const handlePaymentSuccess = () => {
+    setShowPayment(false);
+    setReady(true);
+  };
+
+  // Loading state (waiting for profile)
+  if (!ready && !showPayment) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
@@ -65,25 +80,36 @@ const PrintCV = () => {
     );
   }
 
+  // Payment required state → show popup over a blurred preview
+  if (showPayment && !ready) {
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="text-center p-8">
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Pagamento Necessário</h2>
+          <p className="text-slate-600 mb-4">Efetue o pagamento para descarregar o seu CV.</p>
+        </div>
+        <PaymentModal
+          isOpen={true}
+          onClose={() => navigate(-1)}
+          onSuccess={handlePaymentSuccess}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
-      {/* Print-specific styles */}
       <style>{`
-        /* Hide everything except the CV when printing */
         @media print {
-          /* Hide all app chrome */
           header, footer, nav, aside, 
           .sidebar, .mobile-nav, .no-print,
           [data-radix-popper-content-wrapper] {
             display: none !important;
           }
-          
-          /* Reset page margins - the CV handles its own padding */
           @page {
             size: A4 portrait;
             margin: 0;
           }
-          
           body {
             margin: 0 !important;
             padding: 0 !important;
@@ -91,8 +117,6 @@ const PrintCV = () => {
             print-color-adjust: exact !important;
             color-adjust: exact !important;
           }
-          
-          /* Make the print container fill the page */
           .print-cv-container {
             width: 210mm !important;
             min-height: 297mm !important;
@@ -101,19 +125,12 @@ const PrintCV = () => {
             box-shadow: none !important;
             border: none !important;
           }
-          
-          /* Force background colors to print */
           * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
         }
-
-        /* Screen preview styles */
         @media screen {
-          body {
-            background: #e2e8f0 !important;
-          }
           .print-cv-container {
             width: 210mm;
             min-height: 297mm;
@@ -160,7 +177,6 @@ const PrintCV = () => {
         }
       `}</style>
 
-      {/* Screen-only navigation buttons */}
       <button 
         className="print-back-btn no-print" 
         onClick={() => navigate(-1)}
@@ -174,7 +190,6 @@ const PrintCV = () => {
         📄 Salvar como PDF
       </button>
 
-      {/* The CV itself — this is what gets printed */}
       <div className="print-cv-container">
         <CVLayoutRenderer
           data={cvData}
