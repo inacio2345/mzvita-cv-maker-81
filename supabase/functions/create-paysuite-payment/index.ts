@@ -4,13 +4,13 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 const PAYSUITE_API_URL = "https://paysuite.tech/api/v1/payments"
 const PAYSUITE_API_TOKEN = Deno.env.get("pymentmozvita") || Deno.env.get("PAYSUITE_API_TOKEN")
 
-const PLAN_PRICES = {
+const PLAN_PRICES: Record<string, number> = {
   single: 50.00,
   monthly: 200.00,
   annual: 1290.00
 }
 
-const PLAN_DESCRIPTIONS = {
+const PLAN_DESCRIPTIONS: Record<string, string> = {
   single: "MozVita - Plano Avulso (1 CV/Carta)",
   monthly: "MozVita - Plano Mensal (10 Itens + Sem Anúncios)",
   annual: "MozVita - Plano Anual (Ilimitado + Sem Anúncios)"
@@ -75,10 +75,43 @@ serve(async (req) => {
       throw new Error(result.message || "Falha ao iniciar pagamento no PaySuite")
     }
 
+    // =========================================================
+    // GARANTIR affiliate_code: fallback para referred_by do perfil
+    // =========================================================
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     )
+
+    let finalAffiliateCode = affiliate_code || null
+    let finalAffiliateId = affiliate_id || null
+
+    // Se o frontend não enviou affiliate_code, verificar o referred_by do perfil
+    if (!finalAffiliateCode && !finalAffiliateId) {
+      const { data: userProfile } = await supabase
+        .from('user_profiles')
+        .select('referred_by')
+        .eq('id', user_id)
+        .single()
+      
+      if (userProfile?.referred_by) {
+        finalAffiliateCode = userProfile.referred_by
+        console.log(`Affiliate code recuperado do perfil (referred_by): ${finalAffiliateCode}`)
+
+        // Resolver o affiliate_id a partir do código
+        const { data: affiliate } = await supabase
+          .from('affiliates')
+          .select('id')
+          .eq('code', finalAffiliateCode)
+          .eq('status', 'approved')
+          .single()
+        
+        if (affiliate) {
+          finalAffiliateId = affiliate.id
+          console.log(`Affiliate ID resolvido: ${finalAffiliateId}`)
+        }
+      }
+    }
 
     let cvVersion = null;
     let snapshotData = null;
@@ -92,7 +125,6 @@ serve(async (req) => {
         
       if (cv) {
         cvVersion = cv.current_version;
-        // The snapshot includes cv_data and what template was used.
         snapshotData = {
           cv_data: cv.cv_data,
           template_name: cv.template_name
@@ -104,8 +136,8 @@ serve(async (req) => {
       .from("payments")
       .insert({
         user_id,
-        affiliate_code: affiliate_code || null,
-        affiliate_id: affiliate_id || null,
+        affiliate_code: finalAffiliateCode,
+        affiliate_id: finalAffiliateId,
         paysuite_id: result.data.id,
         amount,
         reference,
@@ -118,6 +150,8 @@ serve(async (req) => {
 
     if (dbError) throw dbError
 
+    console.log(`Pagamento criado: ${reference} | Affiliate: ${finalAffiliateCode || 'nenhum'} | AffID: ${finalAffiliateId || 'nenhum'}`)
+
     return new Response(
       JSON.stringify({ 
         checkout_url: result.data.checkout_url,
@@ -129,7 +163,7 @@ serve(async (req) => {
       }
     )
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Erro geral:", error.message)
     return new Response(
       JSON.stringify({ error: error.message }),

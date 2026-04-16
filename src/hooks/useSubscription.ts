@@ -81,6 +81,23 @@ export const useSubscription = () => {
     // 3. Tentar usar crédito global
     if ((profile.cv_limit || 0) > (profile.cv_used || 0)) {
       try {
+        // Tentar vincular este CV a um pagamento "single" vago (para acessos futuros ilimitados ao MESMO CV)
+        if (cvId) {
+          const { data: unlinkedPayment } = await supabase
+            .from('payments')
+            .select('id')
+            .eq('user_id', profile.id)
+            .eq('status', 'paid')
+            .eq('plan_type', 'single')
+            .is('cv_id', null)
+            .limit(1)
+            .maybeSingle();
+
+          if (unlinkedPayment) {
+             await supabase.from('payments').update({ cv_id: cvId }).eq('id', unlinkedPayment.id);
+          }
+        }
+
         await SecureDbService.incrementDownloadsSecurely();
         await loadProfile(); // Recarrega o perfil para atualizar o saldo no UI
         return true;

@@ -20,6 +20,7 @@ const PagamentoSucesso = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const [downloadData, setDownloadData] = useState<{cvData: any, selectedTemplate: any} | null>(null);
+  const [newlySavedCvId, setNewlySavedCvId] = useState<string | undefined>(undefined);
 
   const { toast } = useToast();
   const [retryCount, setRetryCount] = useState(0);
@@ -44,7 +45,8 @@ const PagamentoSucesso = () => {
             ? `Meu CV Profissional - ${cvData.personalData.fullName}`
             : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
 
-          await saveCV(title, savedTemplateId || 'default', cvData);
+          const savedItem = await saveCV(title, savedTemplateId || 'default', cvData);
+          if (savedItem) setNewlySavedCvId(savedItem.id);
           setHasSaved(true);
           // Marcar como salvo no localStorage para bloquear duplicados se o user der refresh
           localStorage.setItem('mz_payment_saved_flag', 'true');
@@ -257,6 +259,7 @@ const PagamentoSucesso = () => {
           cvData={downloadData.cvData}
           selectedTemplate={downloadData.selectedTemplate}
           cvTitle={downloadData.cvData?.personalData?.fullName || "Meu CV"}
+          cvId={newlySavedCvId}
         />
       )}
     </div>
