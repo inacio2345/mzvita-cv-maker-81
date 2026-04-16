@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { useToast } from './use-toast';
 import { useAuth } from './useAuth';
 import { getReferralCode } from '@/utils/referralTracking';
+import { SecureDbService } from '@/services/secureDbService';
 
 export const useSubscription = () => {
   const { profile, loadProfile } = useUserProfile();
@@ -49,8 +50,47 @@ export const useSubscription = () => {
       if (pay) return true;
     }
 
-    // Fallback: Verificar se tem créditos avulsos genéricos (caso o cv_id não tenha sido vinculado no pagamento)
+    // Fallback: Verificar se tem créditos avulsos genéricos
     return (profile.cv_limit || 0) > (profile.cv_used || 0);
+  };
+
+  /**
+   * O PORTÃO DE FERRO 🛡️
+   * Verifica o acesso E consome o crédito se necessário.
+   * Use isto nos pontos finais de download (PrintCV, DownloadOptions).
+   */
+  const checkAndConsumeAccess = async (cvId?: string) => {
+    if (!profile) return false;
+
+    // 1. Admin ou Premium Mensal/Anual: Acesso total sem consumo de créditos
+    if (profile.is_admin || isPremiumActive()) return true;
+
+    // 2. Já pago individualmente (Pay-per-CV): Acesso ilimitado a este documento sem consumo de créditos extras
+    if (cvId) {
+      const { data: pay } = await supabase
+        .from('payments')
+        .select('id')
+        .eq('cv_id', cvId)
+        .eq('status', 'paid')
+        .limit(1)
+        .maybeSingle();
+      
+      if (pay) return true;
+    }
+
+    // 3. Tentar usar crédito global
+    if ((profile.cv_limit || 0) > (profile.cv_used || 0)) {
+      try {
+        await SecureDbService.incrementDownloadsSecurely();
+        await loadProfile(); // Recarrega o perfil para atualizar o saldo no UI
+        return true;
+      } catch (error) {
+        console.error("Erro ao consumir crédito:", error);
+        return false;
+      }
+    }
+
+    return false;
   };
 
   const initiatePayment = async (planType: 'single' | 'monthly' | 'annual', forcedUserId?: string) => {
@@ -138,6 +178,7 @@ export const useSubscription = () => {
     isPremiumActive: isPremiumActive(),
     currentCredits,
     canDownload,
+    checkAndConsumeAccess,
     initiatePayment,
     checkPaymentStatus,
     checkCVPaid,

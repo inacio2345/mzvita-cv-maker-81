@@ -10,10 +10,11 @@ import PaymentModal from '@/components/payment/PaymentModal';
 const PrintCV = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { canDownload, profile } = useSubscription();
+  const { checkAndConsumeAccess, profile } = useSubscription();
   const { loading: profileLoading } = useUserProfile();
   const [ready, setReady] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true);
 
   const cvData = location.state?.cvData;
   const selectedTemplate = location.state?.selectedTemplate;
@@ -36,14 +37,13 @@ const PrintCV = () => {
       // Still loading profile → wait
       if (profileLoading) return;
 
-      // Admin always allowed
-      if (profile?.is_admin) {
-        setReady(true);
-        return;
-      }
-
       const cvId = location.state?.cvId;
-      const hasAccess = await canDownload(cvId);
+      
+      // O PORTÃO DE FERRO 🛡️
+      // Verifica o acesso E consome o crédito se necessário num único passo
+      const hasAccess = await checkAndConsumeAccess(cvId);
+
+      setIsVerifying(false);
 
       // Has credits or premium or specifically paid for this CV → allowed
       if (hasAccess) {
@@ -56,7 +56,7 @@ const PrintCV = () => {
     };
 
     checkAccess();
-  }, [cvData, canDownload, profile, profileLoading, navigate, location.state?.cvId]);
+  }, [cvData, checkAndConsumeAccess, profile, profileLoading, navigate, location.state?.cvId]);
 
   // Auto-trigger print once the CV is rendered
   useEffect(() => {

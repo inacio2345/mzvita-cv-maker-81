@@ -50,7 +50,7 @@ const DownloadOptions = ({
   const [paidPdfUrl, setPaidPdfUrl] = useState<string | null>(null);
   const [isCheckingPayment, setIsCheckingPayment] = useState(false);
 
-  const { canDownload, isPremiumActive, profile, checkCVPaid } = useSubscription();
+  const { checkAndConsumeAccess, isPremiumActive, profile, checkCVPaid, refreshSubscription } = useSubscription();
   const { user } = useAuth();
 
   React.useEffect(() => {
@@ -69,22 +69,18 @@ const DownloadOptions = ({
   }, [isOpen, cvId]);
 
   const startDownloadWithGate = async (downloadFn: () => Promise<void>) => {
-    // Admin bypass: Skip payment modal and ads/countdown
-    if (profile?.is_admin) {
-      downloadFn();
-      return;
-    }
+    // O PORTÃO DE FERRO 🛡️
+    // Verifica acesso e CONSOME crédito se necessário num único passo seguro
+    const hasAccess = await checkAndConsumeAccess(cvId);
 
-    const hasAccess = await canDownload(cvId);
-
-    if (!hasAccess && !isVersionPaid) {
+    if (!hasAccess) {
       setPendingAction(() => downloadFn);
       setShowPaymentModal(true);
       return;
     }
 
-    // Skip countdown and ads for Premium users (Monthly/Annual) or if specifically paid
-    if (isPremiumActive || isVersionPaid) {
+    // Skip countdown and ads for Premium users (Monthly/Annual), specifically paid versions, or Admins
+    if (profile?.is_admin || isPremiumActive || isVersionPaid) {
       downloadFn();
       return;
     }
@@ -106,16 +102,6 @@ const DownloadOptions = ({
     // Trigger download after 5 seconds
     setTimeout(async () => {
       await downloadFn();
-      
-      // Consume credit if using global credits (not premium, not pre-paid)
-      try {
-        await SecureDbService.incrementDownloadsSecurely();
-        // Refresh local profile to update credit count in UI
-        refreshSubscription();
-      } catch (error) {
-        console.error("Erro ao debitar crédito:", error);
-      }
-      
       setIsPreparing(false);
     }, 5500);
   };
