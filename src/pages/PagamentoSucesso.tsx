@@ -31,6 +31,8 @@ const PagamentoSucesso = () => {
       // Verificar se já salvamos nesta sessão para evitar duplicados no refresh
       const sessionSaved = localStorage.getItem('mz_payment_saved_flag');
       if (hasSaved || sessionSaved === 'true') {
+        const storedCvId = localStorage.getItem('mz_newly_saved_cv_id');
+        if (storedCvId) setNewlySavedCvId(storedCvId);
         setIsLoading(false);
         return;
       }
@@ -46,7 +48,10 @@ const PagamentoSucesso = () => {
             : `Meu CV Profissional - ${new Date().toLocaleDateString('pt-BR')}`;
 
           const savedItem = await saveCV(title, savedTemplateId || 'default', cvData);
-          if (savedItem) setNewlySavedCvId(savedItem.id);
+          if (savedItem) {
+            setNewlySavedCvId(savedItem.id);
+            localStorage.setItem('mz_newly_saved_cv_id', savedItem.id);
+          }
           setHasSaved(true);
           // Marcar como salvo no localStorage para bloquear duplicados se o user der refresh
           localStorage.setItem('mz_payment_saved_flag', 'true');

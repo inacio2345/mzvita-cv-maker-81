@@ -221,7 +221,7 @@ serve(async (req) => {
         
         if (affData) {
           affiliateId = affData.id
-          commRate = affData.commission_rate ? Number(affData.commission_rate) / 100 : 0.30
+          commRate = affData.commission_rate ? Number(affData.commission_rate) : 0.30
         }
       } else if (affiliateId) {
         const { data: affData } = await supabase
@@ -230,7 +230,7 @@ serve(async (req) => {
           .eq("id", affiliateId)
           .single()
         if (affData) {
-          commRate = affData.commission_rate ? Number(affData.commission_rate) / 100 : 0.30
+          commRate = affData.commission_rate ? Number(affData.commission_rate) : 0.30
         }
       }
 
