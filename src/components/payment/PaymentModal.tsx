@@ -6,6 +6,7 @@ import { Check, Lock, Star, Zap, Crown, CreditCard, X, Loader2 } from 'lucide-re
 import { useSubscription } from '@/hooks/useSubscription';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { trackInitiateCheckout } from '@/utils/pixelEvents';
 
 import { getReferralCode } from '@/utils/referralTracking';
 
@@ -88,6 +89,10 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
 
     const handlePayment = async () => {
         if (!selectedPlan) return;
+        
+        // Disparar evento de Inicio de Checkout no Pixel
+        trackInitiateCheckout();
+        
         setIsProcessing(true);
         try {
             const { supabase } = await import('@/integrations/supabase/client');

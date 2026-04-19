@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
+import UniversalAd from '@/components/ads/UniversalAd';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -187,6 +188,11 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Hero Ad Slot */}
+      <div className="container mx-auto px-4">
+        <UniversalAd slotName="header" fallbackHeight="90px" />
+      </div>
 
       {/* 2. Benefícios do Mozvita */}
       <section className="py-20 bg-slate-50">

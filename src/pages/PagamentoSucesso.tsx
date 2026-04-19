@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import DownloadOptions from '@/components/download/DownloadOptions';
 import { getDefaultTemplate, cvTemplates } from '@/data/cvTemplates';
 import { useToast } from '@/hooks/use-toast';
+import { trackPurchase } from '@/utils/pixelEvents';
 
 const PagamentoSucesso = () => {
   const navigate = useNavigate();
@@ -51,6 +52,9 @@ const PagamentoSucesso = () => {
           if (savedItem) {
             setNewlySavedCvId(savedItem.id);
             localStorage.setItem('mz_newly_saved_cv_id', savedItem.id);
+            
+            // Disparar Evento de Compra no Pixel (Média de 50 MZN para plano avulso)
+            trackPurchase(50, 'MZN');
           }
           setHasSaved(true);
           // Marcar como salvo no localStorage para bloquear duplicados se o user der refresh

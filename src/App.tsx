@@ -15,6 +15,7 @@ import Header from "@/components/ui/header";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import CookieBanner from "@/components/CookieBanner";
 import MobileNav from "@/components/ui/mobile-nav";
+import FacebookPixel from "@/components/FacebookPixel";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import BlogPostTemplate from "./pages/BlogPostTemplate";
@@ -61,6 +62,7 @@ import PagamentoSucesso from "./pages/PagamentoSucesso";
 import Afiliado from "./pages/Afiliado";
 import AffiliateDashboard from "./pages/AffiliateDashboard";
 import AdminAffiliates from "./pages/AdminAffiliates";
+import AdminAds from "./pages/AdminAds";
 import PrintCV from "./pages/PrintCV";
 import ReferralTracker from "@/components/ReferralTracker";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -79,6 +81,7 @@ const App = () => {
             <Toaster />
             <Sonner />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <FacebookPixel />
               <ReferralTracker />
               <SidebarProvider defaultOpen={!isMobile}>
                 <div className="min-h-screen flex w-full overflow-x-hidden">
@@ -137,6 +140,7 @@ const App = () => {
                         <Route path="/perfil/afiliado" element={<AuthGuard><AffiliateDashboard /></AuthGuard>} />
                         <Route path="/afiliado" element={<Afiliado />} />
                         <Route path="/admin/afiliados" element={<AuthGuard><AdminAffiliates /></AuthGuard>} />
+                        <Route path="/admin/anuncios" element={<AuthGuard><AdminAds /></AuthGuard>} />
                         <Route path="/precos" element={<Pricing />} />
                         <Route path="/pagamento-sucesso" element={<AuthGuard><PagamentoSucesso /></AuthGuard>} />
                         <Route path="/imprimir" element={<AuthGuard><PrintCV /></AuthGuard>} />

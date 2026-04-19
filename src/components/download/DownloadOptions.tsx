@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { generateProfessionalCV } from '@/services/cvGenerator';
 import { captureDesktopCanvas } from '@/services/htmlToPdfConverter';
 import PDFPreviewModal from './PDFPreviewModal';
-import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
+import UniversalAd from '@/components/ads/UniversalAd';
 import PaymentModal from '@/components/payment/PaymentModal';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useAuth } from '@/hooks/useAuth';
@@ -315,11 +315,8 @@ const DownloadOptions = ({
               </div>
 
               {!isPremiumActive && (
-                <div className="w-full mt-4">
-                  <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Anúncio</p>
-                  <div className="min-h-[50px] flex justify-center items-center bg-slate-50 rounded-lg overflow-hidden border border-slate-100 italic text-slate-400 text-xs">
-                    <AdsterraMobileBanner />
-                  </div>
+                <div className="w-full mt-4 flex flex-col justify-center items-center">
+                  <UniversalAd slotName="success_page" fallbackHeight="50px" className="border border-slate-100 rounded-lg overflow-hidden bg-slate-50" />
                 </div>
               )}
 

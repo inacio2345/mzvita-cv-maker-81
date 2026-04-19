@@ -12,7 +12,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { Badge } from '@/components/ui/badge';
 import { User, ChevronDown, FileText, Mail, PenTool, LogOut, Award, Briefcase, GraduationCap, Heart, Sparkles, Crown, Zap } from 'lucide-react';
-import AdRotator from '@/components/ads/AdRotator';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
@@ -64,7 +63,6 @@ const Header = () => {
 
   return (
     <header className="bg-white/95 backdrop-blur-md shadow-sm border-b sticky top-0 z-50 transition-all duration-300">
-      <AdRotator />
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

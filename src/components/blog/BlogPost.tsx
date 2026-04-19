@@ -6,8 +6,6 @@ import { Calendar, Clock, User, ArrowLeft, Facebook, Linkedin, MessageCircle, Ho
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useNavigate, Link } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
-import AdSpace from '@/components/ads/AdSpace';
-import AdsterraMobileBanner from '@/components/ads/AdsterraMobileBanner';
 import SEO from '@/components/SEO';
 
 interface FAQ {

@@ -1,7 +1,7 @@
 import { 
   Home, FileText, HelpCircle, Mail, FileImage, 
   Shield, PenTool, ChevronDown, Briefcase, 
-  BookOpen, Users, Info, Star, User, LogOut, Loader2
+  BookOpen, Users, Info, Star, User, LogOut, Loader2, Megaphone
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -193,6 +193,32 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        
+        {profile?.is_admin && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Administração</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/admin/afiliados">
+                      <Users className="w-4 h-4" />
+                      <span>Gerir Afiliados</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/admin/anuncios">
+                      <Megaphone className="w-4 h-4" />
+                      <span>Gerir Anúncios</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarFooter className="p-4 border-t bg-slate-50/50">
         {loading ? (

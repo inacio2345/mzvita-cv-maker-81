@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSubscription } from '@/hooks/useSubscription';
+import { trackLead } from '@/utils/pixelEvents';
 
 const CreateCV = () => {
   const navigate = useNavigate();
@@ -116,6 +117,9 @@ const CreateCV = () => {
     } else if (location.state?.cvData) {
       updateCVData(location.state.cvData);
     }
+    
+    // Disparar evento de Lead no Pixel
+    trackLead();
   }, []);
 
   // Save Template ID and CV Data when they change

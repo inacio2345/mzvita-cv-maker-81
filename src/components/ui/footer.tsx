@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AdsterraIframe from '../ads/AdsterraIframe';
+import UniversalAd from '../ads/UniversalAd';
 
 const Footer = () => {
   const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
@@ -8,22 +8,8 @@ const Footer = () => {
   return (
     <footer className="bg-slate-900 text-white py-12 border-t border-slate-800">
       <div className="container mx-auto px-4">
-        {/* Native Banner / Sponsored Content Section */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <span className="h-px bg-slate-800 flex-1"></span>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.3em]">Conteúdo Patrocinado</span>
-            <span className="h-px bg-slate-800 flex-1"></span>
-          </div>
-          <div className="min-h-[250px] w-full bg-slate-800/30 rounded-2xl border border-slate-800/50 p-4 transition-all hover:border-slate-700/50">
-            <AdsterraIframe 
-              adKey="3ab88cc45aad291af06779a7141d0c78"
-              format="js"
-              width="100%"
-              height={isMobile ? 500 : 250}
-            />
-          </div>
-        </div>
+        {/* Universal Ad Section - Collapses gracefully if null */}
+        <UniversalAd slotName="footer" className="mb-12" fallbackHeight="250px" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           <div className="col-span-1 sm:col-span-2 lg:col-span-1">

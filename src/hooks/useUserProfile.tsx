@@ -31,6 +31,7 @@ export interface UserProfile {
   cv_used?: number;
   subscription_expires_at?: string;
   is_premium?: boolean;
+  is_admin?: boolean;
 }
 
 export const useUserProfile = () => {
