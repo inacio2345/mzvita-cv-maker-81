@@ -212,8 +212,8 @@ const Contato = () => {
                 answer: "Sim! Nossos templates são versáteis e adequados para todas as áreas profissionais, desde tecnologia até educação, saúde, negócios e muito mais."
               },
               {
-                question: "Preciso de cartão de crédito para o primeiro CV gratuito?",
-                answer: "Não! Seu primeiro CV é completamente gratuito, sem necessidade de cartão de crédito ou qualquer informação de pagamento."
+                question: "Quais são as formas de pagamento aceites?",
+                answer: "Atualmente aceitamos M-Pesa. A transação é segura e o desbloqueio do PDF é imediato."
               },
               {
                 question: "Vocês oferecem suporte personalizado?",

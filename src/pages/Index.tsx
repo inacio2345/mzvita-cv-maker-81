@@ -63,10 +63,10 @@ const Index = () => {
       },
       {
         "@type": "Question",
-        "name": "O Mozvita é gratuito?",
+        "name": "O Mozvita tem custos?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Sim, o Mozvita permite criar e baixar seu cv moçambique de forma totalmente gratuita e sem custos ocultos."
+          "text": "O Mozvita utiliza um sistema Pay-per-CV super acessível. Pode criar e editar à vontade. Só paga uma taxa única simbólica na hora de baixar o currículo final. Uma vez pago, pode baixar esse mesmo CV indefinidamente sem custos."
         }
       },
       {
@@ -107,7 +107,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-slate-50 overflow-x-hidden max-w-full">
       <SEO
-        title="Criar CV Moçambique Online e Grátis | MozVita"
+        title="Criar CV Moçambique Profissional Online | MozVita"
         description="A principal plataforma para criar seu cv moçambique profissional. Modelos modernos, download de cv moçambique pdf e exemplos reais para o mercado nacional."
         keywords="cv moçambique, cv moçambique pdf, modelo de cv moçambique, exemplos cv moçambique, cv em inglês moçambique"
         canonical="/"
@@ -126,7 +126,7 @@ const Index = () => {
               className="flex-1 text-left"
             >
               <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-tight mb-6">
-                Criar <span className="text-google-blue">CV Moçambique</span> Profissional Online e Grátis
+                Criar <span className="text-google-blue">CV Moçambique</span> Profissional Online
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl">
                 Destaque-se no mercado de trabalho com um currículo adaptado às exigências de Moçambique.
@@ -417,11 +417,10 @@ const Index = () => {
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger className="text-left font-bold py-6 hover:no-underline hover:text-google-blue">
-                  O Mozvita é gratuito?
+                  O Mozvita tem custos?
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-600 pb-6">
-                  Sim, o Mozvita permite criar e baixar seu <strong>cv moçambique</strong> de forma totalmente gratuita.
-                  Nossa missão é facilitar o acesso ao emprego para todos os moçambicanos.
+                  O Mozvita tem um modelo Pay-per-CV incrivelmente acessível e adaptado a Moçambique. Você cria, testa modelos e edita à vontade. Apenas pede-se um pagamento simbólico no final para <strong>baixar o cv moçambique pdf</strong> sem marcas d'água. Após pago, esse documento é seu e os downloads futuros são ilimitados!
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
@@ -511,7 +510,7 @@ const Index = () => {
               className="bg-white text-google-blue hover:bg-slate-100 px-12 h-16 text-xl rounded-2xl font-bold shadow-2xl"
               onClick={() => navigate('/criar-cv')}
             >
-              Criar CV Grátis Agora
+              Criar Meu CV Agora
             </Button>
             <Button
               size="lg"

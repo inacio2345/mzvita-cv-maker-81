@@ -32,7 +32,7 @@ const SobreNos = () => {
     'Criação automatizada de currículos com design responsivo',
     'Modelos de carta de apresentação prontos para uso',
     'Acesso à comunidade MozVita via WhatsApp para suporte e oportunidades',
-    'Primeiros currículos gratuitos com acompanhamento personalizado',
+    'Criação de CVs adaptados ao mercado nacional',
     'Interface intuitiva, segura e disponível 24/7'
   ];
 

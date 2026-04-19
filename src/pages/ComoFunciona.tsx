@@ -84,7 +84,7 @@ const ComoFunciona = () => {
                 <p className="text-gray-600">Baixe seu CV em PDF de alta qualidade, pronto para envio e impressão.</p>
                 
                 <h3 className="text-xl font-semibold text-gray-900">🆓 Primeiro CV Grátis</h3>
-                <p className="text-gray-600">Experimente nosso serviço sem compromisso - seu primeiro CV é totalmente gratuito.</p>
+                <p className="text-gray-600">O primeiro passo na carreira começa aqui. Edite o quanto quiser e pague apenas no final.</p>
               </div>
             </div>
           </div>
