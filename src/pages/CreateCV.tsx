@@ -308,6 +308,8 @@ const CreateCV = () => {
                 isDirty={false}
                 colors={cvData.colorPalette || activeTemplate?.colorPalette}
                 fonts={cvData.fonts || activeTemplate?.fonts}
+                cvData={cvData}
+                onUpdateCVData={updateCVData}
                 onUpdateStyle={(type, value) => {
                   if (type === 'colors') {
                     updateCVData({ colorPalette: value });

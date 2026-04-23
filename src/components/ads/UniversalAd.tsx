@@ -52,11 +52,31 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
     return null; 
   }
 
-  // 3. Determinar versão a usar (Mobile vs Desktop)
-  const isImage = isMobile ? ad.mobile_type === 'image' : ad.desktop_type === 'image';
-  const content = isMobile ? ad.mobile_content : ad.desktop_content;
+  // 3. Escolher conteúdo com Fallback Inteligente
+  const getAdContent = () => {
+    const dType = ad.desktop_type;
+    const dContent = ad.desktop_content;
+    const mType = ad.mobile_type;
+    const mContent = ad.mobile_content;
 
-  // Prevenção se o Admin esqueceu-se de pôr conteúdo para uma das telas
+    if (isMobile) {
+      // Se estamos no mobile, tentamos mobile. Se não houver mobile, usamos desktop.
+      if (mContent && mContent.trim() !== '') {
+        return { content: mContent, type: mType };
+      }
+      return { content: dContent, type: dType };
+    } else {
+      // Se estamos no desktop, tentamos desktop. Se não houver, tentamos mobile.
+      if (dContent && dContent.trim() !== '') {
+        return { content: dContent, type: dType };
+      }
+      return { content: mContent, type: mType };
+    }
+  };
+
+  const { content, type } = getAdContent();
+  const isImage = type === 'image';
+
   if (!content || content.trim() === '') {
     return null;
   }

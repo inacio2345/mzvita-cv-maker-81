@@ -15,6 +15,10 @@ import {
 import { Eye, EyeOff, RotateCcw, Save, Layers, Palette, LayoutTemplate, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getTranslatedTitles } from '@/services/translationService';
+import { aiService } from '@/services/aiService';
+import { useSubscription } from '@/hooks/useSubscription';
+import { Sparkles } from 'lucide-react';
+import { CVData } from '@/services/cvService';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -59,6 +63,8 @@ interface AdvancedCVEditorProps {
   onReset: () => void;
   onSave: () => void;
   isDirty?: boolean;
+  cvData: CVData;
+  onUpdateCVData: (updates: Partial<CVData>) => void;
 }
 
 const SECTION_LABELS: Record<string, string> = {
@@ -91,8 +97,12 @@ const AdvancedCVEditor = ({
   onReset,
   onSave,
   isDirty = false,
+  cvData,
+  onUpdateCVData,
 }: AdvancedCVEditorProps) => {
   const { toast } = useToast();
+  const { isPremiumActive } = useSubscription();
+  const [isTranslating, setIsTranslating] = React.useState(false);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -127,6 +137,46 @@ const AdvancedCVEditor = ({
     s => layoutConfig.hiddenSections.includes(s)
   );
 
+  const handleAITranslate = async () => {
+    if (!isPremiumActive) {
+      toast({
+        title: "Funcionalidade Premium",
+        description: "A tradução automática do conteúdo do CV é exclusiva dos planos Mensal e Anual. Faça upgrade para usar esta funcionalidade.",
+        variant: "default",
+      });
+      // Here you could also open the PaymentModal if desired.
+      return;
+    }
+
+    try {
+      setIsTranslating(true);
+      toast({
+        title: "A traduzir CV...",
+        description: "A IA está a traduzir o seu conteúdo para inglês. Isto pode demorar alguns segundos.",
+      });
+
+      const translatedData = await aiService.translateCV(cvData);
+      
+      // Also update section titles to english automatically
+      onUpdateStyle('sectionTitles', getTranslatedTitles('en'));
+      onUpdateCVData(translatedData);
+
+      toast({
+        title: "Tradução concluída!",
+        description: "O seu currículo foi traduzido com sucesso.",
+        variant: "default",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro na tradução",
+        description: error.message || "Ocorreu um erro ao traduzir o currículo.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsTranslating(false);
+    }
+  };
+
   return (
     <Card className="p-0 bg-white border-0 shadow-lg h-full flex flex-col print:hidden">
       {/* Header Fixo */}
@@ -159,6 +209,21 @@ const AdvancedCVEditor = ({
               title="English"
             >
               🇺🇸
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleAITranslate}
+              disabled={isTranslating}
+              className="h-6 px-2 text-xs hover:bg-blue-50 hover:text-blue-600 text-slate-500 border-l border-slate-200 ml-1 rounded-l-none"
+              title="Traduzir CV inteiro com IA"
+            >
+              {isTranslating ? (
+                <div className="w-3 h-3 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Sparkles className="w-3.5 h-3.5 text-google-blue mr-1" />
+              )}
+              <span className="hidden sm:inline text-google-blue font-medium ml-1">IA</span>
             </Button>
           </div>
           <Button

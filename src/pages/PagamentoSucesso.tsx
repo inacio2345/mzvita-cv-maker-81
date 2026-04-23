@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, Download, FileText, ArrowRight, Sparkles, Shield } from 'lucide-react';
+import { CheckCircle2, Download, FileText, ArrowRight, Sparkles, Shield, Zap } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useSavedCVs } from '@/hooks/useSavedCVs';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 import DownloadOptions from '@/components/download/DownloadOptions';
 import { getDefaultTemplate, cvTemplates } from '@/data/cvTemplates';
 import { useToast } from '@/hooks/use-toast';
@@ -196,6 +197,33 @@ const PagamentoSucesso = () => {
                   </p>
                 </div>
                 <Sparkles className="w-5 h-5 text-google-blue shrink-0" />
+              </div>
+            )}
+
+            {/* Promoção de Upsell para utilizadores Avulsos */}
+            {profile?.plan_type === 'single' && (
+              <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-5 border border-amber-200 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-3 opacity-10">
+                  <Zap className="w-20 h-20 text-amber-500" />
+                </div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Badge variant="secondary" className="bg-amber-100 text-amber-800 border-amber-200 uppercase text-[10px] tracking-wider font-black">
+                      Oferta Especial
+                    </Badge>
+                  </div>
+                  <h3 className="font-bold text-amber-900 text-sm mb-1">Quer este CV em Inglês?</h3>
+                  <p className="text-xs text-amber-800/80 mb-4 font-medium leading-relaxed">
+                    Faça o upgrade para o <strong>Plano Mensal</strong> e use a nossa Inteligência Artificial para traduzir todo o seu currículo em segundos, além de gerar Cartas de Apresentação personalizadas!
+                  </p>
+                  <Button 
+                    onClick={() => navigate('/pricing')}
+                    className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold h-10 shadow-lg shadow-amber-200/50"
+                  >
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Fazer Upgrade Agora
+                  </Button>
+                </div>
               </div>
             )}
 

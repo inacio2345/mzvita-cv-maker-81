@@ -11,6 +11,8 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { generateLetterText } from '@/utils/letterGenerator';
 import DownloadOptions from '@/components/download/DownloadOptions';
+import { aiService } from '@/services/aiService';
+import { useSubscription } from '@/hooks/useSubscription';
 
 interface CartaAutomaticaData {
   nomeCompleto: string;
@@ -43,9 +45,10 @@ export const CartaAutomatica = () => {
   const [showWatermark, setShowWatermark] = useState(true);
   const [tone, setTone] = useState<'formal' | 'modern' | 'simple'>('formal');
   const [experience, setExperience] = useState<'junior' | 'mid' | 'senior'>('mid');
-  const [font, setFont] = useState('Times New Roman'); // New state
+  const [font, setFont] = useState('Times New Roman');
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
   const { toast } = useToast();
+  const { isPremiumActive } = useSubscription();
   
   const containerRef = useRef<HTMLDivElement>(null);
   const [scaleFactor, setScaleFactor] = useState(1);
@@ -87,15 +90,42 @@ export const CartaAutomatica = () => {
 
     setIsGenerating(true);
 
-    // Simulação de geração de carta (em produção, isso seria uma chamada para IA)
-    setTimeout(() => {
-      const dateStr = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
-      const cartaTemplate = generateLetterText(dateStr, formData, tone, experience);
+    const runGeneration = async () => {
+      try {
+        let cartaTemplate = '';
+        if (isPremiumActive) {
+          // Utiliza a IA se for premium
+          cartaTemplate = await aiService.generateLetter({
+            nomeCompleto: formData.nomeCompleto,
+            cargoDesejado: formData.cargoDesejado,
+            nomeEmpresa: formData.nomeEmpresa,
+            experienciaPrincipal: formData.experienciaPrincipal,
+            habilidadesPrincipais: formData.habilidadesPrincipais,
+            motivacaoVaga: formData.motivacaoVaga,
+            tone,
+            experience
+          });
+        } else {
+          // Fallback para o gerador estático
+          const dateStr = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+          cartaTemplate = generateLetterText(dateStr, formData, tone, experience);
+        }
 
-      setCartaGerada(cartaTemplate);
-      setIsGenerating(false);
-      setShowPreview(true);
-    }, 1500);
+        setCartaGerada(cartaTemplate);
+        setShowPreview(true);
+      } catch (error: any) {
+        toast({
+          title: "Erro ao gerar",
+          description: "Ocorreu um erro ao gerar a sua carta. Tente novamente.",
+          variant: "destructive"
+        });
+        console.error(error);
+      } finally {
+        setIsGenerating(false);
+      }
+    };
+
+    runGeneration();
   };
 
   const handleDownloadPDF = async () => {
