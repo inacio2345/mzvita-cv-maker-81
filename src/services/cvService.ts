@@ -7,6 +7,27 @@ export interface LayoutConfig {
     experience: string[];
     education: string[];
   };
+  spacing?: {
+    fontSize?: number;
+    sectionSpacing?: 'compact' | 'normal' | 'wide';
+  };
+  pageAssignments?: Record<string, number>;
+  pageCount?: number;
+}
+
+// Custom section item
+export interface CustomSectionItem {
+  id: string;
+  title: string;
+  description?: string;
+}
+
+// Custom section definition
+export interface CustomSection {
+  id: string;
+  title: string;
+  icon?: string;
+  items: CustomSectionItem[];
 }
 
 export interface CVData {
@@ -29,6 +50,7 @@ export interface CVData {
     languages?: string[];
   } | any[];
   references: any[];
+  customSections?: CustomSection[];
   colorPalette: any;
   fonts?: {
     primary: string;
@@ -50,7 +72,9 @@ export const getDefaultLayoutConfig = (): LayoutConfig => ({
   itemOrder: {
     experience: [],
     education: []
-  }
+  },
+  pageAssignments: {},
+  pageCount: 1
 });
 
 import { TITLES_PT } from './translationService';
@@ -64,14 +88,15 @@ export const getEmptyCVData = (): CVData => ({
   experience: [],
   skills: [],
   references: [],
+  customSections: [],
   colorPalette: {
     primary: '#2563eb',
     secondary: '#64748b',
     accent: '#10b981'
   },
   fonts: {
-    primary: 'Inter',
-    headings: 'Poppins'
+    primary: 'Times New Roman',
+    headings: 'Times New Roman'
   },
   sectionTitles: { ...TITLES_PT },
   layoutConfig: getDefaultLayoutConfig()

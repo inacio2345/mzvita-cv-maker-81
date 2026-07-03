@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -62,11 +61,11 @@ const MobileNav = () => {
       ref={ref}
       onClick={onClick || (() => path && handleNavigation(path))}
       className={`flex flex-col items-center justify-center gap-1 min-w-[56px] transition-all duration-300 ${
-        active ? 'text-google-blue scale-110' : 'text-slate-400'
+        active ? 'text-brand-600 scale-110' : 'text-slate-400'
       }`}
       {...props}
     >
-      <div className={`p-2 rounded-xl transition-all ${active ? 'bg-google-blue/10' : 'hover:bg-slate-50'}`}>
+      <div className={`p-2 rounded-xl transition-all ${active ? 'bg-brand-50' : 'hover:bg-slate-50'}`}>
         <Icon className={`w-5 h-5 ${active ? 'stroke-[2.5px]' : 'stroke-[2px]'}`} />
       </div>
       <span className={`text-[9px] font-bold uppercase tracking-tighter transition-all ${active ? 'opacity-100' : 'opacity-60'}`}>
@@ -86,7 +85,7 @@ const MobileNav = () => {
           isCollapsed ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
         }`}
       >
-        <ChevronUp className="w-4 h-4 text-google-blue animate-bounce" />
+        <ChevronUp className="w-4 h-4 text-brand-600 animate-bounce" />
         Mostrar Menu
       </button>
 
@@ -98,7 +97,7 @@ const MobileNav = () => {
         {/* Botão de Minimizar Integrado */}
         <button 
           onClick={() => setIsCollapsed(true)}
-          className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white border border-slate-100 rounded-full p-1.5 shadow-md text-slate-300 hover:text-google-blue transition-all active:scale-95"
+          className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white border border-slate-100 rounded-full p-1.5 shadow-md text-slate-300 hover:text-brand-600 transition-all active:scale-95"
         >
           <ChevronDown className="w-4 h-4" />
         </button>
@@ -114,15 +113,15 @@ const MobileNav = () => {
           <NavItem 
             icon={PlusCircle} 
             label="Criar CV" 
-            path="/criar-cv" 
-            active={isActive('/criar-cv')} 
+            path="/modelos" 
+            active={isActive('/modelos')} 
           />
 
           <NavItem 
             icon={Layout} 
             label="Modelos" 
-            path="/exemplos" 
-            active={isActive('/exemplos')} 
+            path="/modelos" 
+            active={isActive('/modelos')} 
           />
 
           <NavItem 
@@ -169,11 +168,11 @@ const MobileNav = () => {
                           >
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm">
-                                <PenTool className="w-4 h-4 text-google-green" />
+                                <PenTool className="w-4 h-4 text-brand-500" />
                               </div>
                               <span className="font-bold text-slate-700 text-sm">{item.label}</span>
                             </div>
-                            <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-google-blue transition-colors" />
+                            <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-brand-600 transition-colors" />
                           </button>
                         ))}
                       </div>
@@ -184,18 +183,18 @@ const MobileNav = () => {
                       <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 ml-1">Explorar</h3>
                       <div className="grid grid-cols-3 gap-3">
                         <button 
-                          className="flex flex-col items-center justify-center h-28 gap-2 rounded-3xl bg-blue-50/50 border border-blue-100"
+                          className="flex flex-col items-center justify-center h-28 gap-2 rounded-3xl bg-brand-50/50 border border-brand-100"
                           onClick={() => handleNavigation('/blog')}
                         >
-                          <BookOpen className="w-6 h-6 text-google-blue" />
-                          <span className="font-bold text-xs uppercase text-google-blue">Blog</span>
+                          <BookOpen className="w-6 h-6 text-brand-600" />
+                          <span className="font-bold text-xs uppercase text-brand-600">Blog</span>
                         </button>
                         <button 
                           className="flex flex-col items-center justify-center h-28 gap-2 rounded-3xl bg-red-50/50 border border-red-100"
                           onClick={() => handleNavigation('/contato')}
                         >
-                          <MessageCircle className="w-6 h-6 text-google-red" />
-                          <span className="font-bold text-xs uppercase text-google-red">Contato</span>
+                          <MessageCircle className="w-6 h-6 text-red-500" />
+                          <span className="font-bold text-xs uppercase text-red-500">Contato</span>
                         </button>
                         <button 
                           className="flex flex-col items-center justify-center h-28 gap-2 rounded-3xl bg-emerald-50/50 border border-emerald-100"

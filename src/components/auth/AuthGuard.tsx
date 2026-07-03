@@ -15,9 +15,9 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   useEffect(() => {
     if (!loading && !user) {
-      // Redirecionar para o início se não estiver logado
-      // Passamos a origem para podermos retornar após o login se necessário
-      navigate('/', { state: { from: location.pathname, showAuth: true } });
+      // Redirecionar para a página de auth dedicada se não estiver logado
+      // Passamos a origem e todo o state original para podermos retornar após o login sem perder dados do CV
+      navigate('/auth', { state: { from: location.pathname, originalState: location.state } });
     }
   }, [user, loading, navigate, location]);
 

@@ -291,10 +291,180 @@ export const cvTemplates: CVTemplate[] = [
         technical: ["Habilidade 1", "Habilidade 2", "Habilidade 3"],
         languages: ["Português", "Inglês"]
       }
-    },
-    previewImage: "/lovable-uploads/template-04.jpg"
+    }
   },
-
+  {
+    id: "cv-yellow-dark",
+    nome: "Amarelo Criativo",
+    layout: "creative-yellow-dark",
+    foto_posicao: "circular-amarelo",
+    paleta: "amarelo_escuro",
+    secoes: ["cabecalho", "perfil", "experiencia", "formacao", "habilidades", "referencias"],
+    colorPalette: {
+      primary: "#F4B41A", // Amarelo vibrante
+      secondary: "#333333", // Dark Gray
+      accent: "#E2A415",
+      background: "#FFFFFF",
+      text: "#111111"
+    },
+    fonts: {
+      primary: "Inter",
+      headings: "Montserrat"
+    },
+    layoutConfig: {
+      type: "creative-yellow-dark",
+      sections: ["foto", "contacto", "referencias", "formacao", "perfil", "experiencia", "habilidades"],
+      columns: {
+        left: ["foto", "contacto", "referencias", "formacao"],
+        right: ["perfil", "experiencia", "habilidades"]
+      }
+    },
+    dados: {
+      personalData: {
+        fullName: "BRIAN R. BAXTER",
+        profession: "Graphic & Web Designer",
+        email: "yourinfo@email.com",
+        phone: "+1-718-310-5588",
+        address: "705 Prudence Street, Lincoln Park, MI",
+        website: "www.yourwebsite.com"
+      },
+      about: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+      experience: [
+        {
+          position: "SENIOR WEB DESIGNER",
+          company: "Creative Agency / Chicago",
+          startDate: "2020",
+          endDate: "Present",
+          current: true,
+          description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+        },
+        {
+          position: "GRAPHIC DESIGNER",
+          company: "Creative Market / Chicago",
+          startDate: "2015",
+          endDate: "2020",
+          current: false,
+          description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+        }
+      ],
+      education: [
+        {
+          degree: "Master Degree Graduate",
+          institution: "STANFORD UNIVERSITY",
+          startYear: "2011",
+          endYear: "2013"
+        },
+        {
+          degree: "Bachelor Degree Graduate",
+          institution: "UNIVERSITY OF CHICAGO",
+          startYear: "2007",
+          endYear: "2010"
+        }
+      ],
+      skills: {
+        technical: ["Adobe Photoshop", "Adobe Illustrator", "Microsoft Word", "Microsoft Powerpoint", "HTML-5 / CSS-3"],
+        languages: []
+      },
+      references: [
+        {
+          name: "DARWIN B. MAGANA",
+          title: "2813 Shobe Lane",
+          contact: "+1-970-533-3393"
+        },
+        {
+          name: "ROBERT J. BELVIN",
+          title: "2119 Fairfax Drive",
+          contact: "+1-908-987-5103"
+        }
+      ]
+    },
+    previewImage: "/lovable-uploads/template-05.jpg"
+  },
+  {
+    id: "cv-modern-sidebar",
+    nome: "Moderno Slate",
+    layout: "modern-slate-sidebar",
+    foto_posicao: "topo-sidebar",
+    paleta: "slate_escuro",
+    secoes: ["foto", "perfil", "experiencia", "formacao", "contacto", "habilidades", "idiomas", "hobbies"],
+    colorPalette: {
+      primary: "#2C3440", // Slate Escuro
+      secondary: "#EAEAEA",
+      accent: "#4A5A6D",
+      background: "#FFFFFF",
+      text: "#1E293B"
+    },
+    fonts: {
+      primary: "Roboto",
+      headings: "Inter"
+    },
+    layoutConfig: {
+      type: "modern-slate-sidebar",
+      sections: ["foto", "cabecalho", "contacto", "habilidades", "idiomas", "customSections", "perfil", "experiencia", "formacao"],
+      columns: {
+        left: ["foto", "cabecalho", "contacto", "habilidades", "idiomas", "customSections"],
+        right: ["perfil", "experiencia", "formacao"]
+      }
+    },
+    dados: {
+      personalData: {
+        fullName: "Your Name",
+        profession: "Software Engineer",
+        email: "example@gmail.com",
+        phone: "+1 2345 6789",
+        address: "#1 road, city/state-0011"
+      },
+      about: "I am a software engineer with experience in a variety of programming languages and a track record of delivering high-quality code. I am skilled in problem-solving and have a strong background in computer science. I am a strong communicator and enjoy working collaboratively with others.",
+      experience: [
+        {
+          position: "Senior Software Developer",
+          company: "Company - Country",
+          startDate: "Jan 2022",
+          endDate: "Dec 2023",
+          current: false,
+          description: "• Developed and maintained software using Java, Python, and C++\n• Led cross-functional teams to deliver successful software projects\n• write a work experience of a senior software engineer in bullet points"
+        },
+        {
+          position: "Web Developer",
+          company: "Company - Country",
+          startDate: "Jan 2021",
+          endDate: "Dec 2021",
+          current: false,
+          description: "• Developed and maintained various web applications using languages such as HTML, CSS, JavaScript, and PHP\n• Worked with cross-functional teams to gather requirements and design user interfaces"
+        }
+      ],
+      education: [
+        {
+          degree: "Masters in Software Engineering",
+          institution: "XYX University, Bangalore",
+          startYear: "Jan 2019",
+          endYear: "Dec 2020"
+        },
+        {
+          degree: "Bachelor in Computer Science",
+          institution: "XYX University, Bangalore",
+          startYear: "Jan 2015",
+          endYear: "Dec 2018"
+        }
+      ],
+      skills: {
+        technical: ["SQL Database Management", "Linux/Unix Command line", "Python", "C++", "JAVA"],
+        languages: ["English: Proficient", "Hindi: Proficient"]
+      },
+      customSections: [
+        {
+          id: "custom-1",
+          title: "HOBBIES",
+          items: [
+            { id: "h1", title: "Writing", description: "" },
+            { id: "h2", title: "Cricket", description: "" },
+            { id: "h3", title: "Music", description: "" }
+          ]
+        }
+      ]
+    },
+    previewImage: "/lovable-uploads/template-06.jpg"
+  }
 ];
 
 export const getTemplateById = (id: string): CVTemplate | undefined => {

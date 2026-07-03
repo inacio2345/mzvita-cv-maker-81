@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
+import { ErrorBoundary } from './components/ErrorBoundary';
+
 // Set document title to MozVita
 document.title = 'MozVita - Criador de CV Profissional';
 
@@ -19,4 +21,8 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
+);

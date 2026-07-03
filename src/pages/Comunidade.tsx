@@ -45,7 +45,7 @@ const Comunidade = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
       {/* Hero Section */}
-      <section className="py-12 md:py-20">
+      <div className="pt-4 pb-12">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             {/* WhatsApp-inspired icon */}
@@ -75,10 +75,10 @@ const Comunidade = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Groups Section */}
-      <section className="py-12 bg-white">
+      <div className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -126,10 +126,10 @@ const Comunidade = () => {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Benefits Section */}
-      <section className="py-12 bg-gradient-to-r from-green-50 to-emerald-50">
+      <div className="py-12 bg-gradient-to-r from-green-50 to-emerald-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
@@ -171,10 +171,10 @@ const Comunidade = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-green-600 to-emerald-600">
+      <div className="py-16 bg-gradient-to-r from-green-600 to-emerald-600">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Pronto para fazer parte da nossa comunidade?
@@ -191,7 +191,7 @@ const Comunidade = () => {
             Entrar Agora no WhatsApp
           </Button>
         </div>
-      </section>
+      </div>
     </div>
   );
 };

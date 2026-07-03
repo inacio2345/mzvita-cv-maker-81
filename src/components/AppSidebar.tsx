@@ -1,7 +1,7 @@
 import { 
   Home, FileText, HelpCircle, Mail, FileImage, 
   Shield, PenTool, ChevronDown, Briefcase, 
-  BookOpen, Users, Info, Star, User, LogOut, Loader2, Megaphone
+  BookOpen, Users, Info, Star, User, LogOut, Loader2, Megaphone, ShoppingCart, LayoutDashboard
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -24,25 +24,19 @@ import { Badge } from "@/components/ui/badge";
 
 const menuItems = [
   {
-    title: "Início",
-    url: "/",
+    title: "Meu Painel",
+    url: "/perfil",
     icon: Home,
   },
   {
     title: "Criar currículo",
-    url: "/criar-cv",
+    url: "/modelos",
     icon: FileText,
   },
   {
     title: "Planos Premium",
     url: "/precos",
     icon: Star,
-    className: "text-amber-500 font-bold"
-  },
-  {
-    title: "Blog",
-    url: "/blog",
-    icon: BookOpen,
   },
 ];
 
@@ -112,31 +106,32 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <div className="px-6 py-4 flex items-center">
-          <Link to="/" className="flex items-center">
+    <Sidebar className="border-r border-slate-200 bg-[#FAFAFA]">
+      <SidebarHeader className="border-b border-slate-200/60">
+        <div className="px-4 py-3 flex items-center">
+          <Link to="/perfil" className="flex items-center">
             <img 
               src="/logo.png" 
               alt="MozVita Logo" 
-              className="h-16 w-auto object-contain transition-all hover:scale-105" 
+              className="h-8 w-auto object-contain" 
             />
           </Link>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      
+      <SidebarContent className="bg-[#FAFAFA] px-2 py-3 gap-1">
         <SidebarGroup>
-          <SidebarGroupLabel>Navegação Principal</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-slate-500 font-semibold uppercase tracking-wider text-[11px] px-2 mb-1">Visão Geral</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-0.5">
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className={item.className}>
-                    <Link to={item.url}>
-                      <item.icon className={item.title === "Planos Premium" ? "text-amber-500" : ""} />
-                      <span>{item.title}</span>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to={item.url} className="flex items-center w-full">
+                      <item.icon className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">{item.title}</span>
                       {item.title === "Planos Premium" && (
-                        <Badge variant="outline" className="ml-auto text-[10px] bg-amber-50 border-amber-200 text-amber-600 px-1 py-0">NOVO</Badge>
+                        <Badge variant="outline" className="ml-auto text-[10px] bg-white border-slate-300 text-slate-700 px-1.5 py-0 rounded">NOVO</Badge>
                       )}
                     </Link>
                   </SidebarMenuButton>
@@ -147,26 +142,25 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>
+          <SidebarGroupLabel className="px-2 mb-1">
             <button
-              className="flex items-center justify-between w-full text-left"
+              className="flex items-center justify-between w-full text-left text-slate-500 font-semibold uppercase tracking-wider text-[11px] hover:text-slate-800 transition-none"
               onClick={() => setCartasExpanded(!cartasExpanded)}
             >
               <span>Cartas Oficiais</span>
               <ChevronDown
-                className={`w-4 h-4 transition-transform ${cartasExpanded ? 'rotate-180' : ''}`}
+                className={`w-3.5 h-3.5 transition-transform ${cartasExpanded ? 'rotate-180' : ''}`}
               />
             </button>
           </SidebarGroupLabel>
           {cartasExpanded && (
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="gap-0.5">
                 {cartasOficiaisItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link to={item.url} className="pl-6">
-                        <PenTool className="w-4 h-4" />
-                        <span className="text-sm">{item.title}</span>
+                    <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                      <Link to={item.url} className="flex items-center w-full pl-6">
+                        <span className="text-sm font-medium text-slate-600">{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -176,42 +170,41 @@ export function AppSidebar() {
           )}
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Documentos Legais</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {legalItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <Link to={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        
+
         {profile?.is_admin && (
           <SidebarGroup>
-            <SidebarGroupLabel>Administração</SidebarGroupLabel>
+            <SidebarGroupLabel className="text-slate-500 font-semibold uppercase tracking-wider text-[11px] px-2 mb-1">Administração</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu>
+              <SidebarMenu className="gap-0.5">
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link to="/admin/afiliados">
-                      <Users className="w-4 h-4" />
-                      <span>Gerir Afiliados</span>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to="/admin" className="flex items-center w-full">
+                      <LayoutDashboard className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">Dashboard Admin</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link to="/admin/anuncios">
-                      <Megaphone className="w-4 h-4" />
-                      <span>Gerir Anúncios</span>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to="/admin/afiliados" className="flex items-center w-full">
+                      <Users className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">Gerir Afiliados</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to="/admin/anuncios" className="flex items-center w-full">
+                      <Megaphone className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">Gerir Anúncios</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to="/admin/carrinhos-abandonados" className="flex items-center w-full">
+                      <ShoppingCart className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">Carrinhos Abandonados</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -220,69 +213,62 @@ export function AppSidebar() {
           </SidebarGroup>
         )}
       </SidebarContent>
-      <SidebarFooter className="p-4 border-t bg-slate-50/50">
+
+      <SidebarFooter className="p-3 border-t border-slate-200/60 bg-[#FAFAFA]">
         {loading ? (
           <div className="flex items-center justify-center p-2">
-            <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+            <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
           </div>
         ) : user ? (
-          <div className="space-y-3">
+          <div className="space-y-1">
             <div 
               onClick={() => navigate('/perfil')}
-              className="flex items-center gap-3 p-2 -mx-2 rounded-xl hover:bg-slate-100 cursor-pointer transition-colors group"
+              className="flex items-center gap-2 p-2 rounded-md hover:bg-slate-200/50 cursor-pointer transition-none group border border-transparent hover:border-slate-200"
             >
-              <div className="w-10 h-10 rounded-full bg-google-blue/10 flex items-center justify-center border border-google-blue/20 group-hover:bg-google-blue group-hover:border-google-blue transition-colors">
-                <User className="w-5 h-5 text-google-blue group-hover:text-white transition-colors" />
+              <div className="w-8 h-8 rounded bg-white flex items-center justify-center border border-slate-200 shrink-0">
+                <span className="text-xs font-bold text-slate-700 uppercase">
+                  {user.email?.charAt(0)}
+                </span>
               </div>
               <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-bold text-slate-900 truncate group-hover:text-google-blue transition-colors">
+                <p className="text-xs font-medium text-slate-900 truncate">
                   {profile?.full_name || user.email?.split('@')[0]}
                 </p>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <Badge variant={isPremiumActive ? "default" : "secondary"} className={isPremiumActive ? "bg-google-green text-white text-[9px] px-1.5 py-0" : "text-[9px] px-1.5 py-0"}>
-                    {isPremiumActive ? "PRO ACTIVE" : "FREE PLAN"}
-                  </Badge>
-                  {profile?.cv_limit !== undefined && !isPremiumActive && (
-                    <span className="text-[9px] text-slate-500 font-medium">
-                      {profile.cv_used}/{profile.cv_limit} CVs
-                    </span>
-                  )}
+                <div className="flex items-center mt-0.5">
+                  <span className="text-[10px] text-slate-500 font-medium truncate">
+                    {isPremiumActive ? "Plano PRO" : "Plano Gratuito"}
+                  </span>
                 </div>
               </div>
             </div>
             
-            <div className="flex flex-col gap-1 pt-2 border-t border-slate-100">
+            <div className="flex gap-1 pt-1">
               <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={() => navigate('/perfil')}
-                  className="w-full justify-start text-google-blue hover:text-blue-700 hover:bg-blue-50 h-8"
+                  className="flex-1 text-slate-600 hover:text-slate-900 hover:bg-slate-200/50 h-7 rounded text-[11px] font-medium transition-none"
               >
-                <User className="w-4 h-4 mr-2" />
-                <span className="text-xs font-semibold">Meu Perfil</span>
+                Perfil
               </Button>
               <Button 
                   variant="ghost" 
                   size="sm" 
                   onClick={handleSignOut}
-                  className="w-full justify-start text-slate-500 hover:text-red-500 hover:bg-red-50 h-8"
+                  className="flex-1 text-slate-600 hover:text-red-700 hover:bg-red-50 h-7 rounded text-[11px] font-medium transition-none"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                <span className="text-xs font-semibold">Sair da Conta</span>
+                Sair
               </Button>
             </div>
           </div>
         ) : (
           <Button 
             onClick={() => navigate('/', { state: { showAuth: true } })}
-            className="w-full bg-google-blue hover:bg-blue-600 font-bold shadow-md"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm h-8 rounded-md transition-none"
           >
-            Entrar / Criar Conta
+            Entrar
           </Button>
         )}
-        <div className="mt-4 pt-4 border-t border-slate-200">
-           <span className="text-[10px] block text-slate-400 font-medium italic">© 2024 MozVita v2.0</span>
-        </div>
       </SidebarFooter>
     </Sidebar>
   );

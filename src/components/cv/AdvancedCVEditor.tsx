@@ -9,31 +9,25 @@ import {
 } from '@dnd-kit/core';
 import {
   SortableContext,
-  verticalListSortingStrategy,
+  rectSortingStrategy,
   arrayMove,
 } from '@dnd-kit/sortable';
-import { Eye, EyeOff, RotateCcw, Save, Layers, Palette, LayoutTemplate, Globe } from 'lucide-react';
+import { Eye, EyeOff, RotateCcw, Save, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getTranslatedTitles } from '@/services/translationService';
 import { aiService } from '@/services/aiService';
 import { useSubscription } from '@/hooks/useSubscription';
-import { Sparkles } from 'lucide-react';
 import { CVData } from '@/services/cvService';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+} from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
 import { LayoutConfig } from '@/services/cvService';
 import { cn } from '@/lib/utils';
 import { useSortable } from '@dnd-kit/sortable';
@@ -69,28 +63,43 @@ interface AdvancedCVEditorProps {
 
 const SECTION_LABELS: Record<string, string> = {
   header: 'Cabeçalho',
-  about: 'Perfil / Sobre Mim',
-  experience: 'Experiência Profissional',
-  education: 'Formação Académica',
-  skills: 'Habilidades Técnicas',
+  about: 'Perfil',
+  experience: 'Experiência',
+  education: 'Formação',
+  skills: 'Habilidades',
   languages: 'Idiomas',
   references: 'Referências',
 };
 
 const AVAILABLE_FONTS = [
-  { value: 'Inter', label: 'Inter (Moderno)' },
-  { value: 'Roboto', label: 'Roboto (Padrão)' },
-  { value: 'Open Sans', label: 'Open Sans (Limpo)' },
-  { value: 'Lato', label: 'Lato (Equilibrado)' },
-  { value: 'Poppins', label: 'Poppins (Geométrico)' },
-  { value: 'Merriweather', label: 'Merriweather (Serifado)' },
-  { value: 'Playfair Display', label: 'Playfair (Elegante)' },
+  { value: 'Inter', label: 'Inter' },
+  { value: 'Roboto', label: 'Roboto' },
+  { value: 'Open Sans', label: 'Open Sans' },
+  { value: 'Lato', label: 'Lato' },
+  { value: 'Poppins', label: 'Poppins' },
+  { value: 'Merriweather', label: 'Merriweather' },
+  { value: 'Playfair Display', label: 'Playfair' },
 ];
+
+const RibbonDivider = () => (
+  <div className="self-stretch w-px bg-slate-200 mx-1 shrink-0" />
+);
+
+const RibbonGroup = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <div className="flex flex-col gap-1 shrink-0">
+    <div className="flex items-start gap-1.5 flex-1">
+      {children}
+    </div>
+    <span className="text-[9px] font-semibold uppercase tracking-widest text-slate-400 text-center select-none">
+      {label}
+    </span>
+  </div>
+);
 
 const AdvancedCVEditor = ({
   layoutConfig,
   colors = { primary: '#000000', secondary: '#666666', accent: '#000000', text: '#333333', background: '#ffffff' },
-  fonts = { primary: 'Inter', headings: 'Poppins' },
+  fonts = { primary: 'Times New Roman', headings: 'Times New Roman' },
   onReorderSections,
   onToggleVisibility,
   onUpdateStyle,
@@ -103,181 +112,72 @@ const AdvancedCVEditor = ({
   const { toast } = useToast();
   const { isPremiumActive } = useSubscription();
   const [isTranslating, setIsTranslating] = React.useState(false);
+
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    })
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
   );
 
   const handleSave = () => {
     onSave();
-    toast({
-      title: "Alterações salvas!",
-      description: "Seu progresso foi salvo com sucesso.",
-    });
+    toast({ title: 'Alterações salvas!', description: 'Seu progresso foi salvo.' });
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-
     if (over && active.id !== over.id) {
       const oldIndex = layoutConfig.sectionsOrder.indexOf(active.id as string);
       const newIndex = layoutConfig.sectionsOrder.indexOf(over.id as string);
-      const newOrder = arrayMove(layoutConfig.sectionsOrder, oldIndex, newIndex);
-      onReorderSections(newOrder);
+      onReorderSections(arrayMove(layoutConfig.sectionsOrder, oldIndex, newIndex));
     }
   };
-
-  const visibleSections = layoutConfig.sectionsOrder.filter(
-    s => !layoutConfig.hiddenSections.includes(s)
-  );
-  const hiddenSections = layoutConfig.sectionsOrder.filter(
-    s => layoutConfig.hiddenSections.includes(s)
-  );
 
   const handleAITranslate = async () => {
     if (!isPremiumActive) {
       toast({
-        title: "Funcionalidade Premium",
-        description: "A tradução automática do conteúdo do CV é exclusiva dos planos Mensal e Anual. Faça upgrade para usar esta funcionalidade.",
-        variant: "default",
+        title: 'Funcionalidade Premium',
+        description: 'A tradução automática é exclusiva dos planos Mensal e Anual.',
       });
-      // Here you could also open the PaymentModal if desired.
       return;
     }
-
     try {
       setIsTranslating(true);
-      toast({
-        title: "A traduzir CV...",
-        description: "A IA está a traduzir o seu conteúdo para inglês. Isto pode demorar alguns segundos.",
-      });
-
+      toast({ title: 'A traduzir CV...', description: 'Aguarde alguns segundos.' });
       const translatedData = await aiService.translateCV(cvData);
-      
-      // Also update section titles to english automatically
       onUpdateStyle('sectionTitles', getTranslatedTitles('en'));
       onUpdateCVData(translatedData);
-
-      toast({
-        title: "Tradução concluída!",
-        description: "O seu currículo foi traduzido com sucesso.",
-        variant: "default",
-      });
+      toast({ title: 'Tradução concluída!', description: 'Currículo traduzido com sucesso.' });
     } catch (error: any) {
-      toast({
-        title: "Erro na tradução",
-        description: error.message || "Ocorreu um erro ao traduzir o currículo.",
-        variant: "destructive",
-      });
+      toast({ title: 'Erro na tradução', description: error.message, variant: 'destructive' });
     } finally {
       setIsTranslating(false);
     }
   };
 
+  const handleAddCustomSection = () => {
+    const newSection = {
+      id: `custom-${Date.now()}`,
+      title: 'Nova Secção',
+      items: [{ id: Date.now().toString(), title: 'Item de Exemplo', description: '' }],
+    };
+    onUpdateCVData({ customSections: [...(cvData.customSections || []), newSection] });
+    toast({ title: 'Secção adicionada!', description: 'Edite o título directamente no CV.' });
+  };
+
   return (
-    <Card className="p-0 bg-white border-0 shadow-lg h-full flex flex-col print:hidden">
-      {/* Header Fixo */}
-      <div className="p-4 border-b flex items-center justify-between bg-white sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <Layers className="w-5 h-5 text-google-blue" />
-          <h3 className="font-semibold text-lg text-slate-800">Editor</h3>
-          {isDirty && (
-            <Badge variant="secondary" className="text-xs bg-yellow-100 text-yellow-800 border-yellow-200">
-              Não salvo
-            </Badge>
-          )}
-        </div>
-        <div className="flex gap-2">
-          <div className="flex items-center bg-slate-100 rounded-lg p-1 mr-2">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onUpdateStyle('sectionTitles', getTranslatedTitles('pt'))}
-              className="h-6 px-2 text-xs hover:bg-white hover:shadow-sm"
-              title="Português"
-            >
-              🇵🇹
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onUpdateStyle('sectionTitles', getTranslatedTitles('en'))}
-              className="h-6 px-2 text-xs hover:bg-white hover:shadow-sm"
-              title="English"
-            >
-              🇺🇸
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleAITranslate}
-              disabled={isTranslating}
-              className="h-6 px-2 text-xs hover:bg-blue-50 hover:text-blue-600 text-slate-500 border-l border-slate-200 ml-1 rounded-l-none"
-              title="Traduzir CV inteiro com IA"
-            >
-              {isTranslating ? (
-                <div className="w-3 h-3 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <Sparkles className="w-3.5 h-3.5 text-google-blue mr-1" />
-              )}
-              <span className="hidden sm:inline text-google-blue font-medium ml-1">IA</span>
-            </Button>
-          </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onReset}
-            className="text-slate-500 hover:text-slate-700 h-8"
-            title="Restaurar Padrões"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </Button>
-          <Button
-            size="sm"
-            onClick={handleSave}
-            className="bg-google-blue hover:bg-blue-600 h-8 font-medium text-white"
-          >
-            <Save className="w-3.5 h-3.5 mr-1.5" />
-            Salvar
-          </Button>
-        </div>
-      </div>
+    <div className="w-full bg-white border-b print:hidden" style={{ height: '110px', minHeight: '110px', maxHeight: '110px' }}>
+      {/* Single compact ribbon row — overflow-x-scroll keeps scrollbar space reserved, preventing layout shift */}
+      <div
+        className="flex items-center gap-0 px-3"
+        style={{ height: '110px', overflowX: 'scroll', overflowY: 'hidden', scrollbarWidth: 'thin', scrollbarColor: '#e2e8f0 transparent' }}
+      >
 
-      <Tabs defaultValue="structure" className="flex-1 flex flex-col overflow-hidden">
-        <div className="px-4 pt-2 bg-slate-50/50 border-b">
-          <TabsList className="w-full grid grid-cols-2 bg-slate-200/50">
-            <TabsTrigger value="structure" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <LayoutTemplate className="w-4 h-4 mr-2" />
-              Estrutura
-            </TabsTrigger>
-            <TabsTrigger value="style" className="data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              <Palette className="w-4 h-4 mr-2" />
-              Estilo
-            </TabsTrigger>
-          </TabsList>
-        </div>
-
-        {/* Tab Estrutura */}
-        <TabsContent value="structure" className="flex-1 overflow-y-auto p-4 m-0 space-y-4">
-          <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 text-xs text-blue-700 mb-4">
-            Arraste os blocos para reordenar as seções do seu currículo.
-          </div>
-
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext
-              items={layoutConfig.sectionsOrder}
-              strategy={verticalListSortingStrategy}
-            >
-              <div className="space-y-2">
+        {/* GROUP: Secções */}
+        <RibbonGroup label="Secções">
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={layoutConfig.sectionsOrder} strategy={rectSortingStrategy}>
+              <div className="flex flex-row gap-1.5 items-center flex-nowrap">
                 {layoutConfig.sectionsOrder.map((sectionId) => (
-                  <SectionItem
+                  <SectionPill
                     key={sectionId}
                     id={sectionId}
                     label={SECTION_LABELS[sectionId] || sectionId}
@@ -288,183 +188,211 @@ const AdvancedCVEditor = ({
               </div>
             </SortableContext>
           </DndContext>
+          <button
+            onClick={handleAddCustomSection}
+            title="Adicionar Secção"
+            className="h-7 w-7 shrink-0 flex items-center justify-center rounded-full border border-dashed border-slate-300 text-slate-400 hover:border-blue-400 hover:text-blue-500 transition-colors text-base leading-none"
+          >
+            +
+          </button>
+        </RibbonGroup>
 
-          {hiddenSections.length > 0 && (
-            <>
-              <Separator className="my-4" />
-              <div className="text-sm text-slate-500">
-                <p className="mb-2 font-medium">Ocultos no Currículo:</p>
-                <div className="flex flex-wrap gap-2">
-                  {hiddenSections.map(s => (
-                    <Badge key={s} variant="outline" className="text-xs bg-slate-50 text-slate-500">
-                      {SECTION_LABELS[s] || s}
-                    </Badge>
+        <RibbonDivider />
+
+        {/* GROUP: Cores */}
+        <RibbonGroup label="Cores">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-1.5">
+              <div className="relative shrink-0" title="Cor Primária">
+                <input
+                  type="color"
+                  value={colors.primary}
+                  onChange={(e) => onUpdateStyle('colors', { ...colors, primary: e.target.value })}
+                  className="w-8 h-8 rounded-lg cursor-pointer border border-slate-200 p-0.5"
+                  style={{ WebkitAppearance: 'none' }}
+                />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[10px] font-bold text-slate-600 leading-none">Primária</span>
+                <span className="text-[9px] text-slate-400 font-mono">{colors.primary}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="relative shrink-0" title="Cor Secundária">
+                <input
+                  type="color"
+                  value={colors.secondary}
+                  onChange={(e) => onUpdateStyle('colors', { ...colors, secondary: e.target.value })}
+                  className="w-8 h-8 rounded-lg cursor-pointer border border-slate-200 p-0.5"
+                  style={{ WebkitAppearance: 'none' }}
+                />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-[10px] font-bold text-slate-600 leading-none">Secundária</span>
+                <span className="text-[9px] text-slate-400 font-mono">{colors.secondary}</span>
+              </div>
+            </div>
+          </div>
+        </RibbonGroup>
+
+        <RibbonDivider />
+
+        {/* GROUP: Tipografia */}
+        <RibbonGroup label="Tipografia">
+          <div className="flex flex-col gap-1 w-36">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] font-bold text-slate-400 uppercase w-10 shrink-0">Títulos</span>
+              <Select
+                value={fonts.headings}
+                onValueChange={(value) => onUpdateStyle('fonts', { ...fonts, headings: value })}
+              >
+                <SelectTrigger className="h-7 text-[11px] bg-slate-50 border-slate-200 px-2 flex-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {AVAILABLE_FONTS.map((font) => (
+                    <SelectItem key={font.value} value={font.value} style={{ fontFamily: font.value }}>
+                      {font.label}
+                    </SelectItem>
                   ))}
-                </div>
-              </div>
-            </>
-          )}
-        </TabsContent>
-
-        {/* Tab Estilo */}
-        <TabsContent value="style" className="flex-1 overflow-y-auto p-4 m-0 space-y-6">
-          {/* Cores */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-sm text-slate-900 border-b pb-2">Cores do Tema</h4>
-
-            <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-100">
-                <div className="relative">
-                  <Input
-                    type="color"
-                    value={colors.primary}
-                    onChange={(e) => onUpdateStyle('colors', { ...colors, primary: e.target.value })}
-                    className="w-10 h-10 p-1 rounded cursor-pointer"
-                  />
-                </div>
-                <div className="flex-1">
-                  <Label className="text-sm font-medium">Cor Primária</Label>
-                  <p className="text-xs text-slate-500">Títulos, destaques e barras laterais</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-100">
-                <div className="relative">
-                  <Input
-                    type="color"
-                    value={colors.secondary}
-                    onChange={(e) => onUpdateStyle('colors', { ...colors, secondary: e.target.value })}
-                    className="w-10 h-10 p-1 rounded cursor-pointer"
-                  />
-                </div>
-                <div className="flex-1">
-                  <Label className="text-sm font-medium">Cor Secundária</Label>
-                  <p className="text-xs text-slate-500">Subtítulos e elementos menores</p>
-                </div>
-              </div>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-[9px] font-bold text-slate-400 uppercase w-10 shrink-0">Texto</span>
+              <Select
+                value={fonts.primary}
+                onValueChange={(value) => onUpdateStyle('fonts', { ...fonts, primary: value })}
+              >
+                <SelectTrigger className="h-7 text-[11px] bg-slate-50 border-slate-200 px-2 flex-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {AVAILABLE_FONTS.map((font) => (
+                    <SelectItem key={font.value} value={font.value} style={{ fontFamily: font.value }}>
+                      {font.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
+        </RibbonGroup>
 
-          <Separator />
+        <RibbonDivider />
 
-          {/* Tipografia */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-sm text-slate-900 border-b pb-2">Tipografia</h4>
-
-            <div className="space-y-3">
-              <div className="space-y-1.5">
-                <Label className="text-xs text-slate-500">Fonte dos Títulos</Label>
-                <Select
-                  value={fonts.headings}
-                  onValueChange={(value) => onUpdateStyle('fonts', { ...fonts, headings: value })}
-                >
-                  <SelectTrigger className="h-9">
-                    <SelectValue placeholder="Selecione uma fonte" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {AVAILABLE_FONTS.map(font => (
-                      <SelectItem key={font.value} value={font.value} style={{ fontFamily: font.value }}>
-                        {font.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label className="text-xs text-slate-500">Fonte do Texto</Label>
-                <Select
-                  value={fonts.primary}
-                  onValueChange={(value) => onUpdateStyle('fonts', { ...fonts, primary: value })}
-                >
-                  <SelectTrigger className="h-9">
-                    <SelectValue placeholder="Selecione uma fonte" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {AVAILABLE_FONTS.map(font => (
-                      <SelectItem key={font.value} value={font.value} style={{ fontFamily: font.value }}>
-                        {font.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+        {/* GROUP: Tamanho do texto */}
+        <RibbonGroup label="Texto">
+          <div className="flex flex-col items-center gap-1 w-24">
+            <div className="flex items-center justify-between w-full">
+              <span className="text-[9px] text-slate-500">Tam.</span>
+              <span className="text-[10px] font-mono font-bold text-slate-700">
+                {Math.round((layoutConfig.spacing?.fontSize || 1) * 100)}%
+              </span>
             </div>
+            <input
+              type="range"
+              min={70}
+              max={130}
+              step={1}
+              value={(layoutConfig.spacing?.fontSize || 1) * 100}
+              onChange={(e) =>
+                onUpdateStyle('spacing', { ...layoutConfig.spacing, fontSize: Number(e.target.value) / 100 })
+              }
+              className="w-full h-1.5 accent-blue-500 cursor-pointer"
+            />
+            <div className="flex items-center justify-between w-full">
+              <span className="text-[9px] text-slate-500">Espaç.</span>
+              <span className="text-[10px] font-mono font-bold text-slate-700">
+                {layoutConfig.spacing?.sectionSpacing === 'compact' ? 'Comp.' :
+                 layoutConfig.spacing?.sectionSpacing === 'wide' ? 'Amplo' : 'Normal'}
+              </span>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              step={50}
+              value={layoutConfig.spacing?.sectionSpacing === 'compact' ? 0 : layoutConfig.spacing?.sectionSpacing === 'wide' ? 100 : 50}
+              onChange={(e) => {
+                const v = Number(e.target.value);
+                onUpdateStyle('spacing', { ...layoutConfig.spacing, sectionSpacing: v === 0 ? 'compact' : v === 100 ? 'wide' : 'normal' });
+              }}
+              className="w-full h-1.5 accent-blue-500 cursor-pointer"
+            />
           </div>
+        </RibbonGroup>
 
-          <Separator />
+        <RibbonDivider />
 
-          <Separator />
-
-          {/* Espaçamento e Escala */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b pb-2">
-              <h4 className="font-semibold text-sm text-slate-900">Configurações de Layout</h4>
-              <Badge variant="secondary" className="text-[10px] bg-google-blue/10 text-google-blue border-google-blue/20">Ativo</Badge>
+        {/* GROUP: Idioma */}
+        <RibbonGroup label="Idioma">
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-1">
+              <button
+                onClick={() => onUpdateStyle('sectionTitles', getTranslatedTitles('pt'))}
+                className="text-lg leading-none hover:scale-110 transition-transform" title="Português"
+              >🇵🇹</button>
+              <button
+                onClick={() => onUpdateStyle('sectionTitles', getTranslatedTitles('en'))}
+                className="text-lg leading-none hover:scale-110 transition-transform" title="English"
+              >🇺🇸</button>
             </div>
-
-            <div className="space-y-6 pt-2">
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <Label className="text-xs font-bold text-slate-700">Tamanho Global do Texto</Label>
-                  <span className="text-[10px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                    {Math.round((layoutConfig.spacing?.fontSize || 1) * 100)}%
-                  </span>
-                </div>
-                <Slider 
-                  value={[ (layoutConfig.spacing?.fontSize || 1) * 100 ]} 
-                  min={70} 
-                  max={130} 
-                  step={1}
-                  onValueChange={(vals) => onUpdateStyle('spacing', { ...layoutConfig.spacing, fontSize: vals[0] / 100 })}
-                />
-                <p className="text-[10px] text-slate-400">Ajuste a densidade do texto para caber mais ou menos informação.</p>
-              </div>
-
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <Label className="text-xs font-bold text-slate-700">Espaçamento entre Secções</Label>
-                  <span className="text-[10px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                    {layoutConfig.spacing?.sectionSpacing || 'Padrão'}
-                  </span>
-                </div>
-                <Slider 
-                  value={[ layoutConfig.spacing?.sectionSpacing === 'compact' ? 0 : layoutConfig.spacing?.sectionSpacing === 'wide' ? 100 : 50 ]} 
-                  max={100} 
-                  step={50}
-                  onValueChange={(vals) => {
-                    const mode = vals[0] === 0 ? 'compact' : vals[0] === 100 ? 'wide' : 'normal';
-                    onUpdateStyle('spacing', { ...layoutConfig.spacing, sectionSpacing: mode });
-                  }}
-                />
-                <p className="text-[10px] text-slate-400 text-center">Compacto • Normal • Amplo</p>
-              </div>
-            </div>
+            <button
+              onClick={handleAITranslate}
+              disabled={isTranslating}
+              className="flex items-center gap-1 text-[10px] font-bold text-blue-600 hover:text-blue-700 disabled:opacity-50 whitespace-nowrap"
+              title="Traduzir CV inteiro com IA"
+            >
+              {isTranslating
+                ? <div className="w-3 h-3 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                : <Sparkles className="w-3 h-3" />}
+              IA
+            </button>
           </div>
+        </RibbonGroup>
 
-        </TabsContent>
-      </Tabs>
-    </Card>
+        <RibbonDivider />
+
+        {/* GROUP: Acções */}
+        <RibbonGroup label="Acções">
+          <div className="flex flex-col gap-1">
+            <Button
+              size="sm"
+              onClick={handleSave}
+              className="h-7 px-3 text-[11px] bg-blue-600 hover:bg-blue-700 text-white font-bold"
+            >
+              <Save className="w-3 h-3 mr-1" />
+              Salvar
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onReset}
+              className="h-7 px-3 text-[11px] text-slate-500 hover:text-slate-800"
+              title="Restaurar Padrões"
+            >
+              <RotateCcw className="w-3 h-3 mr-1" />
+              Reset
+            </Button>
+          </div>
+        </RibbonGroup>
+
+      </div>
+    </div>
   );
 };
 
-// Sub-component for sortable section items
-interface SectionItemProps {
+// Compact pill for drag-and-drop section reordering
+interface SectionPillProps {
   id: string;
   label: string;
   isHidden: boolean;
   onToggleVisibility: () => void;
 }
 
-const SectionItem = ({ id, label, isHidden, onToggleVisibility }: SectionItemProps) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id });
+const SectionPill = ({ id, label, isHidden, onToggleVisibility }: SectionPillProps) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -476,38 +404,28 @@ const SectionItem = ({ id, label, isHidden, onToggleVisibility }: SectionItemPro
       ref={setNodeRef}
       style={style}
       className={cn(
-        "flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200 shadow-sm transition-all hover:border-blue-200 group",
-        isDragging && "shadow-xl z-50 opacity-90 scale-105 border-blue-400 bg-blue-50",
-        isHidden && "opacity-60 bg-slate-50 border-dashed"
+        'flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-semibold select-none shrink-0 transition-all',
+        isDragging
+          ? 'shadow-lg border-blue-400 bg-blue-50 text-blue-700 scale-105 z-50'
+          : isHidden
+          ? 'border-dashed border-slate-300 bg-slate-50 text-slate-400'
+          : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50'
       )}
     >
       <button
-        className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-blue-500 p-1 -ml-1 rounded transition-colors"
+        className="cursor-grab active:cursor-grabbing text-slate-300 hover:text-blue-400 transition-colors"
         {...attributes}
         {...listeners}
       >
-        <GripVertical className="w-5 h-5" />
+        <GripVertical className="w-3 h-3" />
       </button>
-
-      <span className={cn(
-        "flex-1 font-medium text-sm text-slate-700",
-        isHidden && "line-through text-slate-400"
-      )}>
-        {label}
-      </span>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-7 w-7 hover:bg-slate-100"
+      <span className={cn('whitespace-nowrap', isHidden && 'line-through')}>{label}</span>
+      <button
         onClick={onToggleVisibility}
+        className="text-slate-300 hover:text-blue-500 transition-colors"
       >
-        {isHidden ? (
-          <EyeOff className="w-4 h-4 text-slate-400" />
-        ) : (
-          <Eye className="w-4 h-4 text-google-blue" />
-        )}
-      </Button>
+        {isHidden ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+      </button>
     </div>
   );
 };

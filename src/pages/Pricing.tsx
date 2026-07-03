@@ -6,31 +6,20 @@ import { Check, Star, Zap, Crown, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useSubscription } from '@/hooks/useSubscription';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
-import AuthModal from '@/components/auth/AuthModal';
 import { useAuth } from '@/hooks/useAuth';
-import { useState } from 'react';
+import SEO from '@/components/SEO';
 
 const Pricing = () => {
     const { initiatePayment } = useSubscription();
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-    const [pendingPlan, setPendingPlan] = useState<string | null>(null);
 
     const handleBuyClick = (planId: 'single' | 'monthly' | 'annual') => {
         if (!user) {
-            setPendingPlan(planId);
-            setIsAuthModalOpen(true);
+            navigate('/auth', { state: { from: '/precos' } });
             return;
         }
         initiatePayment(planId);
-    };
-
-    const handleAuthSuccess = (userId: string) => {
-        if (pendingPlan) {
-            initiatePayment(pendingPlan as any, userId);
-            setPendingPlan(null);
-        }
     };
 
     const plans = [
@@ -89,7 +78,13 @@ const Pricing = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-slate-50 py-10 md:py-20 px-4 overflow-x-hidden">
+        <div className="min-h-screen bg-slate-50 pt-4 pb-10 px-4 overflow-x-hidden">
+            <SEO 
+                title="Preços e Planos - Mozvita CV"
+                description="Escolha o melhor plano para criar e baixar o seu currículo profissional em PDF. Aceitamos M-Pesa e e-Mola."
+                keywords="preços mozvita, comprar cv moçambique, cv m-pesa, planos de currículo"
+                canonical="/precos"
+            />
             <div className="max-w-7xl mx-auto text-center mb-10 md:mb-16">
                 <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 mb-4 md:mb-6 tracking-tight">
                     Invista na sua <span className="text-google-blue">Carreira</span>
@@ -178,11 +173,6 @@ const Pricing = () => {
                     Dúvidas? Entre em contato com nosso <span className="text-google-blue font-bold cursor-pointer" onClick={() => navigate('/contato')}>Suporte</span>
                 </div>
             </div>
-            <AuthModal 
-                isOpen={isAuthModalOpen} 
-                onClose={() => setIsAuthModalOpen(false)} 
-                onAuthSuccess={handleAuthSuccess}
-            />
         </div>
     );
 };

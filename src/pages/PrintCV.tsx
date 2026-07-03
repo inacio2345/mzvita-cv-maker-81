@@ -170,7 +170,7 @@ const PrintCV = () => {
           .print-cv-container {
             width: 210mm !important;
             height: auto !important;
-            min-height: 297mm !important; /* Keep 1 page minimum for aesthetics, but allowed to grow */
+            min-height: 297mm !important;
             margin: 0 !important;
             padding: 0 !important;
             box-shadow: none !important;
@@ -180,16 +180,41 @@ const PrintCV = () => {
             display: block !important;
             overflow: visible !important;
           }
-          /* Prevent extra blank page at the end */
+          /* Prevent extra blank page */
           html, body {
             overflow: visible !important;
             height: auto !important;
           }
-          /* Ensure sections don't break in ugly ways if possible */
-          .cv-section-item {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
+          /* === SIDEBAR LAYOUT FIX ===
+             Convert flex to table-cell so sidebar backgrounds extend across pages */
+          .cv-layout-sidebar {
+            display: table !important;
+            width: 100% !important;
+            table-layout: fixed !important;
+            border-collapse: collapse !important;
           }
+          .cv-sidebar-column {
+            display: table-cell !important;
+            vertical-align: top !important;
+          }
+          .cv-main-column {
+            display: table-cell !important;
+            vertical-align: top !important;
+          }
+          /* === GRANULAR PAGE BREAK RULES === */
+          .cv-section {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+          .cv-section-item {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+          }
+          h1, h2, h3, h4, h5, h6 {
+            break-after: avoid !important;
+            page-break-after: avoid !important;
+          }
+          p { orphans: 3; widows: 3; }
           * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;

@@ -35,7 +35,14 @@ export const useSavedCVs = () => {
 
       if (error) throw error;
       setSavedCVs(data || []);
-    } catch (error) {
+    } catch (error: any) {
+      // Ignore AbortError from Supabase Auth lock contention (known issue with service workers)
+      const msg = error?.message || error?.details || '';
+      if (msg.includes('AbortError') || msg.includes('Lock broken')) {
+        console.warn('useSavedCVs: Supabase lock contention (retrying silently)...');
+        setTimeout(() => { loadSavedCVs(); }, 1500);
+        return;
+      }
       console.error('Erro ao carregar CVs:', error);
       toast({
         title: "Erro ao carregar CVs",

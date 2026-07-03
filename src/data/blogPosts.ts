@@ -730,10 +730,10 @@ export const blogPosts: BlogPostData[] = [
       <h3>3. Estágio na Agência</h3>
       <p>Se nunca trabalhou, mencione estágios de verão ou trabalhos onde lidou com caixa e atendimento ao público.</p>
 
-      <div class="mt-8 bg-gray-50 p-6 rounded-xl border-l-4 border-gray-800">
-        <h3 class="text-lg font-bold text-gray-900">Modelo Recomendado</h3>
-        <p class="text-gray-700 mb-4">Para bancos, use o nosso modelo <strong>"Corporativo Clean"</strong>. Sem cores fortes, fonte serifada clássica. Transmite seriedade.</p>
-        <a href="/app" class="font-bold text-blue-900 underline">Ver Modelo Corporativo &rarr;</a>
+      <div className="mt-8 bg-gray-50 p-6 rounded-xl border-l-4 border-gray-800">
+        <h3 className="text-lg font-bold text-gray-900">Modelo Recomendado</h3>
+        <p className="text-gray-700 mb-4">Para bancos, use o nosso modelo <strong>"Corporativo Clean"</strong>. Sem cores fortes, fonte serifada clássica. Transmite seriedade.</p>
+        <a href="/modelo-cv/bancario" className="font-bold text-blue-900 underline">Criar CV para a Banca Agora &rarr;</a>
       </div>
     `
   },

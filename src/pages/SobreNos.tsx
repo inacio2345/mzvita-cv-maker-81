@@ -16,6 +16,7 @@ import {
   Award,
   Globe
 } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const SobreNos = () => {
   const navigate = useNavigate();
@@ -45,6 +46,12 @@ const SobreNos = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
+      <SEO 
+        title="Sobre o Mozvita - Plataforma de Currículos em Moçambique"
+        description="Conheça a história e a missão do Mozvita. Criado em Moçambique para ajudar jovens e profissionais a entrarem no mercado de trabalho com currículos de excelência."
+        keywords="sobre mozvita, quem somos mozvita, inácio langa mozvita, plataforma de cv moçambique"
+        canonical="/sobre-nos"
+      />
       {/* Hero Section with Enhanced Design */}
       <div className="relative overflow-hidden bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5 border-b">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -322,7 +329,7 @@ const SobreNos = () => {
               </div>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
-                  onClick={() => navigate('/exemplos')}
+                  onClick={() => navigate('/modelos')}
                   size="lg"
                   className="bg-white text-primary hover:bg-white/95 hover:text-primary border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 font-semibold px-8 py-4"
                 >

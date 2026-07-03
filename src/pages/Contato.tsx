@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Phone, Mail, MessageCircle, MapPin, Clock, Users, Headphones } from 'lucide-react';
-
+import SEO from '@/components/SEO';
 
 const Contato = () => {
   const navigate = useNavigate();
@@ -58,6 +58,12 @@ const Contato = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <SEO 
+        title="Contactos e Suporte - Mozvita CV"
+        description="Fale connosco! Tem dúvidas sobre como fazer o seu currículo ou sobre os pagamentos por M-Pesa? A nossa equipa de suporte em Maputo está pronta para ajudar."
+        keywords="contacto mozvita, suporte mozvita, ajuda currículo, apoio cliente cv"
+        canonical="/contato"
+      />
       {/* Hero Section */}
       <section className="py-8 sm:py-12 lg:py-20 px-4">
         <div className="container mx-auto text-center">

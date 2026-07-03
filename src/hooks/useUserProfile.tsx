@@ -116,7 +116,15 @@ export const useUserProfile = () => {
         
         setProfile(data);
       }
-    } catch (error) {
+    } catch (error: any) {
+      // Ignore AbortError from Supabase Auth lock contention (known issue with service workers)
+      const msg = error?.message || error?.details || '';
+      if (msg.includes('AbortError') || msg.includes('Lock broken')) {
+        console.warn('useUserProfile: Supabase lock contention (retrying silently)...');
+        // Retry once after a short delay
+        setTimeout(() => { loadProfile(); }, 1500);
+        return;
+      }
       console.error('Erro ao carregar perfil:', error);
       toast({
         title: "Erro ao carregar perfil",

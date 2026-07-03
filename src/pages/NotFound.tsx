@@ -14,7 +14,7 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="flex-1 h-full w-full flex items-center justify-center bg-gray-50 px-4 py-16">
       <div className="text-center max-w-md w-full">
         <h1 className="text-6xl font-black text-gray-200 mb-4">404</h1>
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Página não encontrada</h2>

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { FileText, ArrowRight } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const ComoFunciona = () => {
   const navigate = useNavigate();
@@ -26,6 +27,12 @@ const ComoFunciona = () => {
   }];
 
   return <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <SEO 
+        title="Como Funciona o Mozvita - Criar CV em 3 Passos"
+        description="Aprenda como criar um currículo profissional em Moçambique de forma rápida e eficiente. Preencha, visualize e baixe em PDF."
+        keywords="como fazer cv, passos cv moçambique, criar currículo passo a passo, mozvita como funciona"
+        canonical="/como-funciona"
+      />
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         
@@ -98,7 +105,7 @@ const ComoFunciona = () => {
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Junte-se a milhares de moçambicanos que já conseguiram o emprego dos sonhos
           </p>
-          <Button size="lg" className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105" onClick={() => navigate('/exemplos')}>
+          <Button size="lg" className="bg-white text-google-blue hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105" onClick={() => navigate('/modelos')}>
             Ver Modelos de CV
             <FileText className="ml-2 w-5 h-5" />
           </Button>

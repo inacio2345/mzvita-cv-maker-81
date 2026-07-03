@@ -270,6 +270,8 @@ const Preview = () => {
       <style dangerouslySetInnerHTML={{
         __html: `
           @media print {
+            @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
+            
             @page { 
               margin: 0; 
               size: A4 portrait;
@@ -280,6 +282,11 @@ const Preview = () => {
               -webkit-print-color-adjust: exact !important;
               margin: 0 !important;
               padding: 0 !important;
+              * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                font-family: 'Times New Roman', 'Arial', serif !important;
+              }
             }
             
             .print\\:hidden { 
@@ -287,7 +294,7 @@ const Preview = () => {
             }
             
             * {
-              font-family: 'Inter', 'Arial', sans-serif !important;
+              font-family: 'Times New Roman', 'Arial', serif !important;
             }
             
             .cv-content {

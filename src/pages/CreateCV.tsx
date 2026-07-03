@@ -11,12 +11,14 @@ import { useCVData } from '@/hooks/useCVData';
 import { useSavedCVs } from '@/hooks/useSavedCVs';
 import CVLayoutRenderer from '@/components/cv/CVLayoutRenderer';
 import AdvancedCVEditor from '@/components/cv/AdvancedCVEditor';
+import CVFormEditor from '@/components/cv/CVFormEditor';
 import { getDefaultTemplate } from '@/data/cvTemplates';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSubscription } from '@/hooks/useSubscription';
 import { trackLead } from '@/utils/pixelEvents';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 const CreateCV = () => {
   const navigate = useNavigate();
@@ -60,20 +62,28 @@ const CreateCV = () => {
     }
   }, [cvId, lastSavedJson, checkCVPaid]);
 
-  // Calculate scale for mobile preview
+  // Calculate scale for preview (both mobile and desktop fit-to-screen)
   useEffect(() => {
-    if (!isMobile) {
-      setCvScale(1);
-      return;
-    }
-
     const calculateScale = () => {
-      const padding = 0;
       const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
       const a4WidthInPx = 794; 
-      // Multiplicamos por 1.02 para garantir que o CV preencha 100% e as bordas "sangrem" ligeiramente
-      const newScale = (screenWidth / a4WidthInPx) * 1.02;
-      setCvScale(newScale);
+      const a4HeightInPx = 1123;
+      
+      if (isMobile) {
+        // Mobile: fit by width
+        const newScale = (screenWidth / a4WidthInPx) * 1.02;
+        setCvScale(newScale);
+      } else {
+        // Desktop: fit by height (leaving padding for header)
+        const availableHeight = screenHeight - 140;
+        let newScale = availableHeight / a4HeightInPx;
+        
+        if (newScale > 1.2) newScale = 1.2;
+        if (newScale < 0.3) newScale = 0.3;
+        
+        setCvScale(newScale);
+      }
     };
 
     calculateScale();
@@ -85,7 +95,7 @@ const CreateCV = () => {
   const handleZoomOut = () => setUserZoom(prev => Math.max(prev - 0.1, 0.5));
   const resetZoom = () => setUserZoom(1);
 
-  const finalScale = isMobile ? cvScale * userZoom : 0.8;
+  const finalScale = cvScale * userZoom;
 
   // Initialize selectedTemplate with priority: location.state -> localStorage -> default
   const [activeTemplate, setActiveTemplate] = useState(() => {
@@ -190,59 +200,32 @@ const CreateCV = () => {
   };
 
   useEffect(() => {
-    if (!activeTemplate && !location.state?.fromExamples) {
-      navigate('/exemplos');
+    if (!location.state?.fromExamples && !location.state?.cvId && !location.state?.cvData) {
+      navigate('/modelos', { replace: true });
+    } else if (!activeTemplate && !location.state?.fromExamples) {
+      navigate('/modelos', { replace: true });
     }
   }, [activeTemplate, location.state, navigate]);
 
-  if (!activeTemplate && !location.state?.fromExamples) {
+  if (!location.state?.fromExamples && !location.state?.cvId && !location.state?.cvData) {
     return null;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col h-screen overflow-hidden">
-      {/* Compact Header */}
-      <header className={cn(
-        "bg-white border-b flex items-center justify-between z-20 shadow-sm",
-        isMobile ? "px-3 py-2" : "px-6 py-3"
-      )}>
-        <div className="flex items-center gap-2 sm:gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/exemplos')} className="p-2">
-            <ArrowLeft className="h-4 w-4" />
-            <span className="hidden sm:inline ml-2">Mudar Modelo</span>
-          </Button>
-          {!isMobile && (
-            <>
-              <div className="h-6 w-px bg-slate-200" />
-              <div className="flex flex-col">
-                <h2 className="font-bold flex items-center gap-2 text-slate-800">
-                  <Settings2 className="w-4 h-4 text-google-blue" />
-                  Editor Profissional
-                </h2>
-                {cvId && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">
-                      v{currentDbVersion}
-                    </span>
-                    {isCheckingPayment ? (
-                      <div className="w-2 h-2 rounded-full bg-slate-200 animate-pulse" />
-                    ) : (
-                      <span className={cn(
-                        "text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wider",
-                        isVersionPaid 
-                          ? "bg-emerald-100 text-emerald-700 border border-emerald-200" 
-                          : "bg-amber-100 text-amber-700 border border-amber-200"
-                      )}>
-                        {isVersionPaid ? "✓ Paga" : "⚡ Edição"}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
+    <div className="bg-slate-50 flex flex-col fixed inset-0 z-[60] overflow-hidden">
+      {/* Global Header */}
+      {!isMobile && (
+        <header className="py-1 min-h-[40px] flex items-center justify-between px-2 sm:px-8 bg-white z-20 shrink-0 border-b border-slate-100">
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => navigate('/modelos')}
+            className="text-slate-500 hover:text-slate-800 flex items-center gap-2 text-sm font-medium w-fit transition-colors hidden sm:flex"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Voltar aos Modelos
+          </button>
         </div>
-
+        
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex flex-col items-end relative">
             <Button
@@ -250,7 +233,7 @@ const CreateCV = () => {
               variant="ghost"
               onClick={handleSaveCV}
               disabled={isSavingCV}
-              className="text-google-blue border-google-blue/30 bg-blue-50 hover:bg-blue-100 p-2 sm:px-4 h-9"
+              className="text-google-blue bg-blue-50 hover:bg-blue-100 p-2 sm:px-4 h-9"
             >
               {isSavingCV ? (
                 <div className="w-4 h-4 mr-0 sm:mr-2 border-2 border-google-blue border-t-transparent rounded-full animate-spin"></div>
@@ -262,8 +245,8 @@ const CreateCV = () => {
             
             {autoSaveStatus && (
               <span className={cn(
-                "text-[10px] font-medium absolute -bottom-4 right-0 px-1 transition-all duration-300 whitespace-nowrap",
-                autoSaveStatus === 'saving' && "text-blue-500 animate-pulse",
+                "text-[10px] font-medium absolute -bottom-4 right-0 px-1 whitespace-nowrap",
+                autoSaveStatus === 'saving' && "text-blue-500",
                 autoSaveStatus === 'saved' && "text-emerald-500",
                 autoSaveStatus === 'error' && "text-red-500"
               )}>
@@ -285,129 +268,140 @@ const CreateCV = () => {
           </Button>
         </div>
       </header>
+      )}
 
-      <main className="flex-1 flex overflow-hidden relative">
-        {/* Left Side: Controls/Forms — visible on desktop always, on mobile only when mobileView='editor' */}
+      <main className="flex-1 flex flex-col md:flex-row overflow-hidden relative bg-slate-50">
+        
         <aside className={cn(
-          "bg-white border-r flex flex-col shadow-xl z-10 transition-all duration-300",
+          "bg-white z-20 shrink-0 h-full overflow-y-auto transition-all duration-300 relative flex flex-col",
           isMobile
-            ? cn("w-full absolute inset-0", mobileView !== 'editor' && "hidden")
-            : "w-[400px]"
+            ? cn("w-full absolute inset-0 pb-20 pt-0 pl-2 pr-4 sm:px-4", mobileView !== 'editor' && "hidden")
+            : "w-[400px] lg:w-[450px] shadow-sm border-r border-slate-200"
         )}>
-          <div className={cn(
-            "flex-1 overflow-y-auto",
-            isMobile ? "p-4 pb-32" : "p-6"
-          )}>
-            <div className="space-y-4 sm:space-y-6">
-              <AdvancedCVEditor
-                layoutConfig={layoutConfig}
-                onReorderSections={reorderSections}
-                onToggleVisibility={toggleSectionVisibility}
-                onReset={resetLayoutConfig}
-                onSave={handleSaveCV}
-                isDirty={false}
-                colors={cvData.colorPalette || activeTemplate?.colorPalette}
-                fonts={cvData.fonts || activeTemplate?.fonts}
-                cvData={cvData}
-                onUpdateCVData={updateCVData}
-                onUpdateStyle={(type, value) => {
-                  if (type === 'colors') {
-                    updateCVData({ colorPalette: value });
-                  } else if (type === 'fonts') {
-                    updateCVData({ fonts: value });
-                  }
-                }}
-              />
+          {/* Form Header — removed duplicate, CVFormEditor has its own */}
 
-              <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
-                <h4 className="font-bold text-emerald-900 flex items-center gap-2 mb-1 text-sm">
-                  <Sparkles className="w-4 h-4" /> Dica Pro
-                </h4>
-                <p className="text-xs text-emerald-700 leading-relaxed">
-                  {isMobile
-                    ? 'Toque nos textos do currículo para editar diretamente! O layout será exatamente igual ao final.'
-                    : 'Você pode clicar em qualquer texto do currículo ao lado para editá-lo diretamente!'
-                  }
-                </p>
-              </div>
-            </div>
+          <div className="w-full flex-1">
+            <CVFormEditor 
+              cvData={cvData} 
+              onUpdateCVData={updateCVData}
+              colors={cvData.colorPalette || activeTemplate?.colorPalette}
+              fonts={cvData.fonts || activeTemplate?.fonts}
+              layoutConfig={layoutConfig}
+              onUpdateStyle={(type, value) => {
+                if (type === 'colors') {
+                  updateCVData({ colorPalette: value });
+                } else if (type === 'fonts') {
+                  updateCVData({ fonts: value });
+                }
+              }}
+            />
           </div>
-
-          {!isMobile && (
-            <div className="p-4 border-t bg-slate-50 text-center text-[10px] text-slate-400">
-              Powered by MozVita - Seu Sucesso Profissional
+          {/* Mobile Preview FAB */}
+          {isMobile && mobileView === 'editor' && (
+            <div className="fixed bottom-6 right-4 sm:right-6 z-50">
+              <Button 
+                onClick={() => setMobileView('preview')}
+                className="rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-blue-600 hover:bg-blue-700 text-white gap-2 px-5 py-6 font-bold text-base border-2 border-white transition-transform hover:scale-105"
+              >
+                <Eye className="w-5 h-5" />
+                <span>Ver CV</span>
+              </Button>
             </div>
           )}
         </aside>
 
-        {/* Right Side: Live Preview — visible on desktop always, on mobile only when mobileView='preview' */}
-        <section className={cn(
-          "flex-1 bg-slate-200/70 overflow-y-auto flex items-start transition-all duration-300 relative",
+        {/* Right Area: Preview Canvas */}
+        <div className={cn(
+          "flex-1 flex flex-col bg-transparent relative overflow-hidden transition-all duration-300",
           isMobile
-            ? (mobileView !== 'preview' ? "hidden" : "w-full absolute inset-0 pt-6 pb-40 px-0 justify-start")
-            : "p-8 justify-center"
+            ? cn("w-full absolute inset-0", mobileView !== 'preview' && "hidden")
+            : ""
         )}>
-          {/* Floating Zoom Controls - Mobile ONLY */}
-          {isMobile && mobileView === 'preview' && (
-            <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2">
-              <Button 
-                variant="secondary" 
-                size="icon" 
-                className="rounded-full shadow-lg bg-white/90 backdrop-blur border-blue-100 h-10 w-10" 
-                onClick={handleZoomIn}
-              >
-                <Plus className="w-5 h-5 text-google-blue" />
-              </Button>
-              <Button 
-                variant="secondary" 
-                size="icon" 
-                className="rounded-full shadow-lg bg-white/90 backdrop-blur border-blue-100 h-10 w-10 font-bold text-[10px]"
-                onClick={resetZoom}
-              >
-                {Math.round(userZoom * 100)}%
-              </Button>
-              <Button 
-                variant="secondary" 
-                size="icon" 
-                className="rounded-full shadow-lg bg-white/90 backdrop-blur border-blue-100 h-10 w-10" 
-                onClick={handleZoomOut}
-              >
-                <Minus className="w-5 h-5 text-google-blue" />
-              </Button>
-            </div>
+          
+          {/* Live Preview Canvas */}
+          <div className={cn(
+            "flex-1 overflow-y-auto flex items-start justify-center",
+            isMobile ? "pt-6 pb-40 px-0" : "pt-2 pb-8"
+          )}>
+            {/* Floating Zoom & Back Controls */}
+            {((isMobile && mobileView === 'preview') || !isMobile) && (
+              <>
+                {isMobile && (
+                  <div className="fixed left-4 top-24 z-50">
+                    <Button 
+                      variant="secondary" 
+                      size="icon" 
+                      className="rounded-full shadow-lg bg-white border-blue-100 h-12 w-12" 
+                      onClick={() => setMobileView('editor')}
+                    >
+                      <ArrowLeft className="w-6 h-6 text-slate-700" />
+                    </Button>
+                  </div>
+                )}
+                <div className={cn(
+                  "fixed z-50 flex flex-col gap-2",
+                  isMobile ? "right-4 top-1/2 -translate-y-1/2" : "right-8 top-1/2 -translate-y-1/2"
+                )}>
+                <Button 
+                  variant="secondary" 
+                  size="icon" 
+                  className="rounded-full shadow-lg bg-white/90 backdrop-blur border-blue-100 h-10 w-10" 
+                  onClick={handleZoomIn}
+                >
+                  <Plus className="w-5 h-5 text-google-blue" />
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  size="icon" 
+                  className="rounded-full shadow-lg bg-white/90 backdrop-blur border-blue-100 h-10 w-10 font-bold text-[10px]"
+                  onClick={resetZoom}
+                >
+                  {Math.round(userZoom * 100)}%
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  size="icon" 
+                  className="rounded-full shadow-lg bg-white/90 backdrop-blur border-blue-100 h-10 w-10" 
+                  onClick={handleZoomOut}
+                >
+                  <Minus className="w-5 h-5 text-google-blue" />
+                </Button>
+              </div>
+            </>
           )}
 
-          <div 
-            className="bg-transparent origin-top transition-transform duration-300 rounded-[2px] transform-gpu overflow-visible relative"
-            style={{
-              width: "794px", 
-              transform: `scale(${isMobile ? finalScale : 0.8})`,
-              minHeight: "1122px", 
-              marginBottom: isMobile ? `-${(1 - finalScale) * 1122}px` : `-${(1 - 0.8) * 1122}px`, 
-              willChange: "transform",
-              backfaceVisibility: "hidden"
-            }}
-          >
-            <CVLayoutRenderer
-              data={cvData}
-              template={activeTemplate}
-              layoutConfig={layoutConfig}
-              isAdvancedMode={true}
-              onDataChange={updateCVData}
-              isMobile={false}
-            />
+          <div
+              className="bg-white border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] origin-top rounded-[2px] overflow-visible relative transition-transform duration-300"
+              style={{
+                width: '794px',
+                transform: `scale(${finalScale})`,
+                minHeight: '1122px',
+                marginBottom: `-${(1 - finalScale) * 1122}px`,
+                backfaceVisibility: 'hidden',
+              }}
+            >
+              {/* isAdvancedMode={false} disables direct canvas editing! */}
+              <CVLayoutRenderer
+                data={cvData}
+                template={activeTemplate}
+                layoutConfig={layoutConfig}
+                isAdvancedMode={false} 
+                onDataChange={updateCVData}
+                isMobile={false}
+              />
+            </div>
           </div>
-        </section>
+        </div>
       </main>
 
       {/* Mobile Bottom Tab Bar — fixed at bottom */}
       {isMobile && (
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t shadow-[0_-8px_20px_rgba(0,0,0,0.05)]">
-          <div className="flex h-20 px-2 items-center">
+          <div className="flex h-20 px-1 sm:px-2 w-full max-w-md mx-auto items-center justify-between">
             <button
               onClick={() => setMobileView('editor')}
               className={cn(
-                "flex-1 flex flex-col items-center justify-center py-2 gap-1.5 transition-all",
+                "flex-1 flex flex-col items-center justify-center py-2 gap-1 transition-all",
                 mobileView === 'editor'
                   ? "text-google-blue"
                   : "text-slate-400"
@@ -417,15 +411,15 @@ const CreateCV = () => {
                 "p-2 rounded-xl transition-all font-bold",
                 mobileView === 'editor' ? "bg-blue-50" : ""
               )}>
-                <Settings2 className="w-5 h-5 font-bold" />
+                <PenLine className="w-5 h-5 font-bold" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-center">Configurações</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-center">Editar CV</span>
             </button>
 
             <button
               onClick={() => setMobileView('preview')}
               className={cn(
-                "flex-1 flex flex-col items-center justify-center py-2 gap-1.5 transition-all",
+                "flex-1 flex flex-col items-center justify-center py-2 gap-1 transition-all",
                 mobileView === 'preview'
                   ? "text-google-blue"
                   : "text-slate-400"
@@ -435,19 +429,19 @@ const CreateCV = () => {
                 "p-2 rounded-xl transition-all",
                 mobileView === 'preview' ? "bg-blue-50" : ""
               )}>
-                <PenLine className="w-5 h-5" />
+                <Eye className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-center">Editar Texto</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-center">Ver CV</span>
             </button>
 
             <button
               onClick={goToPreview}
-              className="flex-[1.2] flex flex-col items-center justify-center py-2 gap-1.5 text-white"
+              className="flex-1 flex flex-col items-center justify-center py-2 gap-1 text-google-blue hover:text-blue-700 transition-all"
             >
-              <div className="bg-google-blue p-3 rounded-2xl shadow-lg shadow-blue-200 active:scale-95 transition-transform flex items-center justify-center w-full max-w-[110px]">
-                <Download className="w-5 h-5 mr-2" />
-                <span className="text-[11px] font-bold uppercase tracking-tight">Baixar CV</span>
+              <div className="bg-google-blue text-white p-2 rounded-xl shadow-lg shadow-blue-200 active:scale-95 transition-transform">
+                <Download className="w-5 h-5" />
               </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-center text-google-blue">Baixar CV</span>
             </button>
           </div>
         </div>

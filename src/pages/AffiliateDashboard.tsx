@@ -81,7 +81,7 @@ const AffiliateDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 pt-6 px-4">
+    <div className="min-h-screen bg-slate-50 pb-20 pt-2 px-4">
       <div className="max-w-4xl mx-auto space-y-6">
         
         {/* Header */}

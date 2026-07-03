@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700;800&family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@400;700;900&family=Nunito:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700;800&family=Lato:wght@400;700;900&family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&family=Merriweather:wght@400;700;900&family=Nunito:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -15,8 +15,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 260 78% 53%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -24,33 +24,26 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 260 40% 96%;
+    --accent-foreground: 260 78% 53%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 260 78% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
+    --sidebar-background: 260 20% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
+    --sidebar-primary: 260 78% 53%;
     --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 260 15% 95%;
+    --sidebar-accent-foreground: 260 30% 30%;
+    --sidebar-border: 260 10% 91%;
+    --sidebar-ring: 260 78% 53%;
   }
 
   .dark {
@@ -63,8 +56,8 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 260 78% 65%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -80,15 +73,15 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 260 78% 65%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 260 78% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 260 78% 65%;
   }
 }
 
@@ -98,7 +91,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -165,13 +158,145 @@
   }
 }
 
-/* CV Section styling for advanced mode */
+/* ============================================
+   GLASSMORPHISM HEADER
+   ============================================ */
+.header-glass {
+  @apply fixed top-0 left-0 right-0 z-50 transition-all duration-500;
+}
+
+.header-glass.scrolled {
+  @apply bg-white/80 shadow-lg shadow-brand-700/5;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.header-glass:not(.scrolled) {
+  @apply bg-transparent;
+}
+
+/* ============================================
+   TEMPLATE CARD HOVER EFFECTS
+   ============================================ */
+.template-card {
+  @apply relative overflow-hidden rounded-2xl border border-slate-100 shadow-sm transition-all duration-500 cursor-pointer;
+}
+
+.template-card:hover {
+  @apply shadow-2xl shadow-brand-700/10 border-brand-200;
+  transform: translateY(-8px) scale(1.02);
+}
+
+.template-card .template-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-brand-700/90 via-brand-700/40 to-transparent opacity-0 transition-all duration-500 flex items-end justify-center pb-8;
+}
+
+.template-card:hover .template-overlay {
+  @apply opacity-100;
+}
+
+.template-card .template-overlay .use-btn {
+  @apply transform translate-y-4 opacity-0 transition-all duration-500;
+}
+
+.template-card:hover .template-overlay .use-btn {
+  @apply translate-y-0 opacity-100;
+}
+
+/* ============================================
+   BRAND GRADIENT BUTTONS
+   ============================================ */
+.btn-brand {
+  @apply relative overflow-hidden bg-gradient-to-r from-brand-700 to-brand-600 text-white font-bold rounded-xl transition-all duration-300;
+}
+
+.btn-brand:hover {
+  @apply shadow-xl shadow-brand-700/25;
+  transform: translateY(-2px);
+}
+
+.btn-brand::after {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-brand:hover::after {
+  transform: translateX(100%);
+}
+
+/* ============================================
+   STEPPER / HOW IT WORKS
+   ============================================ */
+.step-card {
+  @apply relative text-center p-8 rounded-3xl bg-white border border-slate-100 transition-all duration-500;
+}
+
+.step-card:hover {
+  @apply shadow-xl border-brand-200 bg-brand-50/30;
+  transform: translateY(-4px);
+}
+
+.step-number {
+  @apply w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-700 to-brand-500 text-white font-black text-xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-brand-700/20;
+}
+
+/* ============================================
+   TESTIMONIAL CARDS
+   ============================================ */
+.testimonial-card {
+  @apply bg-white rounded-3xl p-8 border border-slate-100 shadow-sm transition-all duration-500;
+}
+
+.testimonial-card:hover {
+  @apply shadow-xl border-brand-100;
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   PRICING CARDS ON LANDING
+   ============================================ */
+.pricing-card {
+  @apply relative overflow-hidden rounded-3xl bg-white border-2 border-slate-100 p-8 transition-all duration-500;
+}
+
+.pricing-card.recommended {
+  @apply border-brand-500 shadow-xl shadow-brand-700/10;
+  transform: scale(1.05);
+}
+
+.pricing-card:hover {
+  @apply shadow-2xl;
+  transform: translateY(-4px);
+}
+
+.pricing-card.recommended:hover {
+  transform: scale(1.05) translateY(-4px);
+}
+
+/* ============================================
+   PARALLAX & FLOATING ELEMENTS
+   ============================================ */
+.parallax-blob {
+  @apply absolute rounded-full blur-3xl opacity-30 pointer-events-none;
+}
+
+/* ============================================
+   CV Section styling for advanced mode 
+   ============================================ */
 .cv-section {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
 .cv-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Individual CV items that should never be split across pages */
+.cv-section-item {
   break-inside: avoid;
   page-break-inside: avoid;
 }
@@ -185,45 +310,122 @@
   }
 }
 
-/* Print styles for A4 */
+/* ============================================
+   PRINT STYLES - COMPREHENSIVE PAGE BREAK FIX
+   ============================================ */
 @media print {
   @page {
     size: A4 portrait;
-    margin: 15mm;
+    margin: 0;
   }
 
   body {
     print-color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
   }
 
+  /* === SIDEBAR LAYOUT FIX ===
+     The #1 user complaint: sidebar backgrounds stop at page break.
+     Solution: Convert flex layout to table layout for print.
+     Table cells naturally extend their backgrounds across page breaks.
+  */
+  .cv-layout-sidebar {
+    display: table !important;
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+  }
+
+  .cv-sidebar-column {
+    display: table-cell !important;
+    vertical-align: top !important;
+    /* The actual width and background-color are set via inline styles */
+  }
+
+  .cv-main-column {
+    display: table-cell !important;
+    vertical-align: top !important;
+  }
+
+  /* === GRANULAR PAGE BREAK RULES === */
+
+  /* Sections: try to keep together, but allow break if too long */
   .cv-section {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
+  /* Individual items MUST NOT be split (experience entries, education entries, etc.) */
+  .cv-section-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
   .cv-item {
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    break-after: avoid;
-    page-break-after: avoid;
+  /* Headings must stay with their following content */
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+    orphans: 3;
+    widows: 3;
   }
 
-  /* Hide controls in print */
-  .print\\:hidden {
+  /* Paragraph orphan/widow control */
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Prevent breaking inside skill badges, language entries, etc. */
+  .cv-skill-badge,
+  .cv-lang-item {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Keep section title + first item together */
+  .cv-section-header {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+
+  /* === HIDE NON-CV ELEMENTS === */
+  .print\:hidden {
     display: none !important;
+  }
+
+  header, footer, nav, .header, .footer, .nav {
+    display: none !important;
+  }
+
+  /* Force exact color reproduction */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
 }
 
-/* Premium Navigation Effects */
+/* ============================================
+   ADSENSE FIXES
+   ============================================ */
+/* Hide empty AdSense containers that cause white layout shifts */
+ins.adsbygoogle[data-ad-status="unfilled"],
+ins.adsbygoogle[data-ad-status="blank"],
+.google-auto-placed:empty {
+  display: none !important;
+}
+
+/* ============================================
+   PREMIUM NAVIGATION EFFECTS
+   ============================================ */
 @keyframes shine-sweep {
   0% {
     transform: translateX(-100%) skewX(-15deg);
@@ -236,28 +438,28 @@
 
 @keyframes premium-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(14, 116, 144, 0.4);
+    box-shadow: 0 0 0 0 rgba(93, 37, 231, 0.4);
     transform: scale(1);
   }
 
   70% {
-    box-shadow: 0 0 0 15px rgba(14, 116, 144, 0);
+    box-shadow: 0 0 0 15px rgba(93, 37, 231, 0);
     transform: scale(1.05);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(14, 116, 144, 0);
+    box-shadow: 0 0 0 0 rgba(93, 37, 231, 0);
     transform: scale(1);
   }
 }
 
 .nav-button-premium {
-  @apply relative overflow-hidden transition-all duration-300 hover:text-google-blue;
+  @apply relative overflow-hidden transition-all duration-300 hover:text-brand-700;
 }
 
 .nav-button-premium::after {
   content: '';
-  @apply absolute bottom-1 left-1/2 w-0 h-0.5 bg-google-blue transition-all duration-300 -translate-x-1/2;
+  @apply absolute bottom-1 left-1/2 w-0 h-0.5 bg-brand-700 transition-all duration-300 -translate-x-1/2;
 }
 
 .nav-button-premium:hover::after {
@@ -283,14 +485,19 @@
 }
 
 .dropdown-item-premium {
-  @apply flex items-center gap-2 p-3 rounded-xl transition-all duration-200 hover:bg-slate-50 border border-transparent hover:border-slate-100;
+  @apply flex items-center gap-2 p-3 rounded-xl transition-all duration-200 hover:bg-brand-50 border border-transparent hover:border-brand-100;
 }
 
-/* Hide Lovable Elements */
+/* Hide Lovable Elements and floating widgets */
 a[href*="lovable.dev"],
 iframe[src*="lovable.dev"],
 div[style*="Edit with Lovable"],
-.lovable-badge {
+.lovable-badge,
+#lovable-badge,
+[class*="lovable-"],
+[id*="lovable-"],
+div[data-component-name="LovableBadge"],
+.ai-badge {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;

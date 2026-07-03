@@ -25,6 +25,7 @@ const AdminAds = () => {
   const [loading, setLoading] = useState(true);
   const [ads, setAds] = useState<Advertisement[]>([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [currentAd, setCurrentAd] = useState<Partial<Advertisement>>({
     title: '',
     slot_name: 'header',
@@ -113,6 +114,39 @@ const AdminAds = () => {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, device: 'desktop' | 'mobile') => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    try {
+      setUploadingImage(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('ads_images')
+        .upload(fileName, file);
+        
+      if (uploadError) throw uploadError;
+      
+      const { data } = supabase.storage
+        .from('ads_images')
+        .getPublicUrl(fileName);
+        
+      if (device === 'desktop') {
+        setCurrentAd(prev => ({ ...prev, desktop_content: data.publicUrl }));
+      } else {
+        setCurrentAd(prev => ({ ...prev, mobile_content: data.publicUrl }));
+      }
+      
+      toast({ title: 'Upload de imagem concluído ✅' });
+    } catch (error: any) {
+      toast({ title: 'Erro no upload', description: error.message, variant: 'destructive' });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm('Eliminar este anúncio permanentemente?')) return;
     try {
@@ -149,7 +183,7 @@ const AdminAds = () => {
   if (!isAdmin) return null;
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 pt-6 px-4">
+    <div className="min-h-screen bg-slate-50 pb-20 pt-2 px-4">
       <div className="max-w-5xl mx-auto space-y-6">
         
         {/* Header */}
@@ -256,12 +290,24 @@ const AdminAds = () => {
                       onClick={() => setCurrentAd({...currentAd, desktop_type: 'code'})}
                       className="flex-1 rounded-lg"
                     >
-                      <Code className="w-3 h-3 mr-2" /> Script/HTML
+                      <Code className="w-3 h-3 mr-2" /> Script / Adsterra
                     </Button>
                   </div>
+                  {currentAd.desktop_type === 'image' && (
+                    <div className="mb-2">
+                      <Label className="text-xs text-slate-500 mb-1 block">Fazer upload de imagem (opcional)</Label>
+                      <Input 
+                        type="file" 
+                        accept="image/*"
+                        disabled={uploadingImage}
+                        onChange={(e) => handleImageUpload(e, 'desktop')}
+                        className="text-xs"
+                      />
+                    </div>
+                  )}
                   <Textarea 
                     rows={4}
-                    placeholder={currentAd.desktop_type === 'image' ? "Link da Imagem (URL)..." : "<script>...</script>"}
+                    placeholder={currentAd.desktop_type === 'image' ? "Link direto da Imagem (URL)..." : "<script>...código do Adsterra...</script>"}
                     value={currentAd.desktop_content || ''}
                     onChange={e => setCurrentAd({...currentAd, desktop_content: e.target.value})}
                     className="font-mono text-xs"
@@ -289,12 +335,24 @@ const AdminAds = () => {
                       onClick={() => setCurrentAd({...currentAd, mobile_type: 'code'})}
                       className="flex-1 rounded-lg"
                     >
-                      <Code className="w-3 h-3 mr-2" /> Script/HTML
+                      <Code className="w-3 h-3 mr-2" /> Script / Adsterra
                     </Button>
                   </div>
+                  {currentAd.mobile_type === 'image' && (
+                    <div className="mb-2">
+                      <Label className="text-xs text-slate-500 mb-1 block">Fazer upload de imagem (opcional)</Label>
+                      <Input 
+                        type="file" 
+                        accept="image/*"
+                        disabled={uploadingImage}
+                        onChange={(e) => handleImageUpload(e, 'mobile')}
+                        className="text-xs"
+                      />
+                    </div>
+                  )}
                   <Textarea 
                     rows={4}
-                    placeholder={currentAd.mobile_type === 'image' ? "Link da Imagem (URL)..." : "<script>...</script>"}
+                    placeholder={currentAd.mobile_type === 'image' ? "Link direto da Imagem (URL)..." : "<script>...código do Adsterra...</script>"}
                     value={currentAd.mobile_content || ''}
                     onChange={e => setCurrentAd({...currentAd, mobile_content: e.target.value})}
                     className="font-mono text-xs"
@@ -302,7 +360,7 @@ const AdminAds = () => {
                 </div>
               </div>
 
-              <div className="pt-6 flex gap-3">
+              <div className="pt-2 flex gap-3">
                 <Button onClick={handleSave} className="flex-1 bg-slate-900 hover:bg-slate-800 font-bold py-6 rounded-xl">
                   <Save className="w-5 h-5 mr-2" /> Guardar Configuração
                 </Button>

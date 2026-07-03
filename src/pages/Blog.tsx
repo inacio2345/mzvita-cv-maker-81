@@ -9,6 +9,7 @@ import AppHeader from '@/components/layout/AppHeader';
 
 import { Badge } from '@/components/ui/badge';
 import { blogPosts } from '@/data/blogPosts';
+import SEO from '@/components/SEO';
 
 const Blog = () => {
   const isMobile = useIsMobile();
@@ -45,6 +46,12 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <SEO 
+        title="Blog de Carreira Moçambique - Dicas de CV e Emprego"
+        description="Dicas de especialistas para construir o seu currículo, preparar-se para entrevistas e conquistar o mercado de trabalho em Moçambique."
+        keywords="dicas de emprego moçambique, como fazer currículo, blog de carreira moçambique, dicas de entrevista"
+        canonical="/blog"
+      />
       <AppHeader title="Blog MozVita" />
 
       <div className="container mx-auto px-4 py-8">
@@ -262,7 +269,7 @@ const Blog = () => {
             <Button
               size="lg"
               className="bg-google-blue hover:bg-blue-600 text-white px-8 py-3"
-              onClick={() => navigate('/exemplos')}
+              onClick={() => navigate('/modelos')}
             >
               Ver Modelos de CV
             </Button>

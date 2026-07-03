@@ -1,5 +1,5 @@
-import React, { useRef, useCallback } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,7 +12,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { Badge } from '@/components/ui/badge';
 import { User, ChevronDown, FileText, Mail, PenTool, LogOut, Award, Briefcase, GraduationCap, Heart, Sparkles, Crown, Zap } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
 const Header = () => {
@@ -21,11 +20,19 @@ const Header = () => {
   const { user } = useAuth();
   const { isPremiumActive, profile } = useSubscription();
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const excludedPages = ['/preview', '/criar-cv'];
   const shouldShowAds = !excludedPages.includes(location.pathname);
 
-  // Secret admin access: tap logo 5 times
   const tapCountRef = useRef(0);
   const tapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -62,120 +69,109 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-sm border-b sticky top-0 z-50 transition-all duration-300">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+    <header className={`header-glass ${scrolled ? 'scrolled' : ''}`}>
+      <div className="container mx-auto px-4 py-4 md:py-6 flex items-center justify-between">
+        
+        {/* Navigation Left + Logo */}
+        <div className="flex items-center gap-8">
+            {/* Logo */}
             <div 
-              className="flex items-center gap-2 mr-4 lg:mr-6 cursor-pointer select-none" 
+              className="flex items-center gap-2 cursor-pointer select-none mr-12 lg:mr-20" 
               onClick={(e) => {
                 handleLogoTap();
-                // Only navigate home on single tap after brief delay
                 if (tapCountRef.current <= 1) {
                   navigate('/');
                 }
               }}
             >
-              <img
-                src="/logo.png"
-                alt="MozVita Logo"
-                className="h-20 w-auto object-contain"
+              <img 
+                src="/logo.png" 
+                alt="MozVita Logo" 
+                className="h-10 md:h-12 lg:h-14 w-auto object-contain origin-left hover:scale-105 transition-transform"
               />
             </div>
             
-            {/* Profile Button - always visible when logged in */}
-            {user && (
-              <button 
-                onClick={() => navigate('/perfil')}
-                className="flex items-center gap-2 px-3 py-2 rounded-full border border-slate-100 hover:border-google-blue/30 hover:bg-google-blue/5 transition-all active:scale-95 group"
-              >
-                <div className="w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:bg-google-blue/10 transition-colors">
-                  <User className="w-4 h-4 text-slate-400 group-hover:text-google-blue" />
-                </div>
-                <div className="flex flex-col items-start">
-                  <span className="text-[11px] font-bold text-slate-600 group-hover:text-google-blue leading-tight">Meu Perfil</span>
-                  <Badge 
-                    variant={isPremiumActive ? "default" : "secondary"}
-                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0 h-3.5 pointer-events-none ${
-                      isPremiumActive 
-                        ? "bg-google-green text-white" 
-                        : "bg-slate-50 text-slate-400 border-slate-200"
-                    }`}
-                  >
-                    {isPremiumActive ? "PRO" : "FREE"}
-                  </Badge>
-                </div>
-              </button>
-            )}
-
-            {/* Desktop Navigation */}
+            {/* Desktop Links */}
             {!isMobile && (
-              <nav className="hidden lg:flex items-center space-x-6">
+              <nav className="hidden lg:flex items-center space-x-6 font-semibold text-slate-700">
+                <Link to="/modelos" className="hover:text-brand-600 transition-colors">Modelos</Link>
+                
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
-                    <button
-                      className="nav-button-premium text-slate-700 hover:bg-transparent font-bold flex items-center gap-1.5 group px-3 py-2 rounded-lg outline-none"
-                    >
-                      <Sparkles className="w-4 h-4 text-google-yellow group-hover:animate-pulse" />
-                      Criar outros documentos
-                      <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180 text-slate-400 group-hover:text-google-blue" />
+                    <button className="hover:text-brand-600 transition-colors flex items-center gap-1 outline-none group">
+                      Ferramentas
+                      <ChevronDown className="w-4 h-4 transition-transform group-data-[state=open]:rotate-180 text-slate-400 group-hover:text-brand-600" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="start"
-                    className="w-72 p-2 shadow-2xl border-slate-100 bg-white/98 backdrop-blur-xl rounded-2xl animate-in fade-in zoom-in slide-in-from-top-2 duration-300 z-[100]"
+                    className="w-64 p-2 shadow-2xl border-slate-100 bg-white/98 backdrop-blur-xl rounded-2xl"
                   >
-                    <div className="px-3 py-2 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cartas Oficiais</div>
+                    <div className="px-3 py-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Cartas Oficiais</div>
                     {officialLetters.map((item) => (
                       <DropdownMenuItem
                         key={item.url}
-                        className="dropdown-item-premium group cursor-pointer mb-0.5 last:mb-0"
+                        className="dropdown-item-premium group cursor-pointer mb-1 last:mb-0"
                         onClick={() => navigate(item.url)}
                       >
-                        <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center mr-1 group-hover:bg-google-blue/10 transition-colors">
-                          <item.icon className="w-4 h-4 text-slate-400 group-hover:text-google-blue" />
+                        <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center mr-2 group-hover:bg-brand-50 transition-colors">
+                          <item.icon className="w-4 h-4 text-slate-400 group-hover:text-brand-600" />
                         </div>
-                        <span className="flex-1">{item.title}</span>
+                        <span className="font-medium text-slate-700">{item.title}</span>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate('/criar-cv')}
-                  className="nav-button-premium text-slate-700 hover:bg-transparent font-bold px-3 py-2 btn-shine-sweep"
-                >
-                  Criar Currículo
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate('/blog')}
-                  className="nav-button-premium text-slate-700 hover:bg-transparent font-bold px-3 py-2"
-                >
-                  Blog
-                </Button>
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate('/contato')}
-                  className="nav-button-premium text-slate-700 hover:bg-transparent font-bold px-3 py-2"
-                >
-                  Contato
-                </Button>
+                <Link to="/blog" className="hover:text-brand-600 transition-colors">Blog</Link>
+                <Link to="/precos" className="hover:text-brand-600 transition-colors">Preços</Link>
+                <Link to="/contato" className="hover:text-brand-600 transition-colors">Contato</Link>
               </nav>
             )}
-          </div>
-
-          {/* Actions */}
-          <div className="flex items-center space-x-3">
-            <Button
-              onClick={() => navigate('/exemplos')}
-              className="bg-google-blue hover:bg-blue-600 text-white font-black px-8 py-6 rounded-full shadow-lg hover:shadow-blue-200/50 transition-all hover:scale-105 active:scale-95 animate-premium-pulse"
-            >
-              {isMobile ? "Modelos" : "Ver Modelos"}
-            </Button>
-          </div>
         </div>
+
+        {/* Actions Right */}
+        <div className="flex items-center space-x-4">
+          {!user ? (
+            <>
+              {!isMobile && (
+                <Button variant="ghost" onClick={() => navigate('/auth')} className="font-bold text-slate-700 hover:text-brand-600 hover:bg-brand-50">
+                  Entrar
+                </Button>
+              )}
+              <Button 
+                onClick={() => navigate('/modelos')} 
+                className="bg-blue-600 hover:bg-blue-700 text-white shadow-md font-semibold px-6 transition-all hover:scale-105 active:scale-95"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Criar Meu CV
+              </Button>
+            </>
+          ) : (
+            <button 
+                onClick={() => navigate('/perfil')}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-100 hover:border-brand-200 hover:bg-brand-50 transition-all active:scale-95 group"
+            >
+                <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:bg-brand-100 transition-colors">
+                  <User className="w-4 h-4 text-slate-500 group-hover:text-brand-600" />
+                </div>
+                <div className="flex flex-col items-start hidden sm:flex">
+                  <span className="text-xs font-bold text-slate-700 group-hover:text-brand-700 leading-tight">Meu Perfil</span>
+                  <Badge 
+                    variant={isPremiumActive ? "default" : "secondary"}
+                    className={`text-[9px] font-black uppercase tracking-wider px-1.5 py-0 h-3.5 pointer-events-none mt-0.5 ${
+                      isPremiumActive 
+                        ? "bg-brand-500 text-white border-0" 
+                        : "bg-slate-200 text-slate-500 border-0"
+                    }`}
+                  >
+                    {isPremiumActive ? "PRO" : "FREE"}
+                  </Badge>
+                </div>
+            </button>
+          )}
+        </div>
+
       </div>
     </header>
   );

@@ -7,6 +7,7 @@ import { FileText, Download, Eye, Star, X } from 'lucide-react';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { cvTemplates } from '@/data/cvTemplates';
+import SEO from '@/components/SEO';
 
 const Exemplos = () => {
   const navigate = useNavigate();
@@ -59,6 +60,28 @@ const Exemplos = () => {
       category: "Saúde",
       features: ["Minimalista", "Preto e branco", "Sem foto", "Profissional"]
     },
+    {
+      id: 5,
+      templateId: "cv-yellow-dark",
+      title: "Amarelo Criativo",
+      description: "Layout vibrante com toques amarelos, ideal para áreas criativas e marketing.",
+      image: "/lovable-uploads/template-05.jpg",
+      rating: 5,
+      downloads: 1450,
+      category: "Design",
+      features: ["Design criativo", "Cores vibrantes", "Layout inovador"]
+    },
+    {
+      id: 6,
+      templateId: "cv-modern-sidebar",
+      title: "Moderno Slate",
+      description: "Design moderno com barra lateral escura e tipografia limpa. Ótimo para tecnologia e gestão.",
+      image: "/lovable-uploads/template-06.jpg",
+      rating: 5,
+      downloads: 1720,
+      category: "Informática",
+      features: ["Sidebar escura", "Design moderno", "Profissional", "Fácil leitura"]
+    }
   ];
 
   const categories = ["Todos", "Administração", "Saúde", "Engenharia", "Design", "Educação", "Informática"];
@@ -78,17 +101,47 @@ const Exemplos = () => {
       navigate('/criar-cv', {
         state: {
           selectedTemplate: template,
-          templateData: template.dados,
+          templateData: {
+            ...template.dados,
+            layoutConfig: template.layoutConfig,
+            colorPalette: template.colorPalette,
+            fonts: template.fonts
+          },
           fromExamples: true
         }
       });
     }
   };
 
+  const templatesSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Modelos de CV Mozvita",
+    "operatingSystem": "Web",
+    "applicationCategory": "BusinessApplication",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "10524"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "50.00",
+      "priceCurrency": "MZN"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+      <SEO 
+        title="Exemplos e Modelos de CV para Moçambique - Mozvita"
+        description="Veja os nossos modelos de curriculum vitae vencedores. Designs modernos, ATS-friendly e perfeitamente adaptados ao mercado de trabalho em Moçambique."
+        keywords="modelos de cv, exemplos de currículo, cv design, ats friendly cv, cv moçambique"
+        canonical="/exemplos"
+        schemaData={templatesSchema}
+      />
       {/* Hero Section */}
-      <section className="py-8 sm:py-12 lg:py-20 px-4 mt-8 sm:mt-12">
+      <div className="py-2 px-4 mt-2">
         <div className="container mx-auto text-center max-w-4xl">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-google-blue via-google-red to-google-green bg-clip-text text-transparent leading-tight">
             Modelos Profissionais
@@ -97,10 +150,10 @@ const Exemplos = () => {
             Escolha entre layouts únicos criados para diferentes áreas profissionais. Todos compatíveis com os campos do formulário MozVita.
           </p>
         </div>
-      </section>
+      </div>
 
       {/* Filter Categories */}
-      <section className="py-4 sm:py-8 px-4">
+      <div className="py-2 px-4">
         <div className="container mx-auto">
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12">
             {categories.map((category) => (
@@ -118,10 +171,10 @@ const Exemplos = () => {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Examples Grid */}
-      <section className="py-8 sm:py-12 lg:py-20 px-4">
+      <div className="py-2 px-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 max-w-7xl mx-auto">
             {filteredExamples.map((example) => (
@@ -204,7 +257,7 @@ const Exemplos = () => {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Modal for viewing examples */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -277,7 +330,7 @@ const Exemplos = () => {
       </Dialog>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-20 bg-gradient-to-r from-google-blue to-google-green">
+      <div className="py-6 sm:py-8 bg-gradient-to-r from-google-blue to-google-green">
         <div className="container mx-auto px-4 text-center text-white">
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">Escolha Seu Modelo Ideal</h2>
           <p className="text-base sm:text-lg lg:text-xl mb-6 sm:mb-8 opacity-90 max-w-2xl mx-auto">
@@ -293,7 +346,7 @@ const Exemplos = () => {
             <FileText className="ml-2 w-5 h-5" />
           </Button>
         </div>
-      </section>
+      </div>
 
     </div>
   );

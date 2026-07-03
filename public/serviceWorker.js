@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mozvita-cv-v2.1.0';
+const CACHE_NAME = 'mozvita-cv-v2.2.0';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -23,8 +23,14 @@ self.addEventListener('install', event => {
 
 // Fetch event - serve cached content or network
 self.addEventListener('fetch', event => {
-  // 1. IGNORAR: Rotas que devem ir sempre para a Rede (Dinâmicas, API, Preview)
   const url = new URL(event.request.url);
+
+  // DEV MODE: Em localhost, NUNCA interceptar — deixar o Vite HMR funcionar livremente
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+    return; // Não intercepta nada em desenvolvimento
+  }
+
+  // 1. IGNORAR: Rotas que devem ir sempre para a Rede (Dinâmicas, API, Preview)
   if (
     url.pathname.includes('/preview') || 
     url.pathname.includes('/functions/v1/') ||
@@ -34,7 +40,7 @@ self.addEventListener('fetch', event => {
     return; // Deixa o browser lidar com a requisição normalmente
   }
 
-  // 2. Para HTML e navegação, usar sempre Network First (para não carregar index.html desatualizado com hashes antigos)
+  // 2. Para HTML e navegação, usar sempre Network First
   if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
     event.respondWith(
       fetch(event.request).catch(() => caches.match(event.request).then(res => res || caches.match('/index.html')))
@@ -42,7 +48,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // 2. Para tudo o resto, usamos Cache-First normal, caindo para a Network
+  // 3. Para tudo o resto, usamos Cache-First normal, caindo para a Network
   event.respondWith(
     caches.match(event.request)
       .then(response => {

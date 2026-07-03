@@ -5,12 +5,12 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { LogIn, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
-import AuthModal from './AuthModal';
+import { useNavigate } from 'react-router-dom';
 
 const AuthHeader = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     try {
@@ -57,17 +57,12 @@ const AuthHeader = () => {
       <Button
         variant="outline"
         size="sm"
-        onClick={() => setShowAuthModal(true)}
+        onClick={() => navigate('/auth')}
         className="flex items-center space-x-1"
       >
         <LogIn className="w-4 h-4" />
         <span>Entrar</span>
       </Button>
-
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
     </>
   );
 };

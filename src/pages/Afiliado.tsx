@@ -9,13 +9,10 @@ import { Users, DollarSign, Link2, TrendingUp, CheckCircle2, Clock, Send, ArrowR
 import { useAffiliate } from '@/hooks/useAffiliate';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import AuthModal from '@/components/auth/AuthModal';
-
 const Afiliado = () => {
   const { user } = useAuth();
   const { affiliateProfile, applyAsAffiliate, isPending, isApproved, isRejected, loading } = useAffiliate();
   const navigate = useNavigate();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +25,7 @@ const Afiliado = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      setIsAuthModalOpen(true);
+      navigate('/auth', { state: { from: '/afiliado' } });
       return;
     }
     setSubmitting(true);
@@ -219,12 +216,6 @@ const Afiliado = () => {
           </Card>
         )}
       </div>
-
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-        onAuthSuccess={() => setIsAuthModalOpen(false)}
-      />
     </div>
   );
 };

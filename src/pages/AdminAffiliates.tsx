@@ -59,10 +59,13 @@ const AdminAffiliates = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<'pending' | 'approved' | 'payouts' | 'sales'>('pending');
+  const [activeSaleTab, setActiveSaleTab] = useState<'success' | 'failed'>('success');
   const [affiliates, setAffiliates] = useState<AdminAffiliate[]>([]);
   const [payouts, setPayouts] = useState<AdminPayout[]>([]);
   const [payments, setPayments] = useState<AdminPayment[]>([]);
+  const [commissions, setCommissions] = useState<any[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [selectedClientsAffiliate, setSelectedClientsAffiliate] = useState<AdminAffiliate | null>(null);
   const [processing, setProcessing] = useState<string | null>(null);
 
   useEffect(() => {
@@ -133,6 +136,12 @@ const AdminAffiliates = () => {
        });
        setPayments(enrichedPayments);
     }
+
+    // Carregar comissões para cálculo de saldo
+    const { data: allCommissions } = await supabase
+      .from('commissions')
+      .select('*');
+    setCommissions(allCommissions || []);
   };
 
   const updateAffiliateStatus = async (affiliateId: string, newStatus: 'approved' | 'rejected') => {
@@ -310,7 +319,7 @@ const AdminAffiliates = () => {
   const pendingPayouts = payouts.filter(p => p.status === 'requested' || p.status === 'processing');
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 pt-6 px-4">
+    <div className="min-h-screen bg-slate-50 pb-20 pt-2 px-4">
       <div className="max-w-5xl mx-auto space-y-6">
         
         {/* Header */}
@@ -485,7 +494,29 @@ const AdminAffiliates = () => {
                         <p className="text-xs text-slate-400">
                           Desde {new Date(affiliate.approved_at || affiliate.created_at).toLocaleDateString('pt-MZ')}
                         </p>
-                        <p className="text-xs text-slate-400">{affiliate.phone}</p>
+                        <p className="text-xs text-slate-400 mb-2">{affiliate.phone}</p>
+                        
+                        <div className="flex flex-col items-end gap-1">
+                          <p className="text-sm font-bold text-slate-700">
+                            Saldo: <span className="text-emerald-600">
+                              {commissions
+                                .filter(c => c.affiliate_id === affiliate.id && c.status === 'available')
+                                .reduce((sum, c) => sum + Number(c.commission_amount), 0).toFixed(2)} MT
+                            </span>
+                          </p>
+                          <p className="text-xs text-slate-500 font-medium">
+                            Clientes: {payments.filter(p => p.affiliate_code === affiliate.code && p.status === 'paid').length}
+                          </p>
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="mt-1 h-7 text-xs border-emerald-200 text-emerald-700 hover:bg-emerald-50 rounded-lg font-bold"
+                            onClick={() => setSelectedClientsAffiliate(affiliate)}
+                          >
+                            <Eye className="w-3 h-3 mr-1" />
+                            Ver Clientes
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -583,15 +614,32 @@ const AdminAffiliates = () => {
               </Card>
             </div>
 
-            <div className="space-y-3">
-              <h3 className="text-lg font-black text-slate-800 mb-2">Registo de Transações</h3>
-              {payments.length === 0 ? (
+            <div className="space-y-3 mt-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+                <h3 className="text-lg font-black text-slate-800">Registo de Transações</h3>
+                <div className="flex bg-slate-100 p-1 rounded-xl w-full md:w-auto">
+                  <button 
+                    onClick={() => setActiveSaleTab('success')}
+                    className={`flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeSaleTab === 'success' ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  >
+                    Sucesso
+                  </button>
+                  <button 
+                    onClick={() => setActiveSaleTab('failed')}
+                    className={`flex-1 md:flex-none px-4 py-2 rounded-lg text-xs font-bold transition-all ${activeSaleTab === 'failed' ? 'bg-white text-rose-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                  >
+                    Falhadas / Pendentes
+                  </button>
+                </div>
+              </div>
+
+              {payments.filter(p => activeSaleTab === 'success' ? p.status === 'paid' : p.status === 'pending').length === 0 ? (
                 <div className="text-center py-12 text-slate-400">
                   <DollarSign className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                  <p className="font-bold">Nenhuma venda registada.</p>
+                  <p className="font-bold">Nenhuma venda {activeSaleTab === 'success' ? 'com sucesso' : 'pendente'} registada.</p>
                 </div>
               ) : (
-              payments.map(p => (
+              payments.filter(p => activeSaleTab === 'success' ? p.status === 'paid' : p.status === 'pending').map(p => (
                 <Card key={p.id} className="border-none shadow-md rounded-2xl overflow-hidden group hover:shadow-lg transition-shadow">
                   <CardContent className="p-4">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -646,6 +694,75 @@ const AdminAffiliates = () => {
         </div>
         )}
       </div>
+
+      {/* Modal de Clientes */}
+      {selectedClientsAffiliate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+              <div>
+                <h3 className="font-black text-lg text-slate-800">Clientes de {selectedClientsAffiliate.name}</h3>
+                <p className="text-xs text-slate-500 font-mono">Código: {selectedClientsAffiliate.code}</p>
+              </div>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={() => setSelectedClientsAffiliate(null)}
+                className="rounded-full hover:bg-slate-200"
+              >
+                <XCircle className="w-5 h-5 text-slate-400" />
+              </Button>
+            </div>
+            
+            <div className="p-0 overflow-y-auto flex-1">
+              {(() => {
+                const affiliateClients = payments.filter(p => p.affiliate_code === selectedClientsAffiliate.code && p.status === 'paid');
+                if (affiliateClients.length === 0) {
+                  return (
+                    <div className="text-center py-12 text-slate-400">
+                      <Users className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                      <p className="font-bold">Nenhum cliente registado ainda.</p>
+                    </div>
+                  );
+                }
+                return (
+                  <div className="divide-y divide-slate-100">
+                    {affiliateClients.map(client => (
+                      <div key={client.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition-colors">
+                        <div>
+                          <p className="font-bold text-slate-800">{client.buyer_email}</p>
+                          <p className="text-xs text-slate-400 mt-1 flex items-center gap-2">
+                            <span className="font-mono text-[10px] bg-slate-100 px-1.5 py-0.5 rounded">
+                              {client.id.substring(0, 8)}...
+                            </span>
+                            <span>{new Date(client.updated_at).toLocaleString('pt-MZ')}</span>
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                          <Badge variant="outline" className="text-[10px] font-bold uppercase border-emerald-200 text-emerald-700 bg-emerald-50">
+                            {client.plan_type}
+                          </Badge>
+                          <p className="font-black text-slate-700 text-sm">
+                            {Number(client.amount).toFixed(2)} MT
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+            </div>
+            <div className="p-4 border-t border-slate-100 bg-slate-50 text-right">
+              <Button 
+                onClick={() => setSelectedClientsAffiliate(null)}
+                className="rounded-xl font-bold bg-slate-800 hover:bg-slate-900 text-white"
+              >
+                Fechar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

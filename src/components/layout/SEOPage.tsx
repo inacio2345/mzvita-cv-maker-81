@@ -68,7 +68,7 @@ const SEOPage = ({
                                     size="lg"
                                     variant="outline"
                                     className="border-google-blue text-google-blue hover:bg-blue-50 h-14 text-lg"
-                                    onClick={() => navigate('/exemplos')}
+                                    onClick={() => navigate('/modelos')}
                                 >
                                     Ver modelos de CV
                                     <ArrowRight className="ml-2 h-5 w-5" />
