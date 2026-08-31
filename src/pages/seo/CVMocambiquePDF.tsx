@@ -5,10 +5,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 const CVMocambiquePDF = () => {
     return (
         <SEOPage
-            title="CV Moçambique PDF: Por que usar este formato?"
-            seoTitle="CV Moçambique PDF | Gerar e Baixar Currículo Grátis"
-            description="Gere seu cv moçambique em PDF de forma instantânea. Descubra os benefícios do formato cv moçambique pdf para candidaturas de emprego em Moçambique."
-            keywords="cv moçambique pdf, cv moçambique, modelo de cv moçambique, baixar cv moçambique"
+            title="CV Moçambique PDF: Baixe seu Currículo Pronto em Minutos"
+            seoTitle="Baixar Curriculum Vitae PDF Moçambique Pronto 2026 | MozVita"
+            description="Crie e baixe seu curriculum vitae pdf moçambique direto no celular. Modelos em PDF de alta qualidade aprovados por recrutadores. Baixe em 2 minutos via M-Pesa."
+            keywords="baixar curriculum vitae pdf moçambique, curriculum vitae moçambique pdf download, cv moçambique pdf, criar currículo pdf moçambique 2026"
             canonical="/cv-mocambique-pdf"
         >
             <section>

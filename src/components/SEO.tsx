@@ -9,7 +9,7 @@ interface SEOProps {
   ogType?: string;
   ogImage?: string;
   twitterCard?: string;
-  schemaData?: object;
+  schemaData?: object | object[];
 }
 
 const SEO = ({
@@ -22,11 +22,19 @@ const SEO = ({
   twitterCard = 'summary_large_image',
   schemaData
 }: SEOProps) => {
-  const siteTitle = title ? `${title}` : 'MzVita CV - Criar Currículos Profissionais em Moçambique';
+  const siteTitle = title ? `${title}` : 'MozVita CV - Criar Currículos Profissionais em Moçambique';
   const siteDescription = description || 'A melhor plataforma para criar CVs profissionais em Moçambique. Design moderno, processo simples e pagamento via M-Pesa.';
   const siteKeywords = keywords || 'criar CV rápido Moçambique, modelo de CV Times New Roman, carta de apresentação profissional, curriculum vitae Moçambique, CV online grátis';
   const siteUrl = 'https://www.mozvita.online';
-  const pageUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
+  
+  // Resolve canonical path automatically if not provided explicitly
+  let path = canonical;
+  if (!path && typeof window !== 'undefined') {
+    path = window.location.pathname;
+  }
+  const cleanPath = path ? (path.startsWith('/') ? path : `/${path}`) : '/';
+  const pageUrl = `${siteUrl}${cleanPath === '/' ? '' : cleanPath}`;
+  const fullOgImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage.startsWith('/') ? ogImage : `/${ogImage}`}`;
 
   return (
     <Helmet>
@@ -34,37 +42,35 @@ const SEO = ({
       <title>{siteTitle}</title>
       <meta name="description" content={siteDescription} />
       <meta name="keywords" content={siteKeywords} />
-      {canonical && <link rel="canonical" href={pageUrl} />}
+      <link rel="canonical" href={pageUrl} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={ogType} />
+      <meta property="og:site_name" content="MozVita CV" />
       <meta property="og:title" content={siteTitle} />
       <meta property="og:description" content={siteDescription} />
-      <meta property="og:description" content={siteDescription} />
-      <meta property="og:image" content={ogImage.startsWith('/') ? `${siteUrl}${ogImage}` : ogImage} />
-      <meta property="og:url" content={pageUrl} />
+      <meta property="og:image" content={fullOgImage} />
       <meta property="og:url" content={pageUrl} />
 
       {/* Twitter */}
       <meta name="twitter:card" content={twitterCard} />
       <meta name="twitter:title" content={siteTitle} />
       <meta name="twitter:description" content={siteDescription} />
-      <meta name="twitter:description" content={siteDescription} />
-      <meta name="twitter:image" content={ogImage.startsWith('/') ? `${siteUrl}${ogImage}` : ogImage} />
+      <meta name="twitter:image" content={fullOgImage} />
 
       {/* Article Specific Meta Tags */}
-      {ogType === 'article' && (
+      {ogType === 'article' && schemaData && (
         <>
-          {schemaData && (schemaData as any).datePublished && (
+          {(schemaData as any).datePublished && (
             <meta property="article:published_time" content={(schemaData as any).datePublished} />
           )}
-          {schemaData && (schemaData as any).dateModified && (
+          {(schemaData as any).dateModified && (
             <meta property="article:modified_time" content={(schemaData as any).dateModified} />
           )}
-          {schemaData && (schemaData as any).articleSection && (
+          {(schemaData as any).articleSection && (
             <meta property="article:section" content={(schemaData as any).articleSection} />
           )}
-          {schemaData && (schemaData as any).author && (schemaData as any).author[0] && (
+          {(schemaData as any).author && (schemaData as any).author[0] && (
             <meta property="article:author" content={(schemaData as any).author[0].name} />
           )}
         </>
@@ -81,3 +87,4 @@ const SEO = ({
 };
 
 export default SEO;
+

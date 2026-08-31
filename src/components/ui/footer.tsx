@@ -56,22 +56,37 @@ const Footer = () => {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-wider">Recursos</h4>
-            <ul className="space-y-4 text-sm text-slate-400">
+            <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-wider">Modelos por Profissão</h4>
+            <ul className="space-y-3 text-xs text-slate-400">
+              <li><Link to="/modelo-cv/bancario" className="hover:text-brand-400 transition-colors">CV para Bancários</Link></li>
+              <li><Link to="/modelo-cv/engenheiro-civil" className="hover:text-brand-400 transition-colors">CV Engenharia Civil</Link></li>
+              <li><Link to="/modelo-cv/professor" className="hover:text-brand-400 transition-colors">CV para Professores</Link></li>
+              <li><Link to="/modelo-cv/estagio-sem-experiencia" className="hover:text-brand-400 transition-colors">CV Estágio / Sem Exp.</Link></li>
+              <li><Link to="/modelo-cv/saude-enfermeiro" className="hover:text-brand-400 transition-colors">CV Enfermagem & Saúde</Link></li>
+              <li><Link to="/modelo-cv/it-programador" className="hover:text-brand-400 transition-colors">CV Programador / IT</Link></li>
+              <li><Link to="/modelo-cv/funcao-publica" className="hover:text-brand-400 transition-colors">CV Função Pública</Link></li>
+            </ul>
+          </div>
+
+          <div className="lg:col-span-2">
+            <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-wider">Recursos SEO</h4>
+            <ul className="space-y-3 text-xs text-slate-400">
               <li><Link to="/cv-mocambique" className="hover:text-brand-400 transition-colors">CV Moçambique</Link></li>
+              <li><Link to="/cv-mocambique-pdf" className="hover:text-brand-400 transition-colors font-semibold text-brand-400">Baixar CV PDF</Link></li>
+              <li><Link to="/modelo-cv-mocambique" className="hover:text-brand-400 transition-colors">Modelos de CV</Link></li>
               <li><Link to="/cv-em-ingles-mocambique" className="hover:text-brand-400 transition-colors">CV em Inglês</Link></li>
-              <li><Link to="/blog/guia-cv-2026" className="hover:text-brand-400 transition-colors">Guia de Carreira</Link></li>
+              <li><Link to="/blog/sites-emprego-mocambique" className="hover:text-brand-400 transition-colors">Sites de Emprego MOZ</Link></li>
+              <li><Link to="/blog/futuro-trabalho-remoto" className="hover:text-brand-400 transition-colors">Trabalho Remoto MOZ</Link></li>
               <li><Link to="/blog" className="hover:text-brand-400 transition-colors">Blog MozVita</Link></li>
-              <li><Link to="/meu-emprego" className="hover:text-brand-400 transition-colors">Vagas de Emprego</Link></li>
             </ul>
           </div>
 
           <div className="lg:col-span-2">
             <h4 className="text-white font-bold mb-6 text-sm uppercase tracking-wider">Empresa</h4>
-            <ul className="space-y-4 text-sm text-slate-400">
+            <ul className="space-y-3 text-xs text-slate-400">
               <li><Link to="/sobre-nos" className="hover:text-brand-400 transition-colors">Sobre Nós</Link></li>
               <li><Link to="/precos" className="hover:text-brand-400 transition-colors">Planos e Preços</Link></li>
-              <li><Link to="/afiliado" className="text-brand-400 hover:text-brand-300 font-bold transition-colors flex items-center gap-2">Seja Afiliado</Link></li>
+              <li><Link to="/afiliado" className="text-brand-400 hover:text-brand-300 font-bold transition-colors">Seja Afiliado</Link></li>
               <li><Link to="/contato" className="hover:text-brand-400 transition-colors">Fale Conosco</Link></li>
               <li><Link to="/como-funciona" className="hover:text-brand-400 transition-colors">Como Funciona</Link></li>
             </ul>

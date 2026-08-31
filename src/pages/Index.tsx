@@ -40,28 +40,67 @@ const Index = () => {
       initiatePayment(planId);
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Como criar um cv moçambique profissional?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Para criar um cv moçambique profissional, basta escolher um modelo na nossa plataforma, preencher seus dados e baixar o arquivo em PDF. Todo o processo é adaptado ao mercado local."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "O Mozvita tem custos?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "O Mozvita utiliza um sistema Pay-per-CV super acessível. Pode criar e editar à vontade. Só paga uma taxa única simbólica na hora de baixar o currículo final."
-        }
+  const richSchemas = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "MozVita CV",
+      "url": "https://www.mozvita.online",
+      "logo": "https://www.mozvita.online/logo.png",
+      "description": "Plataforma líder para criação de currículos profissionais em Moçambique com pagamento via M-Pesa."
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "MozVita CV Maker",
+      "url": "https://www.mozvita.online",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "50.00",
+        "priceCurrency": "MZN"
       }
-    ]
-  };
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Como fazer um Curriculum Vitae (CV) profissional para Moçambique?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Para criar um cv profissional em Moçambique, basta escolher um modelo na nossa plataforma, preencher os seus dados no formulário e baixar o arquivo em formato PDF adaptado ao mercado local."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O que os recrutadores moçambicanos e multinacionais procuram?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Os recrutadores procuram organização, clareza e resultados. As empresas em Moçambique valorizam estruturas onde a experiência profissional mais recente aparece primeiro, juntamente com competências e referências."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Devo colocar foto no meu CV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Em Moçambique, a maioria dos empregadores (especialmente nas áreas de atendimento, banca e vendas) aprecia fotos profissionais no CV. Recomendamos foto formal com fundo neutro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O MozVita tem custos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O MozVita possui criação e edição sem compromisso. É cobrada apenas uma taxa simbólica (a partir de 50 MT) via M-Pesa no momento de baixar o PDF final sem marca d'água."
+          }
+        }
+      ]
+    }
+  ];
 
   const plans = [
     {
@@ -121,7 +160,7 @@ const Index = () => {
         description="A principal plataforma para criar seu cv moçambique profissional. Modelos modernos, download de cv moçambique pdf e exemplos reais para o mercado nacional."
         keywords="cv moçambique, cv moçambique pdf, modelo de cv moçambique, criar currículo online moçambique, fazer cv grátis maputo, cv online moçambique, formato de cv moçambique, cv primeiro emprego, exemplos cv moçambique, cv em inglês moçambique"
         canonical="/"
-        schemaData={faqSchema}
+        schemaData={richSchemas}
       />
 
       {/* 1. Hero Section (Parallax & Premium) */}
@@ -225,6 +264,88 @@ const Index = () => {
                 </div>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Estatísticas e Diferenciais Competitivos (Por que o MozVita é o Nº 1) */}
+      <section className="py-16 bg-gradient-to-b from-white to-slate-50 relative border-y border-slate-100">
+        <div className="container mx-auto px-4">
+          {/* Live Stats Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
+            {[
+              { label: "CVs Baixados", value: "10.000+", subText: "Em todo Moçambique", icon: <Download className="w-6 h-6 text-brand-600" /> },
+              { label: "Aprovação em Vagas", value: "98%", subText: "Avaliado por recrutadores", icon: <Award className="w-6 h-6 text-green-600" /> },
+              { label: "Tempo Médio", value: "2 min", subText: "Pronto no celular", icon: <Zap className="w-6 h-6 text-amber-500" /> },
+              { label: "Pagamento Local", value: "M-Pesa", subText: "Rápido & sem cartão", icon: <ShieldCheck className="w-6 h-6 text-blue-600" /> }
+            ].map((stat, idx) => (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                key={idx}
+                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col items-center"
+              >
+                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-3">
+                  {stat.icon}
+                </div>
+                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">{stat.value}</span>
+                <span className="text-sm font-bold text-slate-700 mt-1">{stat.label}</span>
+                <span className="text-xs text-slate-400 mt-0.5">{stat.subText}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Comparativo de Diferenciais Competitivos */}
+          <div className="max-w-5xl mx-auto bg-gradient-to-br from-slate-900 via-slate-800 to-brand-950 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="text-center max-w-2xl mx-auto mb-12 relative z-10">
+              <Badge className="mb-4 bg-brand-500/20 text-brand-300 border-brand-500/30 text-xs px-4 py-1">
+                Líder Absoluto no Mercado
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-black mb-4">Por que o MozVita é imbatível?</h2>
+              <p className="text-slate-300 text-base">
+                Ao contrário de geradores estrangeiros genéricos e complicados, o MozVita foi feito sob medida para o trabalhador moçambicano.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+              {[
+                {
+                  title: "🇲🇿 Padrão Exigido em Moçambique",
+                  desc: "Campos nativos para NUIT, BBI, Estado Civil, Carta de Condução e Referências Profissionais válidas."
+                },
+                {
+                  title: "📱 100% Funcional no Telemóvel",
+                  desc: "Crie, edite e baixe seu CV em PDF direto pelo celular sem precisar de computador nem instalar aplicativos."
+                },
+                {
+                  title: "⚡ M-Pesa & e-Mola Integrados",
+                  desc: "Sem necessidade de cartões de crédito internacionais ou dólares. Pague em Meticais com confirmação em segundos."
+                },
+                {
+                  title: "🤖 Formulário Inteligente com IA",
+                  desc: "Sugestões de textos prontos para descrever suas experiências, habilidades e objetivos profissionais."
+                }
+              ].map((item, i) => (
+                <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-brand-400/40 transition-colors">
+                  <h3 className="text-xl font-bold mb-2 text-white">{item.title}</h3>
+                  <p className="text-slate-300 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 text-center relative z-10">
+              <Button
+                size="lg"
+                className="bg-brand-500 hover:bg-brand-600 text-white font-bold px-8 h-14 rounded-2xl shadow-lg shadow-brand-500/30 border-0"
+                onClick={() => handleProtectedAction('/modelos')}
+              >
+                Experimentar Gratuitamente Agora <ChevronRight className="ml-2 w-5 h-5" />
+              </Button>
+            </div>
           </div>
         </div>
       </section>

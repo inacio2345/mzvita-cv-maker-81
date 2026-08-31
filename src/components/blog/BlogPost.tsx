@@ -77,7 +77,7 @@ const BlogPost = ({
   };
 
   // Schema.org Structured Data
-  const schemaData = {
+  const articleSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": title,
@@ -87,24 +87,73 @@ const BlogPost = ({
     "author": [{
       "@type": "Person",
       "name": author,
-      "url": "https://www.mozvita.online/sobre"
+      "url": `${siteUrl}/sobre-nos`
     }],
-
     "articleSection": category,
     "publisher": {
       "@type": "Organization",
       "name": "MozVita CV Maker",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.mozvita.online/logo.png"
+        "url": `${siteUrl}/logo.png`
       }
     },
     "description": metaDescription,
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `${siteUrl}${postUrl}`
+      "@id": fullPostUrl
     }
   };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": `${siteUrl}/blog`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": category,
+        "item": `${siteUrl}/blog`
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": title,
+        "item": fullPostUrl
+      }
+    ]
+  };
+
+  const schemas: any[] = [articleSchema, breadcrumbSchema];
+
+  if (faqs && faqs.length > 0) {
+    schemas.push({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    });
+  }
+
+  const schemaData = schemas;
 
   // ... (Ads scripts omitted for brevity, keeping existing) ...
   // Legacy ad injection logic removed to prevent conflicts
