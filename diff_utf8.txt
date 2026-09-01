@@ -1,0 +1,880 @@
+﻿diff --git a/src/pages/Index.tsx b/src/pages/Index.tsx
+index 8344019..5cf2bc6 100644
+--- a/src/pages/Index.tsx
++++ b/src/pages/Index.tsx
+@@ -12,7 +12,7 @@ import { cvTemplates } from '@/data/cvTemplates';
+ import { useAuth } from '@/hooks/useAuth';
+ import { useEffect, useState } from 'react';
+ import { Badge } from '@/components/ui/badge';
+-import { motion } from 'framer-motion';
++import { motion, AnimatePresence } from 'framer-motion';
+ import UniversalAd from '@/components/ads/UniversalAd';
+ import { useSubscription } from '@/hooks/useSubscription';
+ import { cn } from '@/lib/utils';
+@@ -24,6 +24,59 @@ const Index = () => {
+   const { user } = useAuth();
+   const { initiatePayment } = useSubscription();
+ 
++  const professions = [
++    {
++      id: 'engenharia',
++      label: 'Engenharia & Obras',
++      name: 'Eng. S├®rgio Macamo',
++      title: 'Engenheiro Civil & Gestor de Obras',
++      tags: ['Gest├úo de Obras', 'AutoCAD', 'Seguran├ºa HST'],
++      image: '/lovable-uploads/template-01.jpg',
++      color: 'from-blue-600 to-indigo-600',
++      badge: 'Multinacionais & G├ís'
++    },
++    {
++      id: 'banca',
++      label: 'Banca & Finan├ºas',
++      name: 'Dra. Carla Matusse',
++      title: 'Analista Financeira & Tesouraria',
++      tags: ['An├ílise Financeira', 'Excel Avan├ºado', 'SAP'],
++      image: '/lovable-uploads/template-02.jpg',
++      color: 'from-emerald-600 to-teal-600',
++      badge: 'Bancos (bim, BCI, Standard)'
++    },
++    {
++      id: 'saude',
++      label: 'Sa├║de & Enfermagem',
++      name: 'Enf. J├║lia Langa',
++      title: 'Enfermeira Geral & Cuidados Intensivos',
++      tags: ['Primeiros Socorros', 'Triagem', 'Atendimento'],
++      image: '/lovable-uploads/template-03.jpg',
++      color: 'from-cyan-600 to-blue-600',
++      badge: 'Hospitais & ONGs'
++    },
++    {
++      id: 'it',
++      label: 'TI & Programa├º├úo',
++      name: 'Eng. Nelson Sitoe',
++      title: 'Desenvolvedor Full Stack & Cloud',
++      tags: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
++      image: '/lovable-uploads/template-05.jpg',
++      color: 'from-amber-500 to-orange-600',
++      badge: 'Tecnologia & Remoto'
++    }
++  ];
++
++  const [activeProfIndex, setActiveProfIndex] = useState(0);
++  const [selectedCategory, setSelectedCategory] = useState<'all' | 'elegante' | 'moderno' | 'criativo'>('all');
++
++  useEffect(() => {
++    const timer = setInterval(() => {
++      setActiveProfIndex((prev) => (prev + 1) % professions.length);
++    }, 4500);
++    return () => clearInterval(timer);
++  }, []);
++
+   const handleProtectedAction = (path: string) => {
+     if (!user) {
+       navigate('/auth', { state: { from: path } });
+@@ -106,7 +159,7 @@ const Index = () => {
+     {
+         id: 'single' as const,
+         name: 'Plano Avulso',
+-        price: '50',
++        price: '100',
+         period: 'item',
+         description: 'Ideal para uma necessidade r├ípida e pontual.',
+         icon: <Zap className="w-8 h-8 text-blue-500" />,
+@@ -164,8 +217,7 @@ const Index = () => {
+       />
+ 
+       {/* 1. Hero Section (Parallax & Premium) */}
+-      {/* REDUZIDO O ESPA├çO BRANCO: pt-12 pb-16 em vez de pt-24 pb-32 */}
+-      <section className="relative pt-8 pb-12 lg:pt-12 lg:pb-24 overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100">
++      <section className="-mt-20 md:-mt-24 pt-28 md:pt-36 pb-12 lg:pb-24 overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100">
+         {/* Decorative background blobs */}
+         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-brand-300/20 rounded-full blur-3xl opacity-50 animate-pulse pointer-events-none" />
+         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] bg-blue-300/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
+@@ -192,11 +244,31 @@ const Index = () => {
+                 Crie um <strong>CV profissional</strong> aprovado por recrutadores mo├ºambicanos em minutos. Modelos modernos, f├íceis de editar e prontos para impressionar multinacionais.
+               </p>
+               
++              {/* Interactive Profession Selector Pills */}
++              <div className="mb-6 flex flex-wrap gap-2 justify-center lg:justify-start">
++                <span className="text-xs font-bold text-slate-400 self-center mr-1">Simular ├ürea:</span>
++                {professions.map((p, idx) => (
++                  <button
++                    key={p.id}
++                    onClick={() => setActiveProfIndex(idx)}
++                    className={cn(
++                      "px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-1.5 cursor-pointer",
++                      activeProfIndex === idx
++                        ? "bg-slate-900 text-white shadow-md scale-105"
++                        : "bg-white/80 text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200/80"
++                    )}
++                  >
++                    <span className={cn("w-2 h-2 rounded-full", activeProfIndex === idx ? "bg-brand-400 animate-ping" : "bg-slate-300")} />
++                    {p.label}
++                  </button>
++                ))}
++              </div>
++
+               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                   <Button
+                     size="lg"
+-                    className="w-full sm:w-auto bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-700 hover:to-blue-700 text-white px-8 h-14 text-lg rounded-2xl shadow-[0_8px_30px_rgb(93,37,231,0.3)] transition-all border-0"
++                    className="w-full sm:w-auto bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-700 hover:to-blue-700 text-white px-8 h-14 text-lg rounded-2xl shadow-[0_8px_30px_rgb(93,37,231,0.3)] transition-all border-0 btn-shine-sweep"
+                     onClick={() => handleProtectedAction('/modelos')}
+                   >
+                     <FileText className="mr-2 h-5 w-5" />
+@@ -218,7 +290,7 @@ const Index = () => {
+               <div className="mt-10 flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500">
+                 <div className="flex -space-x-3">
+                   {[1, 2, 3, 4, 5].map(i => (
+-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 overflow-hidden">
++                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 overflow-hidden shadow-sm">
+                       <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=e2e8f0`} alt="User" />
+                     </div>
+                   ))}
+@@ -227,52 +299,67 @@ const Index = () => {
+                   <div className="flex items-center gap-1 text-yellow-400">
+                     {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 fill-current" />)}
+                   </div>
+-                  <p className="font-medium text-slate-700 mt-1">Mais de <strong>10.000+</strong> CVs criados</p>
++                  <p className="font-medium text-slate-700 mt-1">Mais de <strong>10.000+</strong> CVs criados em Mo├ºambique</p>
+                 </div>
+               </div>
+             </motion.div>
+ 
+-            <motion.div 
+-              initial={{ opacity: 0, x: 50, rotate: 5 }}
+-              animate={{ opacity: 1, x: 0, rotate: 0 }}
+-              transition={{ duration: 0.8, delay: 0.2, type: "spring", stiffness: 100 }}
+-              className="flex-1 relative hidden md:block"
+-            >
+-              {/* Glassmorphism Presentation of a CV */}
+-              <div className="relative w-full max-w-[500px] mx-auto aspect-[1/1.2] rounded-[2rem] bg-white/40 backdrop-blur-3xl border border-white/60 shadow-[0_20px_50px_rgba(8,_112,_184,_0.07)] p-4 transform rotate-2 hover:rotate-0 transition-transform duration-500">
+-                <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl relative border border-slate-100">
+-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
+-                  <img
+-                    src="/lovable-uploads/template-01.jpg"
+-                    alt="Modelo de CV Profissional"
+-                    className="w-full h-full object-cover object-top"
+-                  />
+-                  <div className="absolute bottom-6 left-6 right-6 z-20 flex gap-4">
+-                    <div className="bg-white/90 backdrop-blur-md rounded-xl p-3 flex-1 shadow-lg transform -translate-y-4 hover:-translate-y-6 transition-transform">
+-                      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mb-2">
+-                        <CheckCircle className="w-5 h-5 text-green-600" />
+-                      </div>
+-                      <p className="text-xs font-bold text-slate-900">ATS Friendly</p>
++            {/* Interactive Dynamic CV Showcase (Right Side) */}
++            <div className="flex-1 relative hidden md:block">
++              <AnimatePresence mode="wait">
++                <motion.div 
++                  key={activeProfIndex}
++                  initial={{ opacity: 0, y: 20, scale: 0.96 }}
++                  animate={{ opacity: 1, y: 0, scale: 1 }}
++                  exit={{ opacity: 0, y: -20, scale: 0.96 }}
++                  transition={{ duration: 0.4 }}
++                  className="relative w-full max-w-[480px] mx-auto aspect-[1/1.25] rounded-[2.5rem] bg-white/60 backdrop-blur-3xl border border-white/80 shadow-[0_25px_60px_rgba(93,37,231,0.12)] p-4 transform rotate-1 hover:rotate-0 transition-transform duration-500"
++                >
++                  <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl relative border border-slate-100 bg-white">
++                    <img
++                      src={professions[activeProfIndex].image}
++                      alt={professions[activeProfIndex].title}
++                      className="w-full h-full object-cover object-top"
++                    />
++
++                    {/* Floating Badges & Live Information Overlay */}
++                    <div className="absolute top-4 right-4 z-20">
++                      <Badge className={`bg-gradient-to-r ${professions[activeProfIndex].color} text-white shadow-lg border-0 text-xs px-3 py-1 font-bold`}>
++                        {professions[activeProfIndex].badge}
++                      </Badge>
+                     </div>
+-                    <div className="bg-brand-600/90 backdrop-blur-md rounded-xl p-3 flex-1 shadow-lg transform translate-y-4 hover:translate-y-2 transition-transform">
+-                      <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mb-2">
+-                        <Star className="w-5 h-5 text-white" />
++
++                    <div className="absolute bottom-4 left-4 right-4 z-20 bg-slate-900/90 backdrop-blur-md text-white p-4 rounded-2xl border border-white/10 shadow-2xl">
++                      <div className="flex justify-between items-start mb-2">
++                        <div>
++                          <h4 className="font-extrabold text-sm text-white">{professions[activeProfIndex].name}</h4>
++                          <p className="text-xs text-brand-300 font-medium">{professions[activeProfIndex].title}</p>
++                        </div>
++                        <span className="bg-green-500/20 text-green-400 text-[10px] font-black px-2 py-0.5 rounded-full border border-green-500/30 flex items-center gap-1">
++                          <CheckCircle className="w-3 h-3" /> Aprovado
++                        </span>
++                      </div>
++                      <div className="flex flex-wrap gap-1.5 mt-2">
++                        {professions[activeProfIndex].tags.map((tag, tIdx) => (
++                          <span key={tIdx} className="bg-white/10 text-slate-200 text-[10px] px-2 py-0.5 rounded-md font-medium">
++                            {tag}
++                          </span>
++                        ))}
+                       </div>
+-                      <p className="text-xs font-bold text-white">Top Recrutadores</p>
+                     </div>
+                   </div>
+-                </div>
+-              </div>
+-            </motion.div>
++                </motion.div>
++              </AnimatePresence>
++            </div>
+           </div>
+         </div>
+       </section>
+ 
+       {/* Estat├¡sticas e Diferenciais Competitivos (Por que o MozVita ├® o N┬║ 1) */}
+-      <section className="py-16 bg-gradient-to-b from-white to-slate-50 relative border-y border-slate-100">
++      <section className="py-20 bg-gradient-to-b from-white via-slate-50 to-white relative border-y border-slate-100 overflow-hidden">
+         <div className="container mx-auto px-4">
+-          {/* Live Stats Bar */}
+-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-16">
++          {/* Live Stats Bar com Efeito Spring Pop de Alta Visibilidade */}
++          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-20">
+             {[
+               { label: "CVs Baixados", value: "10.000+", subText: "Em todo Mo├ºambique", icon: <Download className="w-6 h-6 text-brand-600" /> },
+               { label: "Aprova├º├úo em Vagas", value: "98%", subText: "Avaliado por recrutadores", icon: <Award className="w-6 h-6 text-green-600" /> },
+@@ -280,33 +367,41 @@ const Index = () => {
+               { label: "Pagamento Local", value: "M-Pesa", subText: "R├ípido & sem cart├úo", icon: <ShieldCheck className="w-6 h-6 text-blue-600" /> }
+             ].map((stat, idx) => (
+               <motion.div
+-                initial={{ opacity: 0, scale: 0.9 }}
+-                whileInView={{ opacity: 1, scale: 1 }}
+-                viewport={{ once: true }}
+-                transition={{ delay: idx * 0.1 }}
++                initial={{ opacity: 0, y: 60, scale: 0.8 }}
++                whileInView={{ opacity: 1, y: 0, scale: 1 }}
++                viewport={{ once: true, margin: "-30px" }}
++                whileHover={{ y: -10, scale: 1.05 }}
++                transition={{ type: "spring", stiffness: 260, damping: 18, delay: idx * 0.12 }}
+                 key={idx}
+-                className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col items-center"
++                className="bg-white p-6 rounded-3xl border border-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_rgba(93,37,231,0.15)] hover:border-brand-200 transition-all text-center flex flex-col items-center cursor-pointer group"
+               >
+-                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center mb-3">
++                <div className="w-14 h-14 rounded-2xl bg-slate-50 group-hover:bg-brand-50 flex items-center justify-center mb-4 transition-colors">
+                   {stat.icon}
+                 </div>
+-                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">{stat.value}</span>
++                <span className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight group-hover:text-brand-600 transition-colors">{stat.value}</span>
+                 <span className="text-sm font-bold text-slate-700 mt-1">{stat.label}</span>
+                 <span className="text-xs text-slate-400 mt-0.5">{stat.subText}</span>
+               </motion.div>
+             ))}
+           </div>
+ 
+-          {/* Comparativo de Diferenciais Competitivos */}
+-          <div className="max-w-5xl mx-auto bg-gradient-to-br from-slate-900 via-slate-800 to-brand-950 rounded-[2.5rem] p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+-            <div className="absolute top-0 right-0 w-80 h-80 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
++          {/* Comparativo de Diferenciais Competitivos com 3D Tilt Pop */}
++          <motion.div 
++            initial={{ opacity: 0, y: 80, scale: 0.92 }}
++            whileInView={{ opacity: 1, y: 0, scale: 1 }}
++            viewport={{ once: true, margin: "-50px" }}
++            transition={{ type: "spring", stiffness: 180, damping: 20 }}
++            className="max-w-5xl mx-auto bg-gradient-to-br from-slate-900 via-slate-800 to-brand-950 rounded-[2.5rem] p-8 md:p-14 text-white shadow-[0_30px_80px_rgba(15,23,42,0.4)] relative overflow-hidden border border-white/10"
++          >
++            <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
++            <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+             
+             <div className="text-center max-w-2xl mx-auto mb-12 relative z-10">
+-              <Badge className="mb-4 bg-brand-500/20 text-brand-300 border-brand-500/30 text-xs px-4 py-1">
+-                L├¡der Absoluto no Mercado
++              <Badge className="mb-4 bg-brand-500/30 text-brand-300 border-brand-400/40 text-xs px-4 py-1.5 font-bold shadow-lg shadow-brand-500/20">
++                L├¡der Absoluto no Mercado Mo├ºambicano
+               </Badge>
+-              <h2 className="text-3xl md:text-4xl font-black mb-4">Por que o MozVita ├® imbat├¡vel?</h2>
+-              <p className="text-slate-300 text-base">
++              <h2 className="text-3xl md:text-5xl font-black mb-4 tracking-tight leading-tight">Por que o MozVita ├® imbat├¡vel?</h2>
++              <p className="text-slate-300 text-base md:text-lg">
+                 Ao contr├írio de geradores estrangeiros gen├®ricos e complicados, o MozVita foi feito sob medida para o trabalhador mo├ºambicano.
+               </p>
+             </div>
+@@ -330,38 +425,60 @@ const Index = () => {
+                   desc: "Sugest├Áes de textos prontos para descrever suas experi├¬ncias, habilidades e objetivos profissionais."
+                 }
+               ].map((item, i) => (
+-                <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 hover:border-brand-400/40 transition-colors">
+-                  <h3 className="text-xl font-bold mb-2 text-white">{item.title}</h3>
++                <motion.div 
++                  initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40, y: 30 }}
++                  whileInView={{ opacity: 1, x: 0, y: 0 }}
++                  viewport={{ once: true }}
++                  transition={{ type: "spring", stiffness: 200, damping: 18, delay: i * 0.12 }}
++                  whileHover={{ scale: 1.03, translateY: -6 }}
++                  key={i} 
++                  className="bg-white/10 backdrop-blur-md rounded-3xl p-7 border border-white/15 hover:border-brand-400/50 hover:bg-white/15 transition-all shadow-xl cursor-pointer group"
++                >
++                  <h3 className="text-xl font-bold mb-2 text-white group-hover:text-brand-300 transition-colors">{item.title}</h3>
+                   <p className="text-slate-300 text-sm leading-relaxed">{item.desc}</p>
+-                </div>
++                </motion.div>
+               ))}
+             </div>
+ 
+-            <div className="mt-10 text-center relative z-10">
+-              <Button
+-                size="lg"
+-                className="bg-brand-500 hover:bg-brand-600 text-white font-bold px-8 h-14 rounded-2xl shadow-lg shadow-brand-500/30 border-0"
+-                onClick={() => handleProtectedAction('/modelos')}
+-              >
+-                Experimentar Gratuitamente Agora <ChevronRight className="ml-2 w-5 h-5" />
+-              </Button>
++            <div className="mt-12 text-center relative z-10">
++              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
++                <Button
++                  size="lg"
++                  className="bg-gradient-to-r from-brand-500 to-blue-600 hover:from-brand-600 hover:to-blue-700 text-white font-black px-10 h-16 text-lg rounded-2xl shadow-[0_10px_30px_rgba(93,37,231,0.4)] border-0 btn-shine-sweep"
++                  onClick={() => handleProtectedAction('/modelos')}
++                >
++                  Experimentar Gratuitamente Agora <ChevronRight className="ml-2 w-6 h-6" />
++                </Button>
++              </motion.div>
+             </div>
+-          </div>
++          </motion.div>
+         </div>
+       </section>
+ 
+-      {/* Como Funciona Section */}
+-      <section className="py-20 bg-white">
++      {/* Como Funciona Section com Linha de Progresso & Bouncing Steps */}
++      <section className="py-24 bg-white relative overflow-hidden">
+         <div className="container mx-auto px-4">
+-          <div className="text-center mb-16">
+-            <Badge className="mb-4 bg-brand-100 text-brand-700 hover:bg-brand-200 border-none shadow-none text-sm px-4 py-1">Processo Simples</Badge>
+-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Como criar o seu CV em 3 passos</h2>
++          <motion.div 
++            initial={{ opacity: 0, y: 50 }}
++            whileInView={{ opacity: 1, y: 0 }}
++            viewport={{ once: true }}
++            transition={{ duration: 0.7, type: "spring" }}
++            className="text-center mb-20"
++          >
++            <Badge className="mb-4 bg-brand-100 text-brand-700 hover:bg-brand-200 border-none shadow-none text-sm px-4 py-1.5 font-bold">Processo Simples</Badge>
++            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">Como criar o seu CV em 3 passos</h2>
+             <p className="text-slate-500 max-w-2xl mx-auto text-lg">Sem complica├º├Áes. O nosso sistema foi desenhado para ser r├ípido e eficaz.</p>
+-          </div>
++          </motion.div>
+ 
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto relative">
+-            {/* Connecting Line */}
+-            <div className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-brand-200 via-brand-400 to-brand-200 -translate-y-1/2 z-0 opacity-30"></div>
++            {/* Connecting Line Animada de Alto Impacto */}
++            <motion.div 
++              initial={{ scaleX: 0 }}
++              whileInView={{ scaleX: 1 }}
++              viewport={{ once: true }}
++              transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }}
++              className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-1 bg-gradient-to-r from-blue-500 via-brand-500 to-green-500 -translate-y-1/2 z-0 rounded-full shadow-md origin-left"
++            ></motion.div>
+ 
+             {[
+               { 
+@@ -384,16 +501,21 @@ const Index = () => {
+               }
+             ].map((step, i) => (
+               <motion.div 
+-                initial={{ opacity: 0, y: 20 }}
+-                whileInView={{ opacity: 1, y: 0 }}
++                initial={{ opacity: 0, y: 80, scale: 0.8 }}
++                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                 viewport={{ once: true }}
+-                transition={{ delay: i * 0.2 }}
++                whileHover={{ y: -12, scale: 1.03 }}
++                transition={{ type: "spring", stiffness: 220, damping: 16, delay: i * 0.2 }}
+                 key={i} 
+-                className="relative z-10 flex flex-col items-center text-center bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100"
++                className="relative z-10 flex flex-col items-center text-center bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.06)] hover:shadow-[0_25px_60px_rgba(93,37,231,0.15)] border border-slate-100 hover:border-brand-200 transition-all group cursor-pointer"
+               >
+-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center bg-gradient-to-br ${step.color} shadow-lg mb-6 transform -rotate-3 hover:rotate-0 transition-transform`}>
++                <motion.div 
++                  animate={{ y: [0, -6, 0] }}
++                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: i * 0.5 }}
++                  className={`w-20 h-20 rounded-3xl flex items-center justify-center bg-gradient-to-br ${step.color} shadow-xl mb-6 transform -rotate-3 group-hover:rotate-0 transition-transform`}
++                >
+                   {step.icon}
+-                </div>
++                </motion.div>
+                 <h3 className="text-2xl font-bold text-slate-900 mb-3">{step.title}</h3>
+                 <p className="text-slate-600 leading-relaxed">{step.desc}</p>
+               </motion.div>
+@@ -422,166 +544,305 @@ const Index = () => {
+               Ver todos os Modelos <ArrowRight className="ml-2 w-4 h-4" />
+             </Button>
+           </div>
++          
++          {/* Category Filter Tabs */}
++          <div className="flex flex-wrap gap-3 mb-10">
++            {[
++              { id: 'all', label: 'Todos os Modelos' },
++              { id: 'elegante', label: 'Elegantes & Cl├íssicos' },
++              { id: 'moderno', label: 'Modernos & Sidebar' },
++              { id: 'criativo', label: 'Criativos & Destaque' }
++            ].map(cat => (
++              <button
++                key={cat.id}
++                onClick={() => setSelectedCategory(cat.id as any)}
++                className={cn(
++                  "px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-300 border cursor-pointer",
++                  selectedCategory === cat.id
++                    ? "bg-brand-500 text-white border-brand-400 shadow-lg shadow-brand-500/25 scale-105"
++                    : "bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700 hover:text-white"
++                )}
++              >
++                {cat.label}
++              </button>
++            ))}
++          </div>
+ 
+           <div className="flex gap-6 overflow-x-auto pb-10 hide-scrollbar snap-x">
+-            {cvTemplates.map((template, i) => (
+-              <motion.div 
+-                initial={{ opacity: 0, x: 50 }}
+-                whileInView={{ opacity: 1, x: 0 }}
+-                viewport={{ once: true }}
+-                transition={{ delay: i * 0.1 }}
+-                key={template.id} 
+-                className="min-w-[280px] md:min-w-[350px] snap-center group cursor-pointer"
+-                onClick={() => handleProtectedAction('/modelos')}
+-              >
+-                <div className="bg-slate-800 rounded-3xl p-4 transition-all duration-300 group-hover:bg-slate-700 border border-slate-700 group-hover:border-brand-500">
+-                  <div className="aspect-[1/1.4] rounded-2xl overflow-hidden mb-4 relative shadow-2xl">
+-                    <img 
+-                      src={template.previewImage} 
+-                      alt={`Modelo ${template.nome}`}
+-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+-                    />
+-                    <div className="absolute inset-0 bg-brand-600/0 group-hover:bg-brand-600/20 transition-colors duration-300 flex items-center justify-center">
+-                      <div className="w-16 h-16 rounded-full bg-white text-brand-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-xl">
+-                        <MousePointerClick className="w-8 h-8" />
++            <AnimatePresence mode="popLayout">
++              {cvTemplates.filter(template => {
++                if (!template.previewImage) return false;
++                if (selectedCategory === 'all') return true;
++                if (selectedCategory === 'elegante') return template.layout.includes('elegant') || template.id.includes('classico');
++                if (selectedCategory === 'moderno') return template.layout.includes('modern') || template.layout.includes('sidebar');
++                if (selectedCategory === 'criativo') return template.layout.includes('creative') || template.layout.includes('diagonal');
++                return true;
++              }).map((template, i) => (
++                <motion.div 
++                  layout
++                  initial={{ opacity: 0, scale: 0.9 }}
++                  animate={{ opacity: 1, scale: 1 }}
++                  exit={{ opacity: 0, scale: 0.9 }}
++                  transition={{ duration: 0.3, delay: i * 0.05 }}
++                  key={template.id} 
++                  className="min-w-[280px] md:min-w-[350px] snap-center group cursor-pointer"
++                  onClick={() => handleProtectedAction('/modelos')}
++                >
++                  <div className="bg-slate-800 rounded-3xl p-4 transition-all duration-300 group-hover:bg-slate-700 border border-slate-700 group-hover:border-brand-500 shadow-xl">
++                    <div className="aspect-[1/1.4] rounded-2xl overflow-hidden mb-4 relative shadow-2xl">
++                      <img 
++                        src={template.previewImage} 
++                        alt={`Modelo ${template.nome}`}
++                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
++                      />
++                      <div className="absolute inset-0 bg-brand-600/0 group-hover:bg-brand-600/20 transition-colors duration-300 flex items-center justify-center">
++                        <div className="w-16 h-16 rounded-full bg-white text-brand-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 shadow-xl">
++                          <MousePointerClick className="w-8 h-8" />
++                        </div>
+                       </div>
+                     </div>
++                    <div className="px-2">
++                      <h3 className="text-white font-bold text-xl">{template.nome}</h3>
++                      <p className="text-slate-400 text-sm mt-1">{template.layout === 'single-column-elegant' ? 'Layout Elegante' : 'Design Profissional e Moderno'}</p>
++                    </div>
+                   </div>
+-                  <div className="px-2">
+-                    <h3 className="text-white font-bold text-xl">{template.nome}</h3>
+-                    <p className="text-slate-400 text-sm mt-1">{template.layout === 'single-column-elegant' ? 'Layout Elegante' : 'Design Profissional e Moderno'}</p>
+-                  </div>
+-                </div>
+-              </motion.div>
+-            ))}
++                </motion.div>
++              ))}
++            </AnimatePresence>
+           </div>
+         </div>
+       </section>
+ 
+-      {/* Pricing Section CORRIGIDO O PROBLEMA DOS TEXTOS DESAPARECIDOS */}
++      {/* Pricing Section */}
+       <section className="py-24 bg-white relative" id="planos">
+         <div className="container mx-auto px-4 relative z-10">
+-          <div className="text-center max-w-3xl mx-auto mb-16">
++          <motion.div 
++            initial={{ opacity: 0, y: 30 }}
++            whileInView={{ opacity: 1, y: 0 }}
++            viewport={{ once: true }}
++            transition={{ duration: 0.6 }}
++            className="text-center max-w-3xl mx-auto mb-16"
++          >
+             <Badge className="mb-4 bg-green-100 text-green-700 border-none shadow-none text-sm px-4 py-1">Pre├ºos Justos</Badge>
+             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">Pague apenas quando estiver perfeito</h2>
+             <p className="text-slate-600 text-lg">Crie e edite sem compromisso. S├│ cobramos uma taxa simb├│lica para baixar o seu <strong>cv mo├ºambique pdf</strong> final. Pagamentos facilitados via M-Pesa e e-Mola.</p>
+-          </div>
++          </motion.div>
+ 
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+-            {plans.map((plan) => (
+-              <Card 
+-                key={plan.id} 
+-                className={cn(
+-                  "relative rounded-[2rem] border-2 transition-all duration-300 hover:shadow-2xl overflow-hidden flex flex-col bg-white",
+-                  plan.recommended ? "border-brand-500 shadow-xl transform md:-translate-y-4" : "border-slate-100 shadow-sm"
+-                )}
++            {plans.map((plan, i) => (
++              <motion.div 
++                initial={{ opacity: 0, y: 80, scale: plan.recommended ? 0.85 : 0.9 }}
++                whileInView={{ opacity: 1, y: 0, scale: plan.recommended ? 1.05 : 1 }}
++                viewport={{ once: true, margin: "-40px" }}
++                whileHover={{ y: -12, scale: plan.recommended ? 1.08 : 1.04 }}
++                transition={{ type: "spring", stiffness: 240, damping: 16, delay: i * 0.15 }}
++                key={plan.id}
++                className="h-full"
+               >
+-                {plan.recommended && (
+-                  <div className="absolute top-0 left-0 right-0 bg-brand-500 text-white text-xs font-bold py-1.5 text-center uppercase tracking-widest z-10">
+-                    Mais Popular
+-                  </div>
+-                )}
+-                <CardHeader className={cn("pt-8 pb-4", plan.recommended ? "mt-4" : "")}>
+-                  <div className="mb-6 inline-flex p-4 rounded-2xl bg-slate-50">
+-                    {plan.icon}
+-                  </div>
+-                  <CardTitle className="text-2xl font-bold text-slate-900">{plan.name}</CardTitle>
+-                  <CardDescription className="text-slate-500 mt-2 min-h-[40px] text-base">{plan.description}</CardDescription>
+-                </CardHeader>
+-                <CardContent className="pb-8 flex-1">
+-                  <div className="mb-8 flex items-end gap-1">
+-                    <span className="text-5xl font-black text-slate-900">{plan.price}</span>
+-                    <span className="text-xl font-bold text-slate-500 mb-1">MT</span>
+-                    <span className="text-slate-400 font-medium">/{plan.period}</span>
+-                  </div>
+-                  <div className="space-y-4">
+-                    {plan.features.map((feature, i) => (
+-                      <div key={i} className="flex items-center gap-3">
+-                        <div className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center">
+-                          <Check className="w-3 h-3 text-brand-600 font-bold" />
++                <Card 
++                  className={cn(
++                    "relative rounded-[2.5rem] border-2 transition-all duration-300 hover:shadow-[0_25px_60px_rgba(93,37,231,0.2)] overflow-hidden flex flex-col bg-white h-full",
++                    plan.recommended ? "border-brand-500 shadow-[0_15px_50px_rgba(93,37,231,0.25)] transform md:-translate-y-4" : "border-slate-100 shadow-md"
++                  )}
++                >
++                  {plan.recommended && (
++                    <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-brand-600 to-blue-600 text-white text-xs font-black py-2 text-center uppercase tracking-widest z-10 shadow-md">
++                      Mais Popular
++                    </div>
++                  )}
++                  <CardHeader className={cn("pt-8 pb-4", plan.recommended ? "mt-4" : "")}>
++                    <div className="mb-6 inline-flex p-4 rounded-2xl bg-slate-50 border border-slate-100">
++                      {plan.icon}
++                    </div>
++                    <CardTitle className="text-2xl font-bold text-slate-900">{plan.name}</CardTitle>
++                    <CardDescription className="text-slate-500 mt-2 min-h-[40px] text-base">{plan.description}</CardDescription>
++                  </CardHeader>
++                  <CardContent className="pb-8 flex-1">
++                    <div className="mb-8 flex items-end gap-1">
++                      <span className="text-5xl font-black text-slate-900 tracking-tight">{plan.price}</span>
++                      <span className="text-xl font-bold text-slate-500 mb-1">MT</span>
++                      <span className="text-slate-400 font-medium">/{plan.period}</span>
++                    </div>
++                    <div className="space-y-4">
++                      {plan.features.map((feature, idx) => (
++                        <div key={idx} className="flex items-center gap-3">
++                          <div className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center">
++                            <Check className="w-3.5 h-3.5 text-brand-600 font-bold" />
++                          </div>
++                          <span className="text-slate-700 font-medium text-sm">{feature}</span>
+                         </div>
+-                        <span className="text-slate-700 font-medium">{feature}</span>
+-                      </div>
+-                    ))}
+-                  </div>
+-                </CardContent>
+-                <CardFooter className="pt-0 pb-8 px-6">
+-                  <Button
+-                    size="lg"
+-                    className={cn(
+-                      "w-full h-14 text-lg rounded-xl font-bold transition-all",
+-                      plan.recommended 
+-                        ? "bg-brand-600 hover:bg-brand-700 text-white shadow-lg shadow-brand-200" 
+-                        : "bg-slate-100 hover:bg-slate-200 text-slate-900"
+-                    )}
+-                    onClick={() => handleBuyClick(plan.id)}
+-                  >
+-                    Come├ºar Agora
+-                  </Button>
+-                </CardFooter>
+-              </Card>
++                      ))}
++                    </div>
++                  </CardContent>
++                  <CardFooter className="pt-0 pb-8 px-6">
++                    <Button
++                      size="lg"
++                      className={cn(
++                        "w-full h-14 text-lg rounded-2xl font-bold transition-all btn-shine-sweep",
++                        plan.recommended 
++                          ? "bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-700 hover:to-blue-700 text-white shadow-xl shadow-brand-500/25 border-0" 
++                          : "bg-slate-100 hover:bg-slate-200 text-slate-900 border-0"
++                      )}
++                      onClick={() => handleBuyClick(plan.id)}
++                    >
++                      Come├ºar Agora
++                    </Button>
++                  </CardFooter>
++                </Card>
++              </motion.div>
+             ))}
+           </div>
+         </div>
+       </section>
+-      {/* SEO & Text Content Section */}
+-      <section className="py-20 bg-slate-50 border-t border-slate-200">
+-        <div className="container mx-auto px-4 max-w-4xl">
+-          <div className="mb-16">
+-            <h2 className="text-3xl font-bold text-slate-900 mb-6 tracking-tight">
+-              A Import├óncia de um Bom Curriculum Vitae em Mo├ºambique
+-            </h2>
+-            <div className="prose prose-lg text-slate-600 space-y-6">
+-              <p>
+-                O mercado de trabalho em Mo├ºambique, especialmente em cidades como Maputo, Matola, Beira e Nampula, est├í cada vez mais competitivo. Quer pretenda ingressar na <strong>Fun├º├úo P├║blica</strong>, candidatar-se a vagas em <strong>Multinacionais (Oil & Gas, Banca, Telecomunica├º├Áes)</strong> ou buscar o seu primeiro emprego, o seu curr├¡culo ├® a chave que abre as portas para as entrevistas.
+-              </p>
+-              <p>
+-                Recrutadores recebem centenas de candidaturas por dia. Curr├¡culos desformatados, feitos em Word ou sem uma estrutura clara s├úo rapidamente descartados. ├ë por isso que criar um <strong>CV Mo├ºambique PDF</strong> utilizando formatos profissionais (ATS Friendly) ├® essencial para garantir que o seu perfil n├úo passa despercebido pelos sistemas autom├íticos de triagem.
+-              </p>
+-              <p>
+-                No Mozvita, desenvolvemos modelos de <strong>curriculum vitae modernos e elegantes</strong> que respeitam as exig├¬ncias locais. Integramos os espa├ºos certos para informa├º├Áes cruciais no nosso contexto (como Nacionalidade, NUIT, Refer├¬ncias Profissionais), garantindo que n├úo se esquece de nenhum detalhe importante.
+-              </p>
++
++      {/* SEO & Text Content Section com Revela├º├úo 3D 2 Colunas */}
++      <section className="py-24 bg-slate-100/70 border-t border-slate-200 overflow-hidden">
++        <div className="container mx-auto px-4 max-w-6xl">
++          {/* Card Principal da Se├º├úo com Respiro e Design 2 Colunas */}
++          <motion.div 
++            initial={{ opacity: 0, y: 80, scale: 0.92 }}
++            whileInView={{ opacity: 1, y: 0, scale: 1 }}
++            viewport={{ once: true, margin: "-50px" }}
++            transition={{ type: "spring", stiffness: 180, damping: 20 }}
++            className="bg-white rounded-[2.5rem] p-8 md:p-14 shadow-2xl border border-slate-200/80 mb-16"
++          >
++            <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
++              
++              {/* Lado Esquerdo: Conte├║do Estruturado */}
++              <div className="flex-1">
++                <Badge className="mb-4 bg-brand-50 text-brand-700 border-brand-200 text-xs px-3.5 py-1 font-semibold">
++                  Guia Profissional & Mercado Local
++                </Badge>
++                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 leading-tight tracking-tight">
++                  A Import├óncia de um Bom Curriculum Vitae em Mo├ºambique
++                </h2>
++                
++                <div className="space-y-4 text-slate-600 leading-relaxed text-base">
++                  {[
++                    {
++                      icon: <Briefcase className="w-5 h-5" />,
++                      color: "bg-brand-100 text-brand-600",
++                      title: "Mercado de Alta Competitividade",
++                      desc: "Em cidades como Maputo, Matola, Beira e Nampula, vagas na Fun├º├úo P├║blica e em Multinacionais (Oil & Gas, Banca, Telecomunica├º├Áes) recebem centenas de candidaturas. O seu CV ├® a chave para garantir chamadas de entrevista."
++                    },
++                    {
++                      icon: <FileText className="w-5 h-5" />,
++                      color: "bg-blue-100 text-blue-600",
++                      title: "Triagem Autom├ítica e Formato PDF",
++                      desc: "Curr├¡culos feitos em Word ou sem estrutura clara s├úo rapidamente descartados. O nosso gerador cria CVs em PDF (ATS Friendly) com margens perfeitas e prontos para impress├úo."
++                    },
++                    {
++                      icon: <CheckCircle className="w-5 h-5" />,
++                      color: "bg-green-100 text-green-600",
++                      title: "Adequado ├ás Exig├¬ncias Mo├ºambicanas",
++                      desc: "Integramos os campos certos para informa├º├Áes vitais no contexto mo├ºambicano (como NUIT, BBI, Nacionalidade e Refer├¬ncias Profissionais)."
++                    }
++                  ].map((benefit, bIdx) => (
++                    <motion.div 
++                      key={bIdx}
++                      initial={{ opacity: 0, x: -50 }}
++                      whileInView={{ opacity: 1, x: 0 }}
++                      viewport={{ once: true }}
++                      transition={{ type: "spring", stiffness: 200, damping: 18, delay: bIdx * 0.15 }}
++                      whileHover={{ scale: 1.02, x: 6 }}
++                      className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-start gap-3 hover:bg-slate-100/80 transition-all cursor-pointer"
++                    >
++                      <div className={`p-2 rounded-xl ${benefit.color} font-bold mt-0.5 shadow-sm`}>
++                        {benefit.icon}
++                      </div>
++                      <div>
++                        <h4 className="font-bold text-slate-900 text-sm mb-1">{benefit.title}</h4>
++                        <p className="text-sm text-slate-600">{benefit.desc}</p>
++                      </div>
++                    </motion.div>
++                  ))}
++                </div>
++              </div>
++
++              {/* Lado Direito: Imagem de Destaque / Mockup Profissional com Entrada 3D */}
++              <motion.div 
++                initial={{ opacity: 0, x: 60, rotate: 6, scale: 0.9 }}
++                whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
++                viewport={{ once: true }}
++                transition={{ type: "spring", stiffness: 180, damping: 16, delay: 0.2 }}
++                className="w-full lg:w-[420px] flex-shrink-0"
++              >
++                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-100 bg-gradient-to-br from-brand-900 to-slate-900 p-6 text-white group">
++                  <div className="absolute top-0 right-0 w-40 h-40 bg-brand-500/20 rounded-full blur-2xl pointer-events-none" />
++                  
++                  {/* Capa de Exemplo em Destaque */}
++                  <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-xl border border-white/20 mb-4 bg-white">
++                    <img 
++                      src="/lovable-uploads/template-01.jpg" 
++                      alt="Modelo de CV Profissional Mo├ºambique"
++                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
++                    />
++                  </div>
++
++                  <div className="flex items-center justify-between text-xs font-medium pt-2 text-slate-300 border-t border-white/10">
++                    <span className="flex items-center gap-1 text-green-400 font-bold">
++                      <CheckCircle className="w-4 h-4" /> 100% Padr├úo Mo├ºambique
++                    </span>
++                    <span className="bg-brand-500/30 px-2.5 py-1 rounded-full text-brand-200 font-semibold">
++                      PDF HD
++                    </span>
++                  </div>
++                </div>
++              </motion.div>
++
+             </div>
+-          </div>
++          </motion.div>
+ 
+           <div className="mb-8">
+-            <h2 className="text-3xl font-bold text-slate-900 mb-8 tracking-tight text-center">
++            <motion.h2 
++              initial={{ opacity: 0, y: 20 }}
++              whileInView={{ opacity: 1, y: 0 }}
++              viewport={{ once: true }}
++              className="text-3xl font-bold text-slate-900 mb-8 tracking-tight text-center"
++            >
+               Perguntas Frequentes (FAQ)
+-            </h2>
+-            <Accordion type="single" collapsible className="w-full bg-white rounded-3xl p-6 shadow-xl border border-slate-100">
+-              <AccordionItem value="item-1" className="border-b-slate-100 py-2">
+-                <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
+-                  Como fazer um Curriculum Vitae (CV) profissional para Mo├ºambique?
+-                </AccordionTrigger>
+-                <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
+-                  Para criar um cv profissional em Mo├ºambique, evite o cl├íssico "Word" desformatado. No Mozvita, basta selecionar um modelo da nossa biblioteca (ex: Cl├íssico Elegante ou Moderno), preencher os seus dados acad├®micos e profissionais no nosso formul├írio passo a passo, e o sistema trata da formata├º├úo perfeita automaticamente. No final, s├│ precisa de baixar em PDF.
+-                </AccordionContent>
+-              </AccordionItem>
+-              <AccordionItem value="item-2" className="border-b-slate-100 py-2">
+-                <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
+-                  O que os recrutadores mo├ºambicanos e multinacionais procuram?
+-                </AccordionTrigger>
+-                <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
+-                  Os recrutadores procuram organiza├º├úo, clareza e resultados. As empresas em Mo├ºambique valorizam uma estrutura onde a sua Experi├¬ncia Profissional mais recente aparece primeiro. Al├®m disso, ter uma sec├º├úo de "Soft Skills" (Lideran├ºa, Comunica├º├úo) e contatos de 2 a 3 refer├¬ncias profissionais v├ílidas ├® um diferencial enorme no nosso mercado.
+-                </AccordionContent>
+-              </AccordionItem>
+-              <AccordionItem value="item-3" className="border-b-slate-100 py-2">
+-                <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
+-                  Devo colocar foto no meu CV?
+-                </AccordionTrigger>
+-                <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
+-                  Embora n├úo seja obrigat├│rio por lei, no contexto mo├ºambicano, a maioria dos empregadores (especialmente nas ├íreas de atendimento ao p├║blico, hotelaria, banca e vendas) aprecia e at├® exige uma fotografia. Recomendamos o uso de uma foto profissional, com fundo neutro e roupa formal. O nosso sistema ajusta a sua foto perfeitamente ao formato do documento.
+-                </AccordionContent>
+-              </AccordionItem>
+-              <AccordionItem value="item-4" className="border-b-slate-100 py-2">
+-                <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
+-                  Como baixar o meu curr├¡culo em formato PDF?
+-                </AccordionTrigger>
+-                <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
+-                  Ap├│s terminar de preencher e pr├®-visualizar o seu curr├¡culo, clique no bot├úo "Baixar PDF". O nosso sistema gera um documento de alta qualidade que preserva todas as fontes, cores e margens, independentemente do computador, celular ou gr├ífica onde for aberto e impresso.
+-                </AccordionContent>
+-              </AccordionItem>
+-            </Accordion>
++            </motion.h2>
++            <motion.div
++              initial={{ opacity: 0, y: 30 }}
++              whileInView={{ opacity: 1, y: 0 }}
++              viewport={{ once: true }}
++              transition={{ duration: 0.6 }}
++            >
++              <Accordion type="single" collapsible className="w-full bg-white rounded-3xl p-6 shadow-xl border border-slate-100">
++                <AccordionItem value="item-1" className="border-b-slate-100 py-2">
++                  <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
++                    Como fazer um Curriculum Vitae (CV) profissional para Mo├ºambique?
++                  </AccordionTrigger>
++                  <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
++                    Para criar um cv profissional em Mo├ºambique, evite o cl├íssico "Word" desformatado. No Mozvita, basta selecionar um modelo da nossa biblioteca (ex: Cl├íssico Elegante ou Moderno), preencher os seus dados acad├®micos e profissionais no nosso formul├írio passo a passo, e o sistema trata da formata├º├úo perfeita automaticamente. No final, s├│ precisa de baixar em PDF.
++                  </AccordionContent>
++                </AccordionItem>
++                <AccordionItem value="item-2" className="border-b-slate-100 py-2">
++                  <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
++                    O que os recrutadores mo├ºambicanos e multinacionais procuram?
++                  </AccordionTrigger>
++                  <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
++                    Os recrutadores procuram organiza├º├úo, clareza e resultados. As empresas em Mo├ºambique valorizam uma estrutura onde a sua Experi├¬ncia Profissional mais recente aparece primeiro. Al├®m disso, ter uma sec├º├úo de "Soft Skills" (Lideran├ºa, Comunica├º├úo) e contatos de 2 a 3 refer├¬ncias profissionais v├ílidas ├® um diferencial enorme no nosso mercado.
++                  </AccordionContent>
++                </AccordionItem>
++                <AccordionItem value="item-3" className="border-b-slate-100 py-2">
++                  <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
++                    Devo colocar foto no meu CV?
++                  </AccordionTrigger>
++                  <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
++                    Embora n├úo seja obrigat├│rio por lei, no contexto mo├ºambicano, a maioria dos empregadores (especialmente nas ├íreas de atendimento ao p├║blico, hotelaria, banca e vendas) aprecia e at├® exige uma fotografia. Recomendamos o uso de uma foto profissional, com fundo neutro e roupa formal. O nosso sistema ajusta a sua foto perfeitamente ao formato do documento.
++                  </AccordionContent>
++                </AccordionItem>
++                <AccordionItem value="item-4" className="border-b-slate-100 py-2">
++                  <AccordionTrigger className="text-left font-bold text-slate-800 text-lg hover:text-brand-600 hover:no-underline">
++                    Como baixar o meu curr├¡culo em formato PDF?
++                  </AccordionTrigger>
++                  <AccordionContent className="text-slate-600 text-base leading-relaxed pt-2">
++                    Ap├│s terminar de preencher e pr├®-visualizar o seu curr├¡culo, clique no bot├úo "Baixar PDF". O nosso sistema gera um documento de alta qualidade que preserva todas as fontes, cores e margens, independentemente do computador, celular ou gr├ífica onde for aberto e impresso.
++                  </AccordionContent>
++                </AccordionItem>
++              </Accordion>
++            </motion.div>
+           </div>
+         </div>
+       </section>
+@@ -590,7 +851,13 @@ const Index = () => {
+         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
+         
+-        <div className="container mx-auto px-4 relative z-10 text-center">
++        <motion.div 
++          initial={{ opacity: 0, scale: 0.95 }}
++          whileInView={{ opacity: 1, scale: 1 }}
++          viewport={{ once: true }}
++          transition={{ duration: 0.7 }}
++          className="container mx-auto px-4 relative z-10 text-center"
++        >
+           <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
+             Preparado para ser notado <br className="hidden md:block"/> pelos recrutadores?
+           </h2>
+@@ -598,15 +865,17 @@ const Index = () => {
+             Junte-se a milhares de mo├ºambicanos que j├í conseguiram emprego usando os nossos modelos de CV.
+           </p>
+           <div className="flex flex-col sm:flex-row justify-center gap-6">
+-            <Button
+-              size="lg"
+-              className="bg-white text-brand-700 hover:bg-slate-50 px-10 h-16 text-xl rounded-2xl font-bold shadow-2xl"
+-              onClick={() => handleProtectedAction('/modelos')}
+-            >
+-              Come├ºar a Criar o Meu CV
+-            </Button>
++            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
++              <Button
++                size="lg"
++                className="bg-white text-brand-700 hover:bg-slate-50 px-10 h-16 text-xl rounded-2xl font-bold shadow-2xl btn-shine-sweep"
++                onClick={() => handleProtectedAction('/modelos')}
++              >
++                Come├ºar a Criar o Meu CV
++              </Button>
++            </motion.div>
+           </div>
+-        </div>
++        </motion.div>
+       </section>
+     </div>
+   );

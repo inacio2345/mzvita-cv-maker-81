@@ -18,7 +18,8 @@ import {
   BookOpen,
   ChevronDown,
   ChevronUp,
-  DollarSign
+  DollarSign,
+  Briefcase
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -109,17 +110,17 @@ const MobileNav = () => {
             path="/" 
             active={isActive('/')} 
           />
+
+          <NavItem 
+            icon={Briefcase} 
+            label="Vagas & IA" 
+            path="/meu-emprego" 
+            active={isActive('/meu-emprego')} 
+          />
           
           <NavItem 
             icon={PlusCircle} 
             label="Criar CV" 
-            path="/modelos" 
-            active={isActive('/modelos')} 
-          />
-
-          <NavItem 
-            icon={Layout} 
-            label="Modelos" 
             path="/modelos" 
             active={isActive('/modelos')} 
           />

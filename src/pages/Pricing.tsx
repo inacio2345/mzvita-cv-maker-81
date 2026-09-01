@@ -26,7 +26,7 @@ const Pricing = () => {
         {
             id: 'single' as const,
             name: 'Plano Avulso',
-            price: '50',
+            price: '100',
             period: 'item',
             description: 'Ideal para uma necessidade rápida e pontual.',
             icon: <Zap className="w-8 h-8 text-blue-500" />,

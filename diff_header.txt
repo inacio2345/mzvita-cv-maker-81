@@ -1,0 +1,15 @@
+﻿diff --git a/src/components/ui/header.tsx b/src/components/ui/header.tsx
+index 539ad1c..f457776 100644
+--- a/src/components/ui/header.tsx
++++ b/src/components/ui/header.tsx
+@@ -94,6 +94,10 @@ const Header = () => {
+             {/* Desktop Links */}
+             {!isMobile && (
+               <nav className="hidden lg:flex items-center space-x-6 font-semibold text-slate-700">
++                <Link to="/meu-emprego" className="hover:text-brand-600 transition-colors flex items-center gap-1.5 font-extrabold text-brand-600 bg-brand-50 hover:bg-brand-100 px-3.5 py-1.5 rounded-2xl border border-brand-200 shadow-sm">
++                  <Briefcase className="w-4 h-4 text-brand-600 animate-pulse" />
++                  Vagas & IA
++                </Link>
+                 <Link to="/modelos" className="hover:text-brand-600 transition-colors">Modelos</Link>
+                 
+                 <DropdownMenu modal={false}>

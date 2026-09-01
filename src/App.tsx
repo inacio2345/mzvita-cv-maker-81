@@ -4,12 +4,13 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Link, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { AuthProvider } from "@/hooks/useAuth";
+import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Badge } from "@/components/ui/badge";
 import Footer from "@/components/ui/footer";
 import Header from "@/components/ui/header";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
@@ -77,6 +78,7 @@ const queryClient = new QueryClient();
 
 // Routes that use the App layout (with sidebar, no public header/footer)
 const appRoutes = [
+  '/meu-emprego',
   '/criar-cv',
   '/preview',
   '/perfil',
@@ -101,9 +103,11 @@ const printRoutes = ['/imprimir'];
 
 function useLayoutType() {
   const location = useLocation();
+  const { user } = useAuth();
   const path = location.pathname;
   
   if (printRoutes.includes(path)) return 'print';
+  if (path === '/meu-emprego') return user ? 'app' : 'public';
   if (appRoutes.includes(path) || path.startsWith('/perfil/')) return 'app';
   return 'public';
 }
@@ -125,7 +129,44 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// App Layout: sidebar + no public header/footer
+// Sleek Mobile Header Bar for AppLayout (Eliminates raw white space on mobile screens)
+const MobileTopBar = () => {
+  const { user } = useAuth();
+  const { isPremiumActive } = useSubscription();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  if (location.pathname === '/meu-emprego' || location.pathname === '/criar-cv') {
+    return null;
+  }
+
+  return (
+    <header className="lg:hidden sticky top-0 left-0 right-0 z-40 h-14 bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 flex items-center justify-between shrink-0 shadow-sm">
+      <Link to="/perfil" className="flex items-center">
+        <img src="/logo.png" alt="MozVita Logo" className="h-7 w-auto object-contain" />
+      </Link>
+      
+      <div className="flex items-center gap-2">
+        <Badge variant="outline" className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${
+          isPremiumActive ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'
+        }`}>
+          {isPremiumActive ? 'PRO ★' : 'Grátis'}
+        </Badge>
+
+        {user && (
+          <div 
+            onClick={() => navigate('/perfil')}
+            className="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 font-bold text-xs cursor-pointer active:scale-95 transition-transform"
+          >
+            {user.email?.charAt(0).toUpperCase()}
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
+
+// App Layout: sidebar + mobile top bar
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -135,6 +176,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider defaultOpen={!isMobile}>
       {!isMobile && <AppSidebar />}
       <SidebarInset className="overflow-x-hidden w-full overflow-y-auto m-0 p-0">
+        <MobileTopBar />
         <div className="flex flex-1 flex-col justify-start items-stretch overflow-x-hidden max-w-full h-full m-0 p-0">
           {children}
         </div>
@@ -199,6 +241,7 @@ const LayoutRouter = () => {
       {layoutType === 'app' && (
         <AppLayout>
           <Routes>
+            <Route path="/meu-emprego" element={<MeuEmprego />} />
             <Route path="/criar-cv" element={<AuthGuard><CreateCV /></AuthGuard>} />
             <Route path="/modelos" element={<AuthGuard><Exemplos /></AuthGuard>} />
             <Route path="/preview" element={<AuthGuard><Preview /></AuthGuard>} />

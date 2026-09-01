@@ -217,7 +217,7 @@ const PagamentoSucesso = () => {
                     Faça o upgrade para o <strong>Plano Mensal</strong> e use a nossa Inteligência Artificial para traduzir todo o seu currículo em segundos, além de gerar Cartas de Apresentação personalizadas!
                   </p>
                   <Button 
-                    onClick={() => navigate('/pricing')}
+                    onClick={() => navigate('/precos')}
                     className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold h-10 shadow-lg shadow-amber-200/50"
                   >
                     <Sparkles className="w-4 h-4 mr-2" />

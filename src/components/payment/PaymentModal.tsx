@@ -60,7 +60,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
         {
             id: 'single' as const,
             name: 'Plano Avulso',
-            price: '50,00 MT',
+            price: '100,00 MT',
             description: 'Perfeito para um único uso',
             icon: <Zap className="w-5 h-5 text-blue-500" />,
             features: ['1 Download de CV ou Carta', 'Alta Resolução', 'Acesso Vitalício ao item'],
@@ -107,7 +107,7 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
             
             console.log("Iniciando pagamento para:", currentUser.id, "Plano:", selectedPlan);
 
-            const { data: result, error: invError } = await supabase.functions.invoke('create-paysuite-payment', {
+            const { data: result, error: invError } = await supabase.functions.invoke('create-zumbopay-payment', {
                 headers: {
                     Authorization: `Bearer ${session.access_token}`
                 },
@@ -125,18 +125,20 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
                 throw invError;
             }
             
-            if (result.checkout_url) {
-                setPaysuiteId(result.paysuite_id);
+            if (result?.checkout_url) {
+                setPaysuiteId(result.paysuite_id || result.reference);
                 setCheckoutUrl(result.checkout_url);
                 window.open(result.checkout_url, '_blank');
+            } else if (result?.error) {
+                throw new Error(result.error);
             } else {
                 throw new Error("Erro ao gerar link de pagamento");
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             toast({
                 title: "Erro no pagamento",
-                description: "Não foi possível iniciar o checkout. Tente novamente.",
+                description: error?.message || "Não foi possível iniciar o checkout. Tente novamente.",
                 variant: "destructive"
             });
         } finally {
@@ -267,21 +269,22 @@ const PaymentModal = ({ isOpen, onClose, onSuccess, cvId }: PaymentModalProps) =
                             </>
                         )}
                     </Button>
-                    <div className="grid grid-cols-2 gap-3 mt-2">
-                        <div className="flex items-center justify-center gap-2 p-3 bg-red-50 border border-red-100 rounded-xl">
-                          <span className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(239,68,68,0.5)]"></span>
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                        <div className="flex items-center justify-center gap-1.5 p-2.5 bg-red-50 border border-red-100 rounded-xl">
+                          <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(239,68,68,0.5)]"></span>
                           <span className="text-xs font-black text-red-700 uppercase tracking-tighter">M-Pesa</span>
                         </div>
-                        <div className="flex items-center justify-center gap-2 p-3 bg-orange-50 border border-orange-100 rounded-xl opacity-50">
-                          <span className="w-2.5 h-2.5 bg-orange-500 rounded-full"></span>
-                          <span className="text-xs font-black text-orange-700 uppercase tracking-tighter line-through">E-Mola</span>
+                        <div className="flex items-center justify-center gap-1.5 p-2.5 bg-orange-50 border border-orange-100 rounded-xl">
+                          <span className="w-2 h-2 bg-orange-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(249,115,22,0.5)]"></span>
+                          <span className="text-xs font-black text-orange-700 uppercase tracking-tighter">E-Mola</span>
+                        </div>
+                        <div className="flex items-center justify-center gap-1.5 p-2.5 bg-blue-50 border border-blue-100 rounded-xl">
+                          <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(59,130,246,0.5)]"></span>
+                          <span className="text-xs font-black text-blue-700 uppercase tracking-tighter">Cartão</span>
                         </div>
                     </div>
-                    <div className="mt-2 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-xs text-center font-medium shadow-sm">
-                        ⚠️ <b>Atenção:</b> O sistema do E-Mola encontra-se temporariamente instável na nossa plataforma de pagamentos. Por favor, utilize o <b>M-Pesa</b> para garantir que a sua compra seja processada com sucesso.
-                    </div>
                     <p className="text-[10px] text-center text-slate-400 font-medium max-w-xs mx-auto mt-2">
-                        Pagamento processado de forma criptografada pelo PaySuite. 
+                        Pagamento processado de forma criptografada pelo ZumboPay. 
                         Ao prosseguir, você concorda com nossos Termos de Uso.
                     </p>
                 </div>

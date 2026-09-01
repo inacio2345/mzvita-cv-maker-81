@@ -5,7 +5,7 @@ const PAYSUITE_API_URL = "https://paysuite.tech/api/v1/payments"
 const PAYSUITE_API_TOKEN = Deno.env.get("pymentmozvita") || Deno.env.get("PAYSUITE_API_TOKEN")
 
 const PLAN_PRICES: Record<string, number> = {
-  single: 50.00,
+  single: 100.00,
   monthly: 200.00,
   annual: 1290.00
 }
@@ -52,6 +52,12 @@ serve(async (req) => {
     const userPart = String(user_id).replace(/-/g, '').substring(0, 8);
     const reference = `MZVT${Date.now()}${userPart}`
 
+    // Validar token antes de chamar a API
+    if (!PAYSUITE_API_TOKEN || PAYSUITE_API_TOKEN.length < 10) {
+      console.error("Token PaySuite ausente ou inválido")
+      throw new Error("Configuração do sistema de pagamento incompleta. Contacte o suporte.")
+    }
+
     const response = await fetch(PAYSUITE_API_URL, {
       method: "POST",
       headers: {
@@ -72,7 +78,23 @@ serve(async (req) => {
 
     if (result.status !== "success") {
       console.error("Erro no PaySuite:", JSON.stringify(result))
-      throw new Error(result.message || "Falha ao iniciar pagamento no PaySuite")
+      
+      // Traduzir mensagens de erro conhecidas do PaySuite
+      const rawMsg = result.message || ""
+      let userMessage = "Falha ao iniciar pagamento no PaySuite"
+      
+      if (rawMsg.toLowerCase().includes("company account")) {
+        userMessage = "O sistema de pagamentos está temporariamente indisponível. A equipa técnica já foi notificada. Por favor, tente novamente mais tarde."
+        console.error("CRÍTICO: A conta PaySuite precisa ser atualizada para conta empresarial (Company Account)!")
+      } else if (rawMsg.toLowerCase().includes("unauthorized") || rawMsg.toLowerCase().includes("invalid token")) {
+        userMessage = "Erro de autenticação no sistema de pagamentos. Contacte o suporte."
+      } else if (rawMsg.toLowerCase().includes("insufficient")) {
+        userMessage = "Saldo insuficiente no sistema de pagamentos. Contacte o suporte."
+      } else if (rawMsg) {
+        userMessage = rawMsg
+      }
+      
+      throw new Error(userMessage)
     }
 
     // =========================================================

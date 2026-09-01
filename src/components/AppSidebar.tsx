@@ -29,6 +29,11 @@ const menuItems = [
     icon: Home,
   },
   {
+    title: "Vagas & Assistente IA",
+    url: "/meu-emprego",
+    icon: Briefcase,
+  },
+  {
     title: "Criar currículo",
     url: "/modelos",
     icon: FileText,

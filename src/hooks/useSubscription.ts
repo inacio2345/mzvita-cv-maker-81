@@ -125,7 +125,7 @@ export const useSubscription = () => {
     const affiliateCode = getReferralCode();
 
     try {
-      const response = await supabase.functions.invoke('create-paysuite-payment', {
+      const response = await supabase.functions.invoke('create-zumbopay-payment', {
         body: {
           plan_type: planType,
           user_id: finalUserId,
@@ -134,18 +134,31 @@ export const useSubscription = () => {
         }
       });
 
-      if (response.error) throw response.error;
+      if (response.error) {
+        let errorMsg = response.error.message || "Erro ao conectar com o serviço de pagamento";
+        try {
+          if (response.error.context) {
+            const body = await response.error.context.json();
+            if (body?.error) errorMsg = body.error;
+          }
+        } catch {}
+        throw new Error(errorMsg);
+      }
+
+      if (response.data?.error) {
+        throw new Error(response.data.error);
+      }
 
       if (response.data?.checkout_url) {
         window.location.href = response.data.checkout_url;
       } else {
-        throw new Error("Checkout URL não recebida");
+        throw new Error("Link de checkout não recebido do sistema de pagamentos.");
       }
     } catch (error: any) {
       console.error('Erro ao iniciar pagamento:', error);
       toast({
         title: "Erro no pagamento",
-        description: "Não foi possível iniciar o processo de pagamento. Tente novamente.",
+        description: error?.message || "Não foi possível iniciar o processo de pagamento. Tente novamente.",
         variant: "destructive"
       });
     }
