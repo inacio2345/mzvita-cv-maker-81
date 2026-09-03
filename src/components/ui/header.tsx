@@ -13,6 +13,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { Badge } from '@/components/ui/badge';
 import { User, ChevronDown, FileText, Mail, PenTool, LogOut, Award, Briefcase, GraduationCap, Heart, Sparkles, Crown, Zap } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import UniversalAd from '@/components/ads/UniversalAd';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -181,6 +182,11 @@ const Header = () => {
         </div>
 
       </div>
+      {shouldShowAds && (
+        <div className="container mx-auto px-4 py-1">
+          <UniversalAd slotName="header" />
+        </div>
+      )}
     </header>
   );
 };

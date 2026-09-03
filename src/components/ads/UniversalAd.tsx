@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Advertisement } from '@/types/ads';
 
@@ -10,14 +10,14 @@ interface UniversalAdProps {
 
 /**
  * UniversalAd: Componente oficial de exibição de anúncios por Slot no MozVita.
- * Totalmente compatível com os códigos propostos pelo Adsterra (Banners 728x90, 320x50, Nativos e Popunders).
- * Suporta múltiplos registros para o mesmo slot (ex: um registro 320x50 e outro 728x90) selecionando
- * automaticamente o melhor anúncio para a resolução de ecrã do utilizador.
+ * Funciona nativamente no Desktop e no Telemóvel (Mobile), executando scripts do Adsterra
+ * (Banner 728x90, Banner 320x50, Bandeiras Nativas) diretamente no DOM sem aninhamento de iFrames bloqueados.
  */
 const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fallbackHeight = 'auto' }) => {
   const [ad, setAd] = useState<Advertisement | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // 1. Deteção Responsiva em Tempo Real (Mobile <= 768px vs Desktop)
   useEffect(() => {
@@ -95,6 +95,30 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
 
   const adData = getAdContent();
 
+  // Executar e injetar scripts de código Adsterra diretamente no DOM para funcionamento 100% no Telemóvel e PC
+  useEffect(() => {
+    if (!containerRef.current || !adData || adData.type !== 'code' || !adData.content) return;
+
+    const container = containerRef.current;
+    container.innerHTML = '';
+
+    const scriptWrapper = document.createElement('div');
+    scriptWrapper.className = 'w-full flex justify-center items-center overflow-hidden';
+    scriptWrapper.innerHTML = adData.content;
+    container.appendChild(scriptWrapper);
+
+    // Re-executar scripts extraídos para garantir que o navegador (mobile e desktop) os processe
+    const scripts = scriptWrapper.querySelectorAll('script');
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement('script');
+      Array.from(oldScript.attributes).forEach((attr) => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      newScript.text = oldScript.text;
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+  }, [adData, isMobile]);
+
   // Se estiver a carregar, sem anúncio ou com conteúdo vazio, RETORNAR NULL (Sem caixas brancas vazias!)
   if (loading || !ad || !adData || !adData.content || adData.content.trim() === '') {
     return null; 
@@ -123,69 +147,9 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
     return imageElement;
   };
 
-  // Determinar altura sugerida para o iFrame de acordo com o código do Adsterra
-  const getCalculatedHeight = () => {
-    if (fallbackHeight !== 'auto') return fallbackHeight;
-
-    const content = adData.content;
-    if (content.includes("'height' : 90") || content.includes('"height": 90') || content.includes('728x90')) {
-      return '90px';
-    }
-    if (content.includes("'height' : 50") || content.includes('"height": 50') || content.includes('320x50')) {
-      return '50px';
-    }
-    if (content.includes("'height' : 250") || content.includes('"height": 250') || content.includes('300x250')) {
-      return '250px';
-    }
-    if (content.includes("'height' : 600") || content.includes('"height": 600') || content.includes('160x600')) {
-      return '600px';
-    }
-    return '250px';
-  };
-
-  // Renderizar Código Adsterra via IFrame com Escopo Isolado
-  const renderCodeAd = () => {
-    const calculatedHeight = getCalculatedHeight();
-    const docContent = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <style>
-            html, body {
-              margin: 0;
-              padding: 0;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background: transparent;
-              overflow: hidden;
-            }
-          </style>
-        </head>
-        <body>
-          ${adData.content}
-        </body>
-      </html>
-    `;
-
-    return (
-      <iframe
-        srcDoc={docContent}
-        className="w-full border-none overflow-hidden bg-transparent"
-        style={{ height: calculatedHeight, minHeight: calculatedHeight }}
-        scrolling="no"
-        title={ad.title || `Anúncio ${slotName}`}
-      />
-    );
-  };
-
   return (
     <div className={`w-full flex justify-center items-center my-4 relative ${className}`}>
-      {isImage ? renderImageAd() : renderCodeAd()}
+      {isImage ? renderImageAd() : <div ref={containerRef} className="w-full flex justify-center items-center min-h-[50px]" />}
     </div>
   );
 };

@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FileText, ArrowLeft, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import UniversalAd from '@/components/ads/UniversalAd';
+
 interface AppHeaderProps {
   showBackButton?: boolean;
   title?: string;
@@ -41,6 +43,7 @@ const AppHeader = ({
   };
   return <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
     <div className="max-w-4xl mx-auto">
+      <UniversalAd slotName="header" className="mb-4" />
       <div className="flex items-center justify-between mb-6">
         {shouldShowBackButton && <Button variant="outline" onClick={handleBackClick} className="flex items-center gap-2">
           {getBackButtonIcon()}
