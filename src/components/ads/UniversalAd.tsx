@@ -11,7 +11,8 @@ interface UniversalAdProps {
 /**
  * UniversalAd: Componente oficial de exibição de anúncios por Slot no MozVita.
  * Totalmente compatível com os códigos propostos pelo Adsterra (Banners 728x90, 320x50, Nativos e Popunders).
- * Garante isolamento de escopo para `atOptions`, evita sobreposição e elimina caixas brancas vazias.
+ * Suporta múltiplos registros para o mesmo slot (ex: um registro 320x50 e outro 728x90) selecionando
+ * automaticamente o melhor anúncio para a resolução de ecrã do utilizador.
  */
 const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fallbackHeight = 'auto' }) => {
   const [ad, setAd] = useState<Advertisement | null>(null);
@@ -26,7 +27,7 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // 2. Buscar Anúncio Ativo para este Slot
+  // 2. Buscar Anúncios Ativos para este Slot
   useEffect(() => {
     let isMounted = true;
     const fetchAd = async () => {
@@ -36,13 +37,27 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
           .select('*')
           .eq('slot_name', slotName)
           .eq('is_active', true)
-          .order('updated_at', { ascending: false })
-          .limit(1)
-          .maybeSingle();
+          .order('updated_at', { ascending: false });
 
         if (error) throw error;
-        if (isMounted) {
-          setAd(data as Advertisement || null);
+
+        if (isMounted && data && data.length > 0) {
+          // Selecionar o melhor anúncio para o dispositivo atual
+          let bestAd = data.find((a: Advertisement) => {
+            if (isMobile) {
+              return a.mobile_content && a.mobile_content.trim() !== '' && a.mobile_content !== a.desktop_content;
+            } else {
+              return a.desktop_content && a.desktop_content.trim() !== '';
+            }
+          });
+
+          if (!bestAd) {
+            bestAd = data[0];
+          }
+
+          setAd(bestAd as Advertisement);
+        } else if (isMounted) {
+          setAd(null);
         }
       } catch (err) {
         console.error(`Erro ao carregar anúncio do slot "${slotName}":`, err);
@@ -55,7 +70,7 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
     return () => {
       isMounted = false;
     };
-  }, [slotName]);
+  }, [slotName, isMobile]);
 
   // Escolher conteúdo baseado no dispositivo com fallback inteligente
   const getAdContent = () => {
@@ -125,11 +140,10 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
     if (content.includes("'height' : 600") || content.includes('"height": 600') || content.includes('160x600')) {
       return '600px';
     }
-    return '250px'; // Padrão para Banners Nativos
+    return '250px';
   };
 
   // Renderizar Código Adsterra via IFrame com Escopo Isolado
-  // Isto evita que a variável `atOptions` de um banner sobrescreva a de outro banner na mesma página!
   const renderCodeAd = () => {
     const calculatedHeight = getCalculatedHeight();
     const docContent = `
