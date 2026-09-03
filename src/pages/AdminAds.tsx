@@ -9,7 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { 
   Shield, Plus, Trash2, Edit2, Save, X, 
   Monitor, Smartphone, Link as LinkIcon, Code, Image as ImageIcon,
-  CheckCircle2, AlertCircle, Layout
+  CheckCircle2, AlertCircle, Layout, HelpCircle, Info, Sparkles
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -18,15 +18,78 @@ import { useNavigate } from 'react-router-dom';
 import { Advertisement } from '@/types/ads';
 
 export const AD_SLOTS = [
-  { value: 'header', label: 'Cabeçalho (Topo da Página)', description: 'Exibido no topo antes do conteúdo' },
-  { value: 'footer', label: 'Rodapé Global', description: 'Exibido logo acima do rodapé em todas as páginas' },
-  { value: 'job_feed_1', label: 'Feed de Vagas — Posição 1', description: 'Inserido após o 2º cartão de vaga' },
-  { value: 'job_feed_2', label: 'Feed de Vagas — Posição 2', description: 'Inserido no meio da lista de vagas' },
-  { value: 'success_page', label: 'Página de Download de CV', description: 'Exibido ao descarregar currículo em PDF' },
-  { value: 'blog_sidebar', label: 'Barra Lateral do Blog', description: 'Exibido na barra lateral dos artigos' },
-  { value: 'blog_content', label: 'Meio dos Artigos de Blog', description: 'Inserido entre os parágrafos de artigos' },
-  { value: 'global_social_bar', label: 'Global — Social Bar (Adsterra)', description: 'Widget flutuante ativo em todas as páginas' },
-  { value: 'global_popunder', label: 'Global — Popunder (Adsterra)', description: 'Abre anúncio em background ao clicar na página' },
+  { 
+    value: 'header', 
+    label: '🖼️ Cabeçalho (Topo da Página)', 
+    description: 'Exibido no topo antes do conteúdo.',
+    recommendedAdsterra: 'Banner 728x90 no Computador | Banner 320x50 no Telemóvel',
+    adsterraType: 'Banner Display',
+    badgeColor: 'bg-blue-50 text-blue-700 border-blue-200'
+  },
+  { 
+    value: 'footer', 
+    label: '🖼️ Rodapé Global', 
+    description: 'Exibido logo acima do rodapé em todas as páginas.',
+    recommendedAdsterra: 'Banner 728x90 no Computador | Banner 320x50 no Telemóvel',
+    adsterraType: 'Banner Display',
+    badgeColor: 'bg-indigo-50 text-indigo-700 border-indigo-200'
+  },
+  { 
+    value: 'job_feed_1', 
+    label: '📰 Feed de Vagas — Posição 1', 
+    description: 'Inserido no meio da lista de vagas (após a 2ª vaga).',
+    recommendedAdsterra: 'Bandeira Nativa (NativeBanner_1) ou Banner 300x250',
+    adsterraType: 'Anúncio Nativo / Banner Grid',
+    badgeColor: 'bg-amber-50 text-amber-700 border-amber-200'
+  },
+  { 
+    value: 'job_feed_2', 
+    label: '📰 Feed de Vagas — Posição 2', 
+    description: 'Inserido a meio da lista de vagas (após a 5ª vaga).',
+    recommendedAdsterra: 'Bandeira Nativa (NativeBanner_1) ou Banner 300x250',
+    adsterraType: 'Anúncio Nativo / Banner Grid',
+    badgeColor: 'bg-amber-50 text-amber-700 border-amber-200'
+  },
+  { 
+    value: 'success_page', 
+    label: '📄 Página de Download de CV', 
+    description: 'Exibido ao descarregar o currículo em PDF.',
+    recommendedAdsterra: 'Bandeira Nativa ou Banner 300x250 / Direct Link',
+    adsterraType: 'Banner / SmartLink',
+    badgeColor: 'bg-emerald-50 text-emerald-700 border-emerald-200'
+  },
+  { 
+    value: 'blog_sidebar', 
+    label: '📌 Barra Lateral do Blog', 
+    description: 'Exibido na barra lateral dos artigos do blog.',
+    recommendedAdsterra: 'Banner 300x250 ou Bandeira Nativa',
+    adsterraType: 'Banner Sidebar',
+    badgeColor: 'bg-purple-50 text-purple-700 border-purple-200'
+  },
+  { 
+    value: 'blog_content', 
+    label: '📖 Meio dos Artigos de Blog', 
+    description: 'Inserido entre os parágrafos de artigos.',
+    recommendedAdsterra: 'Bandeira Nativa (NativeBanner_1)',
+    adsterraType: 'Anúncio Nativo In-Article',
+    badgeColor: 'bg-purple-50 text-purple-700 border-purple-200'
+  },
+  { 
+    value: 'global_social_bar', 
+    label: '💬 Global — Social Bar (Adsterra)', 
+    description: 'Widget flutuante interativo que simula chat/notificações no rodapé.',
+    recommendedAdsterra: 'Código do Social Bar obtido no Adsterra',
+    adsterraType: 'Social Bar (Overlay Global)',
+    badgeColor: 'bg-teal-50 text-teal-700 border-teal-200'
+  },
+  { 
+    value: 'global_popunder', 
+    label: '⚡ Global — Popunder (Adsterra)', 
+    description: 'Abre o anúncio em background em nova aba ao clicar na página.',
+    recommendedAdsterra: 'Código do Popunder (Popunder_1 - ID 26763162) obtido no Adsterra',
+    adsterraType: 'Popunder (Script Global de Tela Cheia)',
+    badgeColor: 'bg-rose-50 text-rose-700 border-rose-200'
+  },
 ];
 
 const AdminAds = () => {
@@ -88,7 +151,7 @@ const AdminAds = () => {
   const handleSave = async () => {
     try {
       if (!currentAd.title || !currentAd.slot_name) {
-        toast({ title: 'Campos obrigatórios', description: 'Título e Slot são necessários', variant: 'destructive' });
+        toast({ title: 'Campos obrigatórios', description: 'Preencha o Título e a Posição do Anúncio', variant: 'destructive' });
         return;
       }
 
@@ -98,7 +161,9 @@ const AdminAds = () => {
         desktop_type: currentAd.desktop_type || 'code',
         desktop_content: currentAd.desktop_content || '',
         mobile_type: currentAd.mobile_type || 'code',
-        mobile_content: currentAd.mobile_content || '',
+        mobile_content: (currentAd.mobile_content && currentAd.mobile_content.trim() !== '') 
+          ? currentAd.mobile_content 
+          : (currentAd.desktop_content || ''),
         redirect_url: currentAd.redirect_url || null,
         is_active: currentAd.is_active ?? true,
         updated_at: new Date().toISOString()
@@ -116,7 +181,7 @@ const AdminAds = () => {
           .from('advertisements')
           .insert([adData]);
         if (error) throw error;
-        toast({ title: 'Novo anúncio criado ✅' });
+        toast({ title: 'Novo anúncio configurado com sucesso ✅' });
       }
 
       setIsEditing(false);
@@ -179,13 +244,15 @@ const AdminAds = () => {
         .eq('id', ad.id);
       if (error) throw error;
       toast({
-        title: !ad.is_active ? 'Anúncio Ativado ✅' : 'Anúncio Desativado ⏸️',
+        title: !ad.is_active ? 'Anúncio Ativado ✅' : 'Anúncio Oculto ⏸️',
       });
       loadAds();
     } catch (error: any) {
       toast({ title: 'Erro ao alterar estado', description: error.message, variant: 'destructive' });
     }
   };
+
+  const currentSlotObj = AD_SLOTS.find(s => s.value === currentAd.slot_name) || AD_SLOTS[0];
 
   if (loading) {
     return (
@@ -209,7 +276,7 @@ const AdminAds = () => {
             </div>
             <div>
               <h1 className="text-xl md:text-2xl font-black text-slate-900">Admin — Anúncios</h1>
-              <p className="text-xs md:text-sm text-slate-500">Gerir banners, scripts Adsterra e locais de exibição</p>
+              <p className="text-xs md:text-sm text-slate-500">Gerir banners, scripts Adsterra, Popunder e locais de exibição</p>
             </div>
           </div>
           <Button onClick={() => {
@@ -224,6 +291,36 @@ const AdminAds = () => {
           }} className="bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl shadow-md">
             <Plus className="w-4 h-4 mr-2" /> Novo Anúncio
           </Button>
+        </div>
+
+        {/* Card Guia Explicativo do Adsterra para o Usuário */}
+        <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white p-5 rounded-2xl shadow-lg border border-slate-700/50">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0 mt-0.5">
+              <Sparkles className="w-5 h-5 text-emerald-400" />
+            </div>
+            <div className="space-y-1">
+              <h2 className="font-bold text-base text-white">Como configurar os seus 4 anúncios do Adsterra sem conflitos:</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-300 pt-2">
+                <div className="bg-white/5 p-2.5 rounded-xl border border-white/10">
+                  <span className="font-bold text-emerald-400">1. Popunder (Popunder_1 - ID 26763162):</span>
+                  <p className="text-slate-300 mt-0.5">Selecione a Posição <code className="bg-slate-800 px-1 py-0.5 rounded text-amber-300">Global — Popunder</code>. Cole o código no Computador e Telemóvel.</p>
+                </div>
+                <div className="bg-white/5 p-2.5 rounded-xl border border-white/10">
+                  <span className="font-bold text-blue-400">2. Banner 728x90 (728x90_1 - ID 26769938):</span>
+                  <p className="text-slate-300 mt-0.5">Selecione a Posição <code className="bg-slate-800 px-1 py-0.5 rounded text-amber-300">Cabeçalho (Topo)</code>. Cole no campo <strong className="text-white">Versão Computador</strong>.</p>
+                </div>
+                <div className="bg-white/5 p-2.5 rounded-xl border border-white/10">
+                  <span className="font-bold text-blue-400">3. Banner 320x50 (320x50_1 - ID 26769946):</span>
+                  <p className="text-slate-300 mt-0.5">Selecione a Posição <code className="bg-slate-800 px-1 py-0.5 rounded text-amber-300">Cabeçalho (Topo)</code>. Cole no campo <strong className="text-white">Versão Telemóvel</strong>.</p>
+                </div>
+                <div className="bg-white/5 p-2.5 rounded-xl border border-white/10">
+                  <span className="font-bold text-amber-400">4. Bandeira Nativa (NativeBanner_1 - ID 26769959):</span>
+                  <p className="text-slate-300 mt-0.5">Selecione a Posição <code className="bg-slate-800 px-1 py-0.5 rounded text-amber-300">Feed de Vagas — Posição 1</code>. Cole nas duas caixas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {isEditing ? (
@@ -245,9 +342,9 @@ const AdminAds = () => {
                 {/* Configurações Gerais */}
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-xs font-bold uppercase text-slate-500">Título Interno *</Label>
+                    <Label className="text-xs font-bold uppercase text-slate-500">Título Interno do Anúncio *</Label>
                     <Input 
-                      placeholder="Ex: Adsterra Social Bar Header" 
+                      placeholder="Ex: Adsterra Popunder Global ou Banner Cabeçalho" 
                       value={currentAd.title || ''} 
                       onChange={e => setCurrentAd({...currentAd, title: e.target.value})}
                       className="mt-1 font-medium"
@@ -255,9 +352,9 @@ const AdminAds = () => {
                   </div>
                   
                   <div>
-                    <Label className="text-xs font-bold uppercase text-slate-500">Posição (Slot Name) *</Label>
+                    <Label className="text-xs font-bold uppercase text-slate-500">Posição (Onde este anúncio vai aparecer) *</Label>
                     <select 
-                      className="w-full flex h-10 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm font-medium mt-1 focus:ring-2 focus:ring-emerald-500"
+                      className="w-full flex h-11 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-800 mt-1 focus:ring-2 focus:ring-emerald-500"
                       value={currentAd.slot_name || 'header'}
                       onChange={e => setCurrentAd({...currentAd, slot_name: e.target.value})}
                     >
@@ -267,13 +364,21 @@ const AdminAds = () => {
                         </option>
                       ))}
                     </select>
-                    <p className="text-[11px] text-slate-400 mt-1">
-                      {AD_SLOTS.find(s => s.value === currentAd.slot_name)?.description}
+                  </div>
+
+                  {/* Caixa de Recomendação Específica do Slot Selecionado */}
+                  <div className={`p-4 rounded-xl border ${currentSlotObj.badgeColor} space-y-1`}>
+                    <div className="flex items-center gap-1.5 font-bold text-xs">
+                      <Info className="w-4 h-4 shrink-0" />
+                      <span>{currentSlotObj.description}</span>
+                    </div>
+                    <p className="text-xs font-semibold mt-1">
+                      👉 <strong>Anúncio Adsterra Recomendado:</strong> {currentSlotObj.recommendedAdsterra}
                     </p>
                   </div>
 
                   <div>
-                    <Label className="text-xs font-bold uppercase text-slate-500">Link de Destino (Para Imagens ou SmartLinks)</Label>
+                    <Label className="text-xs font-bold uppercase text-slate-500">Link de Destino (Opcional - Para Imagens ou SmartLinks)</Label>
                     <div className="relative mt-1">
                       <LinkIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                       <Input 
@@ -294,6 +399,11 @@ const AdminAds = () => {
                       <Label className="text-sm font-bold text-slate-800">Anúncio Ativo</Label>
                       <p className="text-xs text-slate-400">Ative ou desative sem precisar eliminar</p>
                     </div>
+                  </div>
+
+                  <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 leading-relaxed">
+                    💡 <strong>Preciso colar o código duas vezes?</strong><br/>
+                    Se o seu anúncio for responsivo (como Popunder ou Bandeira Nativa), basta colar na <strong>Versão Computador</strong> e deixar a <strong>Versão Telemóvel em branco</strong>. O MozVita usa a Versão Computador para ambos automaticamente!
                   </div>
                 </div>
 
@@ -341,8 +451,8 @@ const AdminAds = () => {
                   )}
 
                   <Textarea 
-                    rows={5}
-                    placeholder={currentAd.desktop_type === 'image' ? "URL da imagem (https://...)..." : "<script>\n  atOptions = { 'key': '...' };\n</script>\n<script src='//.../invoke.js'></script>"}
+                    rows={6}
+                    placeholder={currentAd.desktop_type === 'image' ? "URL da imagem (https://...)..." : "<script type='text/javascript'>\n  atOptions = {\n    'key': '26769938',\n    'format': 'iframe',\n    'height': 90,\n    'width': 728\n  };\n</script>\n<script src='//www.highperformanceformat.com/26769938/invoke.js'></script>"}
                     value={currentAd.desktop_content || ''}
                     onChange={e => setCurrentAd({...currentAd, desktop_content: e.target.value})}
                     className="font-mono text-xs bg-white"
@@ -393,8 +503,8 @@ const AdminAds = () => {
                   )}
 
                   <Textarea 
-                    rows={5}
-                    placeholder={currentAd.mobile_type === 'image' ? "URL da imagem (https://...)..." : "<script>\n  atOptions = { 'key': '...' };\n</script>\n<script src='//.../invoke.js'></script>"}
+                    rows={6}
+                    placeholder={currentAd.mobile_type === 'image' ? "URL da imagem (https://...)..." : "<script type='text/javascript'>\n  atOptions = {\n    'key': '26769946',\n    'format': 'iframe',\n    'height': 50,\n    'width': 320\n  };\n</script>\n<script src='//www.highperformanceformat.com/26769946/invoke.js'></script>"}
                     value={currentAd.mobile_content || ''}
                     onChange={e => setCurrentAd({...currentAd, mobile_content: e.target.value})}
                     className="font-mono text-xs bg-white"
