@@ -12,6 +12,7 @@ interface UniversalAdProps {
  * UniversalAd: Componente oficial de exibição de anúncios por Slot no MozVita.
  * Funciona nativamente no Desktop e no Telemóvel (Mobile), executando scripts do Adsterra
  * (Banner 728x90, Banner 320x50, Bandeiras Nativas) diretamente no DOM sem aninhamento de iFrames bloqueados.
+ * Inclui fallback automático para reutilizar a Bandeira Nativa no Blog caso o slot específico não esteja configurado.
  */
 const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fallbackHeight = 'auto' }) => {
   const [ad, setAd] = useState<Advertisement | null>(null);
@@ -27,12 +28,12 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // 2. Buscar Anúncios Ativos para este Slot
+  // 2. Buscar Anúncios Ativos para este Slot (com Fallback inteligente para slots de blog)
   useEffect(() => {
     let isMounted = true;
     const fetchAd = async () => {
       try {
-        const { data, error } = await supabase
+        let { data, error } = await supabase
           .from('advertisements')
           .select('*')
           .eq('slot_name', slotName)
@@ -40,6 +41,17 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '', fal
           .order('updated_at', { ascending: false });
 
         if (error) throw error;
+
+        // Se o slot do blog estiver vazio, tentar buscar o anúncio nativo do feed de vagas como fallback automático
+        if ((!data || data.length === 0) && (slotName === 'blog_content' || slotName === 'blog_sidebar')) {
+          const fallbackRes = await supabase
+            .from('advertisements')
+            .select('*')
+            .eq('slot_name', 'job_feed_1')
+            .eq('is_active', true)
+            .order('updated_at', { ascending: false });
+          data = fallbackRes.data;
+        }
 
         if (isMounted && data && data.length > 0) {
           // Selecionar o melhor anúncio para o dispositivo atual

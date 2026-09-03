@@ -73,6 +73,7 @@ const JobFeed: React.FC = () => {
       />
 
       <div className="max-w-5xl mx-auto px-4 md:px-6 space-y-6">
+        <UniversalAd slotName="header" className="mb-2" />
         <div className="mb-8">
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Oportunidades em Moçambique</h1>
           <p className="text-slate-500 mt-2">Encontre a sua próxima grande oportunidade de carreira.</p>
