@@ -29,9 +29,14 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: "Vagas & Assistente IA",
-    url: "/meu-emprego",
+    title: "Vagas",
+    url: "/vagas",
     icon: Briefcase,
+  },
+  {
+    title: "Chat IA",
+    url: "/ia",
+    icon: Briefcase, // Usaremos o mesmo ícone por agora ou um genérico
   },
   {
     title: "Criar currículo",
@@ -186,6 +191,14 @@ export function AppSidebar() {
                     <Link to="/admin" className="flex items-center w-full">
                       <LayoutDashboard className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
                       <span className="text-sm font-medium text-slate-700">Dashboard Admin</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to="/admin/vagas" className="flex items-center w-full">
+                      <Briefcase className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">Gerir Vagas</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

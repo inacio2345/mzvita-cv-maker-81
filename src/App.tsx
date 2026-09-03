@@ -17,6 +17,7 @@ import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 import CookieBanner from "@/components/CookieBanner";
 import MobileNav from "@/components/ui/mobile-nav";
 import FacebookPixel from "@/components/FacebookPixel";
+import GlobalAdsManager from "@/components/ads/GlobalAdsManager";
 import Index from "./pages/Index";
 import CreateCV from "./pages/CreateCV";
 import BlogPostTemplate from "./pages/BlogPostTemplate";
@@ -35,7 +36,8 @@ import CartaRecomendacao from "./pages/CartaRecomendacao";
 import CartaPedidoBolsa from "./pages/CartaPedidoBolsa";
 import CartaAgradecimento from "./pages/CartaAgradecimento";
 import Blog from "./pages/Blog";
-import MeuEmprego from "./pages/MeuEmprego";
+import JobFeed from "./pages/JobFeed";
+import IaAssistant from "./pages/IaAssistant";
 import NotFound from "./pages/NotFound";
 import CVProfissionalMocambique from "./pages/blog/CVProfissionalMocambique";
 import ErrosComuns from "./pages/blog/ErrosComuns";
@@ -66,11 +68,13 @@ import AffiliateDashboard from "./pages/AffiliateDashboard";
 import AdminAffiliates from "./pages/AdminAffiliates";
 import AdminAds from "./pages/AdminAds";
 import AdminAbandonedCarts from "./pages/AdminAbandonedCarts";
+import AdminJobs from "./pages/AdminJobs";
 import PrintCV from "./pages/PrintCV";
 import ModeloProfissao from "./pages/ModeloProfissao";
 import ReferralTracker from "@/components/ReferralTracker";
 import { useSubscription } from "@/hooks/useSubscription";
 import { AuthGuard } from "@/components/auth/AuthGuard";
+import { AdminGuard } from "@/components/auth/AdminGuard";
 import { GuestGuard } from "@/components/auth/GuestGuard";
 import AdminDashboard from "./pages/AdminDashboard";
 
@@ -78,7 +82,8 @@ const queryClient = new QueryClient();
 
 // Routes that use the App layout (with sidebar, no public header/footer)
 const appRoutes = [
-  '/meu-emprego',
+  '/ia',
+  '/vagas',
   '/criar-cv',
   '/preview',
   '/perfil',
@@ -94,6 +99,7 @@ const appRoutes = [
   '/admin/afiliados',
   '/admin/anuncios',
   '/admin/carrinhos-abandonados',
+  '/admin/vagas',
   '/pagamento-sucesso',
   '/modelos',
   '/precos',
@@ -107,7 +113,7 @@ function useLayoutType() {
   const path = location.pathname;
   
   if (printRoutes.includes(path)) return 'print';
-  if (path === '/meu-emprego') return user ? 'app' : 'public';
+  if (path === '/ia' || path === '/vagas') return user ? 'app' : 'public';
   if (appRoutes.includes(path) || path.startsWith('/perfil/')) return 'app';
   return 'public';
 }
@@ -136,7 +142,7 @@ const MobileTopBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (location.pathname === '/meu-emprego' || location.pathname === '/criar-cv') {
+  if (location.pathname === '/ia' || location.pathname === '/vagas' || location.pathname === '/criar-cv') {
     return null;
   }
 
@@ -203,7 +209,8 @@ const LayoutRouter = () => {
         <PublicLayout>
           <Routes>
             <Route path="/" element={<GuestGuard><Index /></GuestGuard>} />
-            <Route path="/meu-emprego" element={<MeuEmprego />} />
+            <Route path="/vagas" element={<JobFeed />} />
+            <Route path="/ia" element={<IaAssistant />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPostTemplate />} />
             <Route path="/blog/cv-profissional-mocambique" element={<CVProfissionalMocambique />} />
@@ -241,7 +248,8 @@ const LayoutRouter = () => {
       {layoutType === 'app' && (
         <AppLayout>
           <Routes>
-            <Route path="/meu-emprego" element={<MeuEmprego />} />
+            <Route path="/vagas" element={<JobFeed />} />
+            <Route path="/ia" element={<IaAssistant />} />
             <Route path="/criar-cv" element={<AuthGuard><CreateCV /></AuthGuard>} />
             <Route path="/modelos" element={<AuthGuard><Exemplos /></AuthGuard>} />
             <Route path="/preview" element={<AuthGuard><Preview /></AuthGuard>} />
@@ -256,9 +264,10 @@ const LayoutRouter = () => {
             <Route path="/carta-agradecimento" element={<AuthGuard><CartaAgradecimento /></AuthGuard>} />
             <Route path="/comunidade" element={<AuthGuard><Comunidade /></AuthGuard>} />
             <Route path="/admin" element={<AuthGuard><AdminDashboard /></AuthGuard>} />
-            <Route path="/admin/afiliados" element={<AuthGuard><AdminAffiliates /></AuthGuard>} />
-            <Route path="/admin/anuncios" element={<AuthGuard><AdminAds /></AuthGuard>} />
-            <Route path="/admin/carrinhos-abandonados" element={<AuthGuard><AdminAbandonedCarts /></AuthGuard>} />
+            <Route path="/admin/afiliados" element={<AdminGuard><AdminAffiliates /></AdminGuard>} />
+            <Route path="/admin/anuncios" element={<AdminGuard><AdminAds /></AdminGuard>} />
+            <Route path="/admin/carrinhos-abandonados" element={<AdminGuard><AdminAbandonedCarts /></AdminGuard>} />
+            <Route path="/admin/vagas" element={<AdminGuard><AdminJobs /></AdminGuard>} />
             <Route path="/pagamento-sucesso" element={<AuthGuard><PagamentoSucesso /></AuthGuard>} />
             <Route path="/precos" element={<AuthGuard><Pricing /></AuthGuard>} />
           </Routes>
@@ -286,6 +295,7 @@ const App = () => {
             <Sonner />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
               <FacebookPixel />
+              <GlobalAdsManager />
               <ReferralTracker />
               <LayoutRouter />
             </BrowserRouter>

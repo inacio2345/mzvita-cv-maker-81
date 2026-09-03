@@ -94,9 +94,13 @@ const Header = () => {
             {/* Desktop Links */}
             {!isMobile && (
               <nav className="hidden md:flex items-center space-x-6 font-semibold text-slate-700">
-                <Link to="/meu-emprego" className="hover:text-brand-600 transition-colors flex items-center gap-1.5 font-extrabold text-brand-600 bg-brand-50 hover:bg-brand-100 px-3.5 py-1.5 rounded-2xl border border-brand-200 shadow-sm">
-                  <Briefcase className="w-4 h-4 text-brand-600 animate-pulse" />
-                  Vagas & IA
+                <Link to="/vagas" className="hover:text-brand-600 transition-colors flex items-center gap-1.5 font-extrabold text-slate-700 bg-slate-50 hover:bg-slate-100 px-3.5 py-1.5 rounded-2xl border border-slate-200 shadow-sm">
+                  <Briefcase className="w-4 h-4 text-slate-600" />
+                  Vagas
+                </Link>
+                <Link to="/ia" className="hover:text-brand-600 transition-colors flex items-center gap-1.5 font-extrabold text-brand-600 bg-brand-50 hover:bg-brand-100 px-3.5 py-1.5 rounded-2xl border border-brand-200 shadow-sm">
+                  <Zap className="w-4 h-4 text-brand-600 animate-pulse" />
+                  Chat IA
                 </Link>
                 <Link to="/modelos" className="hover:text-brand-600 transition-colors">Modelos</Link>
                 

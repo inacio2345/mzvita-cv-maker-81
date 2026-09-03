@@ -7,6 +7,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { useNavigate, Link } from 'react-router-dom';
 import AppHeader from '@/components/layout/AppHeader';
 import SEO from '@/components/SEO';
+import UniversalAd from '@/components/ads/UniversalAd';
 
 interface FAQ {
   question: string;
@@ -268,7 +269,7 @@ const BlogPost = ({
             <CardContent className="p-8">
               <div className="prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-700 prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-strong:text-gray-900">
                 {enhancedContent}
-                {/* Legacy ad slot removed */}
+                <UniversalAd slotName="blog_content" className="my-6" />
               </div>
             </CardContent>
           </Card>

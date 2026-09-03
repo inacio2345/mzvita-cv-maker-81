@@ -113,9 +113,16 @@ const MobileNav = () => {
 
           <NavItem 
             icon={Briefcase} 
-            label="Vagas & IA" 
-            path="/meu-emprego" 
-            active={isActive('/meu-emprego')} 
+            label="Vagas" 
+            path="/vagas" 
+            active={isActive('/vagas')} 
+          />
+          
+          <NavItem 
+            icon={Zap} 
+            label="Chat IA" 
+            path="/ia" 
+            active={isActive('/ia')} 
           />
           
           <NavItem 
@@ -123,13 +130,6 @@ const MobileNav = () => {
             label="Criar CV" 
             path="/modelos" 
             active={isActive('/modelos')} 
-          />
-
-          <NavItem 
-            icon={Zap} 
-            label="Planos" 
-            path="/precos" 
-            active={isActive('/precos')} 
           />
 
           {/* More Trigger */}
