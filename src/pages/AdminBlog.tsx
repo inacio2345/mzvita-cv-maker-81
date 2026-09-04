@@ -638,6 +638,7 @@ export default function AdminBlog() {
                       {post.excerpt}
                     </p>
                   </div>
+                </div>
 
                   <div className="flex items-center gap-2 shrink-0">
                     <a
