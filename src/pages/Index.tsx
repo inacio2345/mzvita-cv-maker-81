@@ -219,7 +219,7 @@ const Index = () => {
       />
 
       {/* 1. Hero Section (Parallax & Premium) */}
-      <section className="-mt-20 md:-mt-24 pt-28 md:pt-36 pb-12 lg:pb-24 overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100 relative max-w-full">
+      <section className="pt-24 md:pt-36 pb-16 lg:pb-24 overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100 relative max-w-full">
         {/* Decorative background blobs */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] lg:w-[600px] lg:h-[600px] bg-brand-300/20 rounded-full blur-3xl opacity-50 animate-pulse pointer-events-none max-w-full overflow-hidden" />
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] bg-blue-300/20 rounded-full blur-3xl opacity-50 pointer-events-none max-w-full overflow-hidden" />

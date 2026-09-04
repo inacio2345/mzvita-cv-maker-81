@@ -103,26 +103,28 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
     };
   }, []);
 
-  // 3. Montar o iFrame via Blob URL
-  useEffect(() => {
-    if (!iframeRef.current || !adData || adData.type !== 'code' || !adData.content) return;
+  // 3. Gerar código HTML para o iFrame
+  const getSrcDoc = useCallback(() => {
+    if (!adData || adData.type !== 'code' || !adData.content) return null;
 
-    if (blobUrlRef.current) {
-      URL.revokeObjectURL(blobUrlRef.current);
-      blobUrlRef.current = null;
-    }
-
-    // CORREÇÃO CRÍTICA: Substituir URLs relativas ao protocolo por HTTPS absoluto
-    const fixedContent = adData.content
+    // CORREÇÃO CRÍTICA: Garantir protocolo HTTPS absoluto para scripts externos
+    let fixedContent = adData.content
       .replace(/src=["']\/\//g, 'src="https://')
       .replace(/src=['"]\/\//g, "src='https://");
 
-    const html = `<!DOCTYPE html>
+    // Garantir suporte a URLs sem protocolo no src
+    if (fixedContent.includes('src="www.') || fixedContent.includes("src='www.")) {
+      fixedContent = fixedContent
+        .replace(/src=["']www\./g, 'src="https://www.')
+        .replace(/src=['"]www\./g, "src='https://www.");
+    }
+
+    return `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<base href="https://www.highrevenueformat.com/">
+<base href="https://www.mozvita.online/">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;max-width:100vw;background:transparent;overflow:hidden}
@@ -134,13 +136,9 @@ div,iframe,img{max-width:100%!important}
 ${fixedContent}
 </body>
 </html>`;
-
-    const blob = new Blob([html], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    blobUrlRef.current = url;
-
-    iframeRef.current.src = url;
   }, [adData]);
+
+  const srcDocHtml = getSrcDoc();
 
   // Não renderizar nada se vazio
   if (loading || !ad || !adData || !adData.content) {
@@ -185,11 +183,11 @@ ${fixedContent}
   return (
     <div className={`w-full max-w-full flex justify-center items-center my-3 overflow-hidden ${className}`}>
       <iframe
-        ref={iframeRef}
+        srcDoc={srcDocHtml || undefined}
         className="w-full max-w-full border-none bg-transparent overflow-hidden"
         style={{ height, minHeight: height, maxWidth: '100%' }}
         scrolling="no"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"
         title={`Ad ${slotName}`}
       />
     </div>
