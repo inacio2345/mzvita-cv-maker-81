@@ -17,12 +17,14 @@ import UniversalAd from '@/components/ads/UniversalAd';
 import { useSubscription } from '@/hooks/useSubscription';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Index = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
   const { initiatePayment } = useSubscription();
+  const isMobile = useIsMobile();
 
   const professions = [
     {
@@ -217,10 +219,10 @@ const Index = () => {
       />
 
       {/* 1. Hero Section (Parallax & Premium) */}
-      <section className="-mt-20 md:-mt-24 pt-28 md:pt-36 pb-12 lg:pb-24 overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100">
+      <section className="-mt-20 md:-mt-24 pt-28 md:pt-36 pb-12 lg:pb-24 overflow-hidden bg-gradient-to-br from-slate-50 via-brand-50/40 to-slate-100 relative max-w-full">
         {/* Decorative background blobs */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-brand-300/20 rounded-full blur-3xl opacity-50 animate-pulse pointer-events-none" />
-        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[500px] h-[500px] bg-blue-300/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] lg:w-[600px] lg:h-[600px] bg-brand-300/20 rounded-full blur-3xl opacity-50 animate-pulse pointer-events-none max-w-full overflow-hidden" />
+        <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] bg-blue-300/20 rounded-full blur-3xl opacity-50 pointer-events-none max-w-full overflow-hidden" />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-20">
@@ -355,6 +357,11 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Slot de Anúncio 1: Hero Adsterra */}
+      <div className="container mx-auto px-4 my-4 max-w-full overflow-hidden">
+        <UniversalAd slotName="home_hero" />
+      </div>
+
       {/* Estatísticas e Diferenciais Competitivos (Por que o MozVita é o Nº 1) */}
       <section className="py-20 bg-gradient-to-b from-white via-slate-50 to-white relative border-y border-slate-100 overflow-hidden">
         <div className="container mx-auto px-4">
@@ -426,7 +433,7 @@ const Index = () => {
                 }
               ].map((item, i) => (
                 <motion.div 
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40, y: 30 }}
+                  initial={{ opacity: 0, x: isMobile ? 0 : (i % 2 === 0 ? -40 : 40), y: 30 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ type: "spring", stiffness: 200, damping: 18, delay: i * 0.12 }}
@@ -523,6 +530,11 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Slot de Anúncio 2: Mid-Page Adsterra */}
+      <div className="container mx-auto px-4 my-6 max-w-full overflow-hidden">
+        <UniversalAd slotName="home_mid" />
+      </div>
 
       {/* 3. Modelos Premium Slider / Showcase */}
       <section className="py-24 bg-slate-900 overflow-hidden relative">
@@ -740,8 +752,8 @@ const Index = () => {
                   ].map((benefit, bIdx) => (
                     <motion.div 
                       key={bIdx}
-                      initial={{ opacity: 0, x: -50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, x: isMobile ? 0 : -50, y: isMobile ? 20 : 0 }}
+                      whileInView={{ opacity: 1, x: 0, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ type: "spring", stiffness: 200, damping: 18, delay: bIdx * 0.15 }}
                       whileHover={{ scale: 1.02, x: 6 }}
@@ -761,8 +773,8 @@ const Index = () => {
 
               {/* Lado Direito: Imagem de Destaque / Mockup Profissional com Entrada 3D */}
               <motion.div 
-                initial={{ opacity: 0, x: 60, rotate: 6, scale: 0.9 }}
-                whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
+                initial={{ opacity: 0, x: isMobile ? 0 : 60, y: isMobile ? 30 : 0, rotate: isMobile ? 0 : 6, scale: 0.9 }}
+                whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ type: "spring", stiffness: 180, damping: 16, delay: 0.2 }}
                 className="w-full lg:w-[420px] flex-shrink-0"
@@ -792,6 +804,11 @@ const Index = () => {
 
             </div>
           </motion.div>
+
+          {/* Slot de Anúncio 3: Footer/FAQ Adsterra */}
+          <div className="container mx-auto px-4 my-6 max-w-full overflow-hidden">
+            <UniversalAd slotName="home_footer" />
+          </div>
 
           <div className="mb-8">
             <motion.h2 

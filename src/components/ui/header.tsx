@@ -183,7 +183,7 @@ const Header = () => {
 
       </div>
       {shouldShowAds && (
-        <div className="container mx-auto px-4 py-1">
+        <div className="container mx-auto px-4 py-1 max-w-full overflow-hidden">
           <UniversalAd slotName="header" />
         </div>
       )}

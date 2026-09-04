@@ -46,19 +46,26 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
 
         if (error) throw error;
 
-        // Fallback: se o blog não tem anúncio próprio, reutilizar o do feed de vagas
-        if ((!data || data.length === 0) && (slotName === 'blog_content' || slotName === 'blog_sidebar')) {
+        // Fallback inteligente para slots da Home ou Blog se não houver anúncio próprio
+        if (!data || data.length === 0) {
+          const fallbackSlots = ['job_feed_1', 'header', 'blog_content'];
           const fb = await supabase
             .from('advertisements')
             .select('*')
-            .eq('slot_name', 'job_feed_1')
+            .in('slot_name', fallbackSlots)
             .eq('is_active', true)
             .order('updated_at', { ascending: false });
           data = fb.data;
         }
 
         if (alive && data && data.length > 0) {
-          setAd(data[0] as Advertisement);
+          // No mobile, dar preferência ao item que possui mobile_content configurado
+          let selectedAd = data[0];
+          if (isMobile) {
+            const mobileAd = data.find(item => item.mobile_content && item.mobile_content.trim() !== '');
+            if (mobileAd) selectedAd = mobileAd;
+          }
+          setAd(selectedAd as Advertisement);
         } else if (alive) {
           setAd(null);
         }
@@ -69,7 +76,7 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
       }
     })();
     return () => { alive = false; };
-  }, [slotName]);
+  }, [slotName, isMobile]);
 
   // Escolher conteúdo com fallback Desktop↔Mobile
   const getContent = useCallback(() => {
@@ -96,11 +103,10 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
     };
   }, []);
 
-  // 3. Montar o iFrame via Blob URL (NÃO srcDoc!) — resolve o bug de protocolo em telemóveis
+  // 3. Montar o iFrame via Blob URL
   useEffect(() => {
     if (!iframeRef.current || !adData || adData.type !== 'code' || !adData.content) return;
 
-    // Limpar blob anterior
     if (blobUrlRef.current) {
       URL.revokeObjectURL(blobUrlRef.current);
       blobUrlRef.current = null;
@@ -108,19 +114,20 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
 
     // CORREÇÃO CRÍTICA: Substituir URLs relativas ao protocolo por HTTPS absoluto
     const fixedContent = adData.content
-      .replace(/src=["'](\/\/)/g, 'src="https://')
-      .replace(/src=["'](\/\/)/g, "src='https://");
+      .replace(/src=["']\/\//g, 'src="https://')
+      .replace(/src=['"]\/\//g, "src='https://");
 
     const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<base href="https://www.highrevenueformat.com/">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;background:transparent;overflow-x:hidden}
-body{display:flex;justify-content:center;align-items:flex-start;min-height:50px}
-div,iframe{max-width:100%!important}
+html,body{width:100%;max-width:100vw;background:transparent;overflow:hidden}
+body{display:flex;justify-content:center;align-items:center;min-height:50px}
+div,iframe,img{max-width:100%!important}
 </style>
 </head>
 <body>
@@ -147,12 +154,12 @@ ${fixedContent}
     const c = adData.content;
     const isNative = c.includes('container-') || c.includes('native') || (ad.title || '').toLowerCase().includes('nativ');
 
-    if (isNative) return isMobile ? '620px' : '280px';
-    if (c.includes("'height' : 90") || c.includes('"height": 90') || c.includes('728x90')) return '100px';
+    if (isNative) return isMobile ? '380px' : '280px';
+    if (c.includes("'height' : 90") || c.includes('"height": 90') || c.includes('728x90')) return isMobile ? '65px' : '100px';
     if (c.includes("'height' : 50") || c.includes('"height": 50') || c.includes('320x50')) return '60px';
     if (c.includes("'height' : 250") || c.includes('"height": 250') || c.includes('300x250')) return '260px';
     if (c.includes("'height' : 600") || c.includes('"height": 600')) return '610px';
-    return isMobile ? '320px' : '260px';
+    return isMobile ? '280px' : '260px';
   };
 
   if (isImage) {
@@ -165,7 +172,7 @@ ${fixedContent}
       />
     );
     return (
-      <div className={`w-full flex justify-center items-center my-3 ${className}`}>
+      <div className={`w-full max-w-full flex justify-center items-center my-3 overflow-hidden ${className}`}>
         {ad.redirect_url ? (
           <a href={ad.redirect_url} target="_blank" rel="noopener noreferrer">{img}</a>
         ) : img}
@@ -176,11 +183,11 @@ ${fixedContent}
   const height = getHeight();
 
   return (
-    <div className={`w-full flex justify-center items-center my-3 overflow-hidden ${className}`}>
+    <div className={`w-full max-w-full flex justify-center items-center my-3 overflow-hidden ${className}`}>
       <iframe
         ref={iframeRef}
-        className="w-full border-none bg-transparent"
-        style={{ height, minHeight: height }}
+        className="w-full max-w-full border-none bg-transparent overflow-hidden"
+        style={{ height, minHeight: height, maxWidth: '100%' }}
         scrolling="no"
         sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
         title={`Ad ${slotName}`}
