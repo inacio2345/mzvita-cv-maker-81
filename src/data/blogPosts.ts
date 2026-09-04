@@ -1269,5 +1269,157 @@ export const blogPosts: BlogPostData[] = [
       <p>O LinkedIn não é apenas um CV online. É sua reputação digital 24 horas por dia. Em Moçambique, recrutadores de grandes empresas (banca, petróleos, telecomunicações) usam a plataforma diariamente para caçar talentos.</p>
     `
   },
-  // Mais artigos existentes seriam adicionados aqui...
+  {
+    id: 123,
+    slug: "sapo-moz-emprego-guia-vagas",
+    title: "Sapo Moz Emprego vs Portais Modernos: Onde Achar Vagas em Moçambique em 2026",
+    excerpt: "Procura emprego pelo Sapo Moz? Conheça como funciona a plataforma, as alternativas mais rápidas com candidaturas diretas e como preparar o seu CV.",
+    date: "2026-09-04",
+    author: "Equipe MozVita",
+    readTime: "9 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/sites-emprego.jpg",
+    featured: true,
+    metaDescription: "Guia completo sobre Sapo Moz Emprego e as melhores alternativas para achar vagas de emprego recentes em Moçambique em 2026. Baixe seu CV em PDF.",
+    content: `
+      <p class="lead">Se você já procurou emprego em Moçambique, com certeza já digitou no Google <strong>"sapo moz emprego"</strong> ou <strong>"sapo emprego moçambique"</strong>. Durante mais de uma década, o portal Sapo foi a referência quase unânime de classificados no país. Mas o mercado de recrutamento nacional mudou radicalmente em 2026.</p>
+
+      <h2>O Que Aconteceu com o Sapo Moz Emprego?</h2>
+      <p>O Sapo Moçambique continua a agregar anúncios diários de jornais e editais públicos. No entanto, muitos candidatos enfrentam três grandes desafios:</p>
+      <ul>
+        <li><strong>Falta de Filtros Inteligentes:</strong> Dificuldade em filtrar oportunidades por província (ex: Maputo, Matola, Beira, Nampula, Tete e Pemba) ou por regime de contratação (tempo integral, estágio ou remoto).</li>
+        <li><strong>Concorrência Massiva:</strong> Como dezenas de milhares de candidatos visualizam o mesmo anúncio, uma única vaga de recepcionista ou assistente administrativo chega a receber mais de 1.200 e-mails nas primeiras 24 horas.</li>
+        <li><strong>Candidaturas Manuais em PDF:</strong> A maioria das vagas exige o envio de currículo atualizado em PDF acompanhado de carta de apresentação e documentos de identificação.</li>
+      </ul>
+
+      <h2>As 5 Melhores Alternativas ao Sapo Emprego em 2026</h2>
+      <p>Para não depender apenas de um canal e aumentar as suas chances de ser chamado para entrevistas, diversifique a sua busca diária nestas plataformas:</p>
+
+      <h3>1. Feed de Vagas MozVita (Atualizado Diariamente)</h3>
+      <p>No <strong><a href="/vagas" class="text-brand-600 font-bold underline">Feed de Oportunidades do MozVita</a></strong>, reunimos as vagas mais recentes de multinacionais, ONGs e PMEs em Moçambique, integradas com Inteligência Artificial para analisar a vaga e sugerir melhorias no seu currículo na hora.</p>
+
+      <h3>2. Emprego.co.mz & MMO Emprego</h3>
+      <p>São portais consolidados no território moçambicano, com boa segmentação para concursos do Estado e oportunidades em organizações não-governamentais.</p>
+
+      <h3>3. LinkedIn Moçambique</h3>
+      <p>Essencial para posições de nível médio e superior, telecomunicações (Vodacom, Tmcel), banca (Millennium bim, BCI, Standard Bank, Moza Banco) e megaprojetos de gás e energia.</p>
+
+      <h3>4. Contact Moçambique & Elite RH</h3>
+      <p>As agências de trabalho temporário e recrutamento executivo gerenciam carteiras exclusivas que nunca chegam aos classificados públicos.</p>
+
+      <h3>5. Portais de Carreiras de ONGs Internacionais</h3>
+      <p>Organizações humanitárias que atuam no combate à pobreza, saúde pública e emergências (Save the Children, Médicos Sem Fronteiras, FGH, World Vision) publicam vagas prioritariamente em seus próprios sistemas globais.</p>
+
+      <h2>Como se Destacar ao Enviar Candidaturas por E-mail</h2>
+      <p>Se você encontrou a oportunidade no Sapo Moz ou em qualquer outro portal, siga estas regras de ouro:</p>
+      <ol>
+        <li><strong>Assunto Claro:</strong> Sempre escreva <em>"Candidatura à Vaga de [Nome do Cargo] - [Seu Nome Completo]"</em> ou use a referência solicitada no anúncio.</li>
+        <li><strong>Formato PDF Obrigatório:</strong> Nunca envie ficheiros Word (.docx). Use o <strong><a href="/criar-cv" class="text-brand-600 font-bold underline">gerador de CV do MozVita</a></strong> para exportar em formato PDF limpo e leve, compatível com telemóveis e e-mails corporativos.</li>
+        <li><strong>Carta de Apresentação Direcionada:</strong> Explique em 3 parágrafos curtos como a sua experiência responde diretamente aos requisitos descritos na publicação.</li>
+      </ol>
+
+      <div class="mt-8 p-6 bg-brand-50 rounded-2xl border border-brand-200 text-center">
+        <h3 class="text-xl font-bold text-slate-900 mb-2">Pronto para se Candidatar?</h3>
+        <p class="text-slate-600 mb-4">Crie o seu currículo em minutos adaptado aos padrões dos recrutadores moçambicanos.</p>
+        <a href="/modelos" class="inline-block bg-brand-600 text-white font-bold py-3 px-8 rounded-xl shadow-md hover:bg-brand-700 transition-all">Ver Modelos de CV Moçambique</a>
+      </div>
+    `
+  },
+  {
+    id: 124,
+    slug: "como-conseguir-trabalho-remoto-mocambique",
+    title: "Trabalho Remoto em Moçambique: Como Ganhar em Dólar ou Meticais de Casa",
+    excerpt: "Descubra as plataformas que contratam moçambicanos para trabalhar online, como receber pagamentos e como montar um CV em inglês atrativo.",
+    date: "2026-09-04",
+    author: "Equipe MozVita",
+    readTime: "8 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/remoto-futuro.jpg",
+    featured: true,
+    metaDescription: "Guia completo de trabalho remoto em Moçambique: empresas que contratam online, profissões em alta, recebimento de valores e modelo de CV internacional.",
+    content: `
+      <p class="lead">A busca por <strong>trabalho remoto em Moçambique</strong> e <strong>empresas que contratam para trabalhar online</strong> disparou nos últimos meses. Profissionais de TI, marketing digital, suporte ao cliente, tradução e contabilidade estão a descobrir que não precisam emigrar para aceder a oportunidades internacionais.</p>
+
+      <h2>Quais Áreas Mais Contratam Remoto em Moçambique?</h2>
+      <p>As posições remotas mais acessíveis para candidatos baseados em Moçambique dividem-se em três grandes grupos:</p>
+      <ul>
+        <li><strong>Apoio ao Cliente & Moderação de Conteúdo:</strong> Atendimento via chat, e-mail e telefone para empresas de Portugal, Brasil e multinacionais de e-commerce. O domínio fluente do Português é a principal exigência.</li>
+        <li><strong>Tecnologia da Informação & Design:</strong> Desenvolvimento web (React, Node, Python), administração de redes, análise de dados e design UI/UX.</li>
+        <li><strong>Tradução & Revisão Linguística:</strong> Tradução técnica de Inglês para Português, transcrição e revisão de conteúdos corporativos.</li>
+      </ul>
+
+      <h2>Onde Encontrar Vagas Remotas Confiáveis?</h2>
+      <p>Evite grupos não moderados de redes sociais onde ocorrem golpes que cobram taxas prévias. Foque em plataformas consolidadas:</p>
+      <ol>
+        <li><strong>LinkedIn:</strong> Use o filtro de localização configurado para "Remoto" e selecione vagas de países de língua portuguesa ou globais.</li>
+        <li><strong>Remotive & We Work Remotely:</strong> Portais especializados em vagas 100% à distância para suporte técnico, vendas e desenvolvimento.</li>
+        <li><strong>Upwork & Fiverr:</strong> Plataformas de prestação de serviços freelancing para construir portfólio internacional com pagamentos em moeda forte.</li>
+      </ol>
+
+      <h2>O Seu CV Precisa Estar em Padrão Internacional</h2>
+      <p>Para concorrer a vagas remotas internacionais, o currículo tradicional com foto ou dados pessoais excessivos não é recomendado. Recrutadores externos priorizam:</p>
+      <ul>
+        <li><strong>Resultados e Projetos:</strong> O que você entregou em números e impacto, não apenas lista de tarefas.</li>
+        <li><strong>Nível de Inglês Real:</strong> Indique o seu nível de conversação e escrita profissional com clareza.</li>
+        <li><strong>Conectividade e Ferramentas:</strong> Mencione familiaridade com ferramentas de colaboração (Slack, Zoom, Trello, Google Workspace, Jira).</li>
+      </ul>
+
+      <div class="mt-8 p-6 bg-slate-900 text-white rounded-2xl text-center">
+        <h3 class="text-xl font-bold mb-2">Precisa de um CV Internacional em Inglês?</h3>
+        <p class="text-slate-300 mb-4">Utilize o modelo ATS otimizado para plataformas internacionais e aumente as suas chances.</p>
+        <a href="/cv-em-ingles-mocambique" class="inline-block bg-brand-500 text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-600 transition-all">Ver Modelo de CV em Inglês</a>
+      </div>
+    `
+  },
+  {
+    id: 125,
+    slug: "vagas-ongs-mocambique-guia-recrutamento",
+    title: "Vagas em ONGs em Moçambique: Guia Passo a Passo para Ser Contratado",
+    excerpt: "Organizações humanitárias e agências internacionais oferecem excelentes condições de trabalho. Saiba como passar pela triagem e montar o CV ideal.",
+    date: "2026-09-04",
+    author: "Equipe MozVita",
+    readTime: "10 min",
+    category: "Mercado de Trabalho",
+    image: "/blog/ongs-mocambique.jpg",
+    featured: true,
+    metaDescription: "Como conseguir emprego em ONGs internacionais em Moçambique em 2026. Processos seletivos, termos de referência (ToR), certificações e estrutura de currículo.",
+    content: `
+      <p class="lead">Trabalhar no setor humanitário em Moçambique — seja em agências das Nações Unidas (PNUD, UNICEF, PAM), seja em grandes ONGs (Save the Children, Care, Médicos Sem Fronteiras, FGH, World Vision) — é uma das metas mais cobiçadas por profissionais de saúde, logística, gestão, educação e ciências sociais.</p>
+
+      <h2>Por Que o Recrutamento em ONGs é Tão Rigoroso?</h2>
+      <p>Ao contrário de pequenas empresas familiares onde as entrevistas são informais, as ONGs operam com financiamento de doadores internacionais (como USAID, União Europeia, Fundo Global e Banco Mundial). Isso significa que:</p>
+      <ul>
+        <li><strong>A triagem inicial é estrita:</strong> Se o anúncio pede 3 anos de experiência em saúde comunitária e você comprova apenas 1 ano, o sistema elimina a candidatura automaticamente.</li>
+        <li><strong>Os Termos de Referência (ToR) devem guiar o seu CV:</strong> Cada palavra-chave listada no anúncio deve ser espelhada na descrição das suas experiências prévias.</li>
+        <li><strong>Verificação rigorosa de referências:</strong> É mandatório apresentar pelo menos 3 referências profissionais de supervisores anteriores com contactos telefónicos e de e-mail institucionais ativos.</li>
+      </ul>
+
+      <h2>Perfis e Cargos Mais Demandados em Moçambique</h2>
+      <p>As províncias com maior volume de contratações ativas continuam a ser Maputo, Nampula, Cabo Delgado, Tete e Zambézia. Os cargos mais comuns incluem:</p>
+      <ol>
+        <li><strong>Oficiais de Monitoria e Avaliação (M&E):</strong> Responsáveis por indicadores de desempenho, relatórios estatísticos e recolha de dados de campo.</li>
+        <li><strong>Oficiais de Logística e Cadeia de Abastecimento (Supply Chain):</strong> Gestão de compras, armazéns e frotas de viaturas em conformidade com as diretrizes do doador.</li>
+        <li><strong>Oficiais de Saúde Pública e Enfermagem:</strong> Implementação de programas de combate ao HIV/SIDA, malária e nutrição materno-infantil.</li>
+        <li><strong>Mobilizadores e Oficiais Comunitários:</strong> Profissionais com domínio das línguas locais (ex: Emakhuwa, Changana, Sena) para interlocução direta com as comunidades beneficiárias.</li>
+      </ol>
+
+      <h2>O Que Não Pode Faltar no seu Currículo para ONGs</h2>
+      <p>Certifique-se de que o seu documento segue estas diretrizes essenciais:</p>
+      <ul>
+        <li>Formato limpo e sem poluição visual, preferencialmente estruturado em ordem cronológica inversa.</li>
+        <li>Destaque para certificações de salvaguarda da criança (Child Safeguarding), conduta humanitária e cartas de condução (quando aplicável para saídas de campo).</li>
+        <li>Apresentação de Carta de Motivação individualizada demonstrando alinhamento genuíno com os valores da missão humanitária.</li>
+      </ul>
+
+      <div class="mt-8 p-6 bg-brand-50 rounded-2xl border border-brand-200 text-center">
+        <h3 class="text-xl font-bold text-slate-900 mb-2">Preparado para Concorrer a Vagas Humanitárias?</h3>
+        <p class="text-slate-600 mb-4">Acesse as vagas disponíveis e crie seu currículo com carta de apresentação integrada no MozVita.</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a href="/vagas" class="inline-block bg-slate-900 text-white font-bold py-3 px-6 rounded-xl hover:bg-slate-800 transition-all">Explorar Vagas no Feed</a>
+          <a href="/carta-apresentacao" class="inline-block bg-brand-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-brand-700 transition-all">Gerar Carta de Apresentação</a>
+        </div>
+      </div>
+    `
+  }
 ];
+

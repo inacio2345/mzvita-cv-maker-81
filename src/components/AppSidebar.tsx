@@ -204,6 +204,14 @@ export function AppSidebar() {
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
+                    <Link to="/admin/blog" className="flex items-center w-full">
+                      <BookOpen className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
+                      <span className="text-sm font-medium text-slate-700">Gerir Blog (IA)</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild className="hover:bg-slate-200/50 hover:text-slate-900 transition-none h-8 rounded-md px-2">
                     <Link to="/admin/afiliados" className="flex items-center w-full">
                       <Users className="w-4 h-4 text-slate-500 mr-2 shrink-0" />
                       <span className="text-sm font-medium text-slate-700">Gerir Afiliados</span>

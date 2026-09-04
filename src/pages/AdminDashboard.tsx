@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Users, Megaphone, ShoppingCart, LayoutDashboard, ArrowRight, Shield } from 'lucide-react';
+import { Users, Megaphone, ShoppingCart, LayoutDashboard, ArrowRight, Shield, BookOpen, Briefcase } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
@@ -8,6 +8,22 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const adminCards = [
+    {
+      title: 'Gerir Blog & Artigos IA',
+      description: 'Criar artigos com Inteligência Artificial e publicar no blog.',
+      icon: BookOpen,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-600/10',
+      path: '/admin/blog'
+    },
+    {
+      title: 'Gerir Vagas de Emprego',
+      description: 'Cadastrar e gerir oportunidades de trabalho no feed.',
+      icon: Briefcase,
+      color: 'text-indigo-600',
+      bgColor: 'bg-indigo-600/10',
+      path: '/admin/vagas'
+    },
     {
       title: 'Gerir Afiliados',
       description: 'Aprovar novos afiliados e gerir comissões.',

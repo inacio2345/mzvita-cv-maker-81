@@ -67,8 +67,9 @@ const JobFeed: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 pt-20 pb-24">
       <SEO 
-        title="Vagas Moçambique | MozVita"
-        description="Feed de Vagas de Emprego em Moçambique."
+        title="Vagas de Emprego em Moçambique 2026: Oportunidades Recentes | MozVita"
+        description="Encontre vagas de emprego em Moçambique atualizadas diariamente em Maputo, Beira, Nampula, Tete e Pemba. Multinacionais, ONGs e candidaturas diretas com CV profissional."
+        keywords="vagas de emprego moçambique, sapo moz emprego, emprego moçambique 2026, vagas ong moçambique, oportunidades de trabalho maputo, ofertas de emprego moçambique"
         canonical="/vagas"
       />
 

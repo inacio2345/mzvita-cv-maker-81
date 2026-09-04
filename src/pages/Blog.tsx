@@ -8,7 +8,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import AppHeader from '@/components/layout/AppHeader';
 
 import { Badge } from '@/components/ui/badge';
-import { blogPosts } from '@/data/blogPosts';
+import { getPublicBlogPosts, UnifiedBlogPost } from '@/services/blogService';
 import SEO from '@/components/SEO';
 
 const Blog = () => {
@@ -16,9 +16,22 @@ const Blog = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchTerm, setSearchTerm] = useState('');
+  const [posts, setPosts] = useState<UnifiedBlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Importação dos posts do arquivo de dados centralizado
-
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const data = await getPublicBlogPosts();
+        setPosts(data);
+      } catch (err) {
+        console.error('Erro ao buscar posts:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const categories = [
     "Todos",
@@ -30,14 +43,14 @@ const Blog = () => {
     "Dicas de Carreira"
   ];
 
-  const filteredPosts = blogPosts.filter(post => {
+  const filteredPosts = posts.filter(post => {
     const matchesCategory = selectedCategory === 'Todos' || post.category === selectedCategory;
     const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  const featuredPosts = blogPosts.filter(post => post.featured).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const featuredPosts = posts.filter(post => post.featured).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const regularPosts = filteredPosts.filter(post => !post.featured);
 
   const handlePostClick = (route: string) => {

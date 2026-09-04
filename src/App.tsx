@@ -69,6 +69,7 @@ import AdminAffiliates from "./pages/AdminAffiliates";
 import AdminAds from "./pages/AdminAds";
 import AdminAbandonedCarts from "./pages/AdminAbandonedCarts";
 import AdminJobs from "./pages/AdminJobs";
+import AdminBlog from "./pages/AdminBlog";
 import PrintCV from "./pages/PrintCV";
 import ModeloProfissao from "./pages/ModeloProfissao";
 import ReferralTracker from "@/components/ReferralTracker";
@@ -100,6 +101,7 @@ const appRoutes = [
   '/admin/anuncios',
   '/admin/carrinhos-abandonados',
   '/admin/vagas',
+  '/admin/blog',
   '/pagamento-sucesso',
   '/modelos',
   '/precos',
@@ -268,6 +270,7 @@ const LayoutRouter = () => {
             <Route path="/admin/anuncios" element={<AdminGuard><AdminAds /></AdminGuard>} />
             <Route path="/admin/carrinhos-abandonados" element={<AdminGuard><AdminAbandonedCarts /></AdminGuard>} />
             <Route path="/admin/vagas" element={<AdminGuard><AdminJobs /></AdminGuard>} />
+            <Route path="/admin/blog" element={<AdminGuard><AdminBlog /></AdminGuard>} />
             <Route path="/pagamento-sucesso" element={<AuthGuard><PagamentoSucesso /></AuthGuard>} />
             <Route path="/precos" element={<AuthGuard><Pricing /></AuthGuard>} />
           </Routes>

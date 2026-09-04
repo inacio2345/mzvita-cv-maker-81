@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import BlogPost from '@/components/blog/BlogPost';
+import { getBlogPostBySlug, UnifiedBlogPost } from '@/services/blogService';
 import { blogPosts } from '@/data/blogPosts';
+import { Loader2 } from 'lucide-react';
 
 const BlogPostTemplate = () => {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
-    const post = blogPosts.find(p => p.slug === slug);
+    const [post, setPost] = useState<UnifiedBlogPost | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPost = async () => {
+            if (!slug) return;
+            setLoading(true);
+            try {
+                const data = await getBlogPostBySlug(slug);
+                setPost(data);
+            } catch (err) {
+                console.error('Erro ao buscar artigo:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchPost();
+    }, [slug]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-slate-50">
+                <Loader2 className="w-8 h-8 text-brand-600 animate-spin" />
+            </div>
+        );
+    }
 
     if (!post) {
         return <Navigate to="/blog" replace />;
@@ -37,11 +64,15 @@ const BlogPostTemplate = () => {
         />
     );
 
-    // Mock FAQs and Related posts for now - in a full implementation these could also be in the data
-    const faqs = [
+    // Usar FAQs do post (banco ou estático) ou FAQ padrão amigável a Moçambique
+    const postFaqs = (post.faqs && post.faqs.length > 0) ? post.faqs : [
         {
-            question: "Este conteúdo é atualizado?",
-            answer: "Sim, revisamos nossos artigos periodicamente para garantir que refletem o mercado moçambicano atual."
+            question: "Este conteúdo é atualizado e adaptado a Moçambique?",
+            answer: "Sim, os nossos artigos são revisados periodicamente para garantir que refletem as práticas de contratação e as exigências do mercado moçambicano."
+        },
+        {
+            question: "Como posso criar meu currículo profissional no formato correto?",
+            answer: "Basta aceder à seção de Modelos de CV do MozVita, escolher o modelo ideal para o seu nível de experiência e descarregar em PDF pronto para envio."
         }
     ];
 
@@ -59,7 +90,7 @@ const BlogPostTemplate = () => {
             readTime={post.readTime}
             category={post.category}
             content={content}
-            faqs={faqs}
+            faqs={postFaqs}
             relatedPosts={related}
             featuredImage={post.image}
             slug={post.slug}

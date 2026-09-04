@@ -211,9 +211,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-slate-50 overflow-x-hidden max-w-full font-sans">
       <SEO
-        title="Criar CV Moçambique Profissional Online | MozVita"
-        description="A principal plataforma para criar seu cv moçambique profissional. Modelos modernos, download de cv moçambique pdf e exemplos reais para o mercado nacional."
-        keywords="cv moçambique, cv moçambique pdf, modelo de cv moçambique, criar currículo online moçambique, fazer cv grátis maputo, cv online moçambique, formato de cv moçambique, cv primeiro emprego, exemplos cv moçambique, cv em inglês moçambique"
+        title="CV Moçambique 2026: Criar e Baixar Curriculum Vitae em PDF | MozVita"
+        description="Crie seu curriculum vitae moçambique em minutos no celular ou computador. Modelos profissionais aprovados por recrutadores, download rápido em PDF e pagamento via M-Pesa."
+        keywords="curriculum vitae moçambique, cv moçambique, baixar curriculum vitae pdf moçambique, curriculum vitae moçambique pdf 2026, cv moz, cv profissional moçambique, modelo de cv moçambique, criar cv online"
         canonical="/"
         schemaData={richSchemas}
       />
