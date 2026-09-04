@@ -8,21 +8,25 @@ interface UniversalAdProps {
 }
 
 /**
- * UniversalAd — Solução definitiva para exibir anúncios Adsterra em Telemóveis Físicos e Desktop.
+ * UniversalAd — Injeção Direta de Scripts Adsterra no DOM.
  *
- * CAUSA RAIZ do bug anterior: iFrames com `srcDoc` têm protocolo `about:srcdoc`.
- * Os scripts do Adsterra usam URLs relativas ao protocolo (`//www.highperformanceformat.com/...`),
- * que dentro de srcDoc resolviam para `about://www...` — URL inválida. O script nunca carregava.
+ * CAUSA RAIZ DO BUG ANTERIOR (mobile ads não aparecem):
+ * Quando os scripts do Adsterra (invoke.js) são executados DENTRO de um <iframe>
+ * (via srcDoc ou Blob URL), o script cria elementos posicionados relativamente
+ * ao container do iframe. No mobile com overflow-x:clip, esses elementos
+ * ficam renderizados fora da viewport (ex: X=468 numa tela de 375px) e são
+ * cortados/invisíveis.
  *
- * SOLUÇÃO: Usar Blob URL com protocolo HTTPS explícito, garantindo que os scripts externos
- * carreguem corretamente em TODOS os navegadores móveis (Chrome Android, Safari iOS, Firefox).
+ * SOLUÇÃO: Injetar os scripts diretamente no DOM real da página (sem iframe).
+ * Isso permite que o Adsterra detete o viewport real e posicione o anúncio
+ * corretamente dentro da área visível do ecrã.
  */
 const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) => {
   const [ad, setAd] = useState<Advertisement | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loading, setLoading] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const blobUrlRef = useRef<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const injectedRef = useRef(false);
 
   // 1. Deteção Responsiva
   useEffect(() => {
@@ -46,7 +50,7 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
 
         if (error) throw error;
 
-        // Fallback inteligente para slots da Home ou Blog se não houver anúncio próprio
+        // Fallback inteligente para slots sem anúncio próprio
         if (!data || data.length === 0) {
           const fallbackSlots = ['job_feed_1', 'header', 'blog_content'];
           const fb = await supabase
@@ -59,7 +63,6 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
         }
 
         if (alive && data && data.length > 0) {
-          // No mobile, dar preferência ao item que possui mobile_content configurado
           let selectedAd = data[0];
           if (isMobile) {
             const mobileAd = data.find(item => item.mobile_content && item.mobile_content.trim() !== '');
@@ -94,51 +97,69 @@ const UniversalAd: React.FC<UniversalAdProps> = ({ slotName, className = '' }) =
 
   const adData = getContent();
 
-  // Limpar blob URL anterior ao desmontar
+  // 3. Injetar scripts diretamente no DOM (SEM iframe)
   useEffect(() => {
-    return () => {
-      if (blobUrlRef.current) {
-        URL.revokeObjectURL(blobUrlRef.current);
+    if (!containerRef.current || !adData || adData.type !== 'code' || !adData.content) return;
+    if (injectedRef.current) return; // Evitar dupla injeção
+
+    const container = containerRef.current;
+    container.innerHTML = ''; // Limpar conteúdo anterior
+    injectedRef.current = true;
+
+    const rawHtml = adData.content;
+
+    // Criar um elemento temporário para extrair scripts e HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = rawHtml;
+
+    // 1. Inserir elementos não-script (divs container, etc.)
+    const nonScriptNodes = Array.from(tempDiv.childNodes).filter(
+      node => !(node instanceof HTMLScriptElement)
+    );
+    nonScriptNodes.forEach(node => {
+      container.appendChild(node.cloneNode(true));
+    });
+
+    // 2. Extrair e criar novos scripts (appendChild não executa scripts do innerHTML)
+    const scriptTags = tempDiv.querySelectorAll('script');
+    scriptTags.forEach((oldScript, index) => {
+      const newScript = document.createElement('script');
+      newScript.type = oldScript.type || 'text/javascript';
+
+      // Copiar todos os atributos (src, async, data-cfasync, etc.)
+      Array.from(oldScript.attributes).forEach(attr => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+
+      if (oldScript.src) {
+        // Corrigir URLs relativas ao protocolo
+        let src = oldScript.src;
+        if (src.startsWith('//')) {
+          src = 'https:' + src;
+        }
+        newScript.src = src;
+        newScript.async = true;
+      } else {
+        // Script inline (como atOptions)
+        newScript.text = oldScript.text;
       }
+
+      container.appendChild(newScript);
+    });
+
+    // Cleanup ao desmontar
+    return () => {
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
+      injectedRef.current = false;
     };
-  }, []);
-
-  // 3. Gerar código HTML para o iFrame
-  const getSrcDoc = useCallback(() => {
-    if (!adData || adData.type !== 'code' || !adData.content) return null;
-
-    // CORREÇÃO CRÍTICA: Garantir protocolo HTTPS absoluto para scripts externos
-    let fixedContent = adData.content
-      .replace(/src=["']\/\//g, 'src="https://')
-      .replace(/src=['"]\/\//g, "src='https://");
-
-    // Garantir suporte a URLs sem protocolo no src
-    if (fixedContent.includes('src="www.') || fixedContent.includes("src='www.")) {
-      fixedContent = fixedContent
-        .replace(/src=["']www\./g, 'src="https://www.')
-        .replace(/src=['"]www\./g, "src='https://www.");
-    }
-
-    return `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<base href="https://www.mozvita.online/">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;max-width:100vw;background:transparent;overflow:hidden}
-body{display:flex;justify-content:center;align-items:center;min-height:50px}
-div,iframe,img{max-width:100%!important}
-</style>
-</head>
-<body>
-${fixedContent}
-</body>
-</html>`;
   }, [adData]);
 
-  const srcDocHtml = getSrcDoc();
+  // Reset injectedRef quando o ad muda
+  useEffect(() => {
+    injectedRef.current = false;
+  }, [ad, isMobile]);
 
   // Não renderizar nada se vazio
   if (loading || !ad || !adData || !adData.content) {
@@ -146,19 +167,6 @@ ${fixedContent}
   }
 
   const isImage = adData.type === 'image';
-
-  // Calcular altura adequada
-  const getHeight = () => {
-    const c = adData.content;
-    const isNative = c.includes('container-') || c.includes('native') || (ad.title || '').toLowerCase().includes('nativ');
-
-    if (isNative) return isMobile ? '380px' : '280px';
-    if (c.includes("'height' : 90") || c.includes('"height": 90') || c.includes('728x90')) return isMobile ? '65px' : '100px';
-    if (c.includes("'height' : 50") || c.includes('"height": 50') || c.includes('320x50')) return '60px';
-    if (c.includes("'height' : 250") || c.includes('"height": 250') || c.includes('300x250')) return '260px';
-    if (c.includes("'height' : 600") || c.includes('"height": 600')) return '610px';
-    return isMobile ? '280px' : '260px';
-  };
 
   if (isImage) {
     const img = (
@@ -178,20 +186,29 @@ ${fixedContent}
     );
   }
 
-  const height = getHeight();
+  // Calcular altura mínima para o container
+  const getMinHeight = () => {
+    const c = adData.content;
+    const isNative = c.includes('container-') || c.includes('native') || (ad.title || '').toLowerCase().includes('nativ');
+
+    if (isNative) return isMobile ? '300px' : '280px';
+    if (c.includes("'height' : 90") || c.includes('"height": 90') || c.includes('728x90')) return isMobile ? '0px' : '100px';
+    if (c.includes("'height' : 50") || c.includes('"height": 50') || c.includes('320x50')) return '60px';
+    if (c.includes("'height' : 250") || c.includes('"height": 250') || c.includes('300x250')) return '260px';
+    if (c.includes("'height' : 600") || c.includes('"height": 600')) return '610px';
+    return isMobile ? '60px' : '100px';
+  };
 
   return (
     <div className={`w-full max-w-full flex justify-center items-center my-3 overflow-hidden ${className}`}>
-      <iframe
-        srcDoc={srcDocHtml || undefined}
-        className="w-full max-w-full border-none bg-transparent overflow-hidden"
-        style={{ height, minHeight: height, maxWidth: '100%' }}
-        scrolling="no"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"
-        title={`Ad ${slotName}`}
+      <div
+        ref={containerRef}
+        className="w-full max-w-full flex justify-center items-center overflow-hidden"
+        style={{ minHeight: getMinHeight() }}
       />
     </div>
   );
 };
 
 export default UniversalAd;
+
