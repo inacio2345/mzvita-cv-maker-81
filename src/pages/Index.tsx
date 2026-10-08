@@ -321,6 +321,9 @@ const Index = () => {
                     <img
                       src={professions[activeProfIndex].image}
                       alt={professions[activeProfIndex].title}
+                      width="480"
+                      height="600"
+                      fetchPriority="high"
                       className="w-full h-full object-cover object-top"
                     />
 
