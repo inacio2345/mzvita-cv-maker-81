@@ -293,7 +293,7 @@ const Index = () => {
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4, 5].map(i => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 overflow-hidden shadow-sm">
-                      <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=e2e8f0`} alt="User" />
+                      <img src={`https://api.dicebear.com/7.x/notionists/svg?seed=${i}&backgroundColor=e2e8f0`} alt="User" width="40" height="40" loading="lazy" />
                     </div>
                   ))}
                 </div>

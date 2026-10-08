@@ -98,6 +98,7 @@ const MobileNav = () => {
         {/* Botão de Minimizar Integrado */}
         <button 
           onClick={() => setIsCollapsed(true)}
+          aria-label="Minimizar menu"
           className="absolute -top-3 left-1/2 -translate-x-1/2 bg-white border border-slate-100 rounded-full p-1.5 shadow-md text-slate-300 hover:text-brand-600 transition-all active:scale-95"
         >
           <ChevronDown className="w-4 h-4" />

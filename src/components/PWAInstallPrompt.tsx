@@ -58,7 +58,7 @@ const PWAInstallPrompt: React.FC = () => {
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3 flex-1">
           <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-slate-100 p-1.5 shrink-0">
-            <img src="/favicon.png" alt="MozVita Icon" className="w-full h-full object-contain" />
+            <img src="/favicon.png" alt="MozVita Icon" width="48" height="48" loading="lazy" className="w-full h-full object-contain" />
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-sm text-slate-900">Instalar MozVita</h3>

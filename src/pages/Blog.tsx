@@ -158,7 +158,7 @@ const Blog = () => {
                         <div className="flex flex-col md:flex-row h-full">
                           <div className="md:w-2/5 relative overflow-hidden h-64 md:h-auto bg-gray-100 flex items-center justify-center">
                             {post.image ? (
-                              <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              <img src={post.image} alt={post.title} width="400" height="250" loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                             ) : (
                               <div className="flex items-center justify-center w-full h-full bg-gradient-to-br from-blue-50 to-white">
                                 <BookOpen className="w-16 h-16 text-google-blue/20" />

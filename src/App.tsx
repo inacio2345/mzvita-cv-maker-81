@@ -18,66 +18,67 @@ import CookieBanner from "@/components/CookieBanner";
 import MobileNav from "@/components/ui/mobile-nav";
 import FacebookPixel from "@/components/FacebookPixel";
 import GlobalAdsManager from "@/components/ads/GlobalAdsManager";
-import Index from "./pages/Index";
-import CreateCV from "./pages/CreateCV";
-import BlogPostTemplate from "./pages/BlogPostTemplate";
-import Preview from "./pages/Preview";
-import ComoFunciona from "./pages/ComoFunciona";
-import Contato from "./pages/Contato";
-import Exemplos from "./pages/Exemplos";
-import Auth from "./pages/Auth";
-import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
-import TermosUso from "./pages/TermosUso";
-import CartaApresentacao from "./pages/CartaApresentacao";
-import CartaPedidoEstagio from "./pages/CartaPedidoEstagio";
-import CartaRequisicao from "./pages/CartaRequisicao";
-import CartaDemissao from "./pages/CartaDemissao";
-import CartaRecomendacao from "./pages/CartaRecomendacao";
-import CartaPedidoBolsa from "./pages/CartaPedidoBolsa";
-import CartaAgradecimento from "./pages/CartaAgradecimento";
-import Blog from "./pages/Blog";
-import JobFeed from "./pages/JobFeed";
-import IaAssistant from "./pages/IaAssistant";
-import NotFound from "./pages/NotFound";
-import CVProfissionalMocambique from "./pages/blog/CVProfissionalMocambique";
-import ErrosComuns from "./pages/blog/ErrosComuns";
-import CVSemExperiencia from "./pages/blog/CVSemExperiencia";
-import TendenciasMercado2024 from "./pages/blog/TendenciasMercado2024";
-import AdaptarCVPorArea from "./pages/blog/AdaptarCVPorArea";
-import FotoNoCurriculo from "./pages/blog/FotoNoCurriculo";
-import Comunidade from "./pages/Comunidade";
-import SobreNos from "./pages/SobreNos";
-import Profile from "./pages/Profile";
-import CVMocambique from "./pages/seo/CVMocambique";
-import ModeloCVMocambique from "./pages/seo/ModeloCVMocambique";
-import CVMocambiquePDF from "./pages/seo/CVMocambiquePDF";
-import ExemplosCVMocambique from "./pages/seo/ExemplosCVMocambique";
-import CVEmInglesMocambique from "./pages/seo/CVEmInglesMocambique";
-import GuiaCV2026 from "./pages/blog/GuiaCV2026";
-import CVMotoristaMocambique from "./pages/blog/CVMotoristaMocambique";
-import VagasTeteCaboDelgado from "./pages/blog/VagasTeteCaboDelgado";
-import EntrevistaEmpregoMoz from "./pages/blog/EntrevistaEmpregoMoz";
-import EmpreendedorismoDigital from "./pages/blog/EmpreendedorismoDigital";
-import CartaApresentacaoGuia from "./pages/blog/CartaApresentacaoGuia";
-import SoftSkillsMoz from "./pages/blog/SoftSkillsMoz";
-import LinkedinMoz from "./pages/blog/LinkedinMoz";
-import Pricing from "./pages/Pricing";
-import PagamentoSucesso from "./pages/PagamentoSucesso";
-import Afiliado from "./pages/Afiliado";
-import AffiliateDashboard from "./pages/AffiliateDashboard";
-import AdminAffiliates from "./pages/AdminAffiliates";
-import AdminAds from "./pages/AdminAds";
-import AdminAbandonedCarts from "./pages/AdminAbandonedCarts";
-import AdminJobs from "./pages/AdminJobs";
-import AdminBlog from "./pages/AdminBlog";
-import PrintCV from "./pages/PrintCV";
-import ModeloProfissao from "./pages/ModeloProfissao";
+import { lazy, Suspense } from "react";
+const Index = lazy(() => import("./pages/Index"));
+const CreateCV = lazy(() => import("./pages/CreateCV"));
+const BlogPostTemplate = lazy(() => import("./pages/BlogPostTemplate"));
+const Preview = lazy(() => import("./pages/Preview"));
+const ComoFunciona = lazy(() => import("./pages/ComoFunciona"));
+const Contato = lazy(() => import("./pages/Contato"));
+const Exemplos = lazy(() => import("./pages/Exemplos"));
+const Auth = lazy(() => import("./pages/Auth"));
+const PoliticaPrivacidade = lazy(() => import("./pages/PoliticaPrivacidade"));
+const TermosUso = lazy(() => import("./pages/TermosUso"));
+const CartaApresentacao = lazy(() => import("./pages/CartaApresentacao"));
+const CartaPedidoEstagio = lazy(() => import("./pages/CartaPedidoEstagio"));
+const CartaRequisicao = lazy(() => import("./pages/CartaRequisicao"));
+const CartaDemissao = lazy(() => import("./pages/CartaDemissao"));
+const CartaRecomendacao = lazy(() => import("./pages/CartaRecomendacao"));
+const CartaPedidoBolsa = lazy(() => import("./pages/CartaPedidoBolsa"));
+const CartaAgradecimento = lazy(() => import("./pages/CartaAgradecimento"));
+const Blog = lazy(() => import("./pages/Blog"));
+const JobFeed = lazy(() => import("./pages/JobFeed"));
+const IaAssistant = lazy(() => import("./pages/IaAssistant"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const CVProfissionalMocambique = lazy(() => import("./pages/blog/CVProfissionalMocambique"));
+const ErrosComuns = lazy(() => import("./pages/blog/ErrosComuns"));
+const CVSemExperiencia = lazy(() => import("./pages/blog/CVSemExperiencia"));
+const TendenciasMercado2024 = lazy(() => import("./pages/blog/TendenciasMercado2024"));
+const AdaptarCVPorArea = lazy(() => import("./pages/blog/AdaptarCVPorArea"));
+const FotoNoCurriculo = lazy(() => import("./pages/blog/FotoNoCurriculo"));
+const Comunidade = lazy(() => import("./pages/Comunidade"));
+const SobreNos = lazy(() => import("./pages/SobreNos"));
+const Profile = lazy(() => import("./pages/Profile"));
+const CVMocambique = lazy(() => import("./pages/seo/CVMocambique"));
+const ModeloCVMocambique = lazy(() => import("./pages/seo/ModeloCVMocambique"));
+const CVMocambiquePDF = lazy(() => import("./pages/seo/CVMocambiquePDF"));
+const ExemplosCVMocambique = lazy(() => import("./pages/seo/ExemplosCVMocambique"));
+const CVEmInglesMocambique = lazy(() => import("./pages/seo/CVEmInglesMocambique"));
+const GuiaCV2026 = lazy(() => import("./pages/blog/GuiaCV2026"));
+const CVMotoristaMocambique = lazy(() => import("./pages/blog/CVMotoristaMocambique"));
+const VagasTeteCaboDelgado = lazy(() => import("./pages/blog/VagasTeteCaboDelgado"));
+const EntrevistaEmpregoMoz = lazy(() => import("./pages/blog/EntrevistaEmpregoMoz"));
+const EmpreendedorismoDigital = lazy(() => import("./pages/blog/EmpreendedorismoDigital"));
+const CartaApresentacaoGuia = lazy(() => import("./pages/blog/CartaApresentacaoGuia"));
+const SoftSkillsMoz = lazy(() => import("./pages/blog/SoftSkillsMoz"));
+const LinkedinMoz = lazy(() => import("./pages/blog/LinkedinMoz"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const PagamentoSucesso = lazy(() => import("./pages/PagamentoSucesso"));
+const Afiliado = lazy(() => import("./pages/Afiliado"));
+const AffiliateDashboard = lazy(() => import("./pages/AffiliateDashboard"));
+const AdminAffiliates = lazy(() => import("./pages/AdminAffiliates"));
+const AdminAds = lazy(() => import("./pages/AdminAds"));
+const AdminAbandonedCarts = lazy(() => import("./pages/AdminAbandonedCarts"));
+const AdminJobs = lazy(() => import("./pages/AdminJobs"));
+const AdminBlog = lazy(() => import("./pages/AdminBlog"));
+const PrintCV = lazy(() => import("./pages/PrintCV"));
+const ModeloProfissao = lazy(() => import("./pages/ModeloProfissao"));
 import ReferralTracker from "@/components/ReferralTracker";
 import { useSubscription } from "@/hooks/useSubscription";
 import { AuthGuard } from "@/components/auth/AuthGuard";
 import { AdminGuard } from "@/components/auth/AdminGuard";
 import { GuestGuard } from "@/components/auth/GuestGuard";
-import AdminDashboard from "./pages/AdminDashboard";
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 const queryClient = new QueryClient();
 
@@ -151,7 +152,7 @@ const MobileTopBar = () => {
   return (
     <header className="lg:hidden sticky top-0 left-0 right-0 z-40 h-14 bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 flex items-center justify-between shrink-0 shadow-sm">
       <Link to="/perfil" className="flex items-center">
-        <img src="/logo.png" alt="MozVita Logo" className="h-7 w-auto object-contain" />
+        <img src="/logo.png" alt="MozVita Logo" width="80" height="28" loading="lazy" className="h-7 w-auto object-contain" />
       </Link>
       
       <div className="flex items-center gap-2">
@@ -205,8 +206,14 @@ const PrintLayout = ({ children }: { children: React.ReactNode }) => {
 const LayoutRouter = () => {
   const layoutType = useLayoutType();
 
+  const PageLoader = () => (
+    <div className="flex h-[50vh] w-full items-center justify-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  );
+
   return (
-    <>
+    <Suspense fallback={<PageLoader />}>
       {layoutType === 'public' && (
         <PublicLayout>
           <Routes>
@@ -284,7 +291,7 @@ const LayoutRouter = () => {
           </Routes>
         </PrintLayout>
       )}
-    </>
+    </Suspense>
   );
 };
 
