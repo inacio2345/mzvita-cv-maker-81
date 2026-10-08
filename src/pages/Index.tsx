@@ -234,16 +234,16 @@ const Index = () => {
             >
               <Badge variant="outline" className="mb-6 px-4 py-1.5 text-sm font-medium text-brand-700 border-brand-200 bg-brand-50 rounded-full">
                 <SparklesIcon className="w-4 h-4 inline-block mr-2 text-brand-500" />
-                A Plataforma Nº1 de CVs em Moçambique
+                O Melhor Criador de CV Moçambicano
               </Badge>
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 leading-[1.1] mb-6 tracking-tight">
-                Seu Próximo <br className="hidden lg:block" />
+                O Seu Próximo <br className="hidden lg:block" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-blue-500">
                   Emprego Começa
                 </span> Aqui.
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl mx-auto md:mx-0 leading-relaxed">
-                Crie um <strong>CV profissional</strong> aprovado por recrutadores moçambicanos em minutos. Modelos modernos, fáceis de editar e prontos para impressionar multinacionais.
+                Crie um <strong>currículo vitae moçambique</strong> profissional em minutos. Prepare-se para as melhores vagas no <strong>Sapo Moz Emprego</strong>, bancos e multinacionais. Download em PDF 2026 pronto!
               </p>
               
               {/* Interactive Profession Selector Pills */}
